@@ -1,0 +1,68 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<%@ Import Namespace="BuiltSteady.Product.ServiceHost" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head runat="server">
+    <link rel="shortcut icon" type="image/x-icon" href="<%: Url.Content("~/favicon.ico") %>" />
+
+    <%
+        var requestUrl = this.Context.Request.Url;
+        var domainUrl = string.Format("{0}://{1}/", requestUrl.Scheme, requestUrl.Authority);
+        var siteUrl = ResolveUrl("~/");
+        var resourceUrl = siteUrl;
+        var fbAppID = BuiltSteady.Product.Website.Controllers.BaseController.FBAppID;
+        var cssTheme = BuiltSteady.Product.Website.Models.UserDataModel.CurrentTheme + "/jquery-ui-1.8.18.css";
+    %>
+    <link href="<%: Url.Content("~/content/master.generated.min.css") %>" rel="stylesheet" type="text/css" />
+
+<%  if (HostEnvironment.IsAzure && !HostEnvironment.IsAzureDevFabric) { %>
+    <!-- use merged and minified scripts when deployed to Azure -->
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/master.generated.min.js") %>"></script>
+<%  } else { %>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/jquery-1.7.1.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/jquery-ui-1.8.16.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/jquery.validate.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/json2.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/bootstrap.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/math.uuid.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/service.js") %>"></script>
+<%  } %>
+
+    <script type="text/javascript">
+        // document ready handler
+        $(function () {
+            Service.Init("<%=siteUrl %>", "<%=resourceUrl %>", "<%=domainUrl %>", "<%=fbAppID %>")
+        });
+    </script>
+    <asp:ContentPlaceHolder ID="MasterHead" runat="server"> </asp:ContentPlaceHolder>
+</head>
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <ul class="nav">
+                    <li class="active">
+                        <a class="brand" href="#"><img class="" alt="TwoStep" src="<%: Url.Content("~/content/images/zaplogo-small.png") %>" /></a>
+                    </li>
+                </ul>
+                <% Html.RenderPartial("SignInControl"); %>
+             </div>
+       </div>
+    </div>
+
+    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+
+    <div class="navbar navbar-fixed-bottom">
+        <div class="navbar-inner">
+            <div class="container-fluid">        
+                <footer class="pull-right">            
+                    <a href="http://www.builtsteady.com">builtsteady inc. &copy;2012</a>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <asp:ContentPlaceHolder ID="ScriptBlock" runat="server" />
+</body>
+</html>

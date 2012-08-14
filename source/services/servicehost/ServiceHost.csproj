@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8BB6BE7A-0DB1-4F1E-BB0F-8E97EA9305ED}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BuiltSteady.Zaplify.ServiceHost</RootNamespace>
+    <AssemblyName>BuiltSteady.Zaplify.ServiceHost</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\bin\Debug\</OutputPath>
+    <BaseIntermediateOutputPath>..\..\..\obj\</BaseIntermediateOutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\bin\Release\</OutputPath>
+    <BaseIntermediateOutputPath>..\..\..\obj\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BuiltSteady.Product.ServiceUtilities.FBGraph">
+      <HintPath>..\..\packages\Product.ServiceUtilities.1.0\lib\net40\Debug\BuiltSteady.Product.ServiceUtilities.FBGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="BuiltSteady.Product.ServiceUtilities.Grocery">
+      <HintPath>..\..\packages\Product.ServiceUtilities.1.0\lib\net40\Debug\BuiltSteady.Product.ServiceUtilities.Grocery.dll</HintPath>
+    </Reference>
+    <Reference Include="BuiltSteady.Product.ServiceUtilities.Supermarket">
+      <HintPath>..\..\packages\Product.ServiceUtilities.1.0\lib\net40\Debug\BuiltSteady.Product.ServiceUtilities.Supermarket.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth">
+      <HintPath>..\..\packages\Google-Api-DotNet-Client-1.2\Lib\DotNetOpenAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityDataModel">
+      <HintPath>..\..\packages\WebApi.OData.0.6.0\lib\40-Full\EntityDataModel.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis">
+      <HintPath>..\..\packages\Google-Api-DotNet-Client-1.2\Lib\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Authentication.OAuth2">
+      <HintPath>..\..\packages\Google-Api-DotNet-Client-1.2\Lib\Google.Apis.Authentication.OAuth2.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Calendar.v3">
+      <HintPath>..\..\packages\Google-Api-DotNet-Client-1.2\Services\CalendarService\Google.Apis.Calendar.v3.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AzureOAuthConfiguration.cs" />
+    <Compile Include="SuggestionsStorageContext.cs" />
+    <Compile Include="UserStorageContext.cs" />
+    <Compile Include="GoogleClient.cs" />
+    <Compile Include="helpers\FacebookHelper.cs" />
+    <Compile Include="IWorker.cs" />
+    <Compile Include="nlp\Phrase.cs" />
+    <Compile Include="nlp\Tagger.cs" />
+    <Compile Include="nlp\Task.cs" />
+    <Compile Include="nlp\Tokenizer.cs" />
+    <Compile Include="helpers\PossibleContactHelper.cs" />
+    <Compile Include="processors\ContactProcessor.cs" />
+    <Compile Include="processors\AppointmentProcessor.cs" />
+    <Compile Include="processors\FieldProcessor.cs" />
+    <Compile Include="processors\GroceryProcessor.cs" />
+    <Compile Include="processors\TaskProcessor.cs" />
+    <Compile Include="processors\ItemProcessor.cs" />
+    <Compile Include="Storage.cs" />
+    <Compile Include="HostEnvironment.cs" />
+    <Compile Include="ConfigurationSettings.cs" />
+    <Compile Include="JsonSerializer.cs" />
+    <Compile Include="MessageQueue.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BlobStore.cs" />
+    <Compile Include="TraceLog.cs" />
+    <Compile Include="WorkflowConstants.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\serverentities\ServerEntities.csproj">
+      <Project>{FC6908F4-5BA4-4AE0-BB87-E110EB76EDF7}</Project>
+      <Name>ServerEntities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="nlp\Brill_license.txt" />
+    <Content Include="nlp\lex.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nlp\LGPL.txt" />
+    <None Include="App.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>rd "$(ProjectDir)obj" /S /Q
+</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="2" osVersion="*">
+  <Role name="WorkerRole">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="AzureStorageAccount" value="DefaultEndpointsProtocol=https;AccountName=zaplifydev2;AccountKey=dZAAyMjmI0Ec1VItdf2pJ5uD9Hr8lkMj6aYi7oqRDTVqAXlWZWPH2JmttLsiuB6xgCQfCfFn73AdgJ3L6JD9iw==" />
+      <!-- SQL Azure databases for Dev2 deployment -->
+      <Setting name="UsersConnection" value="SQLUsers" />
+      <Setting name="SQLUsers" value="data source=kpfc7hoc39.database.windows.net;Initial Catalog=ZapUsers;User Id=builtsteady;Password=zrc022.." />
+      <!--Setting name="SuggestionsConnection" value="SQLSuggestions" />
+      <Setting name="SQLSuggestions" value="data source=kpfc7hoc39.database.windows.net;Initial Catalog=ZapSuggestions;User Id=builtsteady;Password=zrc022.." />
+      <Setting name="MailWorkerCount" value="0" />
+      <Setting name="MailWorkerTimeout" value="60" />
+      <Setting name="SpeechWorkerCount" value="0" />
+      <Setting name="SpeechWorkerTimeout" value="500000" /-->
+      <Setting name="WorkflowWorkerCount" value="1" />
+      <Setting name="WorkflowWorkerTimeout" value="5" />
+      <!-- Google Client 'ZaplifyDev2' -->
+      <Setting name="GoogleClientID" value="944381664180-qlt0cgaspk5061tu8uk6nsv08p326f6j.apps.googleusercontent.com" />
+      <Setting name="GoogleClientSecret" value="EKruV3S7vcm2l1xdH8TrskfY" />
+      <!-- Logging configuration -->
+      <Setting name="DeploymentName" value="Dev2" />
+      <Setting name="AzureLoggingEnabled" value="1" />
+      <Setting name="SplunkLoggingEnabled" value="1" />
+      <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />
+      <Setting name="SplunkLocalPort" value="9237" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=zaplifydev2;AccountKey=dZAAyMjmI0Ec1VItdf2pJ5uD9Hr8lkMj6aYi7oqRDTVqAXlWZWPH2JmttLsiuB6xgCQfCfFn73AdgJ3L6JD9iw==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="Omri" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEB2cloKeNwahRAgHEvMvVcYwDQYJKoZIhvcNAQEBBQAEggEAb3lmrVBd8+FjvkDDme1TTg8xxExsXPqeqqNbElJSexyFk5n0IvVukkYn6WTCOxvokHj5+gbQ0zjUaNy/xA8ZDSuLcxe6VldIRQWesk8xVc8MACjIgaNd0u8EC0+/xxdg01tw54fy5vyFH5UDPNK+vMPWI51kElRSSUwjDpAuPCOlI+tp/9HcXE3xdttsfoMJgQLCeTBKp1g/Dn6POhJsMp5Ct66ZZmB3y6mpA4l7gIN5O/tB1MpyTyDZBn/pLJ9JOY++aytP4FwzlPXso5UtSpz+MOUJ1Djpx2DL3700YkPpS7KEEpfRoInRgEB008As3i+wXDSRFUsAWMVh2g7zEjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECIUHpMuoYQkZgBABe+diBIi2nVF6UMe8A3Jf" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2020-08-31T23:59:59.0000000-07:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="D19C2E1BBFDB2C6CCDF76EC64A34739610255066" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+  <Role name="Website">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="AzureStorageAccount" value="DefaultEndpointsProtocol=https;AccountName=zaplifydev2;AccountKey=dZAAyMjmI0Ec1VItdf2pJ5uD9Hr8lkMj6aYi7oqRDTVqAXlWZWPH2JmttLsiuB6xgCQfCfFn73AdgJ3L6JD9iw==" />
+      <!-- SQL Azure databases for Dev2 deployment -->
+      <Setting name="UsersConnection" value="SQLUsers" />
+      <Setting name="SQLUsers" value="data source=kpfc7hoc39.database.windows.net;Initial Catalog=ZapUsers;User Id=builtsteady;Password=zrc022.." />
+      <!--Setting name="SuggestionsConnection" value="SQLSuggestions" />
+      <Setting name="SQLSuggestions" value="data source=kpfc7hoc39.database.windows.net;Initial Catalog=ZapSuggestions;User Id=builtsteady;Password=zrc022.." />
+      <Setting name="DataServicesConnection" value="SQLDataServices" />
+      <Setting name="SQLDataServices" value="data source=kpfc7hoc39.database.windows.net;Initial Catalog=ZapDataServices;User Id=builtsteady;Password=zrc022.." /-->
+      <!-- DataServices Endpoint (empty string will use current host -->
+      <Setting name="DataServicesEndpoint" value="" />
+      <!-- Facebook Application 'ZaplifyDev2' -->
+      <Setting name="FBAppID" value="329034793824754" />
+      <Setting name="FBAppSecret" value="1caa1ea5bb4a9a6ee4adb64be0080b7d" />
+      <!-- Google Client 'ZaplifyDev2' -->
+      <Setting name="GoogleClientID" value="944381664180-qlt0cgaspk5061tu8uk6nsv08p326f6j.apps.googleusercontent.com" />
+      <Setting name="GoogleClientSecret" value="EKruV3S7vcm2l1xdH8TrskfY" />
+      <!-- Logging configuration -->
+      <Setting name="DeploymentName" value="Dev2" />
+      <Setting name="AzureLoggingEnabled" value="1" />
+      <Setting name="SplunkLoggingEnabled" value="1" />
+      <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />
+      <Setting name="SplunkLocalPort" value="9237" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=zaplifydev2;AccountKey=dZAAyMjmI0Ec1VItdf2pJ5uD9Hr8lkMj6aYi7oqRDTVqAXlWZWPH2JmttLsiuB6xgCQfCfFn73AdgJ3L6JD9iw==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="Omri" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEB2cloKeNwahRAgHEvMvVcYwDQYJKoZIhvcNAQEBBQAEggEAb3lmrVBd8+FjvkDDme1TTg8xxExsXPqeqqNbElJSexyFk5n0IvVukkYn6WTCOxvokHj5+gbQ0zjUaNy/xA8ZDSuLcxe6VldIRQWesk8xVc8MACjIgaNd0u8EC0+/xxdg01tw54fy5vyFH5UDPNK+vMPWI51kElRSSUwjDpAuPCOlI+tp/9HcXE3xdttsfoMJgQLCeTBKp1g/Dn6POhJsMp5Ct66ZZmB3y6mpA4l7gIN5O/tB1MpyTyDZBn/pLJ9JOY++aytP4FwzlPXso5UtSpz+MOUJ1Djpx2DL3700YkPpS7KEEpfRoInRgEB008As3i+wXDSRFUsAWMVh2g7zEjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECIUHpMuoYQkZgBABe+diBIi2nVF6UMe8A3Jf" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2020-08-31T23:59:59.0000000-07:00" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="D19C2E1BBFDB2C6CCDF76EC64A34739610255066" thumbprintAlgorithm="sha1" />
+      <Certificate name="ZaplifySSLCert" thumbprint="52543CB496FC7F0D19FB7921C113BC2071F71CD0" thumbprintAlgorithm="sha1" />
+      <Certificate name="ZaplfiySSLIntermediateCert" thumbprint="3CA958F3E7D6837E1C1ACF8B0F6A2E6D487D6762" thumbprintAlgorithm="sha1" />
+      <Certificate name="ZaplifySSLRootCert" thumbprint="91C6D6EE3E8AC86384E548C299295C756C817B81" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>

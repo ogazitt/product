@@ -1,0 +1,93 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using BuiltSteady.Product.ServerEntities;
+using BuiltSteady.Product.ServiceHost;
+
+namespace BuiltSteady.Product.ServiceHost
+{
+    public class WorkflowConstants
+    {
+        private const string IntentsFileName = @"workflows\Intents.txt";
+
+        public static string SchemaVersion { get { return "1.0.2012.0426"; } }
+        public static string ConstantsVersion { get { return "2012-06-12"; } }
+
+        public static List<Intent> DefaultIntents()
+        {
+            try
+            {
+                if (!File.Exists(IntentsFileName))
+                {
+                    TraceLog.TraceError("Intents file not found");
+                    return null;
+                }
+
+                // load intents from file
+                var intents = new List<Intent>();
+                using (var file = File.Open(IntentsFileName, FileMode.Open, FileAccess.Read))
+                using (var reader = new StreamReader(file))
+                {
+                    string intentDef = reader.ReadLine();
+                    while (!String.IsNullOrEmpty(intentDef))
+                    {
+                        string[] parts = intentDef.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (parts.Length != 3)
+                            continue;
+                        intents.Add(new Intent()
+                        {
+                            Verb = parts[0],
+                            Noun = parts[1],
+                            WorkflowType = parts[2]
+                        });
+                        intentDef = reader.ReadLine();
+                    }
+                }
+                return intents;
+            }
+            catch (Exception ex)
+            {
+                TraceLog.TraceException("Reading intents failed", ex);
+                return null;
+            }
+        }
+
+        public static List<WorkflowType> DefaultWorkflowTypes()
+        {
+            // load workflow types from files
+            bool cdBack = false;
+            try
+            {
+                Directory.SetCurrentDirectory(@"workflows");
+                cdBack = true;
+                var workflowTypes = new List<WorkflowType>();
+                foreach (var filename in Directory.EnumerateFiles(@".", @"*.json"))
+                {
+                    string prefix = @".\";
+                    string suffix = @".json";
+                    using (var file = File.Open(filename, FileMode.Open, FileAccess.Read))
+                    using (var reader = new StreamReader(file))
+                    {
+                        // strip ".\" off the beginning of the filename, and the ".json" extension
+                        string workflowName = filename.StartsWith(prefix) ? filename.Substring(prefix.Length) : filename;
+                        workflowName = workflowName.Replace(suffix, "");
+
+                        string workflowDef = reader.ReadToEnd();
+                        if (!String.IsNullOrEmpty(workflowDef))
+                            workflowTypes.Add(new WorkflowType() { Type = workflowName, Definition = workflowDef });
+                    }
+                }
+                cdBack = false;
+                Directory.SetCurrentDirectory(@"..");
+                return workflowTypes;
+            }
+            catch (Exception ex)
+            {
+                TraceLog.TraceException("Reading workflows failed", ex);
+                if (cdBack)
+                    Directory.SetCurrentDirectory(@"..");
+                return null;
+            }
+        }
+    }
+}

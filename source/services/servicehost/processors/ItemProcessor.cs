@@ -17,8 +17,6 @@ namespace BuiltSteady.Product.ServiceHost
                 return new TaskProcessor(user, storage);
             if (itemTypeID == SystemItemTypes.Appointment)
                 return new AppointmentProcessor(user, storage);
-            if (itemTypeID == SystemItemTypes.Grocery)
-                return new GroceryProcessor(user, storage);
             if (itemTypeID == SystemItemTypes.Contact)
                 return new ContactProcessor(user, storage);
             return null;

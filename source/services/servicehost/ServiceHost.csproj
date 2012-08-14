@@ -96,7 +96,6 @@
     <Compile Include="processors\ContactProcessor.cs" />
     <Compile Include="processors\AppointmentProcessor.cs" />
     <Compile Include="processors\FieldProcessor.cs" />
-    <Compile Include="processors\GroceryProcessor.cs" />
     <Compile Include="processors\TaskProcessor.cs" />
     <Compile Include="processors\ItemProcessor.cs" />
     <Compile Include="Storage.cs" />

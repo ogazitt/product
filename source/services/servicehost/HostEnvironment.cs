@@ -16,18 +16,12 @@ namespace BuiltSteady.Product.ServiceHost
     public static class HostEnvironment
     {
         public const string AzureStorageAccountConfigKey = "AzureStorageAccount";
-        public const string MailWorkerTimeoutConfigKey = "MailWorkerTimeout";
-        public const string MailWorkerCountConfigKey = "MailWorkerCount";
-        public const string SpeechWorkerTimeoutConfigKey = "SpeechWorkerTimeout";
-        public const string SpeechWorkerCountConfigKey = "SpeechWorkerCount";
         public const string WorkflowWorkerTimeoutConfigKey = "WorkflowWorkerTimeout";
         public const string WorkflowWorkerCountConfigKey = "WorkflowWorkerCount";
         const string DeploymentNameConfigKey = "DeploymentName";
         const string UserDataConnectionConfigKey = "UsersConnection";
         const string UserAccountConnectionConfigKey = "UsersConnection";
         const string SuggestionsConnectionConfigKey = "SuggestionsConnection";
-        const string DataServicesConnectionConfigKey = "DataServicesConnection";
-        const string DataServicesEndpointConfigKey = "DataServicesEndpoint";
         const string AzureDiagnosticsConnectionString = "Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString";
         const string AzureLoggingEnabledConfigKey = "AzureLoggingEnabled";
         const string SplunkLoggingEnabledConfigKey = "SplunkLoggingEnabled";
@@ -46,8 +40,6 @@ namespace BuiltSteady.Product.ServiceHost
         static string userDataConnection;
         static string userAccountConnection;
         static string suggestionsConnection;
-        static string dataServicesConnection;
-        static string dataServicesEndpoint;
         static string lexiconFileName;
         static string traceDirectoryName;
         static string splunkServerEndpoint;
@@ -212,41 +204,6 @@ namespace BuiltSteady.Product.ServiceHost
                     suggestionsConnection = ConfigurationSettings.GetConnection(SuggestionsConnectionConfigKey);
                 }
                 return suggestionsConnection;
-            }
-        }
-
-        public static string DataServicesConnection
-        {
-            get
-            {
-                if (dataServicesConnection == null)
-                {
-                    dataServicesConnection = ConfigurationSettings.GetConnection(DataServicesConnectionConfigKey);
-                }
-                return dataServicesConnection;
-            }
-        }
-
-        public static string DataServicesEndpoint
-        {
-            get
-            {
-                if (dataServicesEndpoint == null)
-                {
-                    dataServicesEndpoint = ConfigurationSettings.Get(DataServicesEndpointConfigKey);
-                    if (string.IsNullOrEmpty(dataServicesEndpoint))
-                    {   // use local hostname if not defined in configuration
-                        if (HttpContext.Current != null && HttpContext.Current.Request != null)
-                        {
-                            Uri requestUri = HttpContext.Current.Request.Url;
-                            if (requestUri != null)
-                            {
-                                dataServicesEndpoint = String.Format("{0}://{1}/", requestUri.Scheme, requestUri.Authority);
-                            }
-                        }
-                    }
-                }
-                return dataServicesEndpoint;
             }
         }
 

@@ -165,7 +165,6 @@
     <Compile Include="controllers\AccountController.cs" />
     <Compile Include="controllers\BaseController.cs" />
     <Compile Include="controllers\OAuthConsentController.cs" />
-    <Compile Include="controllers\GroceryController.cs" />
     <Compile Include="controllers\UserInfoController.cs" />
     <Compile Include="controllers\DashboardController.cs" />
     <Compile Include="Global.asax.cs">
@@ -176,9 +175,6 @@
     <Compile Include="models\accesscontrol\UserMembershipProvider.cs" />
     <Compile Include="models\AccountModels.cs" />
     <Compile Include="models\DataModels.cs" />
-    <Compile Include="..\..\shared\entities\GroceryServiceModels.cs">
-      <Link>models\GroceryServiceModels.cs</Link>
-    </Compile>
     <Compile Include="properties\AssemblyInfo.cs" />
     <Compile Include="resources\BaseResource.cs" />
     <Compile Include="resources\ConstantsResource.cs" />
@@ -226,7 +222,6 @@
     <Content Include="content\themes\bootstrap\images\ui-icons_f6cf3b_256x240.png" />
     <Content Include="content\themes\bootstrap\jquery-ui-1.8.18.css" />
     <Content Include="Global.asax" />
-    <Content Include="README.jQuery.vsdoc.txt" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\dashboard\dashboard.generated.min.js">

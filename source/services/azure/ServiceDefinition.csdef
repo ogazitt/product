@@ -9,13 +9,9 @@
     <ConfigurationSettings>
       <Setting name="AzureStorageAccount" />
       <Setting name="UsersConnection" />
+      <Setting name="SuggestionsConnection" />
       <Setting name="SQLUsers" />
-      <!--Setting name="SuggestionsConnection" />
       <Setting name="SQLSuggestions" />
-      <Setting name="MailWorkerCount" />
-      <Setting name="MailWorkerTimeout" />
-      <Setting name="SpeechWorkerCount" />
-      <Setting name="SpeechWorkerTimeout" /-->
       <Setting name="WorkflowWorkerCount" />
       <Setting name="WorkflowWorkerTimeout" />
       <Setting name="GoogleClientID" />
@@ -76,12 +72,9 @@
     <ConfigurationSettings>
       <Setting name="AzureStorageAccount" />
       <Setting name="UsersConnection" />
+      <Setting name="SuggestionsConnection" />
       <Setting name="SQLUsers" />
-      <!--Setting name="SuggestionsConnection" />
-      <Setting name="DataServicesConnection" />
       <Setting name="SQLSuggestions" />
-      <Setting name="SQLDataServices" /-->
-      <Setting name="DataServicesEndpoint" />
       <Setting name="FBAppID" />
       <Setting name="FBAppSecret" />
       <Setting name="GoogleClientID" />

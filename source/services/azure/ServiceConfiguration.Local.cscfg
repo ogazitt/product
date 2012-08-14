@@ -7,15 +7,11 @@
       <!--Setting name="AzureStorageAccount" value="DefaultEndpointsProtocol=https;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==" /-->
       <!-- SQL Express databases for Local deployment -->
       <Setting name="UsersConnection" value="SQLUsers" />
+      <Setting name="SuggestionsConnection" value="SQLSuggestions" />
       <Setting name="SQLUsers" value="data source=.\SQLEXPRESS;Initial Catalog=ZapUsers;Integrated Security=SSPI" />
-      <!--Setting name="SuggestionsConnection" value="SQLSuggestions" />
       <Setting name="SQLSuggestions" value="data source=.\SQLEXPRESS;Initial Catalog=ZapSuggestions;Integrated Security=SSPI" />
-      <Setting name="MailWorkerCount" value="0" />
-      <Setting name="MailWorkerTimeout" value="60" />
-      <Setting name="SpeechWorkerCount" value="0" />
-      <Setting name="SpeechWorkerTimeout" value="500000" /-->
       <Setting name="WorkflowWorkerCount" value="1" />
-      <Setting name="WorkflowWorkerTimeout" value="5" />
+      <Setting name="WorkflowWorkerTimeout" value="15" />
       <!-- Google Client 'ZaplifyLocal' -->
       <Setting name="GoogleClientID" value="944381664180.apps.googleusercontent.com" />
       <Setting name="GoogleClientSecret" value="CaDG0ahs9UpyM2EGf-ffaL5i" />
@@ -44,13 +40,9 @@
       <!--Setting name="AzureStorageAccount" value="DefaultEndpointsProtocol=https;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==" /-->
       <!-- SQL Express databases for Local deployment -->
       <Setting name="UsersConnection" value="SQLUsers" />
+      <Setting name="SuggestionsConnection" value="SQLSuggestions" />
       <Setting name="SQLUsers" value="data source=.\SQLEXPRESS;Initial Catalog=ZapUsers;Integrated Security=SSPI" />
-      <!--Setting name="SuggestionsConnection" value="SQLSuggestions" />
-      <Setting name="DataServicesConnection" value="SQLDataServices" />
       <Setting name="SQLSuggestions" value="data source=.\SQLEXPRESS;Initial Catalog=ZapSuggestions;Integrated Security=SSPI" />
-      <Setting name="SQLDataServices" value="data source=.\SQLEXPRESS;Initial Catalog=ZapDataServices;User Id=builtsteady;Password=zrc022.." /-->
-      <!-- DataServices Endpoint (empty string will use current host -->
-      <Setting name="DataServicesEndpoint" value="" />
       <!-- Facebook Application 'ZaplifyLocal' -->
       <Setting name="FBAppID" value="143874022407356" />
       <Setting name="FBAppSecret" value="97d8ff1943a2f85a775e4924443b74ad" />

@@ -133,6 +133,12 @@
       <SubType>Code</SubType>
     </Build>
     <Build Include="dbo.DatabaseVersions.Table.sql" />
+    <Build Include="dbo.GalleryActivities.Table.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="dbo.GalleryCategories.Table.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="scripts\post-deployment\Suggestion.PostDeployment.sql" />
@@ -145,5 +151,8 @@
     <None Include="SuggestionDatabase.Production.publish.xml" />
     <None Include="SuggestionDatabase.Dev2.publish.xml" />
     <None Include="SuggestionDatabase.Local.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="SuggestionDatabase.refactorlog" />
   </ItemGroup>
 </Project>

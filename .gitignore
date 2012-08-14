@@ -1,6 +1,17 @@
-# Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
-bin
-obj
-
-# mstest test results
-TestResults
+bin/
+obj/
+tmp/
+build/
+source/services/website/bin/
+source/services/azure/csx/
+*.suo
+*.userprefs
+*.user
+*.dbmdl
+*.schemaview
+*.pidb
+*.mdb
+*.build.csdef
+*.exe
+~$*.*
+*~

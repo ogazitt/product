@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace BuiltSteady.Product.ServerEntities
 {
@@ -6,9 +7,10 @@ namespace BuiltSteady.Product.ServerEntities
     {
         [Key]
         public string Name { get; set; }
-        public string Definition { get; set; }
         public int CategoryID { get; set; }
-        public GalleryCategory Category { get; set; }
+
+        [IgnoreDataMember]
+        public string Definition { get; set; }
 
         public override string ToString()
         {

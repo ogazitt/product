@@ -15,6 +15,8 @@
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder) { }
 
+        public DbSet<GalleryActivity> GalleryActivities { get; set; }
+        public DbSet<GalleryCategory> GalleryCategories { get; set; }
         public DbSet<Intent> Intents { get; set; }
         public DbSet<Suggestion> Suggestions { get; set; }
         public DbSet<WorkflowInstance> WorkflowInstances { get; set; }

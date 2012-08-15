@@ -1,0 +1,15 @@
+﻿{
+	"Name": "Book an appointment",
+	"Recurrence": null,
+	"Steps": 
+	[ 
+		{ 
+			"Name": "Call for appointment",
+			"Action": "Call"
+		},
+		{ 
+			"Name": "Add appointment to calendar",
+			"Action": "AddToCalendar"
+		},
+	] 
+}

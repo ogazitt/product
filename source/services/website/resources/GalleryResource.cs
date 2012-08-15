@@ -36,15 +36,22 @@
         public HttpResponseMessageWrapper<List<GalleryCategory>> Get(HttpRequestMessage req)
         {
             Operation operation = null;
-            HttpStatusCode code = AuthenticateUser(req);
-            if (code != HttpStatusCode.OK)
-            {   // user not authenticated
-                return ReturnResult<List<GalleryCategory>>(req, operation, code);
+            if (false)
+            {
+                HttpStatusCode code = AuthenticateUser(req);
+                if (code != HttpStatusCode.OK)
+                {   // user not authenticated
+                    return ReturnResult<List<GalleryCategory>>(req, operation, code);
+                }
             }
-
             try
             {
-                var categories = suggestionsContext.GalleryCategories.Include("GalleryCategories.GalleryActivities").Include("GalleryActivities").ToList();
+                var categories = SuggestionsStorageContext.
+                    GalleryCategories.
+                    Include("Subcategories.Activities").
+                    Include("Activities").
+                    Where(c => c.ParentID == null).
+                    ToList();
                 var response = ReturnResult<List<GalleryCategory>>(req, operation, categories, HttpStatusCode.OK);
                 response.Headers.CacheControl = new CacheControlHeaderValue() { NoCache = true };
                 return response;

@@ -103,6 +103,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ActivityGallery\ActivityGallery.csproj">
+      <Project>{E5047BC6-89BF-448E-BDE1-85032A0A0AE0}</Project>
+      <Name>ActivityGallery</Name>
+    </ProjectReference>
     <ProjectReference Include="..\servicehost\ServiceHost.csproj">
       <Project>{8BB6BE7A-0DB1-4F1E-BB0F-8E97EA9305ED}</Project>
       <Name>ServiceHost</Name>

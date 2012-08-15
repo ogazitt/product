@@ -50,12 +50,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ActivityDefinition.cs" />
     <Compile Include="ActivityStep.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="activities\BookAppointment.json">
+    <Content Include="activities\Personal\BookAppointment.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -70,6 +71,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="activities\Personal\Haircut.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="activities\Auto\OilChange.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="activities\Personal\Exercise\WorkOut.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>

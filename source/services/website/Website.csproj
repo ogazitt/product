@@ -178,6 +178,7 @@
     <Compile Include="properties\AssemblyInfo.cs" />
     <Compile Include="resources\BaseResource.cs" />
     <Compile Include="resources\ConstantsResource.cs" />
+    <Compile Include="resources\GalleryResource.cs" />
     <Compile Include="resources\FolderResource.cs" />
     <Compile Include="resources\ItemTypeResource.cs" />
     <Compile Include="resources\OperationResource.cs" />

@@ -37,13 +37,14 @@ namespace BuiltSteady.Product.Website
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Dashboard", action = "Home", id = UrlParameter.Optional }, // Parameter defaults
-                new { controller = new NotInValuesConstraint(new[] { "constants", "folders", "items", "itemtypes", "operations", "speech", "suggestions", "tags", "trace", "users", "OAuthHandler.ashx" }) }
+                new { controller = new NotInValuesConstraint(new[] { "constants", "folders", "gallery", "items", "itemtypes", "operations", "speech", "suggestions", "tags", "trace", "users", "OAuthHandler.ashx" }) }
             );
 
             // map the WCF WebApi service routes
             HttpConfiguration config = new HttpConfiguration() { MaxBufferSize = 1024 * 1024, MaxReceivedMessageSize = 1024 * 1024 };
             RouteTable.Routes.MapServiceRoute<ConstantsResource>("constants", null);
             RouteTable.Routes.MapServiceRoute<FolderResource>("folders", null);
+            RouteTable.Routes.MapServiceRoute<GalleryResource>("gallery", null);
             RouteTable.Routes.MapServiceRoute<ItemResource>("items", config);
             RouteTable.Routes.MapServiceRoute<ItemTypeResource>("itemtypes", null);
             RouteTable.Routes.MapServiceRoute<OperationResource>("operations", null);

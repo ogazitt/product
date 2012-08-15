@@ -10,8 +10,36 @@ namespace BuiltSteady.Product.ServiceHost
     {
         private const string IntentsFileName = @"workflows\Intents.txt";
 
-        public static string SchemaVersion { get { return "1.0.2012.0426"; } }
-        public static string ConstantsVersion { get { return "2012-06-12"; } }
+        public static string SchemaVersion { get { return "1.0.2012.0815"; } }
+        public static string ConstantsVersion { get { return "2012-08-15 16:20"; } }
+
+        public static List<GalleryCategory> DefaultGallery()
+        {
+            // load activity gallery from directories and files
+            bool cdBack = false;
+            try
+            {
+                Directory.SetCurrentDirectory(@"activities");
+                cdBack = true;
+
+                // recursively create categories for each of the directories inside of the activities directory
+                var galleryCategories = new List<GalleryCategory>();
+                int currID = 0;
+                foreach (var dir in Directory.EnumerateDirectories(@"."))
+                    galleryCategories.Add(CreateCategory(dir, null, ref currID));
+
+                cdBack = false;
+                Directory.SetCurrentDirectory(@"..");
+                return galleryCategories;
+            }
+            catch (Exception ex)
+            {
+                TraceLog.TraceException("Reading gallery failed", ex);
+                if (cdBack)
+                    Directory.SetCurrentDirectory(@"..");
+                return null;
+            }
+        }
 
         public static List<Intent> DefaultIntents()
         {
@@ -84,6 +112,57 @@ namespace BuiltSteady.Product.ServiceHost
             catch (Exception ex)
             {
                 TraceLog.TraceException("Reading workflows failed", ex);
+                if (cdBack)
+                    Directory.SetCurrentDirectory(@"..");
+                return null;
+            }
+        }
+
+        static GalleryCategory CreateCategory(string dirname, int? parentID, ref int currID)
+        {
+            bool cdBack = false;
+            const string prefix = @".\";
+            const string suffix = @".json";
+
+            try
+            {
+                Directory.SetCurrentDirectory(dirname);
+                cdBack = true;
+
+                string categoryName = dirname.StartsWith(prefix) ? dirname.Substring(prefix.Length) : dirname;
+                var galleryCategory = new GalleryCategory()
+                {
+                    CategoryID = currID++,
+                    Name = categoryName,
+                    ParentID = parentID,
+                    Activities = new List<GalleryActivity>(),
+                    Subcategories = new List<GalleryCategory>()
+                };
+
+                foreach (var dir in Directory.EnumerateDirectories(@"."))
+                    galleryCategory.Subcategories.Add(CreateCategory(dir, galleryCategory.CategoryID, ref currID));
+
+                foreach (var filename in Directory.EnumerateFiles(@".", @"*.json"))
+                {
+                    using (var file = File.Open(filename, FileMode.Open, FileAccess.Read))
+                    using (var reader = new StreamReader(file))
+                    {
+                        // strip ".\" off the beginning of the filename, and the ".json" extension
+                        string activityName = filename.StartsWith(prefix) ? filename.Substring(prefix.Length) : filename;
+                        activityName = activityName.Replace(suffix, "");
+
+                        string activityDef = reader.ReadToEnd();
+                        if (!String.IsNullOrEmpty(activityDef))
+                            galleryCategory.Activities.Add(new GalleryActivity() { Name = activityName, Definition = activityDef, CategoryID = galleryCategory.CategoryID });
+                    }
+                }
+                cdBack = false;
+                Directory.SetCurrentDirectory(@"..");
+                return galleryCategory;
+            }
+            catch (Exception ex)
+            {
+                TraceLog.TraceException("Reading gallery failed", ex);
                 if (cdBack)
                     Directory.SetCurrentDirectory(@"..");
                 return null;

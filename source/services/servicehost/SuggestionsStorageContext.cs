@@ -4,6 +4,7 @@
     using System.Data.Entity;
     using System.Linq;
     using BuiltSteady.Product.ServerEntities;
+    using System.Collections.Generic;
 
     // ****************************************************************************
     // storage context for the Suggestions database
@@ -13,7 +14,13 @@
         public SuggestionsStorageContext() : base(HostEnvironment.SuggestionsConnection) { }
         public SuggestionsStorageContext(string connection) : base(connection) { }
         
-        protected override void OnModelCreating(DbModelBuilder modelBuilder) { }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder) 
+        {
+            modelBuilder.Entity<GalleryCategory>().
+                HasMany(gc => gc.Subcategories).
+                WithOptional().
+                HasForeignKey(gc => gc.ParentID);
+        }
 
         public DbSet<GalleryActivity> GalleryActivities { get; set; }
         public DbSet<GalleryCategory> GalleryCategories { get; set; }
@@ -96,6 +103,24 @@
 
                 TraceLog.TraceInfo(String.Format("{0} updating Suggestions database to version {1}", me, WorkflowConstants.ConstantsVersion));
 
+                // remove existing gallery activities and categories
+                //foreach (var entity in GalleryActivities.ToList()) { GalleryActivities.Remove(entity); }
+                //SaveChanges();
+                RemoveGalleryCategory(null);
+                var categories = WorkflowConstants.DefaultGallery();
+                if (categories == null)
+                {
+                    TraceLog.TraceError("Could not find or load categories");
+                    version.Status = DatabaseVersion.Corrupted;
+                    versionContext.SaveChanges();
+                    return false;
+                }
+                // add current categories
+                foreach (var entity in categories) 
+                    AddGalleryCategory(entity); 
+                SaveChanges();
+                TraceLog.TraceInfo("Replaced categories");
+
                 // remove existing intents 
                 foreach (var entity in Intents.ToList()) { Intents.Remove(entity); }
                 var intents = WorkflowConstants.DefaultIntents();
@@ -141,6 +166,57 @@
                 return false;
             }
         }
-    }
 
+        void AddGalleryCategory(GalleryCategory gc)
+        {
+            var subcats = gc.Subcategories;
+            gc.Subcategories = null;
+            GalleryCategories.Add(gc);
+            SaveChanges();
+            foreach (var sc in subcats)
+            {
+                // fix the parent ID for this subcategory before adding
+                sc.ParentID = gc.CategoryID;
+                AddGalleryCategory(sc);
+            }
+
+            var e = false;
+            if (e && gc.Activities != null && gc.Activities.Count > 0)
+            {
+                foreach (var a in gc.Activities)
+                    GalleryActivities.Add(a);
+                SaveChanges();
+            }
+        }
+
+        void RemoveGalleryCategory(GalleryCategory gc)
+        {
+            int? id = gc != null ? (int?)gc.CategoryID : null;
+            
+            // process this gallery category's children recursively
+
+            List<GalleryCategory> list = null;
+            if (gc == null)
+            {
+                var cats = GalleryCategories.Include("Subcategories.Activities").Include("Activities").Where(c => c.ParentID == null);
+                list = cats.ToList();
+            }
+            else
+            {
+                var cats = GalleryCategories.Include("Subcategories.Activities").Include("Activities").Where(c => c.ParentID == id);
+                list = cats.ToList();
+            }
+            foreach (var c in list)
+                RemoveGalleryCategory(c);
+
+            // remove this gallery category and its activities (except for the base case, where the category passed in is null)
+            if (gc != null)
+            {
+                foreach (var a in gc.Activities.ToList())
+                    GalleryActivities.Remove(a); 
+                GalleryCategories.Remove(gc);
+                SaveChanges();
+            }
+        }
+    }
 }

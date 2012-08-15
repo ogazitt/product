@@ -123,22 +123,16 @@
     <Build Include="dbo.WorkflowTypes.Table.sql">
       <SubType>Code</SubType>
     </Build>
-    <None Include="Scripts\Post-Deployment\dbo.Intents.Table.sql">
-      <SubType>Code</SubType>
-    </None>
-    <None Include="Scripts\Post-Deployment\dbo.WorkflowTypes.Table.sql">
-      <SubType>Code</SubType>
-    </None>
     <Build Include="dbo.Suggestions.Table.sql">
       <SubType>Code</SubType>
     </Build>
-    <Build Include="dbo.DatabaseVersions.Table.sql" />
     <Build Include="dbo.GalleryActivities.Table.sql">
       <SubType>Code</SubType>
     </Build>
     <Build Include="dbo.GalleryCategories.Table.sql">
       <SubType>Code</SubType>
     </Build>
+    <Build Include="dbo.DatabaseVersions.Table.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="scripts\post-deployment\Suggestion.PostDeployment.sql" />

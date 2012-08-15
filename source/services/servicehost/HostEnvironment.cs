@@ -28,7 +28,6 @@ namespace BuiltSteady.Product.ServiceHost
         const string SplunkServerEndpointConfigKey = "SplunkServerEndpoint";
         const string SplunkLocalPortConfigKey = "SplunkLocalPort";
         const string TraceFolderConfigKey = "TraceFolder";
-        const string SpeechEndpointConfigKey = "SpeechEndpoint";
 
         static bool? isAzure;               // true for either Azure or DevFabric
         static bool? isAzureDevFabric;      // only true in DevFabric
@@ -268,23 +267,6 @@ namespace BuiltSteady.Product.ServiceHost
                     traceDirectoryName = GetLocalResourceRootPath(TraceFolderConfigKey);
                 }
                 return traceDirectoryName;
-            }
-        }
-
-        public static string SpeechEndpoint
-        {
-            get
-            {
-                if (IsAzure)
-                {
-                    RoleInstanceEndpoint externalEndPoint =
-                        RoleEnvironment.CurrentRoleInstance.InstanceEndpoints[SpeechEndpointConfigKey];
-                    string endpoint = String.Format(
-                        "http://{0}", externalEndPoint.IPEndpoint);
-                    return endpoint;
-                }
-                else
-                    return "http://localhost:8080";
             }
         }
 

@@ -34,21 +34,12 @@
           <Variable name="SPLUNKLOCALPORT">
             <RoleInstanceValue xpath="/RoleEnvironment/CurrentInstance/ConfigurationSettings/ConfigurationSetting[@name='SplunkLocalPort']/@value" />
           </Variable>
-          <Variable name="SPEECHWORKERCOUNT">
-            <RoleInstanceValue xpath="/RoleEnvironment/CurrentInstance/ConfigurationSettings/ConfigurationSetting[@name='SpeechWorkerCount']/@value" />
-          </Variable>
-          <Variable name="SPEECHPORT">
-            <RoleInstanceValue xpath="/RoleEnvironment/CurrentInstance/Endpoints/Endpoint[@name='SpeechEndpoint']/@port" />
-          </Variable>
         </Environment>
       </Task>
     </Startup>
     <LocalResources>
       <LocalStorage name="TraceFolder" sizeInMB="20" cleanOnRoleRecycle="true" />
     </LocalResources>
-    <Endpoints>
-      <InputEndpoint name="SpeechEndpoint" protocol="http" port="8080" localPort="8080" />
-    </Endpoints>
     <Runtime executionContext="elevated">
     </Runtime>
   </WorkerRole>

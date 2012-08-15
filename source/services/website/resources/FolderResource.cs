@@ -213,9 +213,9 @@
             if (code != HttpStatusCode.OK)  // error encountered processing body
                 return ReturnResult<Folder>(req, operation, code);
 
-            // default ItemTypeID to Task if not set
+            // default ItemTypeID to Activity if not set
             if (clientFolder.ItemTypeID == null || clientFolder.ItemTypeID == Guid.Empty)
-                clientFolder.ItemTypeID = SystemItemTypes.Task;
+                clientFolder.ItemTypeID = SystemItemTypes.Activity;
 
             // this operation isn't meant to do more than just insert the new folder
             // therefore make sure items collection is empty

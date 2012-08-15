@@ -33,7 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BuiltSteady.Product.ServiceUtilities.ADGraph">
+    <Reference Include="BuiltSteady.Product.ServiceUtilities.ADGraph, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Product.ServiceUtilities.1.0\lib\net40\Debug\BuiltSteady.Product.ServiceUtilities.ADGraph.dll</HintPath>
     </Reference>
     <Reference Include="BuiltSteady.Product.ServiceUtilities.Bing">
@@ -41,9 +42,6 @@
     </Reference>
     <Reference Include="BuiltSteady.Product.ServiceUtilities.FBGraph">
       <HintPath>..\..\packages\Product.ServiceUtilities.1.0\lib\net40\Debug\BuiltSteady.Product.ServiceUtilities.FBGraph.dll</HintPath>
-    </Reference>
-    <Reference Include="BuiltSteady.Product.ServiceUtilities.Supermarket">
-      <HintPath>..\..\packages\Product.ServiceUtilities.1.0\lib\net40\Debug\BuiltSteady.Product.ServiceUtilities.Supermarket.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -73,20 +71,11 @@
     <Compile Include="activities\ConnectToActiveDirectory.cs" />
     <Compile Include="activities\AddContactToPossibleContacts.cs" />
     <Compile Include="activities\ConnectToGoogle.cs" />
-    <Compile Include="activities\GetGroceryCategory.cs" />
     <Compile Include="activities\GetContactInfoFromFacebook.cs" />
     <Compile Include="activities\ImportFromFacebook.cs" />
     <Compile Include="activities\Foreach.cs" />
-    <Compile Include="activities\GenerateSubjectLikes.cs" />
-    <Compile Include="activities\FakeGetPossibleSubjects.cs" />
-    <Compile Include="activities\FakeGetSubjectLikes.cs" />
-    <Compile Include="activities\GetSubjectLikes.cs" />
-    <Compile Include="activities\GetSubjectAttributes.cs" />
     <Compile Include="activities\NoOp.cs" />
-    <Compile Include="activities\GetPossibleSubjects.cs" />
-    <Compile Include="activities\GetPossibleIntents.cs" />
     <Compile Include="activities\StartWorkflow.cs" />
-    <Compile Include="activities\GetBingSuggestions.cs" />
     <Compile Include="activities\WorkflowActivity.cs" />
     <Compile Include="WorkflowHost.cs" />
     <Compile Include="WorkflowState.cs" />

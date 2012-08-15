@@ -1151,17 +1151,14 @@ UserSettings.prototype.update = function (name, itemKey) {
 
 var ItemTypes = {
     // standard item types
-    Task : "00000000-0000-0000-0000-000000000001",
-    Location : "00000000-0000-0000-0000-000000000002",
+    Activity : "00000000-0000-0000-0000-000000000001",
+    Step : "00000000-0000-0000-0000-000000000002",
     Contact : "00000000-0000-0000-0000-000000000003",
-    ListItem : "00000000-0000-0000-0000-000000000004",
-    Grocery: "00000000-0000-0000-0000-000000000005",
-    ShoppingItem: "00000000-0000-0000-0000-000000000008",
-    Appointment: "00000000-0000-0000-0000-000000000009",
+    Location : "00000000-0000-0000-0000-000000000004",
     // system item types
     System: "00000000-0000-0000-0000-000000000000",
-    Reference: "00000000-0000-0000-0000-000000000006",
-    NameValue: "00000000-0000-0000-0000-000000000007"
+    Reference: "00000000-0000-0000-0000-000000000005",
+    NameValue: "00000000-0000-0000-0000-000000000006"
 }
 
 // ---------------------------------------------------------
@@ -1170,13 +1167,16 @@ var ItemTypes = {
 var FieldNames = {
      Name : "Name",                  // String       friendly name (all items have a name)
      Description : "Description",    // String       additional notes or comments
-     Priority : "Priority",          // Integer      importance
-     Complete : "Complete",          // Boolean      task is complete
-     CompletedOn : "CompletedOn",    // DateTime     time at which task is marked complete
+     Repeat : "Repeat",              // String       recurrence
+     Active: "Active",               // Boolean      activity or step is active
+     Skip: "Skip",                   // Boolean      step is skipped
+     Complete: "Complete",           // Boolean      step is complete
+     CompletedOn: "CompletedOn",     // DateTime     time at which task is marked complete
      DueDate : "DueDate",            // DateTime     task due or appointment start time
      EndDate : "EndDate",            // DateTime     appointment end time
-     Birthday : "Birthday",          // DateTime     user or contact birthday
-     Address : "Address",            // Address      address of a location
+     ActionType: "ActionType",       // String       type of action
+     Birthday: "Birthday",           // DateTime     user or contact birthday
+     Address: "Address",             // Address      address of a location
      WebLink : "WebLink",            // Url          single web links (TODO: NOT BEING USED)
      WebLinks : "WebLinks",          // Json         list of web links [{Name:"name", Url:"link"}, ...] 
      Email : "Email",                // Email        email address 

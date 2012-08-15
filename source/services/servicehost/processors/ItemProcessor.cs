@@ -13,10 +13,6 @@ namespace BuiltSteady.Product.ServiceHost
         // Factory method to create a new item processor based on the item type
         public static ItemProcessor Create(User user, UserStorageContext storage, Guid itemTypeID)
         {
-            if (itemTypeID == SystemItemTypes.Task)
-                return new TaskProcessor(user, storage);
-            if (itemTypeID == SystemItemTypes.Appointment)
-                return new AppointmentProcessor(user, storage);
             if (itemTypeID == SystemItemTypes.Contact)
                 return new ContactProcessor(user, storage);
             return null;

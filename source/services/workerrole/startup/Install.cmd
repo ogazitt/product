@@ -13,15 +13,16 @@ if "%EMULATED%"=="true" goto :EOF
 cd startup
 
 echo Getting MSIs
-if %SPEECHWORKERCOUNT% lss 1 (set BLOBCONTAINER=webrole-install) else (set BLOBCONTAINER=workerrole-install)
-echo Getting MSIs from %BLOBCONTAINER% >blobcontainer.log
-deployblob.exe /downloadFrom %BLOBCONTAINER% /downloadTo .
+rem if %SPEECHWORKERCOUNT% lss 1 (set BLOBCONTAINER=webrole-install) else (set BLOBCONTAINER=workerrole-install)
+rem echo Getting MSIs from %BLOBCONTAINER% >blobcontainer.log
+rem deployblob.exe /downloadFrom %BLOBCONTAINER% /downloadTo .
 
 echo Installing Splunk
 msiexec.exe /l* splunk.log /i splunkforwarder-4.3.2-123586-x64-release.msi RECEIVING_INDEXER="%SPLUNKENDPOINT%" AGREETOLICENSE=Yes /quiet
 "%ProgramFiles%"\SplunkUniversalForwarder\bin\Splunk.exe add tcp "%SPLUNKLOCALPORT%" -auth admin:changeme >splunkinit.log 2>&1
 
-if %SPEECHWORKERCOUNT% lss 1 goto :EOF
+goto :EOF
+rem if %SPEECHWORKERCOUNT% lss 1 goto :EOF
 
 rem don't need to grant access anymore because running elevated
 echo granting HTTP.SYS port permission 

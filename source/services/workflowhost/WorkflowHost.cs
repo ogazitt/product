@@ -305,13 +305,15 @@ namespace BuiltSteady.Product.WorkflowHost
 
             if (item != null && item.IsList == false)
             {
+#if false
                 if (item.ItemTypeID == SystemItemTypes.Task)
                     StartWorkflow(userContext, suggestionsContext, WorkflowNames.NewTask, item, null);
                 // the Contact and Grocery new item processing happens in ItemProcessor now
-                //if (item.ItemTypeID == SystemItemTypes.Contact)
-                //    StartWorkflow(userContext, suggestionsContext, WorkflowNames.NewContact, item, null);
-                //if (item.ItemTypeID == SystemItemTypes.Grocery)
-                //    Workflow.StartWorkflow(userContext, suggestionsContext, WorkflowNames.NewGrocery, item, null);
+                if (item.ItemTypeID == SystemItemTypes.Contact)
+                    StartWorkflow(userContext, suggestionsContext, WorkflowNames.NewContact, item, null);
+                if (item.ItemTypeID == SystemItemTypes.Grocery)
+                    Workflow.StartWorkflow(userContext, suggestionsContext, WorkflowNames.NewGrocery, item, null);
+#endif
             }
 
             if (folder != null)

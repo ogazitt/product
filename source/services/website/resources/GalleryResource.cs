@@ -36,7 +36,7 @@
         public HttpResponseMessageWrapper<List<GalleryCategory>> Get(HttpRequestMessage req)
         {
             Operation operation = null;
-            if (false)
+            if (false)  // TODO: turn authentication back on by removing this if statement
             {
                 HttpStatusCode code = AuthenticateUser(req);
                 if (code != HttpStatusCode.OK)

@@ -11,7 +11,7 @@ namespace BuiltSteady.Product.ServiceHost
         private const string IntentsFileName = @"workflows\Intents.txt";
 
         public static string SchemaVersion { get { return "1.0.2012.0815"; } }
-        public static string ConstantsVersion { get { return "2012-08-15 16:20"; } }
+        public static string ConstantsVersion { get { return "2012-08-15"; } }
 
         public static List<GalleryCategory> DefaultGallery()
         {

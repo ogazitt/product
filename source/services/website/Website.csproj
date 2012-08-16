@@ -196,14 +196,14 @@
     <Content Include="content\font\fontawesome-webfont.svg" />
     <Content Include="content\bootstrap-tweener.css" />
     <Content Include="content\images\busy.gif" />
+    <Content Include="content\images\twostep-logo.png" />
+    <Content Include="content\images\twostep-small.png" />
     <Content Include="favicon.ico" />
     <Content Include="content\images\glyphicons-halflings-white.png" />
     <Content Include="content\images\glyphicons-halflings.png" />
     <Content Include="content\images\icon-azure.png" />
     <Content Include="content\images\page-turn-next.png" />
     <Content Include="content\images\page-turn-prev.png" />
-    <Content Include="content\images\zaplogo-small.png" />
-    <Content Include="content\images\zaplogo.png" />
     <Content Include="content\master.generated.min.css">
       <DependentUpon>master.css.chirp.config</DependentUpon>
     </Content>
@@ -273,6 +273,7 @@
     </Content>
     <Content Include="views\account\SignIn.aspx" />
     <Content Include="views\dashboard\Home.aspx" />
+    <Content Include="views\shared\IntroCarouselControl.ascx" />
     <Content Include="views\shared\SignInControl.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

@@ -44,7 +44,7 @@
             <div class="container-fluid">
                 <ul class="nav">
                     <li class="active">
-                        <a class="brand" href="#"><img class="" alt="TwoStep" src="<%: Url.Content("~/content/images/zaplogo-small.png") %>" /></a>
+                        <a class="brand" href="#"><img class="" alt="TwoStep" src="<%: Url.Content("~/content/images/twostep-small.png") %>" /></a>
                     </li>
                 </ul>
                 <% Html.RenderPartial("SignInControl"); %>

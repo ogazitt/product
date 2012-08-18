@@ -224,6 +224,78 @@ Control.Icons.deleteBtn = function Control$Icons$deleteBtn(item) {
     return $('<a class="icon" />').append($icon);
 }
 
+// return an element that is an icon for completing an item
+Control.Icons.completeBtn = function Control$Icons$completeBtn(item) {
+    var $icon = $('<i class="icon-check"></i>');
+    $icon.css('cursor', 'pointer');
+    $icon.data('item', item);
+    $icon.attr('title', 'Complete').tooltip(Control.noDelay);
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        // don't delete if in middle of sorting
+        var sorting = $this.parents('.ui-sortable-helper').length > 0;
+        if (!sorting) {
+            var item = $this.data('item');
+            //var activeItem = (item.ParentID == null) ? item.GetFolder() : item.GetParent();
+            item.Complete();
+        }
+        return false;   // do not propogate event
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
+}
+
+// return an element that is an icon for calling
+Control.Icons.callBtn = function Control$Icons$callBtn(item) {
+    var $icon = $('<i class="icon-phone-sign"></i>');
+    $icon.css('cursor', 'pointer');
+    $icon.data('item', item);
+    $icon.attr('title', 'Call').tooltip(Control.noDelay);
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        // don't delete if in middle of sorting
+        var sorting = $this.parents('.ui-sortable-helper').length > 0;
+        if (!sorting) {
+            var item = $this.data('item');
+            //var activeItem = (item.ParentID == null) ? item.GetFolder() : item.GetParent();
+
+            // try to find a phone number
+            var phone = null;
+
+            // look for a location on the item
+            if (phone == null) {
+                var locationID = item.GetFieldValue(item.GetField(FieldNames.Location));
+                if (locationID != null) {
+                    location = DataModel.FindItem(locationID);
+                    if (location != null)
+                        phone = item.GetFieldValue(location.GetField(FieldNames.Phone));
+                }
+            }
+            // look for a contact on the item
+            if (phone == null) {
+                var contactID = item.GetFieldValue(item.GetField(FieldNames.Contact));
+                if (contactID != null) {
+                    contact = DataModel.FindItem(contactID);
+                    if (contact != null)
+                        phone = item.GetFieldValue(contact.GetField(FieldNames.Phone));
+                }
+            }
+
+            // if the phone number was found, navigate to it
+            // TODO: check the browser-agent
+            if (phone != null) {
+                window.navigate("tel://" + phone);
+                return false;
+            }
+        }
+        return false;   // do not propogate event
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
+}
+
 // ---------------------------------------------------------
 // Control.Text static object
 //

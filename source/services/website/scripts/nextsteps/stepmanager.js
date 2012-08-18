@@ -158,12 +158,15 @@ StepManager.prototype.activeItem = function () {
 }
 
 StepManager.prototype.activeList = function () {
+    /*
     if (this.currentItem != null) {
-        return (this.currentItem.IsList) ? this.currentItem : this.currentItem.GetParentContainer();
+    return (this.currentItem.IsList) ? this.currentItem : this.currentItem.GetParentContainer();
     } else if (this.currentActionType != null) {
-        return this.currentActionType;
+    return this.currentActionType;
     }
     return null;
+    */
+    return this.currentActionType;
 }
 
 StepManager.prototype.activeListName = function () {

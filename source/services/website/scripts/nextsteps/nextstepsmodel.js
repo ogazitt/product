@@ -6,6 +6,95 @@
 // NextStepsModel object
 var NextStepsModel = function NextStepsModel$() { };
 
+// this function augments the main DataModel with the ActionTypes associative array
+// this is useful for the next steps page (but isn't used in the dashboard).  that is 
+// why it is implemented separately.
+NextStepsModel.Augment = function NextStepsModel$Augment(dataModel) {
+    // create an associative array of ActionType objects.  
+    // each ActionType object contains an associative array of the Items of that ActionType
+    var actionTypes = {};
+    for (var key in ActionTypes) {
+        actionTypes[key] = ActionType.Extend({ Name: ActionTypes[key], ID: ActionTypes[key] });
+        actionTypes[key].steps = [];
+    }
+
+    // create an associative array over the action types 
+    dataModel.ActionTypesMap = new ItemMap(actionTypes);
+    dataModel.ActionTypes = dataModel.ActionTypesMap.Items;
+
+    // extend the step items passed in with Item functions
+    for (var i in dataModel.Folders) {
+        var folder = dataModel.Folders[i];
+        for (var j in folder.Items) {
+            var item = folder.Items[j];
+            if (item.ItemTypeID == ItemTypes.Step) {
+                var actionType = item.GetActionType();
+                var len = dataModel.ActionTypes[actionType.Name].steps.length;
+                dataModel.ActionTypes[actionType.Name].steps[len++] = item;
+            }
+        }
+    }
+
+    // create an associative array over the steps in each action type
+    for (var key in dataModel.ActionTypes) {
+        dataModel.ActionTypes[key].StepsMap = new ItemMap(dataModel.ActionTypes[key].steps);
+        dataModel.ActionTypes[key].Steps = dataModel.ActionTypes[key].StepsMap.Items;
+    }
+}
+
+// generic helper for finding action type for given action type name
+DataModel.FindActionType = function DataModel$FindActionType(actionTypeName) {
+    if (actionTypeName != null) {
+        var item = DataModel.ActionTypes[actionTypeName];
+        if (item != null) { return item; }
+    }
+    return null;
+}
+
+// ---------------------------------------------------------
+// ActionType object - provides prototype functions for ActionType
+// ActionType objects are containers for Items (steps) of an ActionType
+
+function ActionType() { };
+ActionType.Extend = function ActionType$Extend(actionType) { return $.extend(new ActionType(), actionType); }  // extend with ActionType prototypes
+
+// ActionType public functions
+// do not deep copy, remove Items collection, copy is for updating ActionType entity only
+ActionType.prototype.Copy = function () { var copy = $.extend(new ActionType(), this); copy.Steps = {}; copy.StepsMap = {}; return copy; };
+ActionType.prototype.IsActionType = function () { return true; };
+ActionType.prototype.GetSteps = function () { return this.Steps; }
+ActionType.prototype.GetStep = function (itemID) { return this.Steps[itemID]; }
+ActionType.prototype.GetSelectedItem = function () {
+    for (id in this.Items) {
+        if (DataModel.UserSettings.IsItemSelected(id) == true) { return this.Items[id]; }
+    }
+    return null;
+}
+
+// augment Item prototype with some new utilities
+Item.prototype.GetActionType = function () {
+    var actionType = this.GetFieldValue(this.GetField(FieldNames.ActionType));
+    if (actionType == null)
+        actionType = DataModel.FindActionType(ActionTypes.Default);
+    return actionType;
+}
+Item.prototype.Complete = function () {
+    var updatedItem = this.Copy();
+    updatedItem.Status = "Completed";
+    updatedItem.SetFieldValue(this.GetField(FieldNames.Complete), true);
+    // timestamp CompletedOn field
+    if (item.HasField(FieldNames.CompletedOn)) {
+        updatedItem.SetFieldValue(FieldNames.CompletedOn, new Date().format());
+    }
+    this.Update(updatedItem, null);
+};
+
+/*
+ * 2012-08-17 OG: Below this point, the code is mostly for legacy reasons.
+ * TODO: rip it out when I'm convinced I don't need it anymore.
+ */
+
+ /*
 // ---------------------------------------------------------
 // public members
 
@@ -161,27 +250,6 @@ NextStepsModel.processNextStepsData = function NextStepsModel$processNextStepsDa
 }
 
 // ---------------------------------------------------------
-// ActionType object - provides prototype functions for ActionType
-// ActionType objects are containers for Items (steps) of an ActionType
-
-function ActionType() { };
-ActionType.Extend = function ActionType$Extend(actionType) { return $.extend(new ActionType(), actionType); }  // extend with ActionType prototypes
-
-// ActionType public functions
-// do not deep copy, remove Items collection, copy is for updating ActionType entity only
-ActionType.prototype.Copy = function () { var copy = $.extend(new ActionType(), this); copy.Steps = {}; copy.StepsMap = {}; return copy; };
-ActionType.prototype.IsActionType = function () { return true; };
-ActionType.prototype.GetSteps = function () { return this.Steps; }
-ActionType.prototype.GetStep = function (itemID) { return this.Steps[itemID]; }
-ActionType.prototype.GetSelectedItem = function () {
-    for (id in this.Items) {
-        if (DataModel.UserSettings.IsItemSelected(id) == true) { return this.Items[id]; }
-    }
-    return null;
-}
-
-
-// ---------------------------------------------------------
 // Item object - provides prototype functions for Item
 
 function Item() { };
@@ -206,6 +274,16 @@ Item.prototype.GetActionType = function () {
     return actionType;
 }
 Item.prototype.GetParentContainer = function () { return this.GetActionType(); };
+Item.prototype.Complete = function () {
+    var updatedItem = this.Copy();
+    updatedItem.Status = "Completed";
+    updatedItem.SetFieldValue(this.GetField(FieldNames.Complete), true);
+    // timestamp CompletedOn field
+    if (item.HasField(FieldNames.CompletedOn)) {
+        updatedItem.SetFieldValue(FieldNames.CompletedOn, new Date().format());
+    }
+    this.Update(updatedItem, null);
+};
 
 Item.prototype.Refresh = function () {
     var thisItem = this;
@@ -556,3 +634,4 @@ LinkArray.prototype.Parse = function (text) {
     }
 }
 
+*/

@@ -80,8 +80,10 @@ ListView.prototype.renderListItems = function (listItems) {
         //if (item.IsSelected()) { $li.addClass('selected'); }
 
         var $item = $('<a class="form-inline" />').appendTo($li);
-        var $deleteBtn = Control.Icons.deleteBtn(item).appendTo($item);
-        //$deleteBtn.addClass('pull-right');
+        var $callBtn = Control.Icons.callBtn(item).appendTo($item);
+        $callBtn.addClass('pull-right');
+        var $completeBtn = Control.Icons.completeBtn(item).appendTo($item);
+        $completeBtn.addClass('pull-right');
 
         this.renderNameField($item, item);
 

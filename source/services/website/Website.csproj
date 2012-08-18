@@ -283,6 +283,7 @@
     </Content>
     <Content Include="views\account\SignIn.aspx" />
     <Content Include="views\dashboard\Home.aspx" />
+    <Content Include="views\dashboard\NextSteps.aspx" />
     <Content Include="views\mobile\NextSteps.aspx" />
     <Content Include="views\shared\SignInControl.ascx" />
     <Content Include="Web.config">

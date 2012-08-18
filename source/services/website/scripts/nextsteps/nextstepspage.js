@@ -5,7 +5,6 @@
 
 // ---------------------------------------------------------
 // NextStepsPage static object - manages controls for the next steps page
-// assumes there is one pane marked by the class "nextsteps-right"
 
 var NextStepsPage = function NextStepsPage$() {
     // data members used

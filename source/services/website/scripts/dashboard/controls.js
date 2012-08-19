@@ -187,7 +187,7 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
 Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
     // allow parameter as ActionType class or name 
     var actionTypeName = actionType;
-    if (typeof (actionType) == 'object') {
+    if (actionType != null && typeof (actionType) == 'object') {
         actionTypeName = actionType.Name;
     }
 
@@ -1115,6 +1115,59 @@ Control.ItemType.update = function Control$ItemType$update($menuitem) {
     updatedItem.ItemTypeID = $menuitem.data('value');
     var $button = $menuitem.parents('.btn-group').first().find('.btn');
     $button.find('i').replaceWith(Control.Icons.forItemType(updatedItem));
+    var $label = $menuitem.find('span').first();
+    if ($label.length > 0) { $button.find('span').first().html($label.html()); }
+    item.Update(updatedItem);
+}
+
+// ---------------------------------------------------------
+// Control.ActionType static object
+// static re-usable helper to display and update Action Type on an item
+//
+Control.ActionType = {};
+Control.ActionType.renderDropdown = function Control$ActionType$renderDropdown($element, item, noLabel) {
+    // only render if the item type has an ActionType field
+    if (!item.HasField(FieldNames.ActionType)) return;
+
+    var currentActionTypeName = item.GetFieldValue(item.GetField(FieldNames.ActionType));
+    if (currentActionTypeName == null) currentActionTypeName = ActionTypes.Default;
+    var $wrapper = $wrapper = $('<div class="control-group"></div>').appendTo($element);
+    if (noLabel != true) {
+        var labelType = (item.IsFolder() || item.IsList) ? 'List' : 'Item';
+        var label = '<label class="control-label">Type of ' + labelType + '</label>';
+        $(label).appendTo($wrapper);
+    }
+
+    var $btnGroup = $('<div class="btn-group" />').appendTo($wrapper);
+    var $btn = $('<a class="btn dropdown-toggle" data-toggle="dropdown" />').appendTo($btnGroup);
+    Control.Icons.forActionType(currentActionTypeName).appendTo($btn);
+    if (noLabel != true) {
+        $('<span>&nbsp;&nbsp;' + currentActionTypeName + '</span>').appendTo($btn);
+        $('<span class="pull-right">&nbsp;&nbsp;<span class="caret" /></span>').appendTo($btn);
+    }
+
+    var $dropdown = $('<ul class="dropdown-menu" />').appendTo($btnGroup);
+    $dropdown.data('item', item);
+    for (var id in ActionTypes) {
+        var actionType = ActionTypes[id];
+        var $menuitem = $('<li><a></a></li>').appendTo($dropdown);
+        $menuitem.find('a').append(Control.Icons.forActionType(actionType));
+        $menuitem.find('a').append('<span>&nbsp;&nbsp;' + actionType + '</span>');
+        $menuitem.data('value', id);
+        $menuitem.click(function (e) { Control.ActionType.update($(this)); e.preventDefault(); });
+    }
+
+    return $wrapper;
+}
+
+Control.ActionType.update = function Control$ActionType$update($menuitem) {
+    var item = $menuitem.parent().data('item');
+    var updatedItem = item.Copy();
+    var newActionType = $menuitem.data('value');
+    var newActionTypeName = ActionTypes[newActionType];
+    updatedItem.SetFieldValue(updatedItem.GetField(FieldNames.ActionType), newActionTypeName);
+    var $button = $menuitem.parents('.btn-group').first().find('.btn');
+    $button.find('i').replaceWith(Control.Icons.forActionType(ActionTypes[newActionTypeName]));
     var $label = $menuitem.find('span').first();
     if ($label.length > 0) { $button.find('span').first().html($label.html()); }
     item.Update(updatedItem);

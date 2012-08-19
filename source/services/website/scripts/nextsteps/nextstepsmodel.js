@@ -77,9 +77,9 @@ ActionType.prototype.GetStep = function (itemID) { return this.Steps[itemID]; }
 
 // augment Item prototype with some new utilities
 Item.prototype.GetActionType = function () {
-    var actionType = this.GetFieldValue(this.GetField(FieldNames.ActionType));
-    if (actionType == null)
-        actionType = DataModel.FindActionType(ActionTypes.Default);
+    var actionTypeName = this.GetFieldValue(this.GetField(FieldNames.ActionType));
+    if (actionTypeName == null) actionTypeName = ActionTypes.Default;
+    var actionType = DataModel.FindActionType(actionTypeName);
     return actionType;
 }
 

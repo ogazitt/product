@@ -40,6 +40,7 @@ ActionTypeList.prototype.render = function ($element, actionTypes) {
     $element.empty();
     this.$element = $('<ul class="nav nav-pills nav-stacked" />').appendTo($element);
     //Control.List.sortable(this.$element);
+    var currentActionType = null;
     for (var id in this.actionTypes) {
         var actionType = this.actionTypes[id];
         $actionType = $('<li><a><strong>&nbsp;' + actionType.Name + '</strong></a></li>').appendTo(this.$element);
@@ -47,11 +48,14 @@ ActionTypeList.prototype.render = function ($element, actionTypes) {
         $actionType.data('item', actionType);
         $actionType.click(function () { Control.get(this).actionTypeClicked($(this)); });
         $actionType.find('strong').prepend(Control.Icons.forActionType(actionType));
+        if (currentActionType == null) {
+            currentActionType = actionType;
+            $currentActionType = $actionType;
+        }
     }
-    // select last ActionType
-    // TODO: change this to first ActionType 
-    this.select($actionType, actionType);
-    this.fireSelectionChanged(actionType);
+    // select current ActionType
+    this.select($currentActionType, currentActionType);
+    this.fireSelectionChanged(currentActionType);
 }
 
 ActionTypeList.prototype.actionTypeClicked = function ($actionType) {

@@ -16,13 +16,9 @@ function StepManager(parentControl, $parentElement) {
     this.views = {};
     this.onSelectionChangedHandlers = {};
     this.stepList = new StepList(this);
-    //this.itemEditor = new ItemEditor(this);
-    //this.propEditor = new PropertyEditor(this);
 }
 
 StepManager.ListView = "fm-list-view";
-StepManager.ItemView = "fm-item-view";
-//StepManager.PropertyView = "fm-property-view";
 
 StepManager.prototype.addSelectionChangedHandler = function (name, handler) {
     this.onSelectionChangedHandlers[name] = handler;
@@ -37,7 +33,7 @@ StepManager.prototype.fireSelectionChanged = function (item) {
         var handler = this.onSelectionChangedHandlers[name];
         if (typeof (handler) == "function") {
             handler(item.GetActionType(), item.ID);
-            this.activeView(StepManager.ItemView);                // switch to ItemView
+            this.activeView(StepManager.ListView);  // refresh ListView
         }
     }
 }
@@ -56,22 +52,12 @@ StepManager.prototype.show = function (forceRender) {
         $tabs.data('control', this);
         var $tab = $('<li><a data-toggle="tab">List View</a></li>').appendTo($tabs);
         $tab.find('a').attr('href', '.' + StepManager.ListView);
-        //$tab = $('<li><a data-toggle="tab"><i class="icon-edit"></i> Item</a></li>').appendTo($tabs);
-        //$tab.find('a').attr('href', '.' + StepManager.ItemView);
-        //$tab = $('<li class="pull-right"><a data-toggle="tab"><i class="icon-cog"></i></a></li>').appendTo($tabs);
-        //$tab.attr('title', 'List Settings').tooltip({ placement: 'bottom' });
-        //$tab.find('a').attr('href', '.' + StepManager.PropertyView);
+
         // render views
         var $tabContent = $('<div class="tab-content" />').appendTo(this.$element);
         var $view = $('<div class="tab-pane" />').appendTo($tabContent);
         $view.addClass(StepManager.ListView);
         this.views[StepManager.ListView] = $view;
-        //$view = $('<div class="tab-pane" />').appendTo($tabContent);
-        //$view.addClass(StepManager.ItemView);
-        //this.views[StepManager.ItemView] = $view;
-        //$view = $('<div class="tab-pane" />').appendTo($tabContent);
-        //$view.addClass(StepManager.PropertyView);
-        //this.views[StepManager.PropertyView] = $view;
 
         $('a[data-toggle="tab"]').on('shown', function (e) {
             var $tabs = $(e.target).parents('.nav-tabs');
@@ -92,24 +78,10 @@ StepManager.prototype.render = function () {
     var activeItem = this.activeItem();
     var $view = this.views[activeView];
     var maxContentHeight = this.$parentElement.outerHeight() - $tabs.outerHeight();
-    /*
-    if (activeView == StepManager.ItemView) {
-        if (activeItem == null) {                   // switch to ListView if no items in current List
-            activeView = StepManager.ListView;
-            this.activeView(activeView);
-        } else {
-            this.itemEditor.render($view, activeItem, maxContentHeight);
-        }
-    }
-    */
+
     if (activeView == StepManager.ListView) {
         this.stepList.render($view, this.activeList(), maxContentHeight);
     }
-    /*
-    if (activeView == StepManager.PropertyView) {
-        this.propEditor.render($view, this.activeList(), maxContentHeight);
-    }
-    */
     $tabs.find('a[href=".' + activeView + '"]').tab('show');
 }
 
@@ -124,10 +96,10 @@ StepManager.prototype.selectActionType = function (actionType) {
 StepManager.prototype.selectItem = function (item) {
     this.currentItem = item;
     if (this.currentItem != null) {
-        this.currentActionType = this.currentItem.GetFolder();
+        this.currentActionType = this.currentItem.GetActionType();
         this.render();
     } else {
-        this.selectFolder(this.currentActionType);
+        this.selectActionType(this.currentActionType);
     }
 }
 
@@ -158,21 +130,13 @@ StepManager.prototype.activeItem = function () {
 }
 
 StepManager.prototype.activeList = function () {
-    /*
-    if (this.currentItem != null) {
-    return (this.currentItem.IsList) ? this.currentItem : this.currentItem.GetParentContainer();
-    } else if (this.currentActionType != null) {
-    return this.currentActionType;
-    }
-    return null;
-    */
     return this.currentActionType;
 }
 
 StepManager.prototype.activeListName = function () {
     var activeList = this.activeList();
     if (activeList != null) {
-        var $icon = Control.Icons.forItemType(activeList);
+        var $icon = Control.Icons.forActionType(activeList);
         return $('<span>&nbsp;' + activeList.Name + '</span>').prepend($icon);
     }
     return $('<span>List View</span>');

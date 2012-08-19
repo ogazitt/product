@@ -167,10 +167,17 @@ var ActionTypes = {                 // FieldNames:
     Schedule: "Schedule on calendar", // DueDate
     Map: "Map",                     // Address
     TextMessage: "Text",            // Phone
-    Default: "Uncategorized",
+    Default: "Uncategorized"
     //Browse: "Browse",               // WebLink
     //Navigate: "Navigate",           // Contacts, Locations
     //Postpone: "Postpone",           // DueDate
     //PostToFacebook: "PostToFacebook",  
     //Tweet: "Tweet"             
+}
+
+// ---------------------------------------------------------
+// StatusTypes constants (for Item.Status)
+
+var StatusTypes = {
+    Active: "Active"
 }

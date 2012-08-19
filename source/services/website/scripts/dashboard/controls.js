@@ -183,6 +183,44 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
     return $icon;
 }
 
+// return an element that is an icon for the action type
+Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
+    // allow parameter as ActionType class or name 
+    var actionTypeName = actionType;
+    if (typeof (actionType) == 'object') {
+        actionTypeName = actionType.Name;
+    }
+
+    var $icon = $('<i></i>');
+    switch (actionTypeName) {
+        case ActionTypes.Call:
+            $icon.addClass('icon-phone-sign');
+            break;
+        case ActionTypes.SendEmail:
+            $icon.addClass('icon-envelope');
+            break;
+        case ActionTypes.Find:
+            $icon.addClass('icon-search');
+            break;
+        case ActionTypes.Schedule:
+            $icon.addClass('icon-calendar');
+            break;
+        case ActionTypes.Map:
+            $icon.addClass('icon-map-marker');
+            break;
+        case ActionTypes.TextMessage:
+            $icon.addClass('icon-list-alt');
+            break;
+        case ActionTypes.Default:
+            $icon.addClass('icon-question-sign');
+            break;
+        default:
+            $icon.addClass('icon-question-sign');
+            break;
+    }
+    return $icon;
+}
+
 // return an element that is an icon for a map link
 Control.Icons.forMap = function Control$Icons$forMap(item) {
     var json = item.GetFieldValue(FieldNames.WebLinks);
@@ -226,7 +264,7 @@ Control.Icons.deleteBtn = function Control$Icons$deleteBtn(item) {
 
 // return an element that is an icon for completing an item
 Control.Icons.completeBtn = function Control$Icons$completeBtn(item) {
-    var $icon = $('<i class="icon-check"></i>');
+    var $icon = $('<h2 class="icon-check"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
     $icon.attr('title', 'Complete').tooltip(Control.noDelay);
@@ -240,7 +278,7 @@ Control.Icons.completeBtn = function Control$Icons$completeBtn(item) {
             //var activeItem = (item.ParentID == null) ? item.GetFolder() : item.GetParent();
             item.Complete();
         }
-        return false;   // do not propogate event
+        return true;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
     return $('<a class="icon" />').append($icon);
@@ -248,45 +286,21 @@ Control.Icons.completeBtn = function Control$Icons$completeBtn(item) {
 
 // return an element that is an icon for calling
 Control.Icons.callBtn = function Control$Icons$callBtn(item) {
-    var $icon = $('<i class="icon-phone-sign"></i>');
+    var $icon = $('<h2 class="icon-phone-sign"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
     $icon.attr('title', 'Call').tooltip(Control.noDelay);
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
-        // don't delete if in middle of sorting
+        // don't handle event if in middle of sorting
         var sorting = $this.parents('.ui-sortable-helper').length > 0;
         if (!sorting) {
             var item = $this.data('item');
-            //var activeItem = (item.ParentID == null) ? item.GetFolder() : item.GetParent();
-
-            // try to find a phone number
-            var phone = null;
-
-            // look for a location on the item
-            if (phone == null) {
-                var locationID = item.GetFieldValue(item.GetField(FieldNames.Location));
-                if (locationID != null) {
-                    location = DataModel.FindItem(locationID);
-                    if (location != null)
-                        phone = item.GetFieldValue(location.GetField(FieldNames.Phone));
-                }
-            }
-            // look for a contact on the item
-            if (phone == null) {
-                var contactID = item.GetFieldValue(item.GetField(FieldNames.Contact));
-                if (contactID != null) {
-                    contact = DataModel.FindItem(contactID);
-                    if (contact != null)
-                        phone = item.GetFieldValue(contact.GetField(FieldNames.Phone));
-                }
-            }
-
-            // if the phone number was found, navigate to it
-            // TODO: check the browser-agent
+            var phone = item.GetPhoneNumber();
             if (phone != null) {
-                window.navigate("tel://" + phone);
+                // TODO: check the browser-agent
+                window.open("tel:" + phone);
                 return false;
             }
         }
@@ -294,6 +308,18 @@ Control.Icons.callBtn = function Control$Icons$callBtn(item) {
     });
     // wrap in anchor tag to get tooltips to work in Chrome
     return $('<a class="icon" />').append($icon);
+}
+
+// return an element that is an icon for calling
+Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
+    var link = item.GetMapLink();
+    if (link != null) {
+        var $link = $('<h2 class="icon-map-marker"></h2>');
+        $link.attr('href', link.Url);
+        $link.attr('title', 'Map').tooltip(Control.ttDelay);
+        $link.click(function () { window.open($(this).attr('href')); return false; });
+        return $link;
+    }
 }
 
 // ---------------------------------------------------------
@@ -326,6 +352,16 @@ Control.Text.renderLabel = function Control$Text$renderLabel($element, item, fie
     var value = item.GetFieldValue(field);
     if (value != null) {
         $label = $('<label><strong>' + value + '</strong></label>').appendTo($element);
+        $label.addClass(field.Class);
+    }
+    return $label;
+}
+// render h2 label 
+Control.Text.renderH2Label = function Control$Text$renderH2Label($element, item, field) {
+    var $label;
+    var value = item.GetFieldValue(field);
+    if (value != null) {
+        $label = $('<label><h2>' + value + '</h2></label>').appendTo($element);
         $label.addClass(field.Class);
     }
     return $label;

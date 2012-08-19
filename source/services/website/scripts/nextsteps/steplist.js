@@ -8,18 +8,12 @@
 function StepList(parentControl) {
     this.parentControl = parentControl;
     this.$element = null;
-
-    //this.newItemEditor = new NewItemEditor(this);
     this.listView = new ListView(this);
 }
 
 StepList.prototype.render = function ($element, list, maxHeight) {
     if (this.$element == null) { this.$element = $element; }
-    //var $newItem = this.newItemEditor.render(this.$element, list);
-    //var newItemHeight = ($newItem != null) ? $newItem.outerHeight() : 0;
-    //this.listView.render(this.$element, list, maxHeight - newItemHeight - 28);   // exclude top & bottom padding
-    this.listView.render(this.$element, list, maxHeight);   // exclude top & bottom padding
-    //$newItem.find('.fn-name').focus();
+    this.listView.render(this.$element, list, maxHeight);   
 }
 
 StepList.prototype.selectItem = function (item) {
@@ -80,8 +74,14 @@ ListView.prototype.renderListItems = function (listItems) {
         //if (item.IsSelected()) { $li.addClass('selected'); }
 
         var $item = $('<a class="form-inline" />').appendTo($li);
-        var $callBtn = Control.Icons.callBtn(item).appendTo($item);
-        $callBtn.addClass('pull-right');
+        if (item.GetPhoneNumber() != null) {
+            var $callBtn = Control.Icons.callBtn(item).appendTo($item);
+            $callBtn.addClass('pull-right');
+        }
+        if (item.GetMapLink() != null) {
+            var $mapBtn = Control.Icons.mapBtn(item).appendTo($item);
+            $mapBtn.addClass('pull-right');
+        }
         var $completeBtn = Control.Icons.completeBtn(item).appendTo($item);
         $completeBtn.addClass('pull-right');
 
@@ -106,18 +106,6 @@ ListView.prototype.renderListItems = function (listItems) {
 
 ListView.prototype.renderNameField = function ($item, item) {
     var fields = item.GetFields();
-    // render complete field if exists 
-    var field = fields[FieldNames.Complete];
-    if (field != null) {
-        Control.Checkbox.render($item, item, field);
-    }
-    // render map icon if weblinks exists 
-    var field = fields[FieldNames.WebLinks];
-    if (field != null) {
-        $item.append(Control.Icons.forMap(item));
-    }
-    // render name field
-    $item.append(Control.Icons.forSources(item));
     field = fields[FieldNames.Name];
     Control.Text.renderLabel($item, item, field);
 }

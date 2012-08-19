@@ -46,10 +46,12 @@ ActionTypeList.prototype.render = function ($element, actionTypes) {
         $actionType.data('control', this);
         $actionType.data('item', actionType);
         $actionType.click(function () { Control.get(this).actionTypeClicked($(this)); });
-        //$actionType.find('strong').prepend(Control.Icons.forItemType(folder));
-        //if (folder.IsSelected()) { this.select($actionType, folder); }
-        //this.renderItems($actionType, actionType);
+        $actionType.find('strong').prepend(Control.Icons.forActionType(actionType));
     }
+    // select last ActionType
+    // TODO: change this to first ActionType 
+    this.select($actionType, actionType);
+    this.fireSelectionChanged(actionType);
 }
 
 ActionTypeList.prototype.actionTypeClicked = function ($actionType) {

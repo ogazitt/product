@@ -62,14 +62,18 @@ ActionType.Extend = function ActionType$Extend(actionType) { return $.extend(new
 // do not deep copy, remove Items collection, copy is for updating ActionType entity only
 ActionType.prototype.Copy = function () { var copy = $.extend(new ActionType(), this); copy.Steps = {}; copy.StepsMap = {}; return copy; };
 ActionType.prototype.IsActionType = function () { return true; };
-ActionType.prototype.GetSteps = function () { return this.Steps; }
-ActionType.prototype.GetStep = function (itemID) { return this.Steps[itemID]; }
-ActionType.prototype.GetSelectedItem = function () {
-    for (id in this.Items) {
-        if (DataModel.UserSettings.IsItemSelected(id) == true) { return this.Items[id]; }
+ActionType.prototype.GetSteps = function (sort, status) {
+    if (status === undefined) status = StatusTypes.Active;
+    var steps = {};
+    for (var id in this.Steps) {
+        var item = this.Steps[id];
+        if (item.Status == status) steps[id] = item;
+        // TODO: remove (this is for testing)
+        if (!item.GetFieldValue(item.GetField(FieldNames.Complete))) steps[id] = item;
     }
-    return null;
+    return steps;
 }
+ActionType.prototype.GetStep = function (itemID) { return this.Steps[itemID]; }
 
 // augment Item prototype with some new utilities
 Item.prototype.GetActionType = function () {
@@ -78,16 +82,93 @@ Item.prototype.GetActionType = function () {
         actionType = DataModel.FindActionType(ActionTypes.Default);
     return actionType;
 }
+
+// helper for getting the first location associated with the item
+Item.prototype.GetLocation = function () {
+    var listItem = this.GetFieldValue(this.GetField(FieldNames.Locations));
+    if (listItem != null) {
+        var list = DataModel.GetItems(listItem.FolderID, listItem.ID, true);
+        for (var id in list) {
+            // return first item
+            return list[id].GetFieldValue(list[id].GetField(FieldNames.EntityRef));
+        }
+    }
+    return null;
+}
+
+// helper for getting the first location associated with the item
+Item.prototype.GetContact = function () {
+    var listItem = this.GetFieldValue(this.GetField(FieldNames.Contacts));
+    if (listItem != null) {
+        var list = DataModel.GetItems(listItem.FolderID, listItem.ID, true);
+        for (var id in list) {
+            // return first item
+            return list[id].GetFieldValue(list[id].GetField(FieldNames.EntityRef));
+        }
+    }
+    return null;
+}
+
+// helper for finding a phone number of an item (via locations or contacts)
+Item.prototype.GetPhoneNumber = function () {
+    var item = this.GetLocation();
+    if (item == null) item = this.GetContact();
+    if (item != null) {
+        var phone = item.GetFieldValue(item.GetField(FieldNames.Phone));
+        phone = phone.replace(/[^0-9]+/g, '');
+        return phone;
+    }
+    return null;
+}
+
+// helper for finding a phone number of an item (via locations or contacts)
+Item.prototype.GetMapLink = function () {
+    var item = this.GetLocation();
+    if (item == null) item = this.GetContact();
+    if (item != null) {
+        var json = item.GetFieldValue(FieldNames.WebLinks);
+        if (json != null && json.length > 0) {
+            var links = new LinkArray(json).Links();
+            for (var i in links) {
+                var link = links[i];
+                if (link.Name == 'Map' && link.Url != null) {
+                    return link;
+                }
+            }
+        }
+    }
+    return null;
+}
+
 Item.prototype.Complete = function () {
     var updatedItem = this.Copy();
     updatedItem.Status = "Completed";
     updatedItem.SetFieldValue(this.GetField(FieldNames.Complete), true);
     // timestamp CompletedOn field
-    if (item.HasField(FieldNames.CompletedOn)) {
+    if (updatedItem.HasField(FieldNames.CompletedOn)) {
         updatedItem.SetFieldValue(FieldNames.CompletedOn, new Date().format());
     }
     this.Update(updatedItem, null);
+    // update the ActionType steps
+    this.UpdateActionTypeSteps(updatedItem);
 };
+
+Item.prototype.UpdateActionTypeSteps = function (updatedItem) {
+    var thisActionType = this.GetActionType();
+    if (updatedItem.Status != StatusTypes.Active ||
+        updatedItem.GetFieldValue(updatedItem.GetField(FieldNames.Complete))) {
+        thisActionType.StepsMap.remove(this);
+        thisActionType.Steps = thisActionType.StepsMap.Items;
+        return;
+    }
+    if (thisActionType == updatedItem.GetActionType()) {
+        thisActionType.StepsMap.update(updatedItem);
+        thisActionType.Steps = thisActionType.StepsMap.Items;
+    } else {
+        thisActionType.StepsMap.remove(this);
+        updatedItem.GetActionType().StepsMap.append(updatedItem);
+    }
+}
 
 /*
  * 2012-08-17 OG: Below this point, the code is mostly for legacy reasons.

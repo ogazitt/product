@@ -82,7 +82,6 @@ Item.prototype.GetActionType = function () {
     var actionType = DataModel.FindActionType(actionTypeName);
     return actionType;
 }
-
 // helper for getting the first location associated with the item
 Item.prototype.GetLocation = function () {
     var listItem = this.GetFieldValue(this.GetField(FieldNames.Locations));
@@ -95,7 +94,6 @@ Item.prototype.GetLocation = function () {
     }
     return null;
 }
-
 // helper for getting the first location associated with the item
 Item.prototype.GetContact = function () {
     var listItem = this.GetFieldValue(this.GetField(FieldNames.Contacts));
@@ -108,7 +106,6 @@ Item.prototype.GetContact = function () {
     }
     return null;
 }
-
 // helper for finding a phone number of an item (via locations or contacts)
 Item.prototype.GetPhoneNumber = function () {
     var item = this.GetLocation();
@@ -120,7 +117,6 @@ Item.prototype.GetPhoneNumber = function () {
     }
     return null;
 }
-
 // helper for finding a phone number of an item (via locations or contacts)
 Item.prototype.GetMapLink = function () {
     var item = this.GetLocation();
@@ -139,21 +135,52 @@ Item.prototype.GetMapLink = function () {
     }
     return null;
 }
-
+// helper for completing an step
 Item.prototype.Complete = function () {
     var updatedItem = this.Copy();
-    updatedItem.Status = "Completed";
+    updatedItem.Status = StatusTypes.Complete;
     updatedItem.SetFieldValue(this.GetField(FieldNames.Complete), true);
     // timestamp CompletedOn field
     if (updatedItem.HasField(FieldNames.CompletedOn)) {
         updatedItem.SetFieldValue(FieldNames.CompletedOn, new Date().format());
     }
     this.Update(updatedItem, null);
+    // find the next step in the Activity and make it Active
+    var nextStep = this.nextStep();
+    if (nextStep != null) {
+        var updatedNextStep = nextStep.Copy();
+        updatedNextStep.Status = StatusTypes.Active;
+        nextStep.Update(updatedNextStep, null);
+    }
     // update the ActionType steps
-    this.UpdateActionTypeSteps(updatedItem);
-};
-
-Item.prototype.UpdateActionTypeSteps = function (updatedItem) {
+    // TODO: this shouldn't be necessary!
+    this.updateActionTypeSteps(updatedItem);
+}
+// helper for skipping a step
+Item.prototype.Skip = function () {
+    var updatedItem = this.Copy();
+    updatedItem.Status = StatusTypes.Skipped;
+    this.Update(updatedItem, null);
+    // find the next step in the Activity and make it Active
+    var nextStep = this.nextStep();
+    if (nextStep != null) {
+        var updatedNextStep = nextStep.Copy();
+        updatedNextStep.Status = StatusTypes.Active;
+        nextStep.Update(updatedNextStep, null);
+    }
+    // update the ActionType steps
+    // TODO: this shouldn't be necessary!
+    this.updateActionTypeSteps(updatedItem);
+}
+// private helpers
+Item.prototype.nextStep = function () {
+    var parent = this.GetParent();
+    var parentItems = (parent == null) ? this.GetFolder().GetItems() : parent.GetItems();
+    var myIndex = ItemMap.indexOf(parentItems, this.ID);
+    var nextItem = ItemMap.itemAt(parentItems, myIndex + 1);
+    return nextItem;
+}
+Item.prototype.updateActionTypeSteps = function (updatedItem) {
     var thisActionType = this.GetActionType();
     if (updatedItem.Status != StatusTypes.Active ||
         updatedItem.GetFieldValue(updatedItem.GetField(FieldNames.Complete))) {

@@ -71,19 +71,19 @@ ListView.prototype.renderListItems = function (listItems) {
         var $li = $('<li />').appendTo(this.$element);
         $li.data('control', this);
         $li.data('item', item);
-        //if (item.IsSelected()) { $li.addClass('selected'); }
 
         var $item = $('<a class="form-inline" />').appendTo($li);
-        if (item.GetPhoneNumber() != null) {
-            var $callBtn = Control.Icons.callBtn(item).appendTo($item);
-            $callBtn.addClass('pull-right');
-        }
-        if (item.GetMapLink() != null) {
-            var $mapBtn = Control.Icons.mapBtn(item).appendTo($item);
-            $mapBtn.addClass('pull-right');
-        }
+
+        // render complete, skip, and defer buttons
         var $completeBtn = Control.Icons.completeBtn(item).appendTo($item);
         $completeBtn.addClass('pull-right');
+        var $skipBtn = Control.Icons.skipBtn(item).appendTo($item);
+        $skipBtn.addClass('pull-right');
+        //var $deferBtn = Control.Icons.deferBtn(item).appendTo($item);
+        //$deferBtn.addClass('pull-right');
+
+        // render the action button based on the action type
+        this.renderActionButton($item, item);
 
         this.renderNameField($item, item);
 
@@ -102,6 +102,26 @@ ListView.prototype.renderListItems = function (listItems) {
         itemCount++;
     }
     return itemCount;
+}
+
+ListView.prototype.renderActionButton = function ($item, item) {
+    var actionType = item.GetActionType();
+    if (actionType == null) return;
+    var actionTypeName = actionType.Name;
+    switch (actionTypeName) {
+        case ActionTypes.Call:
+            if (item.GetPhoneNumber() != null) {
+                var $callBtn = Control.Icons.callBtn(item).appendTo($item);
+                $callBtn.addClass('pull-right');
+            }
+            break;
+        case ActionTypes.Map:
+            if (item.GetMapLink() != null) {
+                var $mapBtn = Control.Icons.mapBtn(item).appendTo($item);
+                $mapBtn.addClass('pull-right');
+            }
+            break;
+    }
 }
 
 ListView.prototype.renderNameField = function ($item, item) {

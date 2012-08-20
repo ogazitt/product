@@ -179,5 +179,7 @@ var ActionTypes = {                 // FieldNames:
 // StatusTypes constants (for Item.Status)
 
 var StatusTypes = {
-    Active: "Active"
+    Active: "Active",
+    Complete: "Complete",
+    Skipped: "Skipped"
 }

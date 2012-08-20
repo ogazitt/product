@@ -194,7 +194,7 @@ Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
     var $icon = $('<i></i>');
     switch (actionTypeName) {
         case ActionTypes.Call:
-            $icon.addClass('icon-phone-sign');
+            $icon.addClass('icon-phone');
             break;
         case ActionTypes.SendEmail:
             $icon.addClass('icon-envelope');
@@ -271,14 +271,26 @@ Control.Icons.completeBtn = function Control$Icons$completeBtn(item) {
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
-        // don't delete if in middle of sorting
-        var sorting = $this.parents('.ui-sortable-helper').length > 0;
-        if (!sorting) {
-            var item = $this.data('item');
-            //var activeItem = (item.ParentID == null) ? item.GetFolder() : item.GetParent();
-            item.Complete();
-        }
-        return true;   // do not propogate event
+        var item = $this.data('item');
+        item.Complete();
+        return true;   // propogate event to refresh display
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
+}
+
+// return an element that is an icon for skipping an item
+Control.Icons.skipBtn = function Control$Icons$skipBtn(item) {
+    var $icon = $('<h2 class="icon-step-forward"></h2>');
+    $icon.css('cursor', 'pointer');
+    $icon.data('item', item);
+    $icon.attr('title', 'Skip').tooltip(Control.noDelay);
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        var item = $this.data('item');
+        item.Skip();
+        return true;   // propogate event to refresh display
     });
     // wrap in anchor tag to get tooltips to work in Chrome
     return $('<a class="icon" />').append($icon);
@@ -286,23 +298,19 @@ Control.Icons.completeBtn = function Control$Icons$completeBtn(item) {
 
 // return an element that is an icon for calling
 Control.Icons.callBtn = function Control$Icons$callBtn(item) {
-    var $icon = $('<h2 class="icon-phone-sign"></h2>');
+    var $icon = $('<h2 class="icon-phone"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
     $icon.attr('title', 'Call').tooltip(Control.noDelay);
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
-        // don't handle event if in middle of sorting
-        var sorting = $this.parents('.ui-sortable-helper').length > 0;
-        if (!sorting) {
-            var item = $this.data('item');
-            var phone = item.GetPhoneNumber();
-            if (phone != null) {
-                // TODO: check the browser-agent
-                window.open("tel:" + phone);
-                return false;
-            }
+        var item = $this.data('item');
+        var phone = item.GetPhoneNumber();
+        if (phone != null) {
+            // TODO: check the browser-agent
+            window.open("tel:" + phone);
+            return false;
         }
         return false;   // do not propogate event
     });
@@ -310,7 +318,7 @@ Control.Icons.callBtn = function Control$Icons$callBtn(item) {
     return $('<a class="icon" />').append($icon);
 }
 
-// return an element that is an icon for calling
+// return an element that is an icon for mapping
 Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
     var link = item.GetMapLink();
     if (link != null) {

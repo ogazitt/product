@@ -231,7 +231,6 @@
     </Content>
     <Content Include="scripts\dashboard\dashboard.js" />
     <Content Include="scripts\dashboard\dashboard.js.chirp.config" />
-    <Content Include="scripts\dashboard\datamodel.js" />
     <Content Include="scripts\dashboard\itemeditor.js" />
     <Content Include="scripts\dashboard\listeditor.js" />
     <Content Include="scripts\json2.js" />
@@ -246,6 +245,9 @@
       <DependentUpon>nextsteps.js.chirp.config</DependentUpon>
     </Content>
     <Content Include="scripts\nextsteps\nextstepsmodel.js" />
+    <Content Include="scripts\shared\controls.js" />
+    <Content Include="scripts\shared\datamodel.js" />
+    <Content Include="scripts\shared\entities.js" />
     <Content Include="scripts\shared\entityconstants.js" />
     <Content Include="scripts\shared\math.uuid.js" />
     <Content Include="scripts\dashboard\suggestionmanager.js" />
@@ -261,7 +263,6 @@
     <Content Include="scripts\jquery.validate.min.js" />
     <Content Include="scripts\less.min.js" />
     <Content Include="scripts\modernizr-2.0.6-development-only.js" />
-    <Content Include="scripts\dashboard\controls.js" />
     <Content Include="scripts\shared\service.js" />
     <Content Include="startup\7z.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

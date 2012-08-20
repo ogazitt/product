@@ -49,8 +49,10 @@
     <!-- use merged and minified scripts when deployed to Azure -->
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/dashboard.generated.min.js") %>"></script>
 <%  } else { %>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/controls.js") %>"></script>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/datamodel.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/controls.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/datamodel.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entities.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entityconstants.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/dashboard.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/folderlist.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/foldermanager.js") %>"></script>

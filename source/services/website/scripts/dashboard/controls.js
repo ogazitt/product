@@ -183,6 +183,44 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
     return $icon;
 }
 
+// return an element that is an icon for the action type
+Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
+    // allow parameter as ActionType class or name 
+    var actionTypeName = actionType;
+    if (actionType != null && typeof (actionType) == 'object') {
+        actionTypeName = actionType.Name;
+    }
+
+    var $icon = $('<i></i>');
+    switch (actionTypeName) {
+        case ActionTypes.Call:
+            $icon.addClass('icon-phone');
+            break;
+        case ActionTypes.SendEmail:
+            $icon.addClass('icon-envelope');
+            break;
+        case ActionTypes.Find:
+            $icon.addClass('icon-search');
+            break;
+        case ActionTypes.Schedule:
+            $icon.addClass('icon-calendar');
+            break;
+        case ActionTypes.Map:
+            $icon.addClass('icon-map-marker');
+            break;
+        case ActionTypes.TextMessage:
+            $icon.addClass('icon-list-alt');
+            break;
+        case ActionTypes.Default:
+            $icon.addClass('icon-question-sign');
+            break;
+        default:
+            $icon.addClass('icon-question-sign');
+            break;
+    }
+    return $icon;
+}
+
 // return an element that is an icon for a map link
 Control.Icons.forMap = function Control$Icons$forMap(item) {
     var json = item.GetFieldValue(FieldNames.WebLinks);
@@ -224,6 +262,74 @@ Control.Icons.deleteBtn = function Control$Icons$deleteBtn(item) {
     return $('<a class="icon" />').append($icon);
 }
 
+// return an element that is an icon for completing an item
+Control.Icons.completeBtn = function Control$Icons$completeBtn(item) {
+    var $icon = $('<h2 class="icon-check"></h2>');
+    $icon.css('cursor', 'pointer');
+    $icon.data('item', item);
+    $icon.attr('title', 'Complete').tooltip(Control.noDelay);
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        var item = $this.data('item');
+        item.Complete();
+        return true;   // propogate event to refresh display
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
+}
+
+// return an element that is an icon for skipping an item
+Control.Icons.skipBtn = function Control$Icons$skipBtn(item) {
+    var $icon = $('<h2 class="icon-step-forward"></h2>');
+    $icon.css('cursor', 'pointer');
+    $icon.data('item', item);
+    $icon.attr('title', 'Skip').tooltip(Control.noDelay);
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        var item = $this.data('item');
+        item.Skip();
+        return true;   // propogate event to refresh display
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
+}
+
+// return an element that is an icon for calling
+Control.Icons.callBtn = function Control$Icons$callBtn(item) {
+    var $icon = $('<h2 class="icon-phone"></h2>');
+    $icon.css('cursor', 'pointer');
+    $icon.data('item', item);
+    $icon.attr('title', 'Call').tooltip(Control.noDelay);
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        var item = $this.data('item');
+        var phone = item.GetPhoneNumber();
+        if (phone != null) {
+            // TODO: check the browser-agent
+            window.open("tel:" + phone);
+            return false;
+        }
+        return false;   // do not propogate event
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
+}
+
+// return an element that is an icon for mapping
+Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
+    var link = item.GetMapLink();
+    if (link != null) {
+        var $link = $('<h2 class="icon-map-marker"></h2>');
+        $link.attr('href', link.Url);
+        $link.attr('title', 'Map').tooltip(Control.ttDelay);
+        $link.click(function () { window.open($(this).attr('href')); return false; });
+        return $link;
+    }
+}
+
 // ---------------------------------------------------------
 // Control.Text static object
 //
@@ -254,6 +360,16 @@ Control.Text.renderLabel = function Control$Text$renderLabel($element, item, fie
     var value = item.GetFieldValue(field);
     if (value != null) {
         $label = $('<label><strong>' + value + '</strong></label>').appendTo($element);
+        $label.addClass(field.Class);
+    }
+    return $label;
+}
+// render h2 label 
+Control.Text.renderH2Label = function Control$Text$renderH2Label($element, item, field) {
+    var $label;
+    var value = item.GetFieldValue(field);
+    if (value != null) {
+        $label = $('<label><h2>' + value + '</h2></label>').appendTo($element);
         $label.addClass(field.Class);
     }
     return $label;
@@ -1009,6 +1125,59 @@ Control.ItemType.update = function Control$ItemType$update($menuitem) {
     updatedItem.ItemTypeID = $menuitem.data('value');
     var $button = $menuitem.parents('.btn-group').first().find('.btn');
     $button.find('i').replaceWith(Control.Icons.forItemType(updatedItem));
+    var $label = $menuitem.find('span').first();
+    if ($label.length > 0) { $button.find('span').first().html($label.html()); }
+    item.Update(updatedItem);
+}
+
+// ---------------------------------------------------------
+// Control.ActionType static object
+// static re-usable helper to display and update Action Type on an item
+//
+Control.ActionType = {};
+Control.ActionType.renderDropdown = function Control$ActionType$renderDropdown($element, item, noLabel) {
+    // only render if the item type has an ActionType field
+    if (!item.HasField(FieldNames.ActionType)) return;
+
+    var currentActionTypeName = item.GetFieldValue(item.GetField(FieldNames.ActionType));
+    if (currentActionTypeName == null) currentActionTypeName = ActionTypes.Default;
+    var $wrapper = $wrapper = $('<div class="control-group"></div>').appendTo($element);
+    if (noLabel != true) {
+        var labelType = (item.IsFolder() || item.IsList) ? 'List' : 'Item';
+        var label = '<label class="control-label">Type of ' + labelType + '</label>';
+        $(label).appendTo($wrapper);
+    }
+
+    var $btnGroup = $('<div class="btn-group" />').appendTo($wrapper);
+    var $btn = $('<a class="btn dropdown-toggle" data-toggle="dropdown" />').appendTo($btnGroup);
+    Control.Icons.forActionType(currentActionTypeName).appendTo($btn);
+    if (noLabel != true) {
+        $('<span>&nbsp;&nbsp;' + currentActionTypeName + '</span>').appendTo($btn);
+        $('<span class="pull-right">&nbsp;&nbsp;<span class="caret" /></span>').appendTo($btn);
+    }
+
+    var $dropdown = $('<ul class="dropdown-menu" />').appendTo($btnGroup);
+    $dropdown.data('item', item);
+    for (var id in ActionTypes) {
+        var actionType = ActionTypes[id];
+        var $menuitem = $('<li><a></a></li>').appendTo($dropdown);
+        $menuitem.find('a').append(Control.Icons.forActionType(actionType));
+        $menuitem.find('a').append('<span>&nbsp;&nbsp;' + actionType + '</span>');
+        $menuitem.data('value', id);
+        $menuitem.click(function (e) { Control.ActionType.update($(this)); e.preventDefault(); });
+    }
+
+    return $wrapper;
+}
+
+Control.ActionType.update = function Control$ActionType$update($menuitem) {
+    var item = $menuitem.parent().data('item');
+    var updatedItem = item.Copy();
+    var newActionType = $menuitem.data('value');
+    var newActionTypeName = ActionTypes[newActionType];
+    updatedItem.SetFieldValue(updatedItem.GetField(FieldNames.ActionType), newActionTypeName);
+    var $button = $menuitem.parents('.btn-group').first().find('.btn');
+    $button.find('i').replaceWith(Control.Icons.forActionType(ActionTypes[newActionTypeName]));
     var $label = $menuitem.find('span').first();
     if ($label.length > 0) { $button.find('span').first().html($label.html()); }
     item.Update(updatedItem);

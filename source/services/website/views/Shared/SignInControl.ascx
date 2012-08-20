@@ -7,6 +7,9 @@
             <i class="icon-user icon-white"></i> <strong><%: Page.User.Identity.Name %></strong> <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
+            <li><a href="<%: Url.Content("~/dashboard/home") %>"><i class="icon-off"></i> Organizer</a></li>
+            <li><a href="<%: Url.Content("~/dashboard/nextsteps") %>"><i class="icon-off"></i> Next Steps</a></li>
+            <li class="divider"></li>            
             <li class="option-help hide"><a><i class="icon-question-sign"></i> Help</a></li>
             <li class="option-settings hide"><a><i class="icon-cogs"></i> User Settings</a></li>
             <li class="option-refresh hide"><a><i class="icon-refresh"></i> Refresh</a></li>

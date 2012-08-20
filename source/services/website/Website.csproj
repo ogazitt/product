@@ -164,6 +164,7 @@
   <ItemGroup>
     <Compile Include="controllers\AccountController.cs" />
     <Compile Include="controllers\BaseController.cs" />
+    <Compile Include="controllers\MobileController.cs" />
     <Compile Include="controllers\OAuthConsentController.cs" />
     <Compile Include="controllers\UserInfoController.cs" />
     <Compile Include="controllers\DashboardController.cs" />
@@ -237,6 +238,15 @@
     <Content Include="scripts\master.generated.min.js">
       <DependentUpon>master.js.chirp.config</DependentUpon>
     </Content>
+    <Content Include="scripts\nextsteps\stepmanager.js" />
+    <Content Include="scripts\nextsteps\steplist.js" />
+    <Content Include="scripts\nextsteps\actiontypelist.js" />
+    <Content Include="scripts\nextsteps\nextstepspage.js" />
+    <Content Include="scripts\nextsteps\nextsteps.generated.min.js">
+      <DependentUpon>nextsteps.js.chirp.config</DependentUpon>
+    </Content>
+    <Content Include="scripts\nextsteps\nextstepsmodel.js" />
+    <Content Include="scripts\shared\entityconstants.js" />
     <Content Include="scripts\shared\math.uuid.js" />
     <Content Include="scripts\dashboard\suggestionmanager.js" />
     <Content Include="scripts\dashboard\suggestionlist.js" />
@@ -273,6 +283,8 @@
     </Content>
     <Content Include="views\account\SignIn.aspx" />
     <Content Include="views\dashboard\Home.aspx" />
+    <Content Include="views\dashboard\NextSteps.aspx" />
+    <Content Include="views\mobile\NextSteps.aspx" />
     <Content Include="views\shared\IntroCarouselControl.ascx" />
     <Content Include="views\shared\SignInControl.ascx" />
     <Content Include="Web.config">
@@ -366,6 +378,7 @@
     <Content Include="content\master.css.chirp.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="scripts\nextsteps\nextsteps.js.chirp.config" />
     <None Include="startup\Install.cmd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -33,6 +33,21 @@
             return View(model);
         }
 
+        public ActionResult NextSteps()
+        {
+            UserDataModel model = new UserDataModel(this);
+            try
+            {
+                // force access to validate current user
+                var userData = model.UserData;
+            }
+            catch
+            {
+                return RedirectToAction("SignOut", "Account");
+            }
+            return View(model);
+        }
+        
         public ActionResult Initialize(int id = 0)
         {
             UserDataModel model = new UserDataModel(this);

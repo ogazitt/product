@@ -17,8 +17,8 @@
       <Setting name="GoogleClientSecret" value="CaDG0ahs9UpyM2EGf-ffaL5i" />
       <!-- Logging configuration -->
       <Setting name="DeploymentName" value="Local" />
-      <Setting name="AzureLoggingEnabled" value="1" />
-      <Setting name="SplunkLoggingEnabled" value="1" />
+      <Setting name="AzureLoggingEnabled" value="0" />
+      <Setting name="SplunkLoggingEnabled" value="0" />
       <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />
       <Setting name="SplunkLocalPort" value="9237" />
       <!--Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" /-->

@@ -112,14 +112,15 @@ ListView.prototype.renderListItems = function (listItems) {
     var itemCount = 0;
     for (var id in listItems) {
         var item = listItems[id];
-        var $li = $('<li />').appendTo(this.$element);
+        var $li = $('<li class="position-relative" />').appendTo(this.$element);
         $li.data('control', this);
         $li.data('item', item);
         if (item.IsSelected()) { $li.addClass('selected'); }
 
-        var $item = $('<a class="form-inline" />').appendTo($li);
-        var $deleteBtn = Control.Icons.deleteBtn(item).appendTo($item);
-        $deleteBtn.addClass('pull-right');
+        var $item = $('<a class="form-inline drag-handle" />').appendTo($li);
+        var $deleteBtn = Control.Icons.deleteBtn(item).appendTo($li);
+        $deleteBtn.addClass('absolute-right');
+        //$deleteBtn.addClass('pull-right');
 
         this.renderNameField($item, item);
 

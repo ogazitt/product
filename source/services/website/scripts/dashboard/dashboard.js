@@ -105,9 +105,10 @@ Dashboard.ManageFolder = function Dashboard$ManageFolder(folderID, itemID) {
         Dashboard.folderManager.selectItem(item);
     }
 
-    if (!Dashboard.resizing) {
-        Dashboard.getSuggestions(folder, item);     // get suggestions for currently selected user, folder, or item
-    }
+    // TODO: remove all suggestion code
+    //if (!Dashboard.resizing) {
+    //    Dashboard.getSuggestions(folder, item);     // get suggestions for currently selected user, folder, or item
+    //}
 }
 
 // event handler, do not reference 'this' to access static Dashboard

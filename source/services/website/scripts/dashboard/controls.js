@@ -212,12 +212,12 @@ Control.Icons.deleteBtn = function Control$Icons$deleteBtn(item) {
         var $this = $(this);
         $this.tooltip('hide');
         // don't delete if in middle of sorting
-        var sorting = $this.parents('.ui-sortable-helper').length > 0;
-        if (!sorting) {
+        //var sorting = $this.parents('.ui-sortable-helper').length > 0;
+        //if (!sorting) {
             var item = $this.data('item');
             var activeItem = (item.ParentID == null) ? item.GetFolder() : item.GetParent();
             item.Delete(activeItem);
-        }
+        //}
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -938,7 +938,9 @@ Control.List = {};
 // each <li> in list must have attached data('item')
 Control.List.sortable = function Control$List$sortable($element) {
     $element.sortable({
-        revert: true,
+        //revert: true,
+        axis: 'y',
+        handle: '.drag-handle',
         stop: function (e, ui) {
             $('i').tooltip('hide');
             var $item = ui.item;

@@ -48,8 +48,10 @@
     <!-- use merged and minified scripts when deployed to Azure -->
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/nextsteps.generated.min.js") %>"></script>
 <%  } else { %>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/controls.js") %>"></script>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/datamodel.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/controls.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/datamodel.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entities.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entityconstants.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/actiontypelist.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/nextstepsmodel.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/nextstepspage.js") %>"></script>

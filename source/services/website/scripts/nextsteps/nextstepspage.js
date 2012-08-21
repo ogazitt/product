@@ -21,7 +21,7 @@ NextStepsPage.Init = function NextStepsPage$Init(dataModel) {
 
     NextStepsPage.checkBrowser();
 
-    //NextStepsPage.dataModel.AddDataChangedHandler('nextsteps', NextStepsPage.ManageDataChange);
+    NextStepsPage.dataModel.AddDataChangedHandler('nextsteps', NextStepsPage.ManageDataChange);
 
     // dashboard regions
     NextStepsPage.$element = $('.dashboard-region');
@@ -55,12 +55,9 @@ NextStepsPage.Close = function NextStepsPage$Close(event) {
 }
 
 // event handler, do not reference 'this' to access static NextStepsPage
-/*
 NextStepsPage.ManageDataChange = function NextStepsPage$ManageDataChange(folderID, itemID) {
-    NextStepsPage.ManageActionType(actionType);
     NextStepsPage.actionTypeList.render(NextStepsPage.$left, NextStepsPage.dataModel.ActionTypes);
 }
-*/
 
 // event handler, do not reference 'this' to access static NextStepsPage
 NextStepsPage.ManageActionType = function NextStepsPage$ManageActionType(actionType) {
@@ -83,20 +80,6 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
     $menuitem.show();
     $menuitem.click(function (e) {
         NextStepsPage.dataModel.Refresh();
-        e.preventDefault();
-    });
-    // user settings
-    $menuitem = $dropdown.find('.option-settings');
-    $menuitem.show();
-    $menuitem.click(function (e) {
-        NextStepsPage.showManager(NextStepsPage.settingsManager);
-        e.preventDefault();
-    });
-    // help
-    $menuitem = $dropdown.find('.option-help');
-    $menuitem.show();
-    $menuitem.click(function (e) {
-        NextStepsPage.showManager(NextStepsPage.helpManager);
         e.preventDefault();
     });
 }
@@ -126,7 +109,6 @@ NextStepsPage.resize = function NextStepsPage$resize() {
 
     //NextStepsPage.showManager(NextStepsPage.currentManager, true);
     NextStepsPage.actionTypeList.render(NextStepsPage.$left);
-    //NextStepsPage.folderManager.render();
 
     $(window).bind('resize', NextStepsPage.resize);
     NextStepsPage.resizing = false;

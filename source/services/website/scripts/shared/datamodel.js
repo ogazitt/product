@@ -13,6 +13,7 @@ DataModel.Constants = {};
 DataModel.User = {};
 DataModel.Folders = {};
 DataModel.Suggestions = {};
+DataModel.ActionTypes = {};
 DataModel.UserSettings;        
 
 // ---------------------------------------------------------
@@ -67,6 +68,15 @@ DataModel.FindItem = function DataModel$FindItem(itemID) {
             var item = folder.Items[itemID];
             if (item != null) { return item; }
         }
+    }
+    return null;
+}
+
+// generic helper for finding action type for given action type name
+DataModel.FindActionType = function DataModel$FindActionType(actionTypeName) {
+    if (actionTypeName != null) {
+        var item = DataModel.ActionTypes[actionTypeName];
+        if (item != null) { return item; }
     }
     return null;
 }
@@ -423,6 +433,9 @@ DataModel.processUserData = function DataModel$processUserData(jsonParsed) {
     // process Folders
     DataModel.processFolders(userData.Folders);
 
+    // process Action Types
+    DataModel.processActionTypes(DataModel.Constants.ActionTypes);
+
     // process custom ItemTypes and Tags (add to constants?)
 
 }
@@ -507,6 +520,17 @@ DataModel.processFolders = function DataModel$processFolders(folders) {
     }
     DataModel.FoldersMap = new ItemMap(folders);
     DataModel.Folders = DataModel.FoldersMap.Items;
+}
+
+DataModel.processActionTypes = function DataModel$processActionTypes(actionTypes) {
+    // for now, action types are hardcoded in entityconstants.js instead of retrieved from the service's Constants
+    var actionTypes = {};
+    for (var key in ActionTypes) {
+        actionTypes[key] = ActionType.Extend({ Name: ActionTypes[key], ID: ActionTypes[key] });
+    }
+    // create an associative array over the action types 
+    DataModel.ActionTypesMap = new ItemMap(actionTypes);
+    DataModel.ActionTypes = DataModel.ActionTypesMap.Items;
 }
 
 DataModel.restoreSelection = function DataModel$restoreSelection(itemID) {

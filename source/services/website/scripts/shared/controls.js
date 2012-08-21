@@ -296,6 +296,54 @@ Control.Icons.skipBtn = function Control$Icons$skipBtn(item) {
     return $('<a class="icon" />').append($icon);
 }
 
+// return an element that is an icon for skipping an item
+Control.Icons.deferBtn = function Control$Icons$deferBtn(item) {
+    var $icon = $('<h2 class="icon-calendar"></h2>');
+    $icon.css('cursor', 'pointer');
+    $icon.data('item', item);
+    $icon.attr('title', 'Defer').tooltip(Control.noDelay);
+    /*
+     * OG: Can't get datepicker to show up on a non-input control. 
+     * when wrapping the <h2> with an <input type="text">, can't hide the input
+     * when wrapping the <h2> with an <input type="hidden">, can't get the datepicker to come up.
+    $icon.datepicker({
+		showOn: "button",
+		buttonImage: "content/images/calendar.gif",
+		buttonImageOnly: true,
+        numberOfMonths: 2,
+        onClose: function (value, picker) {
+            //var $this = $(this);
+            //$this.tooltip('hide');
+            var $input = picker.input;
+            var item = $input.data('item');
+            item = this.data('item');
+            var field = item.GetField(FieldNames.DueDate);
+            if (field == null) return;
+            //var value = $input.val();
+            var currentValue = item.GetFieldValue(field);
+            if (field.FieldType == FieldTypes.DateTime) {
+                // store DateTime fields in UTC format
+                value = Control.DateTime.formatUTC(value);
+            }
+            if (value != currentValue) {
+                var updatedItem = item.Copy();
+                updatedItem.SetFieldValue(field, value);
+                item.Update(updatedItem);
+            }
+            return true;
+        }
+    });
+    */
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        var item = $this.data('item');
+        return false;   // do not propogate event
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
+}
+
 // return an element that is an icon for calling
 Control.Icons.callBtn = function Control$Icons$callBtn(item) {
     var $icon = $('<h2 class="icon-phone"></h2>');

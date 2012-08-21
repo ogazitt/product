@@ -244,7 +244,6 @@
     <Content Include="scripts\nextsteps\nextsteps.generated.min.js">
       <DependentUpon>nextsteps.js.chirp.config</DependentUpon>
     </Content>
-    <Content Include="scripts\nextsteps\nextstepsmodel.js" />
     <Content Include="scripts\shared\controls.js" />
     <Content Include="scripts\shared\datamodel.js" />
     <Content Include="scripts\shared\entities.js" />
@@ -285,6 +284,7 @@
     <Content Include="views\account\SignIn.aspx" />
     <Content Include="views\dashboard\Home.aspx" />
     <Content Include="views\dashboard\NextSteps.aspx" />
+    <Content Include="views\mobile\Home.aspx" />
     <Content Include="views\mobile\NextSteps.aspx" />
     <Content Include="views\shared\IntroCarouselControl.ascx" />
     <Content Include="views\shared\SignInControl.ascx" />
@@ -331,7 +331,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="scripts\master.js.chirp.config" />
+    <Content Include="scripts\master.js.chirp.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="content\font\fontawesome-webfont.eot" />
     <Content Include="content\font\fontawesome-webfont.ttf" />
     <Content Include="content\font\fontawesome-webfont.woff" />

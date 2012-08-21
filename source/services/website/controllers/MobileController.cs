@@ -12,14 +12,13 @@
 
     public class MobileController : BaseController
     {
-
-        public ActionResult NextSteps()
+        public ActionResult Home()
         {
-            NextStepsDataModel model = new NextStepsDataModel(this);
+            UserDataModel model = new UserDataModel(this);
             try
-            {   
+            {
                 // force access to validate current user
-                var userData = model.NextStepsData;
+                var userData = model.UserData;
             }
             catch
             {
@@ -28,5 +27,21 @@
             return View(model);
         }
 
+        public ActionResult NextSteps()
+        {
+            UserDataModel model = new UserDataModel(this);
+            //NextStepsDataModel model = new NextStepsDataModel(this);
+            try
+            {   
+                // force access to validate current user
+                //var userData = model.NextStepsData;
+                var userData = model.UserData;
+            }
+            catch
+            {
+                return RedirectToAction("SignOut", "Account");
+            }
+            return View(model);
+        }
     }
 }

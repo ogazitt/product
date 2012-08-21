@@ -53,7 +53,6 @@
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entities.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entityconstants.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/actiontypelist.js") %>"></script>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/nextstepsmodel.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/nextstepspage.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/steplist.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/stepmanager.js") %>"></script>
@@ -69,7 +68,6 @@
         // document ready handler
         $(function () {
             DataModel.Init('<%= jsonConstants %>', '<%= jsonUserData %>');            
-            NextStepsModel.Augment(DataModel);  // this adds ActionTypes to the datamodel and associative arrays of Steps under each ActionType
             NextStepsPage.Init(DataModel);
         });
     </script>

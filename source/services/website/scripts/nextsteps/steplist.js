@@ -79,8 +79,8 @@ ListView.prototype.renderListItems = function (listItems) {
         $completeBtn.addClass('pull-right');
         var $skipBtn = Control.Icons.skipBtn(item).appendTo($item);
         $skipBtn.addClass('pull-right');
-        //var $deferBtn = Control.Icons.deferBtn(item).appendTo($item);
-        //$deferBtn.addClass('pull-right');
+        var $deferBtn = Control.Icons.deferBtn(item).appendTo($item);
+        $deferBtn.addClass('pull-right');
 
         // render the action button based on the action type
         this.renderActionButton($item, item);

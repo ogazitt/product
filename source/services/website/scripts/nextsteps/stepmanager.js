@@ -32,7 +32,7 @@ StepManager.prototype.fireSelectionChanged = function (item) {
     for (var name in this.onSelectionChangedHandlers) {
         var handler = this.onSelectionChangedHandlers[name];
         if (typeof (handler) == "function") {
-            handler(item.GetActionType(), item.ID);
+            handler(item.GetActionType());
             this.activeView(StepManager.ListView);  // refresh ListView
         }
     }

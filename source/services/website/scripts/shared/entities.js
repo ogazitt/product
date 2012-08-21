@@ -252,6 +252,97 @@ Item.prototype.RemoveReferences = function (field) {
     return false;       // failed to remove references
 };
 
+Item.prototype.GetActionType = function () {
+    var actionTypeName = this.GetFieldValue(this.GetField(FieldNames.ActionType));
+    if (actionTypeName == null) actionTypeName = ActionTypes.Default;
+    var actionType = DataModel.FindActionType(actionTypeName);
+    return actionType;
+}
+// helper for getting the first location associated with the item
+Item.prototype.GetLocation = function () {
+    var listItem = this.GetFieldValue(this.GetField(FieldNames.Locations));
+    if (listItem != null) {
+        var list = DataModel.GetItems(listItem.FolderID, listItem.ID, true);
+        for (var id in list) {
+            // return first item
+            return list[id].GetFieldValue(list[id].GetField(FieldNames.EntityRef));
+        }
+    }
+    return null;
+}
+// helper for getting the first location associated with the item
+Item.prototype.GetContact = function () {
+    var listItem = this.GetFieldValue(this.GetField(FieldNames.Contacts));
+    if (listItem != null) {
+        var list = DataModel.GetItems(listItem.FolderID, listItem.ID, true);
+        for (var id in list) {
+            // return first item
+            return list[id].GetFieldValue(list[id].GetField(FieldNames.EntityRef));
+        }
+    }
+    return null;
+}
+// helper for finding a phone number of an item (via locations or contacts)
+Item.prototype.GetPhoneNumber = function () {
+    var item = this.GetLocation();
+    if (item == null) item = this.GetContact();
+    if (item != null) {
+        var phone = item.GetFieldValue(item.GetField(FieldNames.Phone));
+        phone = phone.replace(/[^0-9]+/g, '');
+        return phone;
+    }
+    return null;
+}
+// helper for finding a phone number of an item (via locations or contacts)
+Item.prototype.GetMapLink = function () {
+    var item = this.GetLocation();
+    if (item == null) item = this.GetContact();
+    if (item != null) {
+        var json = item.GetFieldValue(FieldNames.WebLinks);
+        if (json != null && json.length > 0) {
+            var links = new LinkArray(json).Links();
+            for (var i in links) {
+                var link = links[i];
+                if (link.Name == 'Map' && link.Url != null) {
+                    return link;
+                }
+            }
+        }
+    }
+    return null;
+}
+// helper for completing an step
+Item.prototype.Complete = function () {
+    var updatedItem = this.Copy();
+    updatedItem.Status = StatusTypes.Complete;
+    updatedItem.SetFieldValue(this.GetField(FieldNames.Complete), true);
+    // timestamp CompletedOn field
+    if (updatedItem.HasField(FieldNames.CompletedOn)) {
+        updatedItem.SetFieldValue(FieldNames.CompletedOn, new Date().format());
+    }
+    this.Update(updatedItem, null);
+    // find the next step in the Activity and make it Active
+    var nextStep = this.nextStep();
+    if (nextStep != null) {
+        var updatedNextStep = nextStep.Copy();
+        updatedNextStep.Status = StatusTypes.Active;
+        nextStep.Update(updatedNextStep, null);
+    }
+}
+// helper for skipping a step
+Item.prototype.Skip = function () {
+    var updatedItem = this.Copy();
+    updatedItem.Status = StatusTypes.Skipped;
+    this.Update(updatedItem, null);
+    // find the next step in the Activity and make it Active
+    var nextStep = this.nextStep();
+    if (nextStep != null) {
+        var updatedNextStep = nextStep.Copy();
+        updatedNextStep.Status = StatusTypes.Active;
+        nextStep.Update(updatedNextStep, null);
+    }
+}
+
 // Item private functions
 Item.prototype.addItem = function (newItem, activeItem) { this.GetFolder().addItem(newItem, activeItem); };
 Item.prototype.update = function (updatedItem, activeItem) {
@@ -321,6 +412,41 @@ Item.prototype.replaceReference = function (refList, itemToRef) {
         return this.addReference(refList, itemToRef);
     }
     return false;
+}
+Item.prototype.nextStep = function () {
+    var parent = this.GetParent();
+    var parentItems = (parent == null) ? this.GetFolder().GetItems() : parent.GetItems();
+    var myIndex = ItemMap.indexOf(parentItems, this.ID);
+    var nextItem = ItemMap.itemAt(parentItems, myIndex + 1);
+    return nextItem;
+}
+
+// ---------------------------------------------------------
+// ActionType object - provides prototype functions for ActionType
+
+function ActionType() { };
+ActionType.Extend = function ActionType$Extend(actionType) { return $.extend(new ActionType(), actionType); }  // extend with ActionType prototypes
+
+// ActionType public functions
+ActionType.prototype.Copy = function () { var copy = $.extend(new ActionType(), this); return copy; };
+ActionType.prototype.GetSteps = function (sort, status) {
+    if (status === undefined) status = StatusTypes.Active;
+    var steps = {};
+    for (var i in DataModel.Folders) {
+        var folder = DataModel.Folders[i];
+        for (var j in folder.Items) {
+            var item = folder.Items[j];
+            if (item.ItemTypeID == ItemTypes.Step) {
+                var actionType = item.GetActionType();
+                if (actionType === this) {
+                    if (item.Status == status) steps[item.ID] = item;
+                    // TODO: remove (this is for testing)
+                    if (!item.GetFieldValue(item.GetField(FieldNames.Complete))) steps[item.ID] = item;
+                }
+            }
+        }
+    }
+    return steps;
 }
 
 // ---------------------------------------------------------

@@ -90,7 +90,7 @@ FolderList.prototype.renderItems = function ($folder, folder) {
     for (var id in items) {
         var item = items[id];
         if (item.IsList) {
-            $item = $('<li class="xposition-relative"><a class="drag-handle"><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
+            $item = $('<li class="position-relative"><a class="drag-handle"><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
             $('<div class="btn-dropdown dropdown absolute-right"></div>').appendTo($item);
             $item.data('control', this);
             $item.data('item', item);

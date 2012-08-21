@@ -92,6 +92,7 @@ Dashboard.ManageFolder = function Dashboard$ManageFolder(folderID, itemID) {
     var folder = (folderID != null) ? Dashboard.dataModel.Folders[folderID] : null;
     if (itemID == null) {
         Dashboard.dataModel.UserSettings.Selection(folderID, itemID);
+        //if (folder != null && folder.ItemTypeID != ItemTypes.Category) {
         if (folder != null) {
             Dashboard.showManager(Dashboard.folderManager);
             Dashboard.folderManager.selectFolder(folder);
@@ -176,6 +177,10 @@ Dashboard.showManager = function Dashboard$showManager(manager, forceRender) {
     }
     // always show to force render if necessary
     manager.show(forceRender);
+    // TODO: temporary until connect buttons are enabled
+    if (manager.currentFolder === undefined) {
+        Dashboard.getSuggestions(null, null);     
+    }
 }
 
 Dashboard.resize = function Dashboard$resize() {

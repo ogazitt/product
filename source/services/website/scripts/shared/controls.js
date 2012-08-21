@@ -157,11 +157,11 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
 
     var $icon = $('<i></i>');
     switch (itemType) {
-        case ItemTypes.Task:
-            $icon.addClass('icon-check');
+        case ItemTypes.Activity:
+            $icon.addClass('icon-time');
             break;
-        case ItemTypes.Appointment:
-            $icon.addClass('icon-calendar');
+        case ItemTypes.Step:
+            $icon.addClass('icon-check');
             break;
         case ItemTypes.Contact:
             $icon.addClass('icon-user');
@@ -169,15 +169,10 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
         case ItemTypes.Location:
             $icon.addClass('icon-map-marker');
             break;
-        case ItemTypes.Grocery:
-            $icon.addClass('icon-shopping-cart');
-            break;
-        case ItemTypes.ShoppingItem:
-            $icon.addClass('icon-tag');
-            break;
-        case ItemTypes.ListItem:
+
+        case ItemTypes.Category:
         default:
-            $icon.addClass('icon-list-alt');
+            $icon.addClass('icon-folder-close');
             break;
     }
     return $icon;

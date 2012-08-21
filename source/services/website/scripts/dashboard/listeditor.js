@@ -41,8 +41,10 @@ NewItemEditor.prototype.render = function ($element, list) {
         }
         this.$element.empty();
 
+        var itemType = list.ItemTypeID;
+        if (itemType == ItemTypes.Activity) { itemType = ItemTypes.Step };
         this.list = list;
-        this.newItem = Item.Extend({ Name: '', ItemTypeID: this.list.ItemTypeID });
+        this.newItem = Item.Extend({ Name: '', ItemTypeID: itemType });
 
         // render name field for new item 
         $field = this.renderNameField(this.$element);
@@ -229,8 +231,8 @@ PropertyEditor.prototype.render = function ($element, list, maxHeight) {
     $nameInput.keypress(function (e) { return Control.get(this).handleEnterPress(e); });
 
     // itemtype property
-    var $itemTypePicker = Control.ItemType.renderDropdown($form, this.list);
-    $itemTypePicker.addClass('inline-left');
+    //var $itemTypePicker = Control.ItemType.renderDropdown($form, this.list);
+    //$itemTypePicker.addClass('inline-left');
 
     // actions dropdown
     var $actions = this.renderListActions($form, this.list);
@@ -267,15 +269,15 @@ PropertyEditor.prototype.renderListActions = function ($element, list) {
     $btn = $('<a class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret" /></a>').appendTo($btnGroup);
 
     var $dropdown = $('<ul class="dropdown-menu" />').appendTo($btnGroup);
-    if (list.IsFolder()) {
-        $('<li><a href="newfolder"><i class="icon-align-justify"></i> New List</a></li>').appendTo($dropdown);
-        $('<li><a href="newlist"><i class="icon-list"></i> New Sublist</a></li>').appendTo($dropdown);
-    } else {
-        $('<li><a href="newlist"><i class="icon-align-justify"></i> New List</a></li>').appendTo($dropdown);
-    }
+    //if (list.IsFolder()) {
+    //    $('<li><a href="newfolder"><i class="icon-align-justify"></i> New List</a></li>').appendTo($dropdown);
+    //    $('<li><a href="newlist"><i class="icon-list"></i> New Sublist</a></li>').appendTo($dropdown);
+    //} else {
+    //    $('<li><a href="newlist"><i class="icon-align-justify"></i> New List</a></li>').appendTo($dropdown);
+    //}
     if (!list.IsDefault()) {
-        $('<li class="divider"></li>').appendTo($dropdown);
-        $('<li><a href="deletelist"><i class="icon-remove-sign"></i> Delete List</a></li>').appendTo($dropdown);
+        //$('<li class="divider"></li>').appendTo($dropdown);
+        $('<li><a href="deletelist"><i class="icon-remove-sign"></i> Delete</a></li>').appendTo($dropdown);
     }
     // action handler
     $dropdown.click(function (e) {

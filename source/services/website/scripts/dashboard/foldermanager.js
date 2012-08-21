@@ -51,6 +51,7 @@ FolderManager.prototype.hide = function () {
 FolderManager.prototype.show = function (forceRender) {
     if (this.$element == null) {
         this.$element = $('<div class="manager-folders" />').appendTo(this.$parentElement);
+
         // render tabs
         var $tabs = $('<ul class="nav nav-tabs" />').appendTo(this.$element);
         $tabs.data('control', this);
@@ -58,6 +59,7 @@ FolderManager.prototype.show = function (forceRender) {
         $tab.find('a').attr('href', '.' + FolderManager.ListView);
         $tab = $('<li><a data-toggle="tab"><i class="icon-edit"></i> Item</a></li>').appendTo($tabs);
         $tab.find('a').attr('href', '.' + FolderManager.ItemView);
+
         $tab = $('<li class="pull-right"><a data-toggle="tab"><i class="icon-cog"></i></a></li>').appendTo($tabs);
         $tab.attr('title', 'List Settings').tooltip({ placement: 'bottom' });
         $tab.find('a').attr('href', '.' + FolderManager.PropertyView);
@@ -68,6 +70,7 @@ FolderManager.prototype.show = function (forceRender) {
         this.views[FolderManager.ListView] = $view;
         $view = $('<div class="tab-pane" />').appendTo($tabContent);
         $view.addClass(FolderManager.ItemView);
+
         this.views[FolderManager.ItemView] = $view;
         $view = $('<div class="tab-pane" />').appendTo($tabContent);
         $view.addClass(FolderManager.PropertyView);
@@ -87,9 +90,28 @@ FolderManager.prototype.render = function () {
     var $tabs = this.$element.find('.nav-tabs');
     var $tabContent = this.$element.find('.tab-content');
     $tabs.find('li a:first').empty().append(this.activeListName());
-
     var activeView = this.activeView();
     var activeItem = this.activeItem();
+
+    // TODO: temporary code to only show property tab for Category folders
+    var isCategory = (this.currentItem == null) && (this.currentFolder != null) &&
+            (this.currentFolder.ItemTypeID == ItemTypes.Category);
+    if (isCategory) {
+        this.propEditor.render(this.views[FolderManager.PropertyView], this.activeList(), maxContentHeight);
+        $tabs.find('a[href=".' + FolderManager.PropertyView + '"]').tab('show');
+        $tabs.find('a[href=".' + FolderManager.ListView + '"]').hide();
+        $tabs.find('a[href=".' + FolderManager.ItemView + '"]').hide();
+        return;
+    }
+    $tabs.find('a[href=".' + FolderManager.ListView + '"]').show();
+    $tabs.find('a[href=".' + FolderManager.ItemView + '"]').show();
+    if (this.currentItem != null && this.currentItem.ItemTypeID == ItemTypes.Activity) {
+        $tabs.find('a[href=".' + FolderManager.PropertyView + '"]').show();
+    } else {
+        $tabs.find('a[href=".' + FolderManager.PropertyView + '"]').hide();
+        if (activeView == FolderManager.PropertyView) { activeView = FolderManager.ListView; }
+    }
+
     var $view = this.views[activeView];
     var maxContentHeight = this.$parentElement.outerHeight() - $tabs.outerHeight();
     if (activeView == FolderManager.ItemView) {
@@ -212,15 +234,15 @@ HelpManager.prototype.show = function () {
 // render is only called internally by show method
 HelpManager.prototype.render = function () {
     var $help = $('<div class="hero-unit" />').appendTo(this.$element);
-    $help.append('<h1>TwoStep!</h1>');
+    $help.append('<img src="/content/images/twostep-large.png" alt="TwoStep" />');
     $help.append(HelpManager.tagline);
-    $help.append('<p><a class="btn btn-primary btn-large">Learn more</a></p>');
+    $help.append('<p style="margin-top:64px"><a><img src="/content/images/connect-to-facebook.png" alt="Facebook" /></a><a class="btn" style="margin-left:32px"><img src="/content/images/google-calendar.png" alt="Google" /></a></p>');
 }
 
 HelpManager.tagline =
-'<p>The ultimate tool for managing your digital life. ' +
+'<p>The ultimate tool for managing your life activities. ' +
 'Get connected and get organized. All your information just one click away. ' +
-'Learns about you and provides recommendations. Your own personal assistant!</p>';
+'Learns about you and provides the next steps for getting things done!</p>';
 
 // ---------------------------------------------------------
 // SettingsManager control

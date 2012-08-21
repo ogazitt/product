@@ -102,12 +102,11 @@ ItemEditor.prototype.renderNameField = function ($element) {
     // render toolbar
     var $toolbar = $('<div class="btn-toolbar span12" />').prependTo($controls);
     Control.Icons.deleteBtn(this.item).appendTo($toolbar);
-    var $itemTypePicker = Control.ItemType.renderDropdown($toolbar, this.item, true);
-    $itemTypePicker.addClass('pull-right');
-    $itemTypePicker.find('.btn').addClass('btn-mini').css('border-style', 'none');
+    //var $itemTypePicker = Control.ItemType.renderDropdown($toolbar, this.item, true);
+    //$itemTypePicker.addClass('pull-right');
+    //$itemTypePicker.find('.btn').addClass('btn-mini').css('border-style', 'none');
 
     // render the action type picker 
-    // TODO: remove item type picker above - the action type picker replaces the item type picker
     var $actionTypePicker = Control.ActionType.renderDropdown($toolbar, this.item, true);
     if ($actionTypePicker != null) {
         $actionTypePicker.addClass('pull-right');

@@ -197,6 +197,9 @@
     <Content Include="content\font\fontawesome-webfont.svg" />
     <Content Include="content\bootstrap-tweener.css" />
     <Content Include="content\images\busy.gif" />
+    <Content Include="content\images\connect-to-facebook.png" />
+    <Content Include="content\images\google-calendar.png" />
+    <Content Include="content\images\twostep-large.png" />
     <Content Include="content\images\twostep-logo.png" />
     <Content Include="content\images\twostep-small.png" />
     <Content Include="favicon.ico" />

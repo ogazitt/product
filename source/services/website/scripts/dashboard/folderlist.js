@@ -12,13 +12,20 @@ function FolderList(folders) {
 }
 
 FolderList.prototype.init = function (folders) {
-    // only display Activity folders
+    // only display Category folders
     this.folders = {};
     for (var id in folders) {
-        if (folders[id].ItemTypeID == ItemTypes.Activity) {
+        if (folders[id].ItemTypeID == ItemTypes.Category) {
             this.folders[id] = folders[id];
         }
     }
+    // TODO: temporarily display People & Places until moved
+    for (var id in folders) {
+        if (folders[id].ItemTypeID != ItemTypes.Category) {
+            this.folders[id] = folders[id];
+        }
+    }
+
     this.$element = null;
 }
 
@@ -53,8 +60,7 @@ FolderList.prototype.render = function ($element, folders) {
         $folder.data('control', this);
         $folder.data('item', folder);
         $folder.click(function (e) {
-            if ($(e.target).hasClass('drag-handle') || 
-                $(e.target.parentElement).hasClass('drag-handle')) {
+            if ($(e.target).hasClass('drag-handle') || $(e.target.parentElement).hasClass('drag-handle')) {
                 Control.get(this).folderClicked($(this));
             }
             return true;
@@ -72,7 +78,7 @@ FolderList.prototype.renderAddBtn = function ($element) {
     $addBtn.data('control', this);
     $addBtn.find('em').prepend('<i class="icon-plus-sign"></i>');
     $addBtn.click(function () { 
-        var newFolder = Folder.Extend({ Name: 'New Category', ItemTypeID: ItemTypes.Activity });
+        var newFolder = Folder.Extend({ Name: 'New Category', ItemTypeID: ItemTypes.Category });
         DataModel.InsertFolder(newFolder);        
      });
 }
@@ -84,10 +90,16 @@ FolderList.prototype.renderItems = function ($folder, folder) {
     for (var id in items) {
         var item = items[id];
         if (item.IsList) {
-            $item = $('<li><a><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
+            $item = $('<li class="xposition-relative"><a class="drag-handle"><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
+            $('<div class="btn-dropdown dropdown absolute-right"></div>').appendTo($item);
             $item.data('control', this);
             $item.data('item', item);
-            $item.click(function () { Control.get(this).itemClicked($(this)); });
+            $item.click(function (e) {
+                if ($(e.target).hasClass('drag-handle') || $(e.target.parentElement).hasClass('drag-handle')) {
+                    Control.get(this).itemClicked($(this));
+                }
+                return true;
+            });
             $item.find('span').prepend(Control.Icons.forItemType(item));
             if (item.IsSelected(true)) { this.select($item, item); }
         }
@@ -149,22 +161,23 @@ FolderList.prototype.toggle = function ($folder) {
 }
 
 FolderList.prototype.showCommands = function ($item, item) {
-    var $btnDropdown = $item.find('.btn-dropdown');
-    $('<i class="icon-caret-down dropdown-toggle" data-toggle="dropdown"></i>').appendTo($btnDropdown);
-    var $menu = $('<ul class="dropdown-menu"></ul>').appendTo($btnDropdown);
-    if (item.IsFolder()) {
-        var $renameBtn = $('<li><a href="#">Rename</a></li>').appendTo($menu);
+    if (item.ItemTypeID == ItemTypes.Category || item.ItemTypeID == ItemTypes.Activity) {
+        var $btnDropdown = $item.find('.btn-dropdown');
+        $('<i class="icon-caret-down dropdown-toggle" data-toggle="dropdown"></i>').appendTo($btnDropdown);
+        var $menu = $('<ul class="dropdown-menu"></ul>').appendTo($btnDropdown);
+        //var $renameBtn = $('<li><a href="#">Rename</a></li>').appendTo($menu);
         var $deleteBtn = $('<li><a href="#">Delete</a></li>').appendTo($menu);
         $deleteBtn.click(function () { $(this).parents('li').first().data('item').Delete(); });
-        $('<li class="divider"></li>').appendTo($menu);
-        var $addBtn = $('<li><a href="#">Add SubCategory</a></li>').appendTo($menu);
-        $addBtn.click(function () {
-            var newList = Item.Extend({ Name: 'New SubCategory', ItemTypeID: ItemTypes.Activity, IsList: true });
-            var folder = $(this).parents('li').first().data('item');
-            folder.Expand(true);
-            folder.InsertItem(newList);
-        });
-        var $actBtn = $('<li><a href="#">Add Activity</a></li>').appendTo($menu);
+        if (item.IsFolder()) {
+            $('<li class="divider"></li>').appendTo($menu);
+            var $addActivity = $('<li><a href="#">Add Activity</a></li>').appendTo($menu);
+            $addActivity.click(function () {
+                var newActivity = Item.Extend({ Name: 'New Activity', ItemTypeID: ItemTypes.Activity, IsList: true });
+                var folder = $(this).parents('li').first().data('item');
+                folder.Expand(true);
+                folder.InsertItem(newActivity);
+            });
+        }
     }
 }
 

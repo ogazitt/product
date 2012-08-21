@@ -880,7 +880,7 @@ to{background-position:0 0}
 a{cursor:pointer}
 /*! 
  * This css must be processed after responsive.css to override default bootstrap styles
-*/i{font-size:14px}
+*/i{font-size:18px}
 a.icon:hover{text-decoration:none}
 textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac-placeholder{color:#ccc}
 .input-prepend .add-on .checkbox{margin-top:-2px}
@@ -930,6 +930,9 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-center .carousel .form-inline.well .thumbnail{margin:0;padding:2px;height:64px;max-width:64px;float:right}
 .dashboard-center .carousel .form-inline.well .thumbnail img{width:100%;height:100%}
 .dashboard-center .carousel .form-inline.well .btn-toolbar{margin:0 0 4px 0;padding:0 0 4px 0;Xborder:1px solid blue}
+.position-relative{position:relative}
+.absolute-right{position:absolute;top:4px;right:6px}
+.icon.absolute-right:hover{background-color:transparent}
 .inline-left{display:inline-block;float:left}
 .inline-right{display:inline-block;float:right}
 .control-group.inline-right{margin-left:8px}
@@ -944,6 +947,9 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .link-array a{font-size:90%;margin:0 24px 0 6px}
 .link-array a.icon{margin:0}
 .link-array input{margin-bottom:2px}
+.btn-command{color:#999}
+.btn-dropdown{color:white;cursor:pointer}
+.btn-dropdown.open .dropdown-toggle{background-color:transparent}
 i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;background:transparent url(images/icon-azure.png) no-repeat}
 .ui-timepicker-div .ui-widget-header{margin-bottom:8px}
 .ui-timepicker-div dl{text-align:left}

@@ -950,6 +950,7 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .btn-command{color:#999}
 .btn-dropdown{color:white;cursor:pointer}
 .btn-dropdown.open .dropdown-toggle{background-color:transparent}
+ul.itemlist.collapse{position:static}
 i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;background:transparent url(images/icon-azure.png) no-repeat}
 .ui-timepicker-div .ui-widget-header{margin-bottom:8px}
 .ui-timepicker-div dl{text-align:left}

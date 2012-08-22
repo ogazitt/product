@@ -118,6 +118,8 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .btn-dropdown { color: white; cursor: pointer; }
 .btn-dropdown.open .dropdown-toggle { background-color: transparent; }
 
+ul.itemlist.collapse { position: static }
+
 /* custom icons */
 i.icon-azure { display: inline-block; width: 16px; height: 16px; cursor: pointer; 
     background: transparent url(images/icon-azure.png) no-repeat; }

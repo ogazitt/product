@@ -246,7 +246,7 @@ Control.Icons.deleteBtn = function Control$Icons$deleteBtn(item) {
     var $icon = $('<i class="icon-remove-sign"></i>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
-    $icon.attr('title', 'Delete Item').tooltip(Control.noDelay);
+    $icon.attr('title', 'Delete').tooltip(Control.noDelay);
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');

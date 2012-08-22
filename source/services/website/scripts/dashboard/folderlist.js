@@ -56,7 +56,7 @@ FolderList.prototype.render = function ($element, folders) {
     for (var id in this.folders) {
         var folder = this.folders[id];
         $folder = $('<li class="position-relative"><a class="drag-handle"><strong>&nbsp;' + folder.Name + '</strong></a></li>').appendTo(this.$element);
-        $('<div class="btn-dropdown dropdown absolute-right"></div>').appendTo($folder);
+        $('<div class="btn-dropdown absolute-right"></div>').appendTo($folder);
         $folder.data('control', this);
         $folder.data('item', folder);
         $folder.click(function (e) {
@@ -91,7 +91,7 @@ FolderList.prototype.renderItems = function ($folder, folder) {
         var item = items[id];
         if (item.IsList) {
             $item = $('<li class="position-relative"><a class="drag-handle"><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
-            $('<div class="btn-dropdown dropdown absolute-right"></div>').appendTo($item);
+            $('<div class="btn-dropdown absolute-right"></div>').appendTo($item);
             $item.data('control', this);
             $item.data('item', item);
             $item.click(function (e) {
@@ -138,10 +138,14 @@ FolderList.prototype.deselect = function () {
 }
 
 FolderList.prototype.expand = function ($folder) {
+    this.collapseAll($folder);
     var folder = $folder.data('item');
     $folder.addClass('expanded');
     folder.Expand(true);
-    Control.expand($folder.next('.itemlist'));
+    $itemlist = $folder.next('.itemlist');
+    Control.expand($itemlist);
+    // must remove .collapse class for dropdown menu to not get clipped
+    $itemlist.removeClass('collapse');
 }
 
 FolderList.prototype.collapse = function ($folder) {
@@ -149,6 +153,13 @@ FolderList.prototype.collapse = function ($folder) {
     $folder.removeClass('expanded');
     folder.Expand(false);
     Control.collapse($folder.next('.itemlist'));
+}
+
+FolderList.prototype.collapseAll = function ($folder) {
+    $this = this;
+    $.each($folder.siblings('li'), function () {
+        $this.collapse($(this));
+    });
 }
 
 FolderList.prototype.toggle = function ($folder) {
@@ -164,13 +175,39 @@ FolderList.prototype.showCommands = function ($item, item) {
     if (item.ItemTypeID == ItemTypes.Category || item.ItemTypeID == ItemTypes.Activity) {
         var $btnDropdown = $item.find('.btn-dropdown');
         $('<i class="icon-caret-down dropdown-toggle" data-toggle="dropdown"></i>').appendTo($btnDropdown);
-        var $menu = $('<ul class="dropdown-menu"></ul>').appendTo($btnDropdown);
-        //var $renameBtn = $('<li><a href="#">Rename</a></li>').appendTo($menu);
-        var $deleteBtn = $('<li><a href="#">Delete</a></li>').appendTo($menu);
+        var $menu = $('<ul class="dropdown-menu pull-right" role="menu"></ul>').appendTo($btnDropdown);
+
+        var $renameBtn = $('<li><a href="#"><i class="icon-pencil"></i>&nbsp;Rename</a></li>').appendTo($menu);
+        $renameBtn.click(function () {
+            $item = $(this).parents('li').first();
+            item = $item.data('item');
+            $input = $('<input type="text" style="position:absolute;top:2px;left:2px;" />').appendTo($item);
+            $input.val(item.Name).focus().select();
+            $input.blur(function () { $item.find('input').remove(); });
+            $input.change(function () {
+                rename($(this).val(), item, item.Copy());
+                $item.find('input').remove();
+            });
+            $input.keypress(function (e) {
+                if (e.which == 13) {
+                    rename($(this).val(), item, item.Copy());
+                    $item.find('input').remove();
+                }
+            });
+            var rename = function (name, item, copy) {
+                if (name != null && name.length > 0) {
+                    copy.Name = name;
+                    item.Update(copy);
+                }
+            }
+        });
+        var $deleteBtn = $('<li><a href="#"><i class="icon-remove-sign"></i>&nbsp;Delete</a></li>').appendTo($menu);
         $deleteBtn.click(function () { $(this).parents('li').first().data('item').Delete(); });
+
         if (item.IsFolder()) {
             $('<li class="divider"></li>').appendTo($menu);
-            var $addActivity = $('<li><a href="#">Add Activity</a></li>').appendTo($menu);
+
+            var $addActivity = $('<li><a href="#"><i class="icon-plus-sign"></i>&nbsp;Add Activity</a></li>').appendTo($menu);
             $addActivity.click(function () {
                 var newActivity = Item.Extend({ Name: 'New Activity', ItemTypeID: ItemTypes.Activity, IsList: true });
                 var folder = $(this).parents('li').first().data('item');

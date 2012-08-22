@@ -92,8 +92,8 @@ Dashboard.ManageFolder = function Dashboard$ManageFolder(folderID, itemID) {
     var folder = (folderID != null) ? Dashboard.dataModel.Folders[folderID] : null;
     if (itemID == null) {
         Dashboard.dataModel.UserSettings.Selection(folderID, itemID);
-        //if (folder != null && folder.ItemTypeID != ItemTypes.Category) {
-        if (folder != null) {
+        if (folder != null && folder.ItemTypeID != ItemTypes.Category) {
+        //if (folder != null) {
             Dashboard.showManager(Dashboard.folderManager);
             Dashboard.folderManager.selectFolder(folder);
         } else {

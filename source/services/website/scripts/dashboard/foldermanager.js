@@ -60,9 +60,10 @@ FolderManager.prototype.show = function (forceRender) {
         $tab = $('<li><a data-toggle="tab"><i class="icon-edit"></i> Item</a></li>').appendTo($tabs);
         $tab.find('a').attr('href', '.' + FolderManager.ItemView);
 
-        $tab = $('<li class="pull-right"><a data-toggle="tab"><i class="icon-cog"></i></a></li>').appendTo($tabs);
-        $tab.attr('title', 'List Settings').tooltip({ placement: 'bottom' });
-        $tab.find('a').attr('href', '.' + FolderManager.PropertyView);
+        //$tab = $('<li class="pull-right"><a data-toggle="tab"><i class="icon-cog"></i></a></li>').appendTo($tabs);
+        //$tab.attr('title', 'List Settings').tooltip({ placement: 'bottom' });
+        //$tab.find('a').attr('href', '.' + FolderManager.PropertyView);
+
         // render views
         var $tabContent = $('<div class="tab-content" />').appendTo(this.$element);
         var $view = $('<div class="tab-pane" />').appendTo($tabContent);
@@ -70,11 +71,10 @@ FolderManager.prototype.show = function (forceRender) {
         this.views[FolderManager.ListView] = $view;
         $view = $('<div class="tab-pane" />').appendTo($tabContent);
         $view.addClass(FolderManager.ItemView);
-
         this.views[FolderManager.ItemView] = $view;
-        $view = $('<div class="tab-pane" />').appendTo($tabContent);
-        $view.addClass(FolderManager.PropertyView);
-        this.views[FolderManager.PropertyView] = $view;
+        //$view = $('<div class="tab-pane" />').appendTo($tabContent);
+        //$view.addClass(FolderManager.PropertyView);
+        //this.views[FolderManager.PropertyView] = $view;
 
         $('a[data-toggle="tab"]').on('shown', function (e) {
             var $tabs = $(e.target).parents('.nav-tabs');
@@ -92,24 +92,10 @@ FolderManager.prototype.render = function () {
     $tabs.find('li a:first').empty().append(this.activeListName());
     var activeView = this.activeView();
     var activeItem = this.activeItem();
-
-    // TODO: temporary code to only show property tab for Category folders
-    var isCategory = (this.currentItem == null) && (this.currentFolder != null) &&
-            (this.currentFolder.ItemTypeID == ItemTypes.Category);
-    if (isCategory) {
-        this.propEditor.render(this.views[FolderManager.PropertyView], this.activeList(), maxContentHeight);
-        $tabs.find('a[href=".' + FolderManager.PropertyView + '"]').tab('show');
-        $tabs.find('a[href=".' + FolderManager.ListView + '"]').hide();
+    if (activeItem == null) {
         $tabs.find('a[href=".' + FolderManager.ItemView + '"]').hide();
-        return;
-    }
-    $tabs.find('a[href=".' + FolderManager.ListView + '"]').show();
-    $tabs.find('a[href=".' + FolderManager.ItemView + '"]').show();
-    if (this.currentItem != null && this.currentItem.ItemTypeID == ItemTypes.Activity) {
-        $tabs.find('a[href=".' + FolderManager.PropertyView + '"]').show();
     } else {
-        $tabs.find('a[href=".' + FolderManager.PropertyView + '"]').hide();
-        if (activeView == FolderManager.PropertyView) { activeView = FolderManager.ListView; }
+        $tabs.find('a[href=".' + FolderManager.ItemView + '"]').show();
     }
 
     var $view = this.views[activeView];
@@ -125,9 +111,9 @@ FolderManager.prototype.render = function () {
     if (activeView == FolderManager.ListView) {
         this.listEditor.render($view, this.activeList(), maxContentHeight);
     }
-    if (activeView == FolderManager.PropertyView) {
-        this.propEditor.render($view, this.activeList(), maxContentHeight);
-    }
+    //if (activeView == FolderManager.PropertyView) {
+    //    this.propEditor.render($view, this.activeList(), maxContentHeight);
+    //}
     $tabs.find('a[href=".' + activeView + '"]').tab('show');
 }
 
@@ -168,7 +154,8 @@ FolderManager.prototype.activeItem = function () {
             if (!items[id].IsList) {
                 this.currentItem = items[id];
                 this.currentItem.Select();
-                break;
+                return this.currentItem;
+                //break;
             }
         };
     }

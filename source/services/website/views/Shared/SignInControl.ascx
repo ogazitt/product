@@ -4,7 +4,7 @@
     <li class="divider-vertical"></li>    
     <li class="dropdown active">
         <a class="dropdown-toggle" data-toggle="dropdown">
-            <i class="icon-user icon-white"></i> <strong><%: Page.User.Identity.Name %></strong> <b class="caret"></b>
+            <i class="icon-user icon-white"></i> <strong><%: Request.Path.IndexOf("Mobile", StringComparison.OrdinalIgnoreCase) > 0 ? "" : Page.User.Identity.Name %></strong> <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
             <li><a href="<%: Url.Content("~/dashboard/home") %>"><i class="icon-off"></i> Organizer</a></li>

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Bootstrap.Master" Inherits="System.Web.Mvc.ViewPage<UserDataModel>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Mobile.Master" Inherits="System.Web.Mvc.ViewPage<UserDataModel>" %>
 <%@ Import Namespace="System.Web" %>
 <%@ Import Namespace="BuiltSteady.Product.ServiceHost" %>
 <%@ Import Namespace="BuiltSteady.Product.Website.Models" %>
@@ -11,8 +11,8 @@
 <asp:Content ContentPlaceHolderID="MainContent" runat="server">
     <div class="dashboard-region container-fluid">
         <div class="row-fluid">
-            <div class="dashboard-left dashboard-list span3 well">&nbsp </div>        
-            <div class="dashboard-center span9">&nbsp;</div>
+            <div class="dashboard-left dashboard-list span2 well">&nbsp </div>        
+            <div class="dashboard-center span10">&nbsp;</div>
         </div>
     </div>
 
@@ -46,7 +46,7 @@
 <asp:Content ContentPlaceHolderID="ScriptBlock" runat="server">
 <%  if (HostEnvironment.IsAzure && !HostEnvironment.IsAzureDevFabric) { %>
     <!-- use merged and minified scripts when deployed to Azure -->
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/nextsteps.generated.min.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/nextsteps.generated.min.js") %>"></script>
 <%  } else { %>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/controls.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/datamodel.js") %>"></script>
@@ -68,6 +68,7 @@
         // document ready handler
         $(function () {
             DataModel.Init('<%= jsonConstants %>', '<%= jsonUserData %>');
+            Browser.IsMobile(true);
             NextStepsPage.Init(DataModel);
         });
     </script>

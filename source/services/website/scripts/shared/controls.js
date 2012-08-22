@@ -163,11 +163,11 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
 
     var $icon = $('<i></i>');
     switch (itemType) {
-        case ItemTypes.Task:
-            $icon.addClass('icon-check');
+        case ItemTypes.Activity:
+            $icon.addClass('icon-time');
             break;
-        case ItemTypes.Appointment:
-            $icon.addClass('icon-calendar');
+        case ItemTypes.Step:
+            $icon.addClass('icon-check');
             break;
         case ItemTypes.Contact:
             $icon.addClass('icon-user');
@@ -175,15 +175,10 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
         case ItemTypes.Location:
             $icon.addClass('icon-map-marker');
             break;
-        case ItemTypes.Grocery:
-            $icon.addClass('icon-shopping-cart');
-            break;
-        case ItemTypes.ShoppingItem:
-            $icon.addClass('icon-tag');
-            break;
-        case ItemTypes.ListItem:
+
+        case ItemTypes.Category:
         default:
-            $icon.addClass('icon-list-alt');
+            $icon.addClass('icon-folder-close');
             break;
     }
     return $icon;
@@ -256,12 +251,12 @@ Control.Icons.deleteBtn = function Control$Icons$deleteBtn(item) {
         var $this = $(this);
         $this.tooltip('hide');
         // don't delete if in middle of sorting
-        var sorting = $this.parents('.ui-sortable-helper').length > 0;
-        if (!sorting) {
+        //var sorting = $this.parents('.ui-sortable-helper').length > 0;
+        //if (!sorting) {
             var item = $this.data('item');
             var activeItem = (item.ParentID == null) ? item.GetFolder() : item.GetParent();
             item.Delete(activeItem);
-        }
+        //}
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -1108,7 +1103,9 @@ Control.List = {};
 // each <li> in list must have attached data('item')
 Control.List.sortable = function Control$List$sortable($element) {
     $element.sortable({
-        revert: true,
+        //revert: true,
+        axis: 'y',
+        handle: '.drag-handle',
         stop: function (e, ui) {
             $('i').tooltip('hide');
             var $item = ui.item;

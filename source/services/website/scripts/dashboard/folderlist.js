@@ -12,7 +12,20 @@ function FolderList(folders) {
 }
 
 FolderList.prototype.init = function (folders) {
-    this.folders = folders;
+    // only display Category folders
+    this.folders = {};
+    for (var id in folders) {
+        if (folders[id].ItemTypeID == ItemTypes.Category) {
+            this.folders[id] = folders[id];
+        }
+    }
+    // TODO: temporarily display People & Places until moved
+    for (var id in folders) {
+        if (folders[id].ItemTypeID != ItemTypes.Category) {
+            this.folders[id] = folders[id];
+        }
+    }
+
     this.$element = null;
 }
 
@@ -42,14 +55,32 @@ FolderList.prototype.render = function ($element, folders) {
     Control.List.sortable(this.$element);
     for (var id in this.folders) {
         var folder = this.folders[id];
-        $folder = $('<li><a><strong>&nbsp;' + folder.Name + '</strong></a></li>').appendTo(this.$element);
+        $folder = $('<li class="position-relative"><a class="drag-handle"><strong>&nbsp;' + folder.Name + '</strong></a></li>').appendTo(this.$element);
+        $('<div class="btn-dropdown dropdown absolute-right"></div>').appendTo($folder);
         $folder.data('control', this);
         $folder.data('item', folder);
-        $folder.click(function () { Control.get(this).folderClicked($(this)); });
+        $folder.click(function (e) {
+            if ($(e.target).hasClass('drag-handle') || $(e.target.parentElement).hasClass('drag-handle')) {
+                Control.get(this).folderClicked($(this));
+            }
+            return true;
+        });
         $folder.find('strong').prepend(Control.Icons.forItemType(folder));
         if (folder.IsSelected()) { this.select($folder, folder); }
         this.renderItems($folder, folder);
     }
+    this.renderAddBtn($element);
+}
+
+FolderList.prototype.renderAddBtn = function ($element) {
+    var $addElement = $('<ul class="nav nav-pills nav-stacked" />').appendTo($element);
+    var $addBtn = $('<li><a class="btn-command"><em>&nbsp;Add Category</em></a></li>').appendTo($addElement);
+    $addBtn.data('control', this);
+    $addBtn.find('em').prepend('<i class="icon-plus-sign"></i>');
+    $addBtn.click(function () { 
+        var newFolder = Folder.Extend({ Name: 'New Category', ItemTypeID: ItemTypes.Category });
+        DataModel.InsertFolder(newFolder);        
+     });
 }
 
 FolderList.prototype.renderItems = function ($folder, folder) {
@@ -59,10 +90,16 @@ FolderList.prototype.renderItems = function ($folder, folder) {
     for (var id in items) {
         var item = items[id];
         if (item.IsList) {
-            $item = $('<li><a><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
+            $item = $('<li class="position-relative"><a class="drag-handle"><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
+            $('<div class="btn-dropdown dropdown absolute-right"></div>').appendTo($item);
             $item.data('control', this);
             $item.data('item', item);
-            $item.click(function () { Control.get(this).itemClicked($(this)); });
+            $item.click(function (e) {
+                if ($(e.target).hasClass('drag-handle') || $(e.target.parentElement).hasClass('drag-handle')) {
+                    Control.get(this).itemClicked($(this));
+                }
+                return true;
+            });
             $item.find('span').prepend(Control.Icons.forItemType(item));
             if (item.IsSelected(true)) { this.select($item, item); }
         }
@@ -88,10 +125,16 @@ FolderList.prototype.itemClicked = function ($item) {
 FolderList.prototype.select = function ($item, item) {
     this.deselect();
     $item.addClass('active');
+    this.showCommands($item, item);
 }
 
 FolderList.prototype.deselect = function () {
-    this.$element.find('li').removeClass('active');
+    //this.$element.find('li').removeClass('active');
+    $control = this;
+    $.each(this.$element.find('li'), function () {
+        $(this).removeClass('active');
+        $control.hideCommands($(this));
+    });
 }
 
 FolderList.prototype.expand = function ($folder) {
@@ -115,4 +158,30 @@ FolderList.prototype.toggle = function ($folder) {
     } else if (!expanded) {
         this.expand($folder);
     }
+}
+
+FolderList.prototype.showCommands = function ($item, item) {
+    if (item.ItemTypeID == ItemTypes.Category || item.ItemTypeID == ItemTypes.Activity) {
+        var $btnDropdown = $item.find('.btn-dropdown');
+        $('<i class="icon-caret-down dropdown-toggle" data-toggle="dropdown"></i>').appendTo($btnDropdown);
+        var $menu = $('<ul class="dropdown-menu"></ul>').appendTo($btnDropdown);
+        //var $renameBtn = $('<li><a href="#">Rename</a></li>').appendTo($menu);
+        var $deleteBtn = $('<li><a href="#">Delete</a></li>').appendTo($menu);
+        $deleteBtn.click(function () { $(this).parents('li').first().data('item').Delete(); });
+        if (item.IsFolder()) {
+            $('<li class="divider"></li>').appendTo($menu);
+            var $addActivity = $('<li><a href="#">Add Activity</a></li>').appendTo($menu);
+            $addActivity.click(function () {
+                var newActivity = Item.Extend({ Name: 'New Activity', ItemTypeID: ItemTypes.Activity, IsList: true });
+                var folder = $(this).parents('li').first().data('item');
+                folder.Expand(true);
+                folder.InsertItem(newActivity);
+            });
+        }
+    }
+}
+
+FolderList.prototype.hideCommands = function ($item) {
+    var $btnDropdown = $item.find('.btn-dropdown');
+    $btnDropdown.empty();
 }

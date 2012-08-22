@@ -874,13 +874,10 @@ to{background-position:0 0}
 .show{display:block}
 .invisible{visibility:hidden}
 /*! 
- * This css must be processed after bootstrap.css but before responsive.css
- * Padding is required to keep content below navbar at top of page 
-*/body{padding-top:54px;padding-bottom:40px}
-a{cursor:pointer}
-/*! 
  * This css must be processed after responsive.css to override default bootstrap styles
-*/i{font-size:14px}
+*/body{padding-top:54px}
+a{cursor:pointer}
+i{font-size:14px}
 a.icon:hover{text-decoration:none}
 textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac-placeholder{color:#ccc}
 .input-prepend .add-on .checkbox{margin-top:-2px}

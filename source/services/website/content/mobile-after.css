@@ -2,6 +2,9 @@
  * This css must be processed after responsive.css to override default bootstrap styles
 */
 
+body { padding-top: 54px; }
+a { cursor: pointer; }
+
 /* increase default font-awesome size */
 i { font-size: 14px; }
 a.icon:hover { text-decoration: none; }

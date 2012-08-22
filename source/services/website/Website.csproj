@@ -201,6 +201,9 @@
     <Content Include="content\font\fontawesome-webfont.svg" />
     <Content Include="content\bootstrap-tweener.css" />
     <Content Include="content\images\busy.gif" />
+    <Content Include="content\images\connect-to-facebook.png" />
+    <Content Include="content\images\google-calendar.png" />
+    <Content Include="content\images\twostep-large.png" />
     <Content Include="content\images\twostep-logo.png" />
     <Content Include="content\images\twostep-small.png" />
     <Content Include="content\mobile.generated.min.css">
@@ -242,13 +245,13 @@
       <DependentUpon>master.js.chirp.config</DependentUpon>
     </Content>
     <Content Include="scripts\mobile\actiontypelist.js" />
+    <Content Include="scripts\nextsteps\nextsteps.generated.min.js">
+      <DependentUpon>nextsteps.js.chirp.config</DependentUpon>
+    </Content>
     <Content Include="scripts\nextsteps\stepmanager.js" />
     <Content Include="scripts\nextsteps\steplist.js" />
     <Content Include="scripts\nextsteps\actiontypelist.js" />
     <Content Include="scripts\nextsteps\nextstepspage.js" />
-    <Content Include="scripts\nextsteps\nextsteps.generated.min.js">
-      <DependentUpon>nextsteps.js.chirp.config</DependentUpon>
-    </Content>
     <Content Include="scripts\shared\controls.js" />
     <Content Include="scripts\shared\datamodel.js" />
     <Content Include="scripts\shared\entities.js" />

@@ -171,6 +171,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="helpers\BrowserAgent.cs" />
     <Compile Include="helpers\HttpResponseMessageWrapper.cs" />
     <Compile Include="helpers\MessageLoggingHelper.cs" />
     <Compile Include="models\accesscontrol\UserMembershipProvider.cs" />
@@ -293,6 +294,7 @@
     <Content Include="views\dashboard\Home.aspx" />
     <Content Include="views\dashboard\NextSteps.aspx" />
     <Content Include="views\mobile\Home.aspx" />
+    <Content Include="views\account\MobileSignIn.aspx" />
     <Content Include="views\shared\IntroCarouselControl.ascx" />
     <Content Include="views\shared\SignInControl.ascx" />
     <Content Include="Web.config">

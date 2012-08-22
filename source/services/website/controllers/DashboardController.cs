@@ -9,6 +9,7 @@
     using BuiltSteady.Product.ServiceHost;
     using BuiltSteady.Product.Shared.Entities;
     using BuiltSteady.Product.Website.Models;
+    using BuiltSteady.Product.Website.Helpers;
 
     public class DashboardController : BaseController
     {
@@ -25,6 +26,9 @@
                 model.ConsentStatus = consentStatus;
                 // TODO: if consent fails, un-Choose the Suggestion
 
+                // if this is a mobile client, redirect to the mobile page
+                if (BrowserAgent.IsMobile(Request.UserAgent))
+                    return RedirectToAction("Home", "Mobile");
             }
             catch
             {

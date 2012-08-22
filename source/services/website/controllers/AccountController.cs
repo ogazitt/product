@@ -12,6 +12,7 @@
     using BuiltSteady.Product.ServiceHost;
     using BuiltSteady.Product.Website.Models;
     using BuiltSteady.Product.Website.Models.AccessControl;
+    using BuiltSteady.Product.Website.Helpers;
 
     public class AccountController : Controller
     {
@@ -23,6 +24,11 @@
             {
                 return Content(status);
             }
+
+            // if this is a mobile client, redirect to the mobile sign-in page
+            if (BrowserAgent.IsMobile(Request.UserAgent))
+                return RedirectToAction("MobileSignIn", "Account");
+
             return View();
         }
 
@@ -58,11 +64,58 @@
             return View(model);
         }
 
+        public ActionResult MobileSignIn()
+        {
+            string status;
+            if (!HostEnvironment.DataVersionCheck(out status))
+            {
+                return Content(status);
+            }
+
+            // if this is not a mobile client, redirect to the normal sign-in page
+            if (!BrowserAgent.IsMobile(Request.UserAgent))
+                return RedirectToAction("SignIn", "Account");
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult MobileSignIn(SignInModel model, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                if (Membership.ValidateUser(model.UserName, model.Password))
+                {
+                    SetAuthCookie(model.UserName, model.RememberMe);
+
+                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Home", "Mobile");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
         public ActionResult SignOut()
         {
             FormsAuthentication.SignOut();
 
-            return RedirectToAction("Home", "Dashboard");
+            if (BrowserAgent.IsMobile(Request.UserAgent))
+                return RedirectToAction("Home", "Mobile");
+            else
+                return RedirectToAction("Home", "Dashboard");
         }
 
         public ActionResult Register()

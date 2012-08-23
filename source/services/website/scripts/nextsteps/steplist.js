@@ -74,16 +74,25 @@ ListView.prototype.renderListItems = function (listItems) {
 
         var $item = $('<a class="form-inline" />').appendTo($li);
 
-        // render complete, skip, and defer buttons
-        var $completeBtn = Control.Icons.completeBtn(item).appendTo($item);
-        $completeBtn.addClass('pull-right');
-        var $skipBtn = Control.Icons.skipBtn(item).appendTo($item);
-        $skipBtn.addClass('pull-right');
-        var $deferBtn = Control.Icons.deferBtn(item).appendTo($item);
-        $deferBtn.addClass('pull-right');
+        if (Browser.IsMobile()) {
+            this.renderButtons($li, item);
+        }
+        else {
+            // render complete, skip, and defer buttons
+            var $completeBtn = Control.Icons.completeBtn(item).appendTo($item);
+            $completeBtn.addClass('pull-right');
+            var $skipBtn = Control.Icons.skipBtn(item).appendTo($item);
+            $skipBtn.addClass('pull-right');
+            var $deferBtn = Control.Icons.deferBtn(item).appendTo($item);
+            $deferBtn.addClass('pull-right');
 
-        // render the action button based on the action type
-        this.renderActionButton($item, item);
+            // render the action button based on the action type
+            var $actionButton = this.actionButton(item);
+            if ($actionButton != null) {
+                $actionButton.appendTo($item);
+                $actionButton.addClass('pull-right');
+            }
+        }
 
         this.renderNameField($item, item);
 
@@ -104,21 +113,45 @@ ListView.prototype.renderListItems = function (listItems) {
     return itemCount;
 }
 
-ListView.prototype.renderActionButton = function ($item, item) {
+ListView.prototype.renderButtons = function ($item, item) {
+
+    var $buttonWell = $('<div class="well well-tiny"><ul class="nav nav-pills step-button-list" /></div>').appendTo($item);
+    // render complete, skip, and defer buttons
+    var $completeBtn = $('<li class="step-button" />').append(Control.Icons.completeBtn(item));
+    $completeBtn.css('border-top', '0px');  // HACK: hardcoded since step-button style doesn't override ".dashboard-center .manager-folders .tab-content .nav-list li"
+    $completeBtn.bind('click', function (e) { $completeBtn.find('h2').click(); });
+    $buttonWell.find('ul').append($completeBtn);
+
+    var $skipBtn = $('<li class="step-button" />').append(Control.Icons.skipBtn(item));
+    $skipBtn.css('border-top', '0px');  // HACK: hardcoded since step-button style doesn't override ".dashboard-center .manager-folders .tab-content .nav-list li"
+    $skipBtn.bind('click', function (e) { $skipBtn.find('h2').click(); });
+    $buttonWell.find('ul').append($skipBtn);
+
+    var $deferBtn = $('<li class="step-button" />').append(Control.Icons.deferBtn(item));
+    $deferBtn.css('border-top', '0px');  // HACK: hardcoded since step-button style doesn't override ".dashboard-center .manager-folders .tab-content .nav-list li"
+    $deferBtn.bind('click', function (e) { $deferBtn.find('h2').click(); });
+    $buttonWell.find('ul').append($deferBtn);
+
+    // render the action button based on the action type
+    var $actionButton = $('<li class="step-button" />').append(this.actionButton(item));
+    $actionButton.css('border-top', '0px');  // HACK: hardcoded since step-button style doesn't override ".dashboard-center .manager-folders .tab-content .nav-list li"
+    $actionButton.bind('click', function (e) { $actionButton.find('h2').click(); });
+    $buttonWell.find('ul').append($actionButton);
+}
+
+ListView.prototype.actionButton = function (item) {
     var actionType = item.GetActionType();
-    if (actionType == null) return;
+    if (actionType == null) return null;
     var actionTypeName = actionType.Name;
     switch (actionTypeName) {
         case ActionTypes.Call:
             if (item.GetPhoneNumber() != null) {
-                var $callBtn = Control.Icons.callBtn(item).appendTo($item);
-                $callBtn.addClass('pull-right');
+                return Control.Icons.callBtn(item);
             }
             break;
         case ActionTypes.Map:
             if (item.GetMapLink() != null) {
-                var $mapBtn = Control.Icons.mapBtn(item).appendTo($item);
-                $mapBtn.addClass('pull-right');
+                return Control.Icons.mapBtn(item);
             }
             break;
     }

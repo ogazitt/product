@@ -195,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="content\bootstrap-after.css" />
+    <Content Include="content\images\glyphicons-halflings-omri5.png" />
     <Content Include="content\master.generated.min.css">
       <DependentUpon>master.css.chirp.config</DependentUpon>
     </Content>
@@ -359,6 +360,7 @@
     <None Include="content\less\close.less" />
     <None Include="content\less\code.less" />
     <None Include="content\less\component-animations.less" />
+    <None Include="content\less\bootstrap-mobile.less" />
     <None Include="content\less\dropdowns.less" />
     <None Include="content\less\font-awesome.less" />
     <None Include="content\less\forms.less" />

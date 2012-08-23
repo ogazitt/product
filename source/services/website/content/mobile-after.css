@@ -138,3 +138,8 @@ jquery-ui combobox extension
 .ui-combobox { position: relative; display: inline-block; }
 .ui-combobox .ui-button { position: absolute; margin-left: -1px; padding: 0; top: 0; bottom: 0; }
 .ui-autocomplete-input { margin: 0; padding: 0.3em }
+
+/* correct some styles for steplist buttons */
+.dashboard-center .manager-folders .tab-content .nav-list .step-button-list .step-button li { border-top: 0px; }
+.step-button-list { margin-bottom: 0px; }
+

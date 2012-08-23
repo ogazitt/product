@@ -181,7 +181,7 @@ FolderList.prototype.showCommands = function ($item, item) {
         $renameBtn.click(function () {
             $item = $(this).parents('li').first();
             item = $item.data('item');
-            $input = $('<input type="text" style="position:absolute;top:2px;left:2px;" />').appendTo($item);
+            $input = $('<input type="text" class="popup-text" />').appendTo($item);
             $input.val(item.Name).focus().select();
             $input.blur(function () { $item.find('input').remove(); });
             $input.change(function () {

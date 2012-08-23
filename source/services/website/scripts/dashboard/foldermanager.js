@@ -213,23 +213,52 @@ HelpManager.prototype.hide = function () {
 HelpManager.prototype.show = function () {
     if (this.$element == null) {
         this.$element = $('<div class="manager-help" />').appendTo(this.$parentControl);
-        this.render();
     }
+    this.render();
     this.$element.show();
 }
 
 // render is only called internally by show method
 HelpManager.prototype.render = function () {
+    this.$element.empty();
     var $help = $('<div class="hero-unit" />').appendTo(this.$element);
     $help.append('<img src="/content/images/twostep-large.png" alt="TwoStep" />');
     $help.append(HelpManager.tagline);
-    $help.append('<p style="margin-top:64px"><a><img src="/content/images/connect-to-facebook.png" alt="Facebook" /></a><a class="btn" style="margin-left:32px"><img src="/content/images/google-calendar.png" alt="Google" /></a></p>');
+    $connect = $('<p style="margin: 64px 0 -32px 0"></p>').appendTo($help);
+
+    var $this = this;
+    var dashboard = this.parentControl;
+    dashboard.dataModel.GetSuggestions(function (suggestions) {
+        $this.renderConnect($connect, suggestions);
+    });
+}
+
+HelpManager.prototype.renderConnect = function ($element, suggestions) {
+    $element.empty();
+    var dashboard = this.parentControl;
+    var suggestionManager = dashboard.suggestionManager;
+
+    // connect to facebook
+    var fbConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetFBConsent);
+    if (fbConsent != null) {
+        var $btn = $('<a><img src="/content/images/connect-to-facebook.png" alt="Facebook" /></a>').appendTo($element);
+        $btn.css('margin-right', '32px');
+        $btn.click(function () { suggestionManager.select(fbConsent); });
+    }
+    // connect to google calendar
+    var gcConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetGoogleConsent);
+    if (gcConsent != null) {
+        $btn = $('<a class="btn"><img src="/content/images/google-calendar.png" alt="Google" /></a>').appendTo($element);
+        $btn.css('margin-right', '32px');
+        $btn.click(function () { suggestionManager.select(gcConsent); });
+    }
 }
 
 HelpManager.tagline =
-'<p>The ultimate tool for managing your life activities. ' +
-'Get connected and get organized. All your information just one click away. ' +
-'Learns about you and provides the next steps for getting things done!</p>';
+'<p>The ideal tool for managing your life activities. ' +
+'Organize the activities in your life into actionable steps and get a categorized list of next steps for getting things done. ' +
+'Get connected and have relevant information just one click away. ' +
+'Stay two steps ahead of life with TwoStep!</p>';
 
 // ---------------------------------------------------------
 // SettingsManager control

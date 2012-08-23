@@ -9,6 +9,22 @@ function SuggestionManager(dataModel) {
     this.dataModel = dataModel;
 }
 
+// static helper function for finding suggestion 
+SuggestionManager.findSuggestion = function SuggestionManager$findSuggestion(suggestions, type) {
+    if (suggestions != null) {
+        for (var g in suggestions) {
+            var childSuggestions = suggestions[g].Suggestions;
+            if (childSuggestions != null) {
+                for (var s in childSuggestions) {
+                    if (childSuggestions[s].SuggestionType == type)
+                        return childSuggestions[s];
+                }
+            }
+        }
+    }
+    return null;
+}
+
 SuggestionManager.prototype.select = function (suggestion) {
     var refresh = false;        // return true to indicate additional suggestions should be retrieved
     switch (suggestion.SuggestionType) {

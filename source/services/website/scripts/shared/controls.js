@@ -103,6 +103,12 @@ Control.confirm = function Control$confirm(message, header, handlerOK, handlerCa
 // get information about browser
 var Browser = function Browser$() { };
 Browser.IsMSIE = function Browser$IsMSIE() { return (navigator.appName == 'Microsoft Internet Explorer'); }
+Browser.IsMobile = function Browser$IsMobile(val) {
+    // setter
+    if (val !== undefined) Browser.isMobile = val;
+    return Browser.isMobile;
+}
+Browser.isMobile = false;
 Browser.MSIE_Version = function Browser$MSIE_Version() {
     var version = -1;                                           // return -1 if not MSIE
     if (Browser.IsMSIE) {

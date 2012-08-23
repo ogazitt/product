@@ -14,8 +14,9 @@ cd startup
 
 echo Getting MSIs
 rem if %SPEECHWORKERCOUNT% lss 1 (set BLOBCONTAINER=webrole-install) else (set BLOBCONTAINER=workerrole-install)
+set BLOBCONTAINER=webrole-install
 rem echo Getting MSIs from %BLOBCONTAINER% >blobcontainer.log
-rem deployblob.exe /downloadFrom %BLOBCONTAINER% /downloadTo .
+deployblob.exe /downloadFrom %BLOBCONTAINER% /downloadTo .
 
 echo Installing Splunk
 msiexec.exe /l* splunk.log /i splunkforwarder-4.3.2-123586-x64-release.msi RECEIVING_INDEXER="%SPLUNKENDPOINT%" AGREETOLICENSE=Yes /quiet

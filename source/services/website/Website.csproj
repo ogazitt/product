@@ -171,6 +171,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="helpers\BrowserAgent.cs" />
     <Compile Include="helpers\HttpResponseMessageWrapper.cs" />
     <Compile Include="helpers\MessageLoggingHelper.cs" />
     <Compile Include="models\accesscontrol\UserMembershipProvider.cs" />
@@ -194,6 +195,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="content\bootstrap-after.css" />
+    <Content Include="content\images\glyphicons-halflings-omri5.png" />
+    <Content Include="content\master.generated.min.css">
+      <DependentUpon>master.css.chirp.config</DependentUpon>
+    </Content>
+    <Content Include="content\mobile-after.css" />
     <Content Include="content\font\fontawesome-webfont.svg" />
     <Content Include="content\bootstrap-tweener.css" />
     <Content Include="content\images\busy.gif" />
@@ -202,15 +208,15 @@
     <Content Include="content\images\twostep-large.png" />
     <Content Include="content\images\twostep-logo.png" />
     <Content Include="content\images\twostep-small.png" />
+    <Content Include="content\mobile.generated.min.css">
+      <DependentUpon>mobile.css.chirp.config</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="content\images\glyphicons-halflings-white.png" />
     <Content Include="content\images\glyphicons-halflings.png" />
     <Content Include="content\images\icon-azure.png" />
     <Content Include="content\images\page-turn-next.png" />
     <Content Include="content\images\page-turn-prev.png" />
-    <Content Include="content\master.generated.min.css">
-      <DependentUpon>master.css.chirp.config</DependentUpon>
-    </Content>
     <Content Include="content\themes\bootstrap\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="content\themes\bootstrap\images\ui-bg_glass_55_fbf9ee_1x400.png" />
     <Content Include="content\themes\bootstrap\images\ui-bg_glass_65_ffffff_1x400.png" />
@@ -240,13 +246,14 @@
     <Content Include="scripts\master.generated.min.js">
       <DependentUpon>master.js.chirp.config</DependentUpon>
     </Content>
+    <Content Include="scripts\mobile\actiontypelist.js" />
+    <Content Include="scripts\nextsteps\nextsteps.generated.min.js">
+      <DependentUpon>nextsteps.js.chirp.config</DependentUpon>
+    </Content>
     <Content Include="scripts\nextsteps\stepmanager.js" />
     <Content Include="scripts\nextsteps\steplist.js" />
     <Content Include="scripts\nextsteps\actiontypelist.js" />
     <Content Include="scripts\nextsteps\nextstepspage.js" />
-    <Content Include="scripts\nextsteps\nextsteps.generated.min.js">
-      <DependentUpon>nextsteps.js.chirp.config</DependentUpon>
-    </Content>
     <Content Include="scripts\shared\controls.js" />
     <Content Include="scripts\shared\datamodel.js" />
     <Content Include="scripts\shared\entities.js" />
@@ -288,7 +295,7 @@
     <Content Include="views\dashboard\Home.aspx" />
     <Content Include="views\dashboard\NextSteps.aspx" />
     <Content Include="views\mobile\Home.aspx" />
-    <Content Include="views\mobile\NextSteps.aspx" />
+    <Content Include="views\account\MobileSignIn.aspx" />
     <Content Include="views\shared\IntroCarouselControl.ascx" />
     <Content Include="views\shared\SignInControl.ascx" />
     <Content Include="Web.config">
@@ -340,6 +347,9 @@
     <Content Include="content\font\fontawesome-webfont.eot" />
     <Content Include="content\font\fontawesome-webfont.ttf" />
     <Content Include="content\font\fontawesome-webfont.woff" />
+    <Content Include="content\mobile.css.chirp.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="content\less\accordion.less" />
     <None Include="content\less\alerts.less" />
     <None Include="content\less\bootstrap.less" />
@@ -350,6 +360,7 @@
     <None Include="content\less\close.less" />
     <None Include="content\less\code.less" />
     <None Include="content\less\component-animations.less" />
+    <None Include="content\less\bootstrap-mobile.less" />
     <None Include="content\less\dropdowns.less" />
     <None Include="content\less\font-awesome.less" />
     <None Include="content\less\forms.less" />
@@ -389,6 +400,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="views\shared\Bootstrap.Master" />
+    <Content Include="views\shared\Mobile.Master" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

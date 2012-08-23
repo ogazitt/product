@@ -9,6 +9,8 @@
     using BuiltSteady.Product.ServiceHost;
     using BuiltSteady.Product.Shared.Entities;
     using BuiltSteady.Product.Website.Models;
+    using BuiltSteady.Product.Website.Helpers;
+    using System.Web.Security;
 
     public class MobileController : BaseController
     {
@@ -43,5 +45,6 @@
             }
             return View(model);
         }
+
     }
 }

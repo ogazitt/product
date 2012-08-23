@@ -43,8 +43,7 @@ ActionTypeList.prototype.render = function ($element, actionTypes) {
     var currentActionType = null;
     for (var id in this.actionTypes) {
         var actionType = this.actionTypes[id];
-        var actionTypeName = Browser.IsMobile() ? '' : actionType.Name;
-        $actionType = $('<li><a><strong>&nbsp;' + actionTypeName + '</strong></a></li>').appendTo(this.$element);
+        $actionType = $('<li><a><strong>&nbsp;</strong></a></li>').appendTo(this.$element);
         $actionType.data('control', this);
         $actionType.data('item', actionType);
         $actionType.click(function () { Control.get(this).actionTypeClicked($(this)); });

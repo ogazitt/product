@@ -55,17 +55,19 @@ FolderList.prototype.render = function ($element, folders) {
     Control.List.sortable(this.$element);
     for (var id in this.folders) {
         var folder = this.folders[id];
-        $folder = $('<li class="position-relative"><a class="drag-handle"><strong>&nbsp;' + folder.Name + '</strong></a></li>').appendTo(this.$element);
-        $('<div class="btn-dropdown absolute-right"></div>').appendTo($folder);
+        $folder = $('<li class="position-relative"><a class="selector"><strong>&nbsp;' + folder.Name + '</strong></a></li>').appendTo(this.$element);
+        $folder.find('strong').prepend(Control.Icons.forItemType(folder));
         $folder.data('control', this);
         $folder.data('item', folder);
         $folder.click(function (e) {
-            if ($(e.target).hasClass('drag-handle') || $(e.target.parentElement).hasClass('drag-handle')) {
+            if ($(e.target).hasClass('selector') || $(e.target).parents('a').first().hasClass('selector')) {
                 Control.get(this).folderClicked($(this));
             }
             return true;
         });
-        $folder.find('strong').prepend(Control.Icons.forItemType(folder));
+        $('<div class="btn-dropdown absolute-right"></div>').appendTo($folder);
+        $('<div class="icon drag-handle"><span>⁞&nbsp;</span></div>').appendTo($folder);
+
         if (folder.IsSelected()) { this.select($folder, folder); }
         this.renderItems($folder, folder);
     }
@@ -79,17 +81,19 @@ FolderList.prototype.renderItems = function ($folder, folder) {
     for (var id in items) {
         var item = items[id];
         if (item.IsList) {
-            $item = $('<li class="position-relative"><a class="drag-handle"><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
-            $('<div class="btn-dropdown absolute-right"></div>').appendTo($item);
+            $item = $('<li class="position-relative"><a class="selector"><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
+            $item.find('span').prepend(Control.Icons.forItemType(item));
             $item.data('control', this);
             $item.data('item', item);
             $item.click(function (e) {
-                if ($(e.target).hasClass('drag-handle') || $(e.target.parentElement).hasClass('drag-handle')) {
+                if ($(e.target).hasClass('selector') || $(e.target).parents('a').first().hasClass('selector')) {
                     Control.get(this).itemClicked($(this));
                 }
                 return true;
             });
-            $item.find('span').prepend(Control.Icons.forItemType(item));
+            $('<div class="btn-dropdown absolute-right"></div>').appendTo($item);
+            $('<div class="icon drag-handle">⁞&nbsp;</div>').appendTo($item);
+
             if (item.IsSelected(true)) { this.select($item, item); }
         }
     }
@@ -116,10 +120,17 @@ FolderList.prototype.select = function ($item, item) {
     this.deselect();
     $item.addClass('active');
     this.showCommands($item, item);
+    // scroll selected item into view
+    var $container = $item.parents('.dashboard-list').first();
+    var height = $container.height();
+    var scrollTop = $container.scrollTop();
+    var scroll = $item.offset().top - height + scrollTop;
+    if (scroll > 0) {
+        $container.animate({ scrollTop: scroll }, 500);
+    }
 }
 
 FolderList.prototype.deselect = function () {
-    //this.$element.find('li').removeClass('active');
     $control = this;
     $.each(this.$element.find('li'), function () {
         $(this).removeClass('active');

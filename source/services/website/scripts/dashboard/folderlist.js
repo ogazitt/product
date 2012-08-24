@@ -236,18 +236,20 @@ FolderList.prototype.showCommands = function ($item, item) {
         });
         var $deleteBtn = $('<li><a href="#"><i class="icon-remove-sign"></i>&nbsp;Delete</a></li>').appendTo($menu);
         $deleteBtn.click(function () { $(this).parents('li').first().data('item').Delete(); });
-
+        
+        /* TODO: add support for sub-categories
         if (item.IsFolder()) {
             $('<li class="divider"></li>').appendTo($menu);
 
-            var $addActivity = $('<li><a href="#"><i class="icon-plus-sign"></i>&nbsp;Add Activity</a></li>').appendTo($menu);
-            $addActivity.click(function () {
-                var newActivity = Item.Extend({ Name: 'New Activity', ItemTypeID: ItemTypes.Activity, IsList: true });
+            var $addBtn = $('<li><a href="#"><i class="icon-plus-sign"></i>&nbsp;Add SubCategory</a></li>').appendTo($menu);
+            $addBtn.click(function () {
+                var item = Item.Extend({ Name: 'New SubCategory', ItemTypeID: ItemTypes.Category, IsList: true });
                 var folder = $(this).parents('li').first().data('item');
                 folder.Expand(true);
-                folder.InsertItem(newActivity);
+                folder.InsertItem(item);
             });
         }
+        */
     }
 }
 

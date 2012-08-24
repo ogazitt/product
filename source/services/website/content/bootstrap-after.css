@@ -34,7 +34,7 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-list { padding: 6px; }
 .dashboard-list ul { margin: 0; }
 .dashboard-list li a {  cursor: pointer; } 
-.dashboard-left .itemlist span { padding-left: 21px; } 
+.dashboard-left .itemlist span,  .dashboard-left .itemlist em { padding-left: 21px; } 
 .dashboard-right li.active { text-transform: uppercase; text-align: center; }
 .dashboard-right .dropdown-menu.pull-right { left: auto; right: 0; }
 

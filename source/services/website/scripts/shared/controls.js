@@ -38,17 +38,27 @@ Control.findParent = function Control$findParent(control, member) {
 }
 
 // expand an element
-Control.expand = function Control$expand($element, animate, callback) {
+Control.expand = function Control$expand($element, delay) {
+    var animate = !(isNaN(delay));
     if (animate == true) {
-        $element.show('blind', { direction: 'vertical' }, 400, callback);   // animated
+        if (Browser.IsMSIE()) {
+            $element.collapse('show');
+            $element.show('blind', { direction: 'vertical' }, delay);
+        } else {
+            $element.show('blind', { direction: 'vertical' }, delay,
+                function () { $element.collapse('show'); } );
+        }
     } else {
         $element.collapse('show');
     }
 }
 // collapse an element
-Control.collapse = function Control$collapse($element, animate, callback) {
+Control.collapse = function Control$collapse($element, delay) {
+    var animate = !(isNaN(delay));
     if (animate == true) {
-        $element.hide('blind', { direction: 'vertical' }, 300, callback);   // animated
+        // animation doesn't work for collapse with bootstrap
+        //$element.hide('blind', { direction: 'vertical' }, delay);
+        $element.collapse('hide');   
     } else {
         $element.collapse('hide');
     }
@@ -1113,11 +1123,14 @@ Control.List.sortable = function Control$List$sortable($element) {
             if (item != null) {
                 var liElements = $item.parent('ul').children('li');
                 for (var i in liElements) {
-                    if (item.ID == $(liElements[i]).data('item').ID) {
+                    var currentItem = $(liElements[i]).data('item');
+                    if (currentItem != null && item.ID == currentItem.ID) {
                         var $liBefore = $(liElements[i]).prevAll('li').first();
-                        var before = Number(($liBefore.length == 0) ? 0 : $liBefore.data('item').SortOrder);
+                        var itemBefore = ($liBefore.length == 0) ? null : $liBefore.data('item');
+                        var before = Number((itemBefore == null) ? 0 : itemBefore.SortOrder);
                         var $liAfter = $(liElements[i]).nextAll('li').first();
-                        var after = Number(($liAfter.length == 0) ? before + 1000 : $liAfter.data('item').SortOrder);
+                        var itemAfter = ($liAfter.length == 0) ? null : $liAfter.data('item');
+                        var after = Number((itemAfter == null) ? before + 1000 : itemAfter.SortOrder);
                         var updatedItem = item.Copy();
                         updatedItem.SortOrder = before + ((after - before) / 2);
                         item.Update(updatedItem);

@@ -72,17 +72,6 @@ FolderList.prototype.render = function ($element, folders) {
     this.renderAddBtn($element);
 }
 
-FolderList.prototype.renderAddBtn = function ($element) {
-    var $addElement = $('<ul class="nav nav-pills nav-stacked" />').appendTo($element);
-    var $addBtn = $('<li><a class="btn-command"><em>&nbsp;Add Category</em></a></li>').appendTo($addElement);
-    $addBtn.data('control', this);
-    $addBtn.find('em').prepend('<i class="icon-plus-sign"></i>');
-    $addBtn.click(function () { 
-        var newFolder = Folder.Extend({ Name: 'New Category', ItemTypeID: ItemTypes.Category });
-        DataModel.InsertFolder(newFolder);        
-     });
-}
-
 FolderList.prototype.renderItems = function ($folder, folder) {
     var items = folder.GetItems();
     $itemList = $('<ul class="itemlist nav nav-pills nav-stacked" />').appendTo($folder.parent());
@@ -104,6 +93,7 @@ FolderList.prototype.renderItems = function ($folder, folder) {
             if (item.IsSelected(true)) { this.select($item, item); }
         }
     }
+    this.renderAddBtn($folder);
     if (folder.IsExpanded()) { this.expand($folder); }
     else { this.collapse($folder); }
 }
@@ -143,16 +133,16 @@ FolderList.prototype.expand = function ($folder) {
     $folder.addClass('expanded');
     folder.Expand(true);
     $itemlist = $folder.next('.itemlist');
-    Control.expand($itemlist);
+    Control.expand($itemlist, 400);
     // must remove .collapse class for dropdown menu to not get clipped
     $itemlist.removeClass('collapse');
 }
 
-FolderList.prototype.collapse = function ($folder) {
+FolderList.prototype.collapse = function ($folder, delay) {
     var folder = $folder.data('item');
     $folder.removeClass('expanded');
     folder.Expand(false);
-    Control.collapse($folder.next('.itemlist'));
+    Control.collapse($folder.next('.itemlist'), delay);
 }
 
 FolderList.prototype.collapseAll = function ($folder) {
@@ -171,6 +161,49 @@ FolderList.prototype.toggle = function ($folder) {
     }
 }
 
+FolderList.prototype.renderAddBtn = function ($element) {
+    var category = $element.data('item');
+    if (category != null && category.ItemTypeID != ItemTypes.Category) { return; }
+
+    var label = (category != null) ? 'Add Activity' : 'Add Category';
+    var $addElement = (category != null) ? $element.next('.itemlist') :
+        $('<ul class="nav nav-pills nav-stacked" />').appendTo($element);
+    var $addBtn = $('<li class="position-relative"><a class="btn-command"><em>&nbsp;</em></a></li>').appendTo($addElement);
+    $addBtn.data('control', this);
+    $addBtn.find('em').prepend('<i class="icon-plus-sign"></i>');
+    $addBtn.find('em').append(label);
+    $addBtn.click(function () {
+        var $item = $(this);
+        var item = (category != null) ?
+            Item.Extend({ Name: 'New Activity', ItemTypeID: ItemTypes.Activity, IsList: true }) :
+            Folder.Extend({ Name: 'New Category', ItemTypeID: ItemTypes.Category });
+        var $input = $('<input type="text" class="popup-text" />').appendTo($item);
+        $input.val(item.Name).focus().select();
+        $input.blur(function () { $item.find('input').remove(); });
+        $input.change(function () {
+            add($(this).val(), item);
+            $item.find('input').remove();
+        });
+        $input.keypress(function (e) {
+            if (e.which == 13) {
+                add($(this).val(), item);
+                $item.find('input').remove();
+            }
+        });
+        var add = function (name, item) {
+            if (name != null && name.length > 0) {
+                item.Name = name;
+                if (category != null) {
+                    category.Expand(true);
+                    category.InsertItem(item);
+                } else {
+                    DataModel.InsertFolder(item);
+                }
+            }
+        }
+    });
+}
+
 FolderList.prototype.showCommands = function ($item, item) {
     if (item.ItemTypeID == ItemTypes.Category || item.ItemTypeID == ItemTypes.Activity) {
         var $btnDropdown = $item.find('.btn-dropdown');
@@ -179,9 +212,9 @@ FolderList.prototype.showCommands = function ($item, item) {
 
         var $renameBtn = $('<li><a href="#"><i class="icon-pencil"></i>&nbsp;Rename</a></li>').appendTo($menu);
         $renameBtn.click(function () {
-            $item = $(this).parents('li').first();
-            item = $item.data('item');
-            $input = $('<input type="text" class="popup-text" />').appendTo($item);
+            var $item = $(this).parents('li').first();
+            var item = $item.data('item');
+            var $input = $('<input type="text" class="popup-text" />').appendTo($item);
             $input.val(item.Name).focus().select();
             $input.blur(function () { $item.find('input').remove(); });
             $input.change(function () {

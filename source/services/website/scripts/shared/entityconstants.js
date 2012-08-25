@@ -182,5 +182,6 @@ var ActionTypes = {                 // FieldNames:
 var StatusTypes = {
     Active: "Active",
     Complete: "Complete",
+    Paused: "Paused",
     Skipped: "Skipped"
 }

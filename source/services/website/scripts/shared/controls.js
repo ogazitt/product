@@ -278,7 +278,7 @@ Control.Icons.completeBtn = function Control$Icons$completeBtn(item) {
     var $icon = $('<h2 class="icon-check"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
-    $icon.attr('title', 'Complete').tooltip(Control.noDelay);
+    $icon.attr('title', 'Complete').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -295,7 +295,7 @@ Control.Icons.skipBtn = function Control$Icons$skipBtn(item) {
     var $icon = $('<h2 class="icon-step-forward"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
-    $icon.attr('title', 'Skip').tooltip(Control.noDelay);
+    $icon.attr('title', 'Skip').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -312,7 +312,7 @@ Control.Icons.deferBtn = function Control$Icons$deferBtn(item) {
     var $icon = $('<h2 class="icon-calendar"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
-    $icon.attr('title', 'Defer').tooltip(Control.noDelay);
+    $icon.attr('title', 'Defer').tooltip(Control.ttDelay);
     /*
      * OG: Can't get datepicker to show up on a non-input control. 
      * when wrapping the <h2> with an <input type="text">, can't hide the input
@@ -360,7 +360,7 @@ Control.Icons.callBtn = function Control$Icons$callBtn(item) {
     var $icon = $('<h2 class="icon-phone"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
-    $icon.attr('title', 'Call').tooltip(Control.noDelay);
+    $icon.attr('title', 'Call').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -467,13 +467,8 @@ Control.Text.renderInputNew = function Control$Text$renderInput($element, item, 
     } else if (item.ItemTypeID == ItemTypes.Contact) {
         Control.Text.autoCompleteContact($text, Control.Text.insert);
         Control.Text.placeholder($text, 'Enter a contact');
-    } else if (item.ItemTypeID == ItemTypes.Grocery) {
-        Control.Text.autoCompleteGrocery($text, Control.Text.insert);
-        Control.Text.placeholder($text, 'Enter an item');
-    } else if (item.ItemTypeID == ItemTypes.Task) {
-        Control.Text.placeholder($text, 'Enter a task');
-    } else if (item.ItemTypeID == ItemTypes.Appointment) {
-        Control.Text.placeholder($text, 'Enter an appointment');
+    } else if (item.ItemTypeID == ItemTypes.Step) {
+        Control.Text.placeholder($text, 'Enter next step');
     } else {
         Control.Text.placeholder($text, 'Enter an item');
     }

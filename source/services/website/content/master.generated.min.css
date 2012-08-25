@@ -882,7 +882,7 @@ a{cursor:pointer}
 /*! 
  * This css must be processed after responsive.css to override default bootstrap styles
 */i{font-size:18px}
-a.icon:hover{text-decoration:none}
+a.icon:hover,a i:hover{text-decoration:none}
 textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac-placeholder{color:#ccc}
 .input-prepend .add-on .checkbox{margin-top:-2px}
 .navbar .brand{margin:0 0 0 20px}
@@ -900,6 +900,7 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-list{padding:6px;overflow-y:auto}
 .dashboard-list ul{margin:0}
 .dashboard-list li a{cursor:pointer}
+.dashboard-list li a.paused{color:#ccc}
 .dashboard-left .itemlist span,.dashboard-left .itemlist em{padding-left:21px}
 .dashboard-right li.active{text-transform:uppercase;text-align:center}
 .dashboard-right .dropdown-menu.pull-right{left:auto;right:0}
@@ -917,6 +918,7 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .Xdashboard-center .tab-content .form-vertical .btn-group>.btn:first-child{min-width:60px;text-align:left}
 .dashboard-center .nav-list small{font-size:90%;margin-right:12px}
 .dashboard-center .nav-list .form-inline .checkbox{margin-right:6px;margin-top:-2px}
+.dashboard-center .manager-folders{position:relative}
 .dashboard-center .manager-folders .tab-content .nav-list{overflow-y:auto;overflow-x:hidden;padding:0}
 .dashboard-center .manager-folders .tab-content .nav-list li{border-top:1px solid #ddd;padding:0 0 0 8px}
 .dashboard-center .manager-folders .tab-content .nav-list li.selected{background-color:#eee}
@@ -949,6 +951,8 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .inline-left{display:inline-block;float:left}
 .inline-right{display:inline-block;float:right}
 .control-group.inline-right{margin-left:8px}
+.item-status{position:absolute;top:10px;right:12px}
+.item-status i{font-size:16pt}
 .icon.drag-handle{position:absolute;top:7px;left:1px;color:transparent;cursor:n-resize;font-family:Arial;font-size:22pt}
 li:hover .icon.drag-handle{color:inherit}
 li.active .icon.drag-handle,li.active:hover .icon.drag-handle{color:white}

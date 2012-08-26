@@ -313,43 +313,29 @@ Control.Icons.deferBtn = function Control$Icons$deferBtn(item) {
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
     $icon.attr('title', 'Defer').tooltip(Control.noDelay);
-    /*
-     * OG: Can't get datepicker to show up on a non-input control. 
-     * when wrapping the <h2> with an <input type="text">, can't hide the input
-     * when wrapping the <h2> with an <input type="hidden">, can't get the datepicker to come up.
-    $icon.datepicker({
-		showOn: "button",
-		buttonImage: "content/images/calendar.gif",
-		buttonImageOnly: true,
-        numberOfMonths: 2,
-        onClose: function (value, picker) {
-            //var $this = $(this);
-            //$this.tooltip('hide');
-            var $input = picker.input;
-            var item = $input.data('item');
-            item = this.data('item');
-            var field = item.GetField(FieldNames.DueDate);
-            if (field == null) return;
-            //var value = $input.val();
-            var currentValue = item.GetFieldValue(field);
-            if (field.FieldType == FieldTypes.DateTime) {
-                // store DateTime fields in UTC format
-                value = Control.DateTime.formatUTC(value);
-            }
-            if (value != currentValue) {
-                var updatedItem = item.Copy();
-                updatedItem.SetFieldValue(field, value);
-                item.Update(updatedItem);
-            }
-            return true;
-        }
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        return true;   // propogate event
     });
-    */
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
+}
+
+// return an element that is an icon for getting more information for an item
+Control.Icons.infoBtn = function Control$Icons$infoBtn(item) {
+    var $icon = $('<h2 class="icon-info-sign"></h2>');
+    $icon.css('cursor', 'pointer');
+    $icon.data('item', item);
+    $icon.attr('title', 'Information').tooltip(Control.noDelay);
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
-        return false;   // do not propogate event
+        // TODO: pass the manager in instead of hardcoding it
+        NextStepsPage.showManager(NextStepsPage.infoManager);
+        NextStepsPage.infoManager.selectItem(item);
+        return false;   // do not propogate event 
     });
     // wrap in anchor tag to get tooltips to work in Chrome
     return $('<a class="icon" />').append($icon);
@@ -1242,6 +1228,71 @@ Control.ActionType.update = function Control$ActionType$update($menuitem) {
     $button.find('i').replaceWith(Control.Icons.forActionType(ActionTypes[newActionTypeName]));
     var $label = $menuitem.find('span').first();
     if ($label.length > 0) { $button.find('span').first().html($label.html()); }
+    item.Update(updatedItem);
+}
+
+Control.DeferButton = {};
+Control.DeferButton.renderDropdown = function Control$DeferButton$renderDropdown($element, item) {
+    // only render if the item type has an DueDate field
+    if (!item.HasField(FieldNames.DueDate)) return;
+
+    var $wrapper = $('<div class="control-group"></div>').appendTo($element);
+
+    var $btnGroup = $('<div class="btn-group" />').appendTo($wrapper);
+    var $btn = $('<a class="btn dropdown-toggle" data-toggle="dropdown"><h2 class="icon-calendar"/></a>').appendTo($btnGroup);
+    //Control.Icons.deferBtn(item).appendTo($btn);
+
+    var $dropdown = $('<ul class="dropdown-menu" />').appendTo($btnGroup);
+    $dropdown.data('item', item);
+
+    // get the current due date
+    var field = item.GetField(FieldNames.DueDate);
+    var currentDueDate = item.GetFieldValue(field);
+    var date = new Date(currentDueDate);
+    var today = new Date();
+    var $menuitem;
+
+    // defer to tomorrow
+    if (date <= today.setDate(today.getDate() + 1)) {
+        var $menuitem = $('<li><a></a></li>').css('border-top', '0px').appendTo($dropdown);
+        $menuitem.find('a').append('<span>&nbsp;Tomorrow</span>');
+        $menuitem.click(function (e) { Control.DeferButton.update(item, 1); e.preventDefault(); });
+    }
+    // defer to next week
+    if (date <= today.setDate(today.getDate() + 6)) {
+        $menuitem = $('<li><a></a></li>').css('border-top', '0px').appendTo($dropdown);
+        $menuitem.find('a').append('<span>&nbsp;Next week</span>');
+        $menuitem.click(function (e) { Control.DeferButton.update(item, 7); e.preventDefault(); });
+    }
+    if (date <= today.setDate(today.getDate() + 23)) {
+        // defer to next month
+        $menuitem = $('<li><a></a></li>').css('border-top', '0px').appendTo($dropdown);
+        $menuitem.find('a').append('<span>&nbsp;Next month</span>');
+        $menuitem.click(function (e) { Control.DeferButton.update(item, 30); e.preventDefault(); });
+    }
+    return $wrapper;
+}
+
+Control.DeferButton.update = function Control$DeferButton$update(item, days) {
+    var updatedItem = item.Copy();
+    var field = item.GetField(FieldNames.DueDate);
+    var currentDueDate = item.GetFieldValue(field);
+    var date = new Date(currentDueDate);
+    date = new Date();
+    switch (days) {
+        case 7:  // if deferring by a week, defer to the next Sunday
+            days = 7 - date.getDay();
+            date.setDate(date.getDate() + days);
+            break;
+        case 30:  // if deferring by a month, defer to the first of the next month
+            date.setDate(1);
+            date.setMonth(date.getMonth() + 1);
+            break;
+        default:
+            date.setDate(date.getDate() + days);
+            break;
+    }
+    updatedItem.SetFieldValue(field, date.toUTCString());
     item.Update(updatedItem);
 }
 

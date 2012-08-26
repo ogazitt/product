@@ -885,3 +885,4 @@ i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;backgrou
 .ui-autocomplete-input{margin:0;padding:.3em}
 .dashboard-center .manager-folders .tab-content .nav-list .step-button-list .step-button li{border-top:0}
 .step-button-list{margin-bottom:0}
+.btn-toolbar .btn.step-button{padding-left:8px;padding-right:8px;margin-left:5px}

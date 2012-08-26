@@ -31,10 +31,10 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 
 /* dashboard styles */
 /* TODO: move into dashboard.less file */
-.dashboard-list { padding: 6px; }
+.dashboard-list { padding: 6px; overflow-y: auto; }
 .dashboard-list ul { margin: 0; }
 .dashboard-list li a {  cursor: pointer; } 
-.dashboard-left .itemlist span { padding-left: 21px; } 
+.dashboard-left .itemlist span,  .dashboard-left .itemlist em { padding-left: 21px; } 
 .dashboard-right li.active { text-transform: uppercase; text-align: center; }
 .dashboard-right .dropdown-menu.pull-right { left: auto; right: 0; }
 
@@ -87,13 +87,6 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .carousel .form-inline.well .thumbnail img { width: 100%; height: 100%; }
 .dashboard-center .carousel .form-inline.well .btn-toolbar { margin: 0 0 4px 0; padding: 0 0 4px 0; Xborder: 1px solid blue; }
 
-.position-relative { position: relative; }
-.absolute-right { position: absolute; top: 4px; right: 6px; }
-.icon.absolute-right:hover { background-color: transparent; }
-.inline-left { display: inline-block; float: left; }
-.inline-right { display: inline-block; float: right; }
-.control-group.inline-right { margin-left: 8px; }
-
 /* styles for paging */
 .page-turn-prev { display: inline-block; width: 24px; height: 24px;
     background: transparent url(images/page-turn-prev.png) no-repeat;
@@ -113,12 +106,24 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .link-array a.icon { margin: 0; }
 .link-array input { margin-bottom: 2px; }
 
+/* positioning */
+.position-relative { position: relative; }
+.absolute-right { position: absolute; top: 4px; right: 6px; }
+.popup-text { position: absolute; top: 2px; left: 2px; width: 80%; }
+.icon.absolute-right:hover { background-color: transparent; }
+.inline-left { display: inline-block; float: left; }
+.inline-right { display: inline-block; float: right; }
+.control-group.inline-right { margin-left: 8px; }
+
+/* drag handle icon */
+.icon.drag-handle { position: absolute; top: 7px; left: 1px; color: transparent; cursor: n-resize; font-family: Arial; font-size: 22pt; }
+li:hover .icon.drag-handle { color: inherit; }
+li.active .icon.drag-handle, li.active:hover .icon.drag-handle { color: white; }
+
 /* custom buttons */
 .btn-command { color: #999; }
 .btn-dropdown { color: white; cursor: pointer; }
 .btn-dropdown.open .dropdown-toggle { background-color: transparent; }
-
-ul.itemlist.collapse { position: static }
 
 /* custom icons */
 i.icon-azure { display: inline-block; width: 16px; height: 16px; cursor: pointer; 

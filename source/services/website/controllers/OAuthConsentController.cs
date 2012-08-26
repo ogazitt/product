@@ -58,9 +58,9 @@
                 TraceLog.TraceException("Failed to store Facebook consent token for User", ex);
                 return RedirectToAction("Home", "Dashboard", new { consentStatus = UserDataModel.FBConsentFail });
             }
-            if (renewed) 
-            { return RedirectToAction("Home", "Dashboard"); }
-            else 
+            //if (renewed) 
+            //{ return RedirectToAction("Home", "Dashboard"); }
+            //else 
             { return RedirectToAction("Home", "Dashboard", new { consentStatus = UserDataModel.FBConsentSuccess }); }
         }
 

@@ -178,9 +178,9 @@ Dashboard.showManager = function Dashboard$showManager(manager, forceRender) {
     // always show to force render if necessary
     manager.show(forceRender);
     // TODO: temporary until connect buttons are enabled
-    if (manager.currentFolder === undefined) {
-        Dashboard.getSuggestions(null, null);     
-    }
+    //if (manager.currentFolder === undefined) {
+    //    Dashboard.getSuggestions(null, null);     
+    //}
 }
 
 Dashboard.resize = function Dashboard$resize() {
@@ -246,36 +246,21 @@ Dashboard.completeConsent = function Dashboard$completeConsent(suggestions) {
     if (Dashboard.consentStatus != null && Dashboard.consentStatus.length > 0) {
         var message, header, suggestion;
 
-        var findSuggestion = function (suggestions, type) {
-            if (suggestions != null) {
-                for (var g in suggestions) {
-                    var childSuggestions = suggestions[g].Suggestions;
-                    if (childSuggestions != null) {
-                        for (var s in childSuggestions) {
-                            if (childSuggestions[s].SuggestionType == type)
-                                return childSuggestions[s];
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-
         switch (Dashboard.consentStatus) {
             case "FBConsentSuccess":
                 header = "Success!";
                 message = "This application has successfully received consent for accessing your Facebook information.";
-                suggestion = findSuggestion(suggestions, SuggestionTypes.GetFBConsent);
+                suggestion = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetFBConsent);
                 break;
             case "GoogleConsentSuccess":
                 header = "Success!";
                 message = "This application has successfully received consent for managing your Google calendar.";
-                suggestion = findSuggestion(suggestions, SuggestionTypes.GetGoogleConsent);
+                suggestion = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetGoogleConsent);
                 break;
             case "CloudADConsentSuccess":
                 header = "Success!";
                 message = "This application has successfully received consent for accessing your Cloud Directory.";
-                suggestion = findSuggestion(suggestions, SuggestionTypes.GetADConsent);
+                suggestion = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetADConsent);
                 break;
         }
         Dashboard.consentStatus = null;

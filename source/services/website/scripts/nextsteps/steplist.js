@@ -131,6 +131,9 @@ ListView.prototype.renderToolbar = function ($item, item) {
     var $skipBtn = $('<a class="btn step-button" />').append(Control.Icons.skipBtn(item)).appendTo($toolbar);
     $skipBtn.addClass('pull-left');
     $skipBtn.one('click', function (e) { var $h2 = $skipBtn.find('h2'); $h2.click(); });
+    var $infoBtn = $('<a class="btn step-button" />').append(Control.Icons.infoBtn(item)).appendTo($toolbar);
+    $infoBtn.addClass('pull-left');
+    $infoBtn.one('click', function (e) { var $h2 = $infoBtn.find('h2'); $h2.click(); });
     var $actionButton = this.actionButton(item);
     if ($actionButton != null) {
         $('<a class="btn step-button" />').append($actionButton).appendTo($toolbar);
@@ -187,15 +190,12 @@ ListView.prototype.actionButton = function (item) {
 ListView.prototype.renderNameField = function ($item, item) {
     var fields = item.GetFields();
     field = fields[FieldNames.Name];
-    var $br = $('<br />'); // HACK: in IE9, name field for list items past the first one is indented
-    // none of these HACKS seem to work in reducing the <br> height
-    $br.css('line-height', '1px');
-    $br.css('font-size', '1px');
-    $br.css('height', '1px');
-    $br.appendTo($item);
-    var $label = Control.Text.renderLabel($item, item, field).appendTo($item);
-    // this HACK doesn't work either
-    $label.css('margin-top', '-5px');
+    // workaround for IE9 bug - where the name field for list items past the first one is indented. 
+    // adding a zero-height <p> fixes this.
+    var $p = $('<p />'); 
+    $p.css('height', '0px');
+    $p.appendTo($item);
+    Control.Text.renderLabel($item, item, field).appendTo($item);
 }
 
 ListView.prototype.renderFields = function ($element, item) {

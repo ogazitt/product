@@ -312,6 +312,25 @@ Control.Icons.deferBtn = function Control$Icons$deferBtn(item) {
     return $('<a class="icon" />').append($icon);
 }
 
+// return an element that is an icon for getting more information for an item
+Control.Icons.infoBtn = function Control$Icons$infoBtn(item) {
+    var $icon = $('<h2 class="icon-info-sign"></h2>');
+    $icon.css('cursor', 'pointer');
+    $icon.data('item', item);
+    $icon.attr('title', 'Information').tooltip(Control.noDelay);
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        var item = $this.data('item');
+        // TODO: pass the manager in instead of hardcoding it
+        NextStepsPage.showManager(NextStepsPage.infoManager);
+        NextStepsPage.infoManager.selectItem(item);
+        return false;   // do not propogate event 
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
+}
+
 // return an element that is an icon for calling
 Control.Icons.callBtn = function Control$Icons$callBtn(item) {
     var $icon = $('<h2 class="icon-phone"></h2>');
@@ -1213,18 +1232,31 @@ Control.DeferButton.renderDropdown = function Control$DeferButton$renderDropdown
     var $dropdown = $('<ul class="dropdown-menu" />').appendTo($btnGroup);
     $dropdown.data('item', item);
 
+    // get the current due date
+    var field = item.GetField(FieldNames.DueDate);
+    var currentDueDate = item.GetFieldValue(field);
+    var date = new Date(currentDueDate);
+    var today = new Date();
+    var $menuitem;
+
     // defer to tomorrow
-    var $menuitem = $('<li><a></a></li>').css('border-top', '0px').appendTo($dropdown);
-    $menuitem.find('a').append('<span>&nbsp;Tomorrow</span>');
-    $menuitem.click(function (e) { Control.DeferButton.update(item, 1); e.preventDefault(); });
+    if (date <= today.setDate(today.getDate() + 1)) {
+        var $menuitem = $('<li><a></a></li>').css('border-top', '0px').appendTo($dropdown);
+        $menuitem.find('a').append('<span>&nbsp;Tomorrow</span>');
+        $menuitem.click(function (e) { Control.DeferButton.update(item, 1); e.preventDefault(); });
+    }
     // defer to next week
-    $menuitem = $('<li><a></a></li>').css('border-top', '0px').appendTo($dropdown);
-    $menuitem.find('a').append('<span>&nbsp;Next week</span>');
-    $menuitem.click(function (e) { Control.DeferButton.update(item, 7); e.preventDefault(); });
-    // defer to next month
-    $menuitem = $('<li><a></a></li>').css('border-top', '0px').appendTo($dropdown);
-    $menuitem.find('a').append('<span>&nbsp;Next month</span>');
-    $menuitem.click(function (e) { Control.DeferButton.update(item, 30); e.preventDefault(); });
+    if (date <= today.setDate(today.getDate() + 6)) {
+        $menuitem = $('<li><a></a></li>').css('border-top', '0px').appendTo($dropdown);
+        $menuitem.find('a').append('<span>&nbsp;Next week</span>');
+        $menuitem.click(function (e) { Control.DeferButton.update(item, 7); e.preventDefault(); });
+    }
+    if (date <= today.setDate(today.getDate() + 23)) {
+        // defer to next month
+        $menuitem = $('<li><a></a></li>').css('border-top', '0px').appendTo($dropdown);
+        $menuitem.find('a').append('<span>&nbsp;Next month</span>');
+        $menuitem.click(function (e) { Control.DeferButton.update(item, 30); e.preventDefault(); });
+    }
     return $wrapper;
 }
 
@@ -1233,6 +1265,7 @@ Control.DeferButton.update = function Control$DeferButton$update(item, days) {
     var field = item.GetField(FieldNames.DueDate);
     var currentDueDate = item.GetFieldValue(field);
     var date = new Date(currentDueDate);
+    date = new Date();
     switch (days) {
         case 7:  // if deferring by a week, defer to the next Sunday
             days = 7 - date.getDay();

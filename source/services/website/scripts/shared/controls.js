@@ -1237,11 +1237,8 @@ Control.DeferButton.renderDropdown = function Control$DeferButton$renderDropdown
     if (!item.HasField(FieldNames.DueDate)) return;
 
     var $wrapper = $('<div class="control-group"></div>').appendTo($element);
-
     var $btnGroup = $('<div class="btn-group" />').appendTo($wrapper);
     var $btn = $('<a class="btn dropdown-toggle" data-toggle="dropdown"><h2 class="icon-calendar"/></a>').appendTo($btnGroup);
-    //Control.Icons.deferBtn(item).appendTo($btn);
-
     var $dropdown = $('<ul class="dropdown-menu" />').appendTo($btnGroup);
     $dropdown.data('item', item);
 

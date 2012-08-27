@@ -98,7 +98,7 @@ ListView.prototype.renderListItems = function (listItems) {
                 $actionButton.addClass('pull-right');
             }
         }
-
+        
         this.renderNameField($item, item);
 
         // click item to select
@@ -117,6 +117,10 @@ ListView.prototype.renderListItems = function (listItems) {
         this.renderFields($item, item);
         itemCount++;
     }
+
+    // make the dropdown for the defer button of the last button row into a drop-up
+    if (itemCount > 0) $li.find('.btn-group').addClass('dropup');
+
     return itemCount;
 }
 

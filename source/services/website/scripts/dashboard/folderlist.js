@@ -82,12 +82,10 @@ FolderList.prototype.renderItems = function ($folder, folder) {
         var item = items[id];
         if (item.IsList) {
             $item = $('<li class="position-relative"><a class="selector"><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
+            $item.find('span').prepend(Control.Icons.forItemType(item));
             if (item.ItemTypeID == ItemTypes.Activity && item.Status == StatusTypes.Paused) {
-                $item.find('span').prepend($('<i class="icon-pause"></i>'));
-                $item.find('a').addClass(StatusTypes.Paused.toLowerCase());
-            } else {
-                $item.find('span').prepend(Control.Icons.forItemType(item));
-            }
+                 $item.find('a').addClass(StatusTypes.Paused.toLowerCase());
+            }  
             $item.data('control', this);
             $item.data('item', item);
             $item.click(function (e) {

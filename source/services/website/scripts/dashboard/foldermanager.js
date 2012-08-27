@@ -121,14 +121,15 @@ FolderManager.prototype.renderStatus = function (list) {
     if (list != null && !list.IsFolder() && list.ItemTypeID == ItemTypes.Activity) {
         if (list.Status == StatusTypes.Active) {
             var $pause = $('<a><i class="icon-pause"></i></a>').appendTo($status);
-            $pause.attr('title', 'Pause').tooltip(Control.ttDelay);
+            $pause.attr('title', 'Pause').tooltip(Control.ttDelayBottom);
+
             $pause.click(function () {
                 $(this).tooltip('hide');
                 list.UpdateStatus(StatusTypes.Paused); 
             });
         } else {
             var $play = $('<a><i class="icon-play"></i></a>').appendTo($status);
-            $play.attr('title', 'Run').tooltip(Control.ttDelay);
+            $play.attr('title', 'Run').tooltip(Control.ttDelayBottom);
             $play.click(function () {
                 $(this).tooltip('hide');
                 list.UpdateStatus(StatusTypes.Active);

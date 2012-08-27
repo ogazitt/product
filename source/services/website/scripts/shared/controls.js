@@ -10,7 +10,7 @@
 var Control = function Control$() {};
 Control.noDelay = { delay: { show: 0, hide: 0} };           // tooltip with no delay
 Control.ttDelay = { delay: { show: 500, hide: 200} };       // default tooltip delay
-
+Control.ttDelayBottom = { delay: { show: 500, hide: 200}, placement: 'bottom' };
 // helper function for preventing event bubbling
 Control.preventDefault = function Control$preventDefault(e) { e.preventDefault(); }
 
@@ -174,7 +174,10 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
     var $icon = $('<i></i>');
     switch (itemType) {
         case ItemTypes.Activity:
-            $icon.addClass('icon-time');
+            if (item.Status == StatusTypes.Paused)
+                $icon.addClass('icon-pause');
+            else
+                $icon.addClass('icon-play');
             break;
         case ItemTypes.Step:
             $icon.addClass('icon-check');

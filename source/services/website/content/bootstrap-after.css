@@ -120,11 +120,15 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 /* item status icon */
 .item-status { position: absolute; top: 10px; right: 12px; }
 .item-status i { font-size: 16pt; }
+.item-status i.icon-play { color: #62c462 }
+.item-status i.icon-play:hover { color: #51a351 }
+.item-status i.icon-pause { color: #ffaa1a }
+.item-status i.icon-pause:hover { color: #f89406 }
 
 /* drag handle icon */
 .icon.drag-handle { position: absolute; top: 7px; left: 1px; color: transparent; cursor: n-resize; font-family: Arial; font-size: 22pt; }
 li:hover .icon.drag-handle { color: inherit; }
-li.active .icon.drag-handle, li.active:hover .icon.drag-handle { color: white; }
+li.active .Xicon.drag-handle, li.active:hover .icon.drag-handle { color: white; }
 
 /* custom buttons */
 .btn-command { color: #999; }

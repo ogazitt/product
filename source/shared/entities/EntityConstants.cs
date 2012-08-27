@@ -230,6 +230,14 @@ namespace BuiltSteady.Product.Shared.Entities
         public const string Dislike = "Dislike";
     }
 
+    public class StatusTypes
+    {
+        public const string Active = "Active";
+        public const string Complete = "Complete";
+        public const string Paused = "Paused";
+        public const string Skipped = "Skipped";
+    }
+
     public class EntityTypes
     {
         public const string User = "User";

@@ -133,6 +133,16 @@ var Reasons = {
 }
 
 // ---------------------------------------------------------
+// StatusTypes constants (for Item.Status)
+
+var StatusTypes = {
+    Active: "Active",
+    Complete: "Complete",
+    Paused: "Paused",
+    Skipped: "Skipped"
+}
+
+// ---------------------------------------------------------
 // Sources constants
 
 var Sources = {
@@ -174,14 +184,4 @@ var ActionTypes = {                 // FieldNames:
     //Postpone: "Postpone",           // DueDate
     //PostToFacebook: "PostToFacebook",  
     //Tweet: "Tweet"             
-}
-
-// ---------------------------------------------------------
-// StatusTypes constants (for Item.Status)
-
-var StatusTypes = {
-    Active: "Active",
-    Complete: "Complete",
-    Paused: "Paused",
-    Skipped: "Skipped"
 }

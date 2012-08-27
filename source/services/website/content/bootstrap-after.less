@@ -1,9 +1,20 @@
 ﻿/*! 
- * This css must be processed after responsive.css to override default bootstrap styles
+ * This css must be processed after bootstrap.css but before responsive.css
+ * Padding is required to keep content below navbar at top of page 
 */
+body { padding-top: 54px; padding-bottom: 40px; }
+
+/*! 
+ * This must be processed after responsive.css to override default bootstrap styles
+*/
+
+/* Core variables and mixins */
+@import "less/variables.less"; 
+@import "less/mixins.less";
 
 /* increase default font-awesome size */
 i { font-size: 18px; }
+a { cursor: pointer; }
 a.icon:hover, a i:hover { text-decoration: none; }
 textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].pac-placeholder { color: #ccc; }
 
@@ -34,7 +45,7 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-list { padding: 6px; overflow-y: auto; }
 .dashboard-list ul { margin: 0; }
 .dashboard-list li a {  cursor: pointer; } 
-.dashboard-list li a.paused { color: #ccc; }
+.dashboard-list li a.paused { color: @navbarSearchPlaceholderColor; }
 .dashboard-left .itemlist span,  .dashboard-left .itemlist em { padding-left: 21px; } 
 .dashboard-right li.active { text-transform: uppercase; text-align: center; }
 .dashboard-right .dropdown-menu.pull-right { left: auto; right: 0; }
@@ -57,7 +68,7 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .nav-tabs .active { font-weight: bold; }
 .dashboard-center .tab-content {
     padding: 12px;
-    border: 1px solid #dddddd;          /* use btnBorder */
+    border: 1px solid @btnBorder;         
     border-top-color: transparent;
     -webkit-border-radius: 0 4px 4px 4px;
     -moz-border-radius: 0 4px 4px 4px;
@@ -66,13 +77,13 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .tab-content .form-vertical { min-height: 240px; }
 .dashboard-center .tab-content .form-vertical .control-group { margin: 0 10px 0 0; padding: 0; }
 .dashboard-center .tab-content .form-vertical .control-label { font-size: 8pt; margin: 0 0 -4px 8px; }
-.Xdashboard-center .tab-content .form-vertical .btn-group > .btn:first-child { min-width: 60px; text-align: left; }
+/* .dashboard-center .tab-content .form-vertical .btn-group > .btn:first-child { min-width: 60px; text-align: left; } */
 .dashboard-center .nav-list small { font-size: 90%; margin-right: 12px;  }
 .dashboard-center .nav-list .form-inline .checkbox { margin-right: 6px; margin-top: -2px; }
 .dashboard-center .manager-folders { position: relative; }
 .dashboard-center .manager-folders .tab-content .nav-list { overflow-y: auto; overflow-x: hidden; padding: 0; }
-.dashboard-center .manager-folders .tab-content .nav-list li { border-top: 1px solid #dddddd; padding: 0 0 0 8px; }
-.dashboard-center .manager-folders .tab-content .nav-list li.selected { background-color: #eeeeee; }  /* use @btnBackgroundHighlight */
+.dashboard-center .manager-folders .tab-content .nav-list li { border-top: 1px solid @btnBorder; padding: 0 0 0 8px; }
+.dashboard-center .manager-folders .tab-content .nav-list li.selected { background-color: @btnBackgroundHighlight; }  
 .dashboard-center .manager-folders .tab-content textarea { height: 60px; }
 .dashboard-center .manager-folders .tab-content .input-inline-max { display:inline-block; width: 90%; }
 
@@ -82,12 +93,12 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 }
 .dashboard-center .carousel .input-block-level:focus { overflow-y: auto; }
 .dashboard-center .carousel .fn-name { color: black; font-weight: bold; background-color: transparent; border-style: none; }
-.dashboard-center .carousel .fn-name:focus { color: black; font-weight: normal; background-color: white; }
+.dashboard-center .carousel .fn-name:focus { color: black; font-weight: normal; background-color: @white; }
 .dashboard-center .carousel .form-inline .checkbox { margin-right: 6px; margin-top: 5px; }
 .dashboard-center .carousel .form-inline.well { height: 64px; padding: 8px 8px 8px 8px;}
 .dashboard-center .carousel .form-inline.well .thumbnail { margin: 0; padding: 2px; height: 64px; max-width: 64px; float: right; }
 .dashboard-center .carousel .form-inline.well .thumbnail img { width: 100%; height: 100%; }
-.dashboard-center .carousel .form-inline.well .btn-toolbar { margin: 0 0 4px 0; padding: 0 0 4px 0; Xborder: 1px solid blue; }
+.dashboard-center .carousel .form-inline.well .btn-toolbar { margin: 0 0 4px 0; padding: 0 0 4px 0; }
 
 /* styles for paging */
 .page-turn-prev { display: inline-block; width: 24px; height: 24px;
@@ -120,19 +131,19 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 /* item status icon */
 .item-status { position: absolute; top: 10px; right: 12px; }
 .item-status i { font-size: 16pt; }
-.item-status i.icon-play { color: #62c462 }
-.item-status i.icon-play:hover { color: #51a351 }
-.item-status i.icon-pause { color: #ffaa1a }
-.item-status i.icon-pause:hover { color: #f89406 }
+.item-status i.icon-play { color: @btnSuccessBackground }
+.item-status i.icon-play:hover { color: @btnSuccessBackgroundHighlight }
+.item-status i.icon-pause { color: @btnWarningBackground }
+.item-status i.icon-pause:hover { color: @btnWarningBackgroundHighlight }
 
 /* drag handle icon */
 .icon.drag-handle { position: absolute; top: 7px; left: 1px; color: transparent; cursor: n-resize; font-family: Arial; font-size: 22pt; }
 li:hover .icon.drag-handle { color: inherit; }
-li.active .Xicon.drag-handle, li.active:hover .icon.drag-handle { color: white; }
+li.active:hover .icon.drag-handle { color: @white; }
 
 /* custom buttons */
-.btn-command { color: #999; }
-.btn-dropdown { color: white; cursor: pointer; }
+.btn-command { color: @grayLight; }
+.btn-dropdown { color: @white; cursor: pointer; }
 .btn-dropdown.open .dropdown-toggle { background-color: transparent; }
 
 /* custom icons */

@@ -32,6 +32,10 @@ NextStepsPage.Init = function NextStepsPage$Init(dataModel) {
     NextStepsPage.actionTypeList = new ActionTypeList(dataModel.ActionTypes);
     NextStepsPage.actionTypeList.addSelectionChangedHandler('nextsteps', NextStepsPage.ManageActionType);
 
+    // info manager
+    NextStepsPage.infoManager = new InfoManager(NextStepsPage, NextStepsPage.$center);
+    NextStepsPage.infoManager.addSelectionChangedHandler('nextsteps', NextStepsPage.ManageActionType);
+
     // step manager
     NextStepsPage.stepManager = new StepManager(NextStepsPage, NextStepsPage.$center);
     NextStepsPage.stepManager.addSelectionChangedHandler('nextsteps', NextStepsPage.ManageActionType);
@@ -86,6 +90,8 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
 
 NextStepsPage.showManager = function NextStepsPage$showManager(manager, forceRender) {
     if (NextStepsPage.currentManager != manager) {
+        NextStepsPage.stepManager.hide();
+        NextStepsPage.infoManager.hide();
         NextStepsPage.currentManager = manager;
         (manager.addWell == true) ? NextStepsPage.$center.addClass('well') : NextStepsPage.$center.removeClass('well');
     }

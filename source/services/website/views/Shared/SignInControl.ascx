@@ -7,8 +7,12 @@
             <i class="icon-user icon-white"></i> <strong><%: Request.Path.IndexOf("Mobile", StringComparison.OrdinalIgnoreCase) > 0 ? "" : Page.User.Identity.Name %></strong> <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
+<% if (Request.Url.PathAndQuery.IndexOf("mobile", StringComparison.CurrentCultureIgnoreCase) >= 0) { %>
+            <li><a href="<%: Url.Content("~/mobile") %>"><i class="icon-play"></i> Next Steps</a></li>
+<% } else { %>
             <li><a href="<%: Url.Content("~/dashboard/home") %>"><i class="icon-dashboard"></i> Activity Dashboard</a></li>
             <li><a href="<%: Url.Content("~/dashboard/nextsteps") %>"><i class="icon-play"></i> Next Steps</a></li>
+<% } %>
             <li class="divider"></li>            
             <li class="option-help hide"><a><i class="icon-question-sign"></i> Help</a></li>
             <li class="option-settings hide"><a><i class="icon-cogs"></i> User Settings</a></li>

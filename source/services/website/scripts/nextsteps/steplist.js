@@ -124,22 +124,18 @@ ListView.prototype.renderListItems = function (listItems) {
 ListView.prototype.renderToolbar = function ($item, item) {
     var $toolbar = $('<div class="btn-toolbar" />').appendTo($item);
     $toolbar.css('height', '28px');  // HACK: somehow the height is computed to zero on list items past the first one
+    
+    // render defer dropdown button
     var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
     $deferBtn.addClass('pull-left');
-    var $completeBtn = $('<a class="btn step-button" />').append(Control.Icons.completeBtn(item)).appendTo($toolbar);
-    $completeBtn.addClass('pull-left');
-    $completeBtn.one('click', function (e) { var $h2 = $completeBtn.find('h2'); $h2.click(); });
-    var $skipBtn = $('<a class="btn step-button" />').append(Control.Icons.skipBtn(item)).appendTo($toolbar);
-    $skipBtn.addClass('pull-left');
-    $skipBtn.one('click', function (e) { var $h2 = $skipBtn.find('h2'); $h2.click(); });
-    var $infoBtn = $('<a class="btn step-button" />').append(Control.Icons.infoBtn(item)).appendTo($toolbar);
-    $infoBtn.addClass('pull-left');
-    $infoBtn.one('click', function (e) { var $h2 = $infoBtn.find('h2'); $h2.click(); });
+    // render complete, skip, info buttons
+    Control.Icons.createToolbarButton(Control.Icons.completeBtn(item), true).appendTo($toolbar);
+    Control.Icons.createToolbarButton(Control.Icons.skipBtn(item), true).appendTo($toolbar);
+    Control.Icons.createToolbarButton(Control.Icons.infoBtn(item), false).appendTo($toolbar);
+    // render action button
     var $actionButton = this.actionButton(item);
     if ($actionButton != null) {
-        $('<a class="btn step-button" />').append($actionButton).appendTo($toolbar);
-        $actionButton.addClass('pull-left');
-        $actionButton.one('click', function (e) { var $h2 = $actionButton.find('h2'); $h2.click(); });
+        Control.Icons.createToolbarButton($actionButton).appendTo($toolbar);
     }
 }
 

@@ -283,6 +283,18 @@ Control.Icons.deleteBtn = function Control$Icons$deleteBtn(item) {
     return $('<a class="icon" />').append($icon);
 }
 
+// wrap an <h2>-style icon button (used in steplist) with a btn style appropriate for rendering on mobile devices
+Control.Icons.createToolbarButton = function Control$Icons$createToolbarButton($iconButton, propagate) {
+    var $btn = $('<a class="btn step-button" />').append($iconButton);
+    $btn.addClass('pull-left');
+    $btn.one('click', function (e) {
+        var $h2 = $iconButton.find('h2');
+        $h2.click();
+        return (propagate == true) ? true : false;
+    });
+    return $btn;
+}
+
 // return an element that is an icon for completing an item
 Control.Icons.completeBtn = function Control$Icons$completeBtn(item) {
     var $icon = $('<h2 class="icon-check"></h2>');

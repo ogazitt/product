@@ -116,6 +116,7 @@ Browser.IsMSIE = function Browser$IsMSIE() { return (navigator.appName == 'Micro
 Browser.IsMobile = function Browser$IsMobile(val) {
     // setter
     if (val !== undefined) Browser.isMobile = val;
+    // getter
     return Browser.isMobile;
 }
 Browser.isMobile = false;
@@ -365,14 +366,24 @@ Control.Icons.callBtn = function Control$Icons$callBtn(item) {
         var item = $this.data('item');
         var phone = item.GetPhoneNumber();
         if (phone != null) {
-            // TODO: check the browser-agent
-            window.open("tel:" + phone);
+            if (Browser.IsMobile()) {
+                window.open("tel:" + phone);
+            }
+            else {
+                Control.alert('<p>This action only works on a mobile device</p>', 'call ' + Control.Icons.formatPhoneNumber(phone));
+            }
             return false;
         }
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
     return $('<a class="icon" />').append($icon);
+}
+
+Control.Icons.formatPhoneNumber = function Control$Icons$formatPhoneNumber(phone) {
+    if (phone.length == 7) return phone.slice(0, 3) + '-' + phone.slice(3, 7);
+    if (phone.length == 10) return '(' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' + phone.slice(6, 10);
+    return phone;
 }
 
 // return an element that is an icon for mapping
@@ -385,6 +396,52 @@ Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
         $link.click(function () { window.open($(this).attr('href')); return false; });
         return $link;
     }
+}
+
+// return an element that is an icon for emailing
+Control.Icons.emailBtn = function Control$Icons$emailBtn(item) {
+    var $icon = $('<h2 class="icon-envelope"></h2>');
+    $icon.css('cursor', 'pointer');
+    $icon.data('item', item);
+    $icon.attr('title', 'Email').tooltip(Control.ttDelay);
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        var item = $this.data('item');
+        var email = item.GetEmail();
+        if (email != null) {
+            window.open('mailto:' + email);
+        }
+        return false;   // do not propogate event
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
+}
+
+// return an element that is an icon for texting
+Control.Icons.textBtn = function Control$Icons$textBtn(item) {
+    var $icon = $('<h2 class="icon-list-alt"></h2>');
+    $icon.css('cursor', 'pointer');
+    $icon.data('item', item);
+    $icon.attr('title', 'Text').tooltip(Control.ttDelay);
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        var item = $this.data('item');
+        var phone = item.GetPhoneNumber();
+        if (phone != null) {
+            if (Browser.IsMobile()) {
+                window.open("sms:" + phone);
+            }
+            else {
+                Control.alert('<p>This action only works on a mobile device</p>', 'text ' + Control.Icons.formatPhoneNumber(phone));
+            }
+            return false;
+        }
+        return false;   // do not propogate event
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
 }
 
 // ---------------------------------------------------------
@@ -1233,7 +1290,7 @@ Control.ActionType.update = function Control$ActionType$update($menuitem) {
     var newActionTypeName = ActionTypes[newActionType];
     updatedItem.SetFieldValue(updatedItem.GetField(FieldNames.ActionType), newActionTypeName);
     var $button = $menuitem.parents('.btn-group').first().find('.btn');
-    $button.find('i').replaceWith(Control.Icons.forActionType(ActionTypes[newActionTypeName]));
+    $button.find('i').replaceWith(Control.Icons.forActionType(newActionTypeName));
     var $label = $menuitem.find('span').first();
     if ($label.length > 0) { $button.find('span').first().html($label.html()); }
     item.Update(updatedItem);

@@ -289,8 +289,18 @@ Item.prototype.GetPhoneNumber = function () {
     if (item == null) item = this.GetContact();
     if (item != null) {
         var phone = item.GetFieldValue(FieldNames.Phone);
-        phone = phone.replace(/[^0-9]+/g, '');
+        if (phone != null) phone = phone.replace(/[^0-9]+/g, '');
         return phone;
+    }
+    return null;
+}
+// helper for finding an email of an item (via locations or contacts)
+Item.prototype.GetEmail = function () {
+    var item = this.GetLocation();
+    if (item == null) item = this.GetContact();
+    if (item != null) {
+        var email = item.GetFieldValue(FieldNames.Email);
+        return email;
     }
     return null;
 }

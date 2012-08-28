@@ -83,6 +83,9 @@ FolderList.prototype.renderItems = function ($folder, folder) {
         if (item.IsList) {
             $item = $('<li class="position-relative"><a class="selector"><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
             $item.find('span').prepend(Control.Icons.forItemType(item));
+            if (item.ItemTypeID == ItemTypes.Activity && item.Status == StatusTypes.Paused) {
+                 $item.find('a').addClass(StatusTypes.Paused.toLowerCase());
+            }  
             $item.data('control', this);
             $item.data('item', item);
             $item.click(function (e) {
@@ -110,7 +113,6 @@ FolderList.prototype.folderClicked = function ($folder) {
 }
 
 FolderList.prototype.itemClicked = function ($item) {
-    //this.$element.find('li').removeClass('active');
     var item = $item.data('item');
     this.select($item, item);
     this.fireSelectionChanged(item.FolderID, item.ID);
@@ -186,7 +188,7 @@ FolderList.prototype.renderAddBtn = function ($element) {
     $addBtn.click(function () {
         var $item = $(this);
         var item = (category != null) ?
-            Item.Extend({ Name: 'New Activity', ItemTypeID: ItemTypes.Activity, IsList: true }) :
+            Item.Extend({ Name: 'New Activity', ItemTypeID: ItemTypes.Activity, IsList: true, Status: StatusTypes.Paused }) :
             Folder.Extend({ Name: 'New Category', ItemTypeID: ItemTypes.Category });
         var $input = $('<input type="text" class="popup-text" />').appendTo($item);
         $input.val(item.Name).focus().select();

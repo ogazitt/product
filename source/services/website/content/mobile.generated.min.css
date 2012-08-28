@@ -798,20 +798,110 @@ to{background-position:0 0}
 .hide{display:none}
 .show{display:block}
 .invisible{visibility:hidden}
-/*! 
- * This css must be processed after responsive.css to override default bootstrap styles
-*/body{padding-top:54px}
+body{padding-top:54px;padding-bottom:40px}
+.clearfix{*zoom:1}
+.clearfix:before,.clearfix:after{display:table;content:""}
+.clearfix:after{clear:both}
+.hide-text{font:0/0 a;color:transparent;text-shadow:none;background-color:transparent;border:0}
+.input-block-level{display:block;width:100%;min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box}
+i{font-size:18px}
 a{cursor:pointer}
-i{font-size:14px}
-a.icon:hover{text-decoration:none}
+a.icon:hover,a i:hover{text-decoration:none}
 textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac-placeholder{color:#ccc}
 .input-prepend .add-on .checkbox{margin-top:-2px}
-.navbar .brand{margin:0}
-.navbar .active img{margin:0}
+.navbar .brand{margin:0 0 0 20px}
+.navbar .active img{margin:0 12px 0 12px}
 .navbar-fixed-top .navbar-inner{padding:0 10px 0 10px}
 .navbar-fixed-bottom .pull-right{margin:12px 10px 0 0}
+@media(max-width:800px){body{padding-left:0;padding-right:0}
+.navbar .container-fluid{width:100%;*zoom:1}
+.container,.container-fluid{width:800px;*zoom:1}
+.row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:10px;*margin-left:10px}
+.row-fluid [class*="span"]:first-child{margin-left:0}
+}
+@media(max-width:400px){.navbar .container-fluid{width:400px;*zoom:1}
+}
+.dashboard-list{padding:6px;overflow-y:auto}
+.dashboard-list ul{margin:0}
+.dashboard-list li a{cursor:pointer}
+.dashboard-list li a.paused{color:#ccc}
+.dashboard-left .itemlist span,.dashboard-left .itemlist em{padding-left:21px}
+.dashboard-right li.active{text-transform:uppercase;text-align:center}
+.dashboard-right .dropdown-menu.pull-right{left:auto;right:0}
+.dashboard-right .working{text-align:center;width:100%}
+.dashboard-right .working span{display:inline-block;width:16px;height:11px;background:transparent url(images/busy.gif) no-repeat;opacity:.6;filter:alpha(opacity=60)}
+.dashboard-center{padding:0;margin:0}
+.dashboard-center.well{padding:8px}
+.dashboard-center .hero-unit,.dashboard-center .manager-folders,.dashboard-center .manager-settings{margin-top:-16px}
+.dashboard-center .nav-tabs{margin-bottom:0}
+.dashboard-center .nav-tabs .active{font-weight:bold}
+.dashboard-center .tab-content{padding:12px;border:1px solid #ccc;border-top-color:transparent;-webkit-border-radius:0 4px 4px 4px;-moz-border-radius:0 4px 4px 4px;border-radius:0 4px 4px 4px}
+.dashboard-center .tab-content .form-vertical{min-height:240px}
+.dashboard-center .tab-content .form-vertical .control-group{margin:0 10px 0 0;padding:0}
+.dashboard-center .tab-content .form-vertical .control-label{font-size:8pt;margin:0 0 -4px 8px}
+.dashboard-center .nav-list small{font-size:90%;margin-right:12px}
+.dashboard-center .nav-list .form-inline .checkbox{margin-right:6px;margin-top:-2px}
+.dashboard-center .manager-folders{position:relative}
+.dashboard-center .manager-folders .tab-content .nav-list{overflow-y:auto;overflow-x:hidden;padding:0}
+.dashboard-center .manager-folders .tab-content .nav-list li{border-top:1px solid #ccc;padding:0 0 0 8px}
+.dashboard-center .manager-folders .tab-content .nav-list li.selected{background-color:#e6e6e6}
+.dashboard-center .manager-folders .tab-content textarea{height:60px}
+.dashboard-center .manager-folders .tab-content .input-inline-max{display:inline-block;width:90%}
+.dashboard-center .carousel .input-block-level{border-left-color:transparent;border-bottom-color:transparent;border-right-color:transparent;background-color:transparent;overflow-y:hidden}
+.dashboard-center .carousel .input-block-level:focus{overflow-y:auto}
+.dashboard-center .carousel .fn-name{color:black;font-weight:bold;background-color:transparent;border-style:none}
+.dashboard-center .carousel .fn-name:focus{color:black;font-weight:normal;background-color:#fff}
+.dashboard-center .carousel .form-inline .checkbox{margin-right:6px;margin-top:5px}
+.dashboard-center .carousel .form-inline.well{height:64px;padding:8px 8px 8px 8px}
+.dashboard-center .carousel .form-inline.well .thumbnail{margin:0;padding:2px;height:64px;max-width:64px;float:right}
+.dashboard-center .carousel .form-inline.well .thumbnail img{width:100%;height:100%}
+.dashboard-center .carousel .form-inline.well .btn-toolbar{margin:0 0 4px 0;padding:0 0 4px 0}
+.page-turn-prev{display:inline-block;width:24px;height:24px;background:transparent url(images/page-turn-prev.png) no-repeat}
+.page-turn-next{display:inline-block;width:24px;height:24px;background:transparent url(images/page-turn-next.png) no-repeat}
+.page-turn-control{position:absolute;bottom:-28px}
+.page-turn-control.left{left:-10px;right:auto}
+.page-turn-control.right{left:auto;right:-10px}
+.page-turn-control div{opacity:.35;filter:alpha(opacity=35)}
+.page-turn-control div:hover{opacity:.9;filter:alpha(opacity=90)}
+.link-array{margin-bottom:8px}
+.link-array a{font-size:90%;margin:0 24px 0 6px}
+.link-array a.icon{margin:0}
+.link-array input{margin-bottom:2px}
+.position-relative{position:relative}
+.absolute-right{position:absolute;top:4px;right:6px}
+.popup-text{position:absolute;top:2px;left:2px;width:80%}
+.icon.absolute-right:hover{background-color:transparent}
+.inline-left{display:inline-block;float:left}
+.inline-right{display:inline-block;float:right}
+.control-group.inline-right{margin-left:8px}
+.item-status{position:absolute;top:10px;right:12px}
+.item-status i{font-size:16pt}
+.item-status i.icon-play{color:#62c462}
+.item-status i.icon-play:hover{color:#51a351}
+.item-status i.icon-pause{color:#fbb450}
+.item-status i.icon-pause:hover{color:#f89406}
+.icon.drag-handle{position:absolute;top:7px;left:1px;color:transparent;cursor:n-resize;font-family:Arial;font-size:22pt}
+li:hover .icon.drag-handle{color:inherit}
+li.active:hover .icon.drag-handle{color:#fff}
+.btn-command{color:#999}
+.btn-dropdown{color:#fff;cursor:pointer}
+.btn-dropdown.open .dropdown-toggle{background-color:transparent}
+i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;background:transparent url(images/icon-azure.png) no-repeat}
+.ui-timepicker-div .ui-widget-header{margin-bottom:8px}
+.ui-timepicker-div dl{text-align:left}
+.ui-timepicker-div dl dt{height:25px;margin-bottom:-25px;margin-left:8px}
+.ui-timepicker-div dl dd{margin:0 10px 10px 65px}
+.ui-timepicker-div td{font-size:90%}
+.ui-tpicker-grid-label{background:0;border:0;margin:0;padding:0}
+.ui-combobox{position:relative;display:inline-block}
+.ui-combobox .ui-button{position:absolute;margin-left:-1px;padding:0;top:0;bottom:0}
+.ui-autocomplete-input{margin:0;padding:.3em}
+.navbar .brand{margin:0}
+.navbar .active img{margin:0}
+.navbar-fixed-top .navbar-inner{padding:0 0 0 10px}
+.navbar-fixed-bottom .pull-right{margin:12px 0 0 0}
 .navbar .nav li a#brand{padding-left:0;padding-right:0}
-.container-fluid{padding-left:0;padding-right:20px}
+.container-fluid{padding-left:0;padding-right:0}
 @media(max-width:768px){body{padding-left:0;padding-right:0}
 .navbar .container-fluid{width:100%;*zoom:1}
 .container,.container-fluid{width:768px;*zoom:1}
@@ -829,60 +919,6 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:2px;*margin-left:2px}
 .row-fluid [class*="span"]:first-child{margin-left:0}
 }
-.dashboard-list{padding:6px}
-.dashboard-list ul{margin:0}
-.dashboard-list li a{cursor:pointer}
-.dashboard-left .itemlist span{padding-left:10px}
-.dashboard-center{padding:0;margin:0}
-.dashboard-center.well{padding:3px}
-.dashboard-center .hero-unit,.dashboard-center .manager-folders,.dashboard-center .manager-settings{margin-top:-16px}
-.dashboard-center .nav-tabs{margin-bottom:0}
-.dashboard-center .nav-tabs .active{font-weight:bold}
-.dashboard-center .tab-content{padding:12px;border:1px solid #ddd;border-top-color:transparent;-webkit-border-radius:0 4px 4px 4px;-moz-border-radius:0 4px 4px 4px;border-radius:0 4px 4px 4px}
-.dashboard-center .tab-content .form-vertical{min-height:240px}
-.dashboard-center .tab-content .form-vertical .control-group{margin:0 10px 0 0;padding:0}
-.dashboard-center .tab-content .form-vertical .control-label{font-size:8pt;margin:0 0 -4px 8px}
-.Xdashboard-center .tab-content .form-vertical .btn-group>.btn:first-child{min-width:60px;text-align:left}
-.dashboard-center .nav-list small{font-size:90%;margin-right:12px}
-.dashboard-center .nav-list .form-inline .checkbox{margin-right:6px;margin-top:-2px}
-.dashboard-center .manager-folders .tab-content .nav-list{overflow-y:auto;overflow-x:hidden;padding:0}
-.dashboard-center .manager-folders .tab-content .nav-list li{border-top:1px solid #ddd;padding:0 0 0 8px}
-.dashboard-center .manager-folders .tab-content .nav-list li.selected{background-color:#eee}
-.dashboard-center .manager-folders .tab-content textarea{height:60px}
-.dashboard-center .manager-folders .tab-content .input-inline-max{display:inline-block;width:90%}
-.dashboard-center .carousel .input-block-level{border-left-color:transparent;border-bottom-color:transparent;border-right-color:transparent;background-color:transparent;overflow-y:hidden}
-.dashboard-center .carousel .input-block-level:focus{overflow-y:auto}
-.dashboard-center .carousel .fn-name{color:black;font-weight:bold;background-color:transparent;border-style:none}
-.dashboard-center .carousel .fn-name:focus{color:black;font-weight:normal;background-color:white}
-.dashboard-center .carousel .form-inline .checkbox{margin-right:6px;margin-top:5px}
-.dashboard-center .carousel .form-inline.well{height:64px;padding:8px 8px 8px 8px}
-.dashboard-center .carousel .form-inline.well .thumbnail{margin:0;padding:2px;height:64px;max-width:64px;float:right}
-.dashboard-center .carousel .form-inline.well .thumbnail img{width:100%;height:100%}
-.dashboard-center .carousel .form-inline.well .btn-toolbar{margin:0 0 4px 0;padding:0 0 4px 0;Xborder:1px solid blue}
-.inline-left{display:inline-block;float:left}
-.inline-right{display:inline-block;float:right}
-.control-group.inline-right{margin-left:8px}
-.page-turn-prev{display:inline-block;width:24px;height:24px;background:transparent url(images/page-turn-prev.png) no-repeat}
-.page-turn-next{display:inline-block;width:24px;height:24px;background:transparent url(images/page-turn-next.png) no-repeat}
-.page-turn-control{position:absolute;bottom:-28px}
-.page-turn-control.left{left:-10px;right:auto}
-.page-turn-control.right{left:auto;right:-10px}
-.page-turn-control div{opacity:.35;filter:alpha(opacity=35)}
-.page-turn-control div:hover{opacity:.9;filter:alpha(opacity=90)}
-.link-array{margin-bottom:8px}
-.link-array a{font-size:90%;margin:0 24px 0 6px}
-.link-array a.icon{margin:0}
-.link-array input{margin-bottom:2px}
-i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;background:transparent url(images/icon-azure.png) no-repeat}
-.ui-timepicker-div .ui-widget-header{margin-bottom:8px}
-.ui-timepicker-div dl{text-align:left}
-.ui-timepicker-div dl dt{height:25px;margin-bottom:-25px;margin-left:8px}
-.ui-timepicker-div dl dd{margin:0 10px 10px 65px}
-.ui-timepicker-div td{font-size:90%}
-.ui-tpicker-grid-label{background:0;border:0;margin:0;padding:0}
-.ui-combobox{position:relative;display:inline-block}
-.ui-combobox .ui-button{position:absolute;margin-left:-1px;padding:0;top:0;bottom:0}
-.ui-autocomplete-input{margin:0;padding:.3em}
 .dashboard-center .manager-folders .tab-content .nav-list .step-button-list li.step-button{border-top:0}
 .step-button-list{margin-bottom:0}
 .btn-toolbar .btn.step-button{padding-left:8px;padding-right:8px;margin-left:5px}

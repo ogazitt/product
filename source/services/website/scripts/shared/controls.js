@@ -10,7 +10,7 @@
 var Control = function Control$() {};
 Control.noDelay = { delay: { show: 0, hide: 0} };           // tooltip with no delay
 Control.ttDelay = { delay: { show: 500, hide: 200} };       // default tooltip delay
-
+Control.ttDelayBottom = { delay: { show: 500, hide: 200}, placement: 'bottom' };
 // helper function for preventing event bubbling
 Control.preventDefault = function Control$preventDefault(e) { e.preventDefault(); }
 
@@ -174,7 +174,10 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
     var $icon = $('<i></i>');
     switch (itemType) {
         case ItemTypes.Activity:
-            $icon.addClass('icon-time');
+            if (item.Status == StatusTypes.Paused)
+                $icon.addClass('icon-pause');
+            else
+                $icon.addClass('icon-play');
             break;
         case ItemTypes.Step:
             $icon.addClass('icon-check');
@@ -355,7 +358,7 @@ Control.Icons.callBtn = function Control$Icons$callBtn(item) {
     var $icon = $('<h2 class="icon-phone"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
-    $icon.attr('title', 'Call').tooltip(Control.noDelay);
+    $icon.attr('title', 'Call').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -462,13 +465,8 @@ Control.Text.renderInputNew = function Control$Text$renderInput($element, item, 
     } else if (item.ItemTypeID == ItemTypes.Contact) {
         Control.Text.autoCompleteContact($text, Control.Text.insert);
         Control.Text.placeholder($text, 'Enter a contact');
-    } else if (item.ItemTypeID == ItemTypes.Grocery) {
-        Control.Text.autoCompleteGrocery($text, Control.Text.insert);
-        Control.Text.placeholder($text, 'Enter an item');
-    } else if (item.ItemTypeID == ItemTypes.Task) {
-        Control.Text.placeholder($text, 'Enter a task');
-    } else if (item.ItemTypeID == ItemTypes.Appointment) {
-        Control.Text.placeholder($text, 'Enter an appointment');
+    } else if (item.ItemTypeID == ItemTypes.Step) {
+        Control.Text.placeholder($text, 'Enter next step');
     } else {
         Control.Text.placeholder($text, 'Enter an item');
     }

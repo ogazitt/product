@@ -116,7 +116,7 @@ ListView.prototype.renderListItems = function (listItems) {
     }
 
     // make the dropdown for the defer button of the last button row into a drop-up
-    if (itemCount > 0) $li.find('.btn-group').addClass('dropup');
+    if (itemCount > 0) $li.find('div.control-group div').addClass('dropup');
 
     return itemCount;
 }

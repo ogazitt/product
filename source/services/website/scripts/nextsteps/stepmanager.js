@@ -32,7 +32,8 @@ StepManager.prototype.fireSelectionChanged = function (item) {
     for (var name in this.onSelectionChangedHandlers) {
         var handler = this.onSelectionChangedHandlers[name];
         if (typeof (handler) == "function") {
-            handler(item.GetActionType());
+            //handler(item.GetActionType());
+            handler(null);
             this.activeView(StepManager.ListView);  // refresh ListView
         }
     }
@@ -86,11 +87,11 @@ StepManager.prototype.render = function () {
 }
 
 StepManager.prototype.selectActionType = function (actionType) {
-    this.currentActionType = actionType;
-    this.currentItem = null;
-    if (this.currentActionType != null) {
-        this.render();
+    if (actionType != null) {
+        this.currentActionType = actionType;
+        this.currentItem = null;
     }
+    if (this.currentActionType != null) this.render();
 }
 
 StepManager.prototype.selectItem = function (item) {

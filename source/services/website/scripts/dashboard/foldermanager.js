@@ -17,7 +17,6 @@ function FolderManager(parentControl, $parentElement) {
     this.onSelectionChangedHandlers = {};
     this.listEditor = new ListEditor(this);
     this.itemEditor = new ItemEditor(this);
-    this.propEditor = new PropertyEditor(this);
 }
 
 FolderManager.ListView = "fm-list-view";
@@ -57,12 +56,11 @@ FolderManager.prototype.show = function (forceRender) {
         $tabs.data('control', this);
         var $tab = $('<li><a data-toggle="tab">List View</a></li>').appendTo($tabs);
         $tab.find('a').attr('href', '.' + FolderManager.ListView);
-        $tab = $('<li><a data-toggle="tab"><i class="icon-edit"></i> Item</a></li>').appendTo($tabs);
+        $tab = $('<li><a data-toggle="tab">Item View</a></li>').appendTo($tabs);
         $tab.find('a').attr('href', '.' + FolderManager.ItemView);
 
-        //$tab = $('<li class="pull-right"><a data-toggle="tab"><i class="icon-cog"></i></a></li>').appendTo($tabs);
-        //$tab.attr('title', 'List Settings').tooltip({ placement: 'bottom' });
-        //$tab.find('a').attr('href', '.' + FolderManager.PropertyView);
+        // upper-right status region 
+        $('<div class="item-status"></div>').appendTo(this.$element);
 
         // render views
         var $tabContent = $('<div class="tab-content" />').appendTo(this.$element);
@@ -72,9 +70,6 @@ FolderManager.prototype.show = function (forceRender) {
         $view = $('<div class="tab-pane" />').appendTo($tabContent);
         $view.addClass(FolderManager.ItemView);
         this.views[FolderManager.ItemView] = $view;
-        //$view = $('<div class="tab-pane" />').appendTo($tabContent);
-        //$view.addClass(FolderManager.PropertyView);
-        //this.views[FolderManager.PropertyView] = $view;
 
         $('a[data-toggle="tab"]').on('shown', function (e) {
             var $tabs = $(e.target).parents('.nav-tabs');
@@ -87,21 +82,26 @@ FolderManager.prototype.show = function (forceRender) {
 
 // render is only called internally by show method
 FolderManager.prototype.render = function () {
+    var activeView = this.activeView();
+    var activeItem = this.activeItem();
+
     var $tabs = this.$element.find('.nav-tabs');
     var $tabContent = this.$element.find('.tab-content');
     $tabs.find('li a:first').empty().append(this.activeListName());
-    var activeView = this.activeView();
-    var activeItem = this.activeItem();
+
     if (activeItem == null) {
         $tabs.find('a[href=".' + FolderManager.ItemView + '"]').hide();
     } else {
-        $tabs.find('a[href=".' + FolderManager.ItemView + '"]').show();
+        $itemTab = $tabs.find('a[href=".' + FolderManager.ItemView + '"]');
+        $itemTab.empty().append(this.activeItemName(activeItem));
+        $itemTab.show();
     }
 
     var $view = this.views[activeView];
     var maxContentHeight = this.$parentElement.outerHeight() - $tabs.outerHeight();
     if (activeView == FolderManager.ItemView) {
-        if (activeItem == null) {                   // switch to ListView if no items in current List
+        if (activeItem == null) {
+            // switch to ListView if no items in current List
             activeView = FolderManager.ListView;
             this.activeView(activeView);
         } else {
@@ -111,10 +111,31 @@ FolderManager.prototype.render = function () {
     if (activeView == FolderManager.ListView) {
         this.listEditor.render($view, this.activeList(), maxContentHeight);
     }
-    //if (activeView == FolderManager.PropertyView) {
-    //    this.propEditor.render($view, this.activeList(), maxContentHeight);
-    //}
     $tabs.find('a[href=".' + activeView + '"]').tab('show');
+    this.renderStatus();
+}
+
+FolderManager.prototype.renderStatus = function (list) {
+    var $status = this.$element.children('div.item-status').empty();
+    var list = this.activeList();
+    if (list != null && !list.IsFolder() && list.ItemTypeID == ItemTypes.Activity) {
+        if (list.Status == StatusTypes.Active) {
+            var $pause = $('<a><i class="icon-pause"></i></a>').appendTo($status);
+            $pause.attr('title', 'Pause').tooltip(Control.ttDelayBottom);
+
+            $pause.click(function () {
+                $(this).tooltip('hide');
+                list.UpdateStatus(StatusTypes.Paused); 
+            });
+        } else {
+            var $play = $('<a><i class="icon-play"></i></a>').appendTo($status);
+            $play.attr('title', 'Run').tooltip(Control.ttDelayBottom);
+            $play.click(function () {
+                $(this).tooltip('hide');
+                list.UpdateStatus(StatusTypes.Active);
+            });
+        }
+    }
 }
 
 FolderManager.prototype.selectFolder = function (folder) {
@@ -160,6 +181,14 @@ FolderManager.prototype.activeItem = function () {
         };
     }
     return null;
+}
+
+FolderManager.prototype.activeItemName = function (item) {
+    if (item != null) {
+        var $icon = Control.Icons.forItemType(item);
+        return $('<span>&nbsp;' + item.GetItemType().Name + '</span>').prepend($icon);
+    }
+    return $('<span />');
 }
 
 FolderManager.prototype.activeList = function () {
@@ -313,5 +342,5 @@ SettingsManager.prototype.render = function () {
     $view.empty();
 
     var $form = $('<form class="row-fluid form-vertical" />').appendTo($view);
-    Control.ThemePicker.render($form);
+    //Control.ThemePicker.render($form);
 }

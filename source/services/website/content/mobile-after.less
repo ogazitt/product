@@ -1,0 +1,45 @@
+﻿/*! 
+ * This css must be processed after responsive.css to override default bootstrap styles
+*/
+
+@import "bootstrap-after.less"; 
+
+/* customize navbar styles */
+.navbar .brand { margin: 0 0 0 0; }
+.navbar .active img { margin: 0 0 0 0; }
+.navbar-fixed-top .navbar-inner { padding: 0 0px 0 10px; }
+.navbar-fixed-bottom .pull-right { margin: 12px 0px 0 0; }
+.navbar .nav li a#brand { padding-left: 0px; padding-right: 0px; }
+
+/* eliminate padding for containers */
+.container-fluid { padding-left: 0px; padding-right: 0px; }
+
+/* customize mobile viewports */
+
+@media(max-width:768px) {
+    body{padding-left:0; padding-right:0;}
+    .navbar .container-fluid{width:100%;*zoom:1}
+    .container, .container-fluid{width:768px;*zoom:1}
+    .row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:2px;*margin-left:2px}
+    .row-fluid [class*="span"]:first-child{margin-left:0}
+}
+
+@media(max-width:480px) {
+    body{padding-left:0; padding-right:0;}
+    .navbar .container-fluid{width:480px;*zoom:1}
+    .container, .container-fluid{width:480px;*zoom:1}
+    .row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:2px;*margin-left:2px}
+    .row-fluid [class*="span"]:first-child{margin-left:0}
+}
+@media(max-width:320px) {
+    .navbar .container-fluid{width:320px;*zoom:1}
+    .container, .container-fluid{width:320px;*zoom:1}
+    .row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:2px;*margin-left:2px}
+    .row-fluid [class*="span"]:first-child{margin-left:0}
+}
+
+/* correct some styles for steplist buttons */
+.dashboard-center .manager-folders .tab-content .nav-list .step-button-list li.step-button { border-top: 0px; }
+.step-button-list { margin-bottom: 0px; }
+.btn-toolbar .btn.step-button { padding-left: 8px; padding-right: 8px; margin-left: 5px;}
+

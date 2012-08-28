@@ -1,61 +1,65 @@
 ﻿/*! 
- * This css must be processed after responsive.css to override default bootstrap styles
+ * This css must be processed after bootstrap.css but before responsive.css
+ * Padding is required to keep content below navbar at top of page 
+*/
+body { padding-top: 54px; padding-bottom: 40px; }
+
+/*! 
+ * This must be processed after responsive.css to override default bootstrap styles
 */
 
-body { padding-top: 54px; }
-a { cursor: pointer; }
+/* Core variables and mixins */
+@import "less/variables.less"; 
+@import "less/mixins.less";
 
 /* increase default font-awesome size */
-i { font-size: 14px; }
-a.icon:hover { text-decoration: none; }
+i { font-size: 18px; }
+a { cursor: pointer; }
+a.icon:hover, a i:hover { text-decoration: none; }
 textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].pac-placeholder { color: #ccc; }
 
 /* center checkbox when add-on in input-prepend */
 .input-prepend .add-on .checkbox { margin-top: -2px; }
 
 /* customize navbar styles */
-.navbar .brand { margin: 0 0 0 0; }
-.navbar .active img { margin: 0 0 0 0; }
+.navbar .brand { margin: 0 0 0 20px; }
+.navbar .active img { margin: 0 12px 0 12px; }
 .navbar-fixed-top .navbar-inner { padding: 0 10px 0 10px; }
 .navbar-fixed-bottom .pull-right { margin: 12px 10px 0 0; }
-.navbar .nav li a#brand { padding-left: 0px; padding-right: 0px; }
-
-/* eliminate padding for containers */
-.container-fluid { padding-left: 0px; padding-right: 20px; }
 
 /* customize container styles */
-
-@media(max-width:768px) {
+@media(max-width:800px) {
     body{padding-left:0; padding-right:0;}
     .navbar .container-fluid{width:100%;*zoom:1}
-    .container, .container-fluid{width:768px;*zoom:1}
-    .row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:2px;*margin-left:2px}
+    .container, .container-fluid{width:800px;*zoom:1}
+    .row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:10px;*margin-left:10px}
     .row-fluid [class*="span"]:first-child{margin-left:0}
 }
 
-@media(max-width:480px) {
-    body{padding-left:0; padding-right:0;}
-    .navbar .container-fluid{width:480px;*zoom:1}
-    .container, .container-fluid{width:480px;*zoom:1}
-    .row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:2px;*margin-left:2px}
-    .row-fluid [class*="span"]:first-child{margin-left:0}
-}
-@media(max-width:320px) {
-    .navbar .container-fluid{width:320px;*zoom:1}
-    .container, .container-fluid{width:320px;*zoom:1}
-    .row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:2px;*margin-left:2px}
-    .row-fluid [class*="span"]:first-child{margin-left:0}
+@media(max-width:400px) {
+    .navbar .container-fluid{width:400px;*zoom:1}
 }
 
 /* dashboard styles */
 /* TODO: move into dashboard.less file */
-.dashboard-list { padding: 6px; }
+.dashboard-list { padding: 6px; overflow-y: auto; }
 .dashboard-list ul { margin: 0; }
 .dashboard-list li a {  cursor: pointer; } 
-.dashboard-left .itemlist span { padding-left: 10px; } 
+.dashboard-list li a.paused { color: @navbarSearchPlaceholderColor; }
+.dashboard-left .itemlist span,  .dashboard-left .itemlist em { padding-left: 21px; } 
+.dashboard-right li.active { text-transform: uppercase; text-align: center; }
+.dashboard-right .dropdown-menu.pull-right { left: auto; right: 0; }
+
+/* busy animation for suggestions pane */
+.dashboard-right .working { text-align: center; width: 100%; }
+.dashboard-right .working span {
+    display: inline-block; width: 16px; height: 11px;
+    background: transparent url(images/busy.gif) no-repeat;
+    opacity:0.6; filter:alpha(opacity=60);
+}
 
 .dashboard-center { padding: 0; margin: 0; }
-.dashboard-center.well { padding: 3px; }
+.dashboard-center.well { padding: 8px; }
 
 .dashboard-center .hero-unit, .dashboard-center .manager-folders, 
 .dashboard-center .manager-settings { margin-top: -16px; }
@@ -64,7 +68,7 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .nav-tabs .active { font-weight: bold; }
 .dashboard-center .tab-content {
     padding: 12px;
-    border: 1px solid #dddddd;          /* use btnBorder */
+    border: 1px solid @btnBorder;         
     border-top-color: transparent;
     -webkit-border-radius: 0 4px 4px 4px;
     -moz-border-radius: 0 4px 4px 4px;
@@ -73,12 +77,13 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .tab-content .form-vertical { min-height: 240px; }
 .dashboard-center .tab-content .form-vertical .control-group { margin: 0 10px 0 0; padding: 0; }
 .dashboard-center .tab-content .form-vertical .control-label { font-size: 8pt; margin: 0 0 -4px 8px; }
-.Xdashboard-center .tab-content .form-vertical .btn-group > .btn:first-child { min-width: 60px; text-align: left; }
+/* .dashboard-center .tab-content .form-vertical .btn-group > .btn:first-child { min-width: 60px; text-align: left; } */
 .dashboard-center .nav-list small { font-size: 90%; margin-right: 12px;  }
 .dashboard-center .nav-list .form-inline .checkbox { margin-right: 6px; margin-top: -2px; }
+.dashboard-center .manager-folders { position: relative; }
 .dashboard-center .manager-folders .tab-content .nav-list { overflow-y: auto; overflow-x: hidden; padding: 0; }
-.dashboard-center .manager-folders .tab-content .nav-list li { border-top: 1px solid #dddddd; padding: 0 0 0 8px; }
-.dashboard-center .manager-folders .tab-content .nav-list li.selected { background-color: #eeeeee; }  /* use @btnBackgroundHighlight */
+.dashboard-center .manager-folders .tab-content .nav-list li { border-top: 1px solid @btnBorder; padding: 0 0 0 8px; }
+.dashboard-center .manager-folders .tab-content .nav-list li.selected { background-color: @btnBackgroundHighlight; }  
 .dashboard-center .manager-folders .tab-content textarea { height: 60px; }
 .dashboard-center .manager-folders .tab-content .input-inline-max { display:inline-block; width: 90%; }
 
@@ -88,16 +93,12 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 }
 .dashboard-center .carousel .input-block-level:focus { overflow-y: auto; }
 .dashboard-center .carousel .fn-name { color: black; font-weight: bold; background-color: transparent; border-style: none; }
-.dashboard-center .carousel .fn-name:focus { color: black; font-weight: normal; background-color: white; }
+.dashboard-center .carousel .fn-name:focus { color: black; font-weight: normal; background-color: @white; }
 .dashboard-center .carousel .form-inline .checkbox { margin-right: 6px; margin-top: 5px; }
 .dashboard-center .carousel .form-inline.well { height: 64px; padding: 8px 8px 8px 8px;}
 .dashboard-center .carousel .form-inline.well .thumbnail { margin: 0; padding: 2px; height: 64px; max-width: 64px; float: right; }
 .dashboard-center .carousel .form-inline.well .thumbnail img { width: 100%; height: 100%; }
-.dashboard-center .carousel .form-inline.well .btn-toolbar { margin: 0 0 4px 0; padding: 0 0 4px 0; Xborder: 1px solid blue; }
-
-.inline-left { display: inline-block; float: left; }
-.inline-right { display: inline-block; float: right; }
-.control-group.inline-right { margin-left: 8px; }
+.dashboard-center .carousel .form-inline.well .btn-toolbar { margin: 0 0 4px 0; padding: 0 0 4px 0; }
 
 /* styles for paging */
 .page-turn-prev { display: inline-block; width: 24px; height: 24px;
@@ -117,6 +118,33 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .link-array a { font-size: 90%; margin: 0 24px 0 6px; }
 .link-array a.icon { margin: 0; }
 .link-array input { margin-bottom: 2px; }
+
+/* positioning */
+.position-relative { position: relative; }
+.absolute-right { position: absolute; top: 4px; right: 6px; }
+.popup-text { position: absolute; top: 2px; left: 2px; width: 80%; }
+.icon.absolute-right:hover { background-color: transparent; }
+.inline-left { display: inline-block; float: left; }
+.inline-right { display: inline-block; float: right; }
+.control-group.inline-right { margin-left: 8px; }
+
+/* item status icon */
+.item-status { position: absolute; top: 10px; right: 12px; }
+.item-status i { font-size: 16pt; }
+.item-status i.icon-play { color: @btnSuccessBackground }
+.item-status i.icon-play:hover { color: @btnSuccessBackgroundHighlight }
+.item-status i.icon-pause { color: @btnWarningBackground }
+.item-status i.icon-pause:hover { color: @btnWarningBackgroundHighlight }
+
+/* drag handle icon */
+.icon.drag-handle { position: absolute; top: 7px; left: 1px; color: transparent; cursor: n-resize; font-family: Arial; font-size: 22pt; }
+li:hover .icon.drag-handle { color: inherit; }
+li.active:hover .icon.drag-handle { color: @white; }
+
+/* custom buttons */
+.btn-command { color: @grayLight; }
+.btn-dropdown { color: @white; cursor: pointer; }
+.btn-dropdown.open .dropdown-toggle { background-color: transparent; }
 
 /* custom icons */
 i.icon-azure { display: inline-block; width: 16px; height: 16px; cursor: pointer; 
@@ -138,9 +166,3 @@ jquery-ui combobox extension
 .ui-combobox { position: relative; display: inline-block; }
 .ui-combobox .ui-button { position: absolute; margin-left: -1px; padding: 0; top: 0; bottom: 0; }
 .ui-autocomplete-input { margin: 0; padding: 0.3em }
-
-/* correct some styles for steplist buttons */
-.dashboard-center .manager-folders .tab-content .nav-list .step-button-list li.step-button { border-top: 0px; }
-.step-button-list { margin-bottom: 0px; }
-.btn-toolbar .btn.step-button { padding-left: 8px; padding-right: 8px; margin-left: 5px;}
-

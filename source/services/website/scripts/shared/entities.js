@@ -117,6 +117,7 @@ Item.prototype.GetItemType = function () { return DataModel.Constants.ItemTypes[
 Item.prototype.GetItems = function (excludeListItems) { return DataModel.GetItems(this.FolderID, this.ID, excludeListItems); };
 Item.prototype.InsertItem = function (newItem, adjacentItem, insertBefore, activeItem) { return DataModel.InsertItem(newItem, this, adjacentItem, insertBefore, activeItem); };
 Item.prototype.Update = function (updatedItem, activeItem) { return DataModel.UpdateItem(this, updatedItem, activeItem); };
+Item.prototype.UpdateStatus = function (status) { var copy = this.Copy(); copy.Status = status; return this.Update(copy); };
 Item.prototype.Delete = function (activeItem) { return DataModel.DeleteItem(this, activeItem); };
 Item.prototype.HasField = function (name) { return this.GetItemType().HasField(name); };
 Item.prototype.GetField = function (name) { return this.GetItemType().Fields[name]; };

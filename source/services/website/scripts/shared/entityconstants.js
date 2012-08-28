@@ -133,6 +133,16 @@ var Reasons = {
 }
 
 // ---------------------------------------------------------
+// StatusTypes constants (for Item.Status)
+
+var StatusTypes = {
+    Active: "Active",
+    Complete: "Complete",
+    Paused: "Paused",
+    Skipped: "Skipped"
+}
+
+// ---------------------------------------------------------
 // Sources constants
 
 var Sources = {
@@ -171,13 +181,4 @@ var ActionTypes = {
     Schedule: "Schedule on calendar",
     Map: "Map",
     TextMessage: "Text"
-}
-
-// ---------------------------------------------------------
-// StatusTypes constants (for Item.Status)
-
-var StatusTypes = {
-    Active: "Active",
-    Complete: "Complete",
-    Skipped: "Skipped"
 }

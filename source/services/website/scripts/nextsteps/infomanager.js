@@ -14,7 +14,7 @@ function InfoManager(parentControl, $parentElement) {
     this.currentItem = null;
     this.views = {};
     this.onSelectionChangedHandlers = {};
-    this.itemEditor = new ItemEditor(this);
+    this.itemViewer = new ItemViewer(this);
 }
 
 InfoManager.ActivityView = "fm-list-view";
@@ -83,10 +83,10 @@ InfoManager.prototype.render = function () {
     var maxContentHeight = this.$parentElement.outerHeight() - $tabs.outerHeight();
 
     if (activeView == InfoManager.StepView) {
-        this.itemEditor.render($view, this.activeItem(), maxContentHeight);
+        this.itemViewer.render($view, this.activeItem(), maxContentHeight);
     }
     if (activeView == InfoManager.ActivityView) {
-        this.itemEditor.render($view, this.activeItem().parent(), maxContentHeight);
+        this.itemViewer.render($view, this.activeItem().parent(), maxContentHeight);
     }
     $tabs.find('a[href=".' + activeView + '"]').tab('show');
 }
@@ -109,7 +109,8 @@ InfoManager.prototype.activeItem = function () {
 InfoManager.prototype.activeItemName = function () {
     var activeItem = this.activeItem();
     if (activeItem != null) {
-        var $icon = Control.Icons.forActionType(activeItem);
+        var actionType = activeItem.GetActionType();
+        var $icon = Control.Icons.forActionType(actionType);
         return $('<span>&nbsp;' + activeItem.Name + '</span>').prepend($icon);
     }
     return $('<span>Item View</span>');

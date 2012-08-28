@@ -883,6 +883,6 @@ i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;backgrou
 .ui-combobox{position:relative;display:inline-block}
 .ui-combobox .ui-button{position:absolute;margin-left:-1px;padding:0;top:0;bottom:0}
 .ui-autocomplete-input{margin:0;padding:.3em}
-.dashboard-center .manager-folders .tab-content .nav-list .step-button-list .step-button li{border-top:0}
+.dashboard-center .manager-folders .tab-content .nav-list .step-button-list li.step-button{border-top:0}
 .step-button-list{margin-bottom:0}
 .btn-toolbar .btn.step-button{padding-left:8px;padding-right:8px;margin-left:5px}

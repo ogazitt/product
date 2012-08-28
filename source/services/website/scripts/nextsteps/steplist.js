@@ -75,20 +75,17 @@ ListView.prototype.renderListItems = function (listItems) {
         var $item = $('<a class="form-inline" />').appendTo($li);
 
         if (Browser.IsMobile()) {
-            //this.renderButtons($li, item);
-            //Control.DeferButton.renderDropdown($li, item);
             this.renderToolbar($li, item);
-            //var $toolbar = $('<div class="btn-toolbar" />').appendTo($li);
-            //Control.ActionType.renderDropdown($toolbar, item, true);
         }
         else {
-            // render complete, skip, and defer buttons
+            // render info, complete, skip, and defer buttons
+            var $infoBtn = Control.Icons.infoBtn(item).appendTo($item);
+            $infoBtn.addClass('pull-right');
             var $completeBtn = Control.Icons.completeBtn(item).appendTo($item);
             $completeBtn.addClass('pull-right');
             var $skipBtn = Control.Icons.skipBtn(item).appendTo($item);
             $skipBtn.addClass('pull-right');
-            //var $deferBtn = Control.Icons.deferBtn(item).appendTo($item);
-            var $deferBtn = Control.DeferButton($item, item);
+            var $deferBtn = Control.DeferButton.renderDropdown($item, item);
             $deferBtn.addClass('pull-right');
 
             // render the action button based on the action type
@@ -146,33 +143,6 @@ ListView.prototype.renderToolbar = function ($item, item) {
     }
 }
 
-ListView.prototype.renderButtons = function ($item, item) {
-    var $buttonWell = $('<div class="well well-tiny"><ul class="nav nav-pills step-button-list" /></div>').appendTo($item);
-    // render complete, skip, and defer buttons
-    var $completeBtn = $('<li class="step-button" />').append(Control.Icons.completeBtn(item));
-    $completeBtn.css('border-top', '0px');  // HACK: hardcoded since step-button style doesn't override ".dashboard-center .manager-folders .tab-content .nav-list li"
-    $completeBtn.one('click', function (e) { var $h2 = $completeBtn.find('h2');  $h2.click(); });
-    $buttonWell.find('ul').append($completeBtn);
-
-    var $skipBtn = $('<li class="step-button" />').append(Control.Icons.skipBtn(item));
-    $skipBtn.css('border-top', '0px');  // HACK: hardcoded since step-button style doesn't override ".dashboard-center .manager-folders .tab-content .nav-list li"
-    $skipBtn.one('click', function (e) { $skipBtn.find('h2').click(); });
-    $buttonWell.find('ul').append($skipBtn);
-
-    var $deferBtn = $('<li class="step-button" />').append(Control.Icons.deferBtn(item));
-    //var $deferBtn = $('<li class="step-button" />');
-    //Control.DeferButton.renderDropdown($deferBtn, item);
-    $deferBtn.css('border-top', '0px');  // HACK: hardcoded since step-button style doesn't override ".dashboard-center .manager-folders .tab-content .nav-list li"
-    $deferBtn.one('click', function (e) { $deferBtn.find('h2').click(); });
-    $buttonWell.find('ul').append($deferBtn);
-
-    // render the action button based on the action type
-    var $actionButton = $('<li class="step-button" />').append(this.actionButton(item));
-    $actionButton.css('border-top', '0px');  // HACK: hardcoded since step-button style doesn't override ".dashboard-center .manager-folders .tab-content .nav-list li"
-    $actionButton.one('click', function (e) { $actionButton.find('h2').click(); });
-    $buttonWell.find('ul').append($actionButton);
-}
-
 ListView.prototype.actionButton = function (item) {
     var actionType = item.GetActionType();
     if (actionType == null) return null;
@@ -196,8 +166,7 @@ ListView.prototype.renderNameField = function ($item, item) {
     field = fields[FieldNames.Name];
     // workaround for IE9 bug - where the name field for list items past the first one is indented. 
     // adding a zero-height <p> fixes this.
-    var $p = $('<p />'); 
-    $p.css('height', '0px');
+    var $p = $('<p style="height: 0px;" />'); 
     $p.appendTo($item);
     Control.Text.renderLabel($item, item, field).appendTo($item);
 }

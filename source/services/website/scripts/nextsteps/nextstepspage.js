@@ -11,6 +11,7 @@ var NextStepsPage = function NextStepsPage$() {
     this.dataModel = null;
     this.stepList = null;
     this.actionTypeList = null;
+    this.currentManager = null;
 }
 
 // ---------------------------------------------------------
@@ -34,7 +35,7 @@ NextStepsPage.Init = function NextStepsPage$Init(dataModel) {
 
     // info manager
     NextStepsPage.infoManager = new InfoManager(NextStepsPage, NextStepsPage.$center);
-    NextStepsPage.infoManager.addSelectionChangedHandler('nextsteps', NextStepsPage.ManageActionType);
+    //NextStepsPage.infoManager.addSelectionChangedHandler('nextsteps', NextStepsPage.ManageActionType);
 
     // step manager
     NextStepsPage.stepManager = new StepManager(NextStepsPage, NextStepsPage.$center);
@@ -64,8 +65,10 @@ NextStepsPage.ManageDataChange = function NextStepsPage$ManageDataChange(folderI
 }
 
 // event handler, do not reference 'this' to access static NextStepsPage
-NextStepsPage.ManageActionType = function NextStepsPage$ManageActionType(actionType) {
-    NextStepsPage.showManager(NextStepsPage.stepManager);
+NextStepsPage.ManageActionType = function NextStepsPage$ManageActionType(actionType, userAction) {
+    // reset manager to Step Manager only if this was a user action
+    var manager = (userAction == true) ? NextStepsPage.stepManager : NextStepsPage.currentManager;
+    NextStepsPage.showManager(manager);
     NextStepsPage.stepManager.selectActionType(actionType);
 }
 
@@ -113,8 +116,8 @@ NextStepsPage.resize = function NextStepsPage$resize() {
     NextStepsPage.$left.height(dbHeight);
     NextStepsPage.$center.height(dbHeight);
 
-    //NextStepsPage.showManager(NextStepsPage.currentManager, true);
     NextStepsPage.actionTypeList.render(NextStepsPage.$left);
+    NextStepsPage.showManager(NextStepsPage.currentManager, true);
 
     $(window).bind('resize', NextStepsPage.resize);
     NextStepsPage.resizing = false;

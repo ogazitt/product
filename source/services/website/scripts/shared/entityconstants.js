@@ -161,19 +161,16 @@ var SystemUsers = {
 // ---------------------------------------------------------
 // ActionTypes constants
 
-var ActionTypes = {                 // FieldNames:
-    Call: "Call",                   // Phone, HomePhone, WorkPhone
-    SendEmail: "Email",             // Email
-    Find: "Find",                   // ??
-    Schedule: "Schedule on calendar", // DueDate
-    Map: "Map",                     // Address
-    TextMessage: "Text",            // Phone
-    Default: "Uncategorized"
-    //Browse: "Browse",               // WebLink
-    //Navigate: "Navigate",           // Contacts, Locations
-    //Postpone: "Postpone",           // DueDate
-    //PostToFacebook: "PostToFacebook",  
-    //Tweet: "Tweet"             
+var ActionTypes = {
+    All: "All",
+    Remind: "Remind",
+    Call: "Call",
+    SendEmail: "Email",
+    AskFriends: "Ask FB friends",
+    Find: "Find local businesses",
+    Schedule: "Schedule on calendar",
+    Map: "Map",
+    TextMessage: "Text"
 }
 
 // ---------------------------------------------------------

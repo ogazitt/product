@@ -248,6 +248,7 @@
     </Content>
     <Content Include="scripts\mobile\actiontypelist.js" />
     <Content Include="scripts\nextsteps\infomanager.js" />
+    <Content Include="scripts\nextsteps\itemviewer.js" />
     <Content Include="scripts\nextsteps\nextsteps.generated.min.js">
       <DependentUpon>nextsteps.js.chirp.config</DependentUpon>
     </Content>

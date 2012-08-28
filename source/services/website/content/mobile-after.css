@@ -140,7 +140,7 @@ jquery-ui combobox extension
 .ui-autocomplete-input { margin: 0; padding: 0.3em }
 
 /* correct some styles for steplist buttons */
-.dashboard-center .manager-folders .tab-content .nav-list .step-button-list .step-button li { border-top: 0px; }
+.dashboard-center .manager-folders .tab-content .nav-list .step-button-list li.step-button { border-top: 0px; }
 .step-button-list { margin-bottom: 0px; }
 .btn-toolbar .btn.step-button { padding-left: 8px; padding-right: 8px; margin-left: 5px;}
 

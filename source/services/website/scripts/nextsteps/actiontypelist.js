@@ -24,11 +24,11 @@ ActionTypeList.prototype.removeSelectionChangedHandler = function (name) {
     this.onSelectionChangedHandlers[name] = undefined;
 }
 
-ActionTypeList.prototype.fireSelectionChanged = function (actionType) {
+ActionTypeList.prototype.fireSelectionChanged = function (actionType, userAction) {
     for (var name in this.onSelectionChangedHandlers) {
         var handler = this.onSelectionChangedHandlers[name];
         if (typeof (handler) == "function") {
-            handler(actionType);
+            handler(actionType, userAction);
         }
     }
 }
@@ -43,8 +43,8 @@ ActionTypeList.prototype.render = function ($element, actionTypes) {
     var $currentActionType = null;
     for (var id in this.actionTypes) {
         var actionType = this.actionTypes[id];
-        var actionTypeName = Browser.IsMobile() ? '' : actionType.Name;
-        $actionType = $('<li><a><strong>&nbsp;' + actionTypeName + '</strong></a></li>').appendTo(this.$element);
+        var actionTypeName = Browser.IsMobile() ? '' : '&nbsp;' + actionType.Name;
+        $actionType = $('<li><a><strong>' + actionTypeName + '</strong></a></li>').appendTo(this.$element);
         $actionType.data('control', this);
         $actionType.data('item', actionType);
         $actionType.click(function () { Control.get(this).actionTypeClicked($(this)); });
@@ -64,7 +64,7 @@ ActionTypeList.prototype.actionTypeClicked = function ($actionType) {
     var actionType = $actionType.data('item');
     this.select($actionType, actionType);
     this.currentActionType = actionType;
-    this.fireSelectionChanged(actionType);
+    this.fireSelectionChanged(actionType, true);  // signal that this was a user click
 }
 
 ActionTypeList.prototype.select = function ($item, item) {

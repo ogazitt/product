@@ -253,31 +253,31 @@ Item.prototype.RemoveReferences = function (field) {
 };
 
 Item.prototype.GetActionType = function () {
-    var actionTypeName = this.GetFieldValue(this.GetField(FieldNames.ActionType));
-    if (actionTypeName == null) actionTypeName = ActionTypes.Default;
+    var actionTypeName = this.GetFieldValue(FieldNames.ActionType);
+    if (actionTypeName == null) actionTypeName = ActionTypes.Remind;
     var actionType = DataModel.FindActionType(actionTypeName);
     return actionType;
 }
 // helper for getting the first location associated with the item
 Item.prototype.GetLocation = function () {
-    var listItem = this.GetFieldValue(this.GetField(FieldNames.Locations));
+    var listItem = this.GetFieldValue(FieldNames.Locations);
     if (listItem != null) {
         var list = DataModel.GetItems(listItem.FolderID, listItem.ID, true);
         for (var id in list) {
             // return first item
-            return list[id].GetFieldValue(list[id].GetField(FieldNames.EntityRef));
+            return list[id].GetFieldValue(FieldNames.EntityRef);
         }
     }
     return null;
 }
 // helper for getting the first location associated with the item
 Item.prototype.GetContact = function () {
-    var listItem = this.GetFieldValue(this.GetField(FieldNames.Contacts));
+    var listItem = this.GetFieldValue(FieldNames.Contacts);
     if (listItem != null) {
         var list = DataModel.GetItems(listItem.FolderID, listItem.ID, true);
         for (var id in list) {
             // return first item
-            return list[id].GetFieldValue(list[id].GetField(FieldNames.EntityRef));
+            return list[id].GetFieldValue(FieldNames.EntityRef);
         }
     }
     return null;
@@ -287,13 +287,13 @@ Item.prototype.GetPhoneNumber = function () {
     var item = this.GetLocation();
     if (item == null) item = this.GetContact();
     if (item != null) {
-        var phone = item.GetFieldValue(item.GetField(FieldNames.Phone));
+        var phone = item.GetFieldValue(FieldNames.Phone);
         phone = phone.replace(/[^0-9]+/g, '');
         return phone;
     }
     return null;
 }
-// helper for finding a phone number of an item (via locations or contacts)
+// helper for finding a map link (via locations or contacts)
 Item.prototype.GetMapLink = function () {
     var item = this.GetLocation();
     if (item == null) item = this.GetContact();
@@ -431,21 +431,33 @@ ActionType.Extend = function ActionType$Extend(actionType) { return $.extend(new
 ActionType.prototype.Copy = function () { var copy = $.extend(new ActionType(), this); return copy; };
 ActionType.prototype.GetSteps = function (sort, status) {
     if (status === undefined) status = StatusTypes.Active;
-    var steps = {};
+    var steps = [];
+    var index = 0;
     for (var i in DataModel.Folders) {
         var folder = DataModel.Folders[i];
         for (var j in folder.Items) {
             var item = folder.Items[j];
             if (item.ItemTypeID == ItemTypes.Step) {
-                var actionType = item.GetActionType();
-                if (actionType === this) {
-                    if (item.Status == status) steps[item.ID] = item;
+                if (this.Name == ActionTypes.All || item.GetActionType() === this) {
+                    if (item.Status == status) steps[index++] = item;
                     // TODO: remove (this is for testing)
-                    if (!item.GetFieldValue(item.GetField(FieldNames.Complete))) steps[item.ID] = item;
+                    else if (!item.GetFieldValue(FieldNames.Complete)) steps[index++] = item;
                 }
             }
         }
     }
+    steps.sort(function (a, b) {
+        var dueA = a.GetFieldValue(FieldNames.DueDate);
+        var dueB = b.GetFieldValue(FieldNames.DueDate);
+        if (dueA == dueB) return 0;
+        if (dueA == null) return 1;
+        if (dueB == null) return -1;
+        var dueDateA = new Date(dueA);
+        var dueDateB = new Date(dueB);
+        if (dueDateA == dueDateB) return 0;
+        if (dueDateA > dueDateB) return -1;
+        return 1;
+    });
     return steps;
 }
 

@@ -27,7 +27,7 @@
                 // TODO: if consent fails, un-Choose the Suggestion
 
                 // if this is a mobile client, redirect to the mobile page
-                if (BrowserAgent.IsMobile(Request.UserAgent))
+                if (Request.Url.PathAndQuery == "/" && BrowserAgent.IsMobile(Request.UserAgent))
                     return RedirectToAction("Home", "Mobile");
             }
             catch

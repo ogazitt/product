@@ -204,6 +204,12 @@ Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
 
     var $icon = $('<i></i>');
     switch (actionTypeName) {
+        case ActionTypes.All:
+            $icon.addClass('icon-play');
+            break;
+        case ActionTypes.Remind:
+            $icon.addClass('icon-time');
+            break;
         case ActionTypes.Call:
             $icon.addClass('icon-phone');
             break;
@@ -213,6 +219,9 @@ Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
         case ActionTypes.Find:
             $icon.addClass('icon-search');
             break;
+        case ActionTypes.AskFriends:
+            $icon.addClass('icon-facebook');
+            break;
         case ActionTypes.Schedule:
             $icon.addClass('icon-calendar');
             break;
@@ -221,9 +230,6 @@ Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
             break;
         case ActionTypes.TextMessage:
             $icon.addClass('icon-list-alt');
-            break;
-        case ActionTypes.Default:
-            $icon.addClass('icon-question-sign');
             break;
         default:
             $icon.addClass('icon-question-sign');
@@ -278,7 +284,7 @@ Control.Icons.completeBtn = function Control$Icons$completeBtn(item) {
     var $icon = $('<h2 class="icon-check"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
-    $icon.attr('title', 'Complete').tooltip(Control.noDelay);
+    $icon.attr('title', 'Complete').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -295,7 +301,7 @@ Control.Icons.skipBtn = function Control$Icons$skipBtn(item) {
     var $icon = $('<h2 class="icon-step-forward"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
-    $icon.attr('title', 'Skip').tooltip(Control.noDelay);
+    $icon.attr('title', 'Skip').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -312,14 +318,17 @@ Control.Icons.deferBtn = function Control$Icons$deferBtn(item) {
     var $icon = $('<h2 class="icon-calendar"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
-    $icon.attr('title', 'Defer').tooltip(Control.noDelay);
+    $icon.attr('title', 'Defer').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
+        // the parent control (the Control.DeferButton.renderDropdown) handles the actual work
         return true;   // propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
-    return $('<a class="icon" />').append($icon);
+    // doesn't appear that this is needed (it also messes up the click event)
+    //return $('<a class="icon" />').append($icon);
+    return $icon;
 }
 
 // return an element that is an icon for getting more information for an item
@@ -327,7 +336,7 @@ Control.Icons.infoBtn = function Control$Icons$infoBtn(item) {
     var $icon = $('<h2 class="icon-info-sign"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
-    $icon.attr('title', 'Information').tooltip(Control.noDelay);
+    $icon.attr('title', 'Information').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -386,7 +395,7 @@ Control.Text.render = function Control$Text$render($element, item, field, tag, t
     var $tag;
     var value = item.GetFieldValue(field);
     if (field.DisplayType == DisplayTypes.DatePicker) {
-        value = Control.DateTime.format(value);
+        value = Control.DateTime.format(value, 'mediumDate');
     } else if (field.DisplayType == DisplayTypes.DateTimePicker) {
         value = Control.DateTime.format(value);
     }
@@ -1187,8 +1196,8 @@ Control.ActionType.renderDropdown = function Control$ActionType$renderDropdown($
     // only render if the item type has an ActionType field
     if (!item.HasField(FieldNames.ActionType)) return;
 
-    var currentActionTypeName = item.GetFieldValue(item.GetField(FieldNames.ActionType));
-    if (currentActionTypeName == null) currentActionTypeName = ActionTypes.Default;
+    var currentActionTypeName = item.GetFieldValue(FieldNames.ActionType);
+    if (currentActionTypeName == null) currentActionTypeName = ActionTypes.Remind;
     var $wrapper = $wrapper = $('<div class="control-group"></div>').appendTo($element);
     if (noLabel != true) {
         var labelType = (item.IsFolder() || item.IsList) ? 'List' : 'Item';
@@ -1208,6 +1217,7 @@ Control.ActionType.renderDropdown = function Control$ActionType$renderDropdown($
     $dropdown.data('item', item);
     for (var id in ActionTypes) {
         var actionType = ActionTypes[id];
+        if (actionType == ActionTypes.All) continue;
         var $menuitem = $('<li><a></a></li>').appendTo($dropdown);
         $menuitem.find('a').append(Control.Icons.forActionType(actionType));
         $menuitem.find('a').append('<span>&nbsp;&nbsp;' + actionType + '</span>');
@@ -1237,8 +1247,15 @@ Control.DeferButton.renderDropdown = function Control$DeferButton$renderDropdown
     if (!item.HasField(FieldNames.DueDate)) return;
 
     var $wrapper = $('<div class="control-group"></div>').appendTo($element);
-    var $btnGroup = $('<div class="btn-group" />').appendTo($wrapper);
-    var $btn = $('<a class="btn dropdown-toggle" data-toggle="dropdown"><h2 class="icon-calendar"/></a>').appendTo($btnGroup);
+    var $btnGroup = $('<div />').appendTo($wrapper);
+    if (Browser.IsMobile()) {
+        $btnGroup.addClass('btn-group');
+    }
+    else {
+        $btnGroup.addClass('dropdown');
+    }
+    var $btn = $('<a class="dropdown-toggle icon" data-toggle="dropdown"></a>').append(Control.Icons.deferBtn(item)).appendTo($btnGroup);
+    if (Browser.IsMobile()) { $btn.addClass('btn'); }
     var $dropdown = $('<ul class="dropdown-menu" />').appendTo($btnGroup);
     $dropdown.data('item', item);
 
@@ -1409,7 +1426,7 @@ Control.DateFormat = function Control$DateFormat() {
 Control.DateFormat.masks = {
     "default": "ddd, mmm dd, yyyy h:MM TT",
     shortDate: "m/d/yy",
-    mediumDate: "mmm d, yyyy",
+    mediumDate: "ddd, mmm dd, yyyy",
     longDate: "mmmm d, yyyy",
     fullDate: "dddd, mmmm d, yyyy",
     shortTime: "h:MM TT",

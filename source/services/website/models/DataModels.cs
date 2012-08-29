@@ -137,8 +137,11 @@
                 if (userData == null)
                 {
                     // synchronize with Calendar (BEFORE getting UserData)
-                    GoogleClient client = new GoogleClient(currentUser, storageContext);
-                    client.SynchronizeCalendar();
+                    // 2012-08-29 OG: commented out the two lines below.  We don't need to synchronize with Google anymore.
+                    // also, the Item ID stored in the google calendar item's extended properties doesn't have an EndDate FieldValue anymore
+
+                    //GoogleClient client = new GoogleClient(currentUser, storageContext);
+                    //client.SynchronizeCalendar();
 
                     userData = storageContext.Users.
                         Include("ItemTypes.Fields").

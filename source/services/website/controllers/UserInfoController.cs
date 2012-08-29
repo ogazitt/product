@@ -3,11 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Web.Mvc;
 
     using BuiltSteady.Product.ServerEntities;
+    using BuiltSteady.Product.ServiceHost;
     using BuiltSteady.Product.Shared.Entities;
-    using System.Net;
 
     public class UserInfoController : BaseController
     {
@@ -16,6 +17,12 @@
             public HttpStatusCode StatusCode = HttpStatusCode.OK;
             public int Count = -1;
             public Dictionary<string, string> Contacts = null;
+        }
+
+        class JsAppointmentResult
+        {
+            public HttpStatusCode StatusCode = HttpStatusCode.OK;
+            public Item Result;
         }
 
         public ActionResult PossibleContacts(string startsWith = null, string contains = null, int maxCount = 10)
@@ -61,5 +68,20 @@
             return result;
         }
 
+        [HttpPost]
+        public ActionResult CreateAppointment(Appointment appointment)
+        {
+            GoogleClient client = new GoogleClient(CurrentUser, StorageContext);
+            var item = client.AddCalendarEvent(appointment);
+            var appointmentResult = new JsAppointmentResult();
+            if (item != null)
+                appointmentResult.Result = item;
+            else
+                appointmentResult.StatusCode = HttpStatusCode.InternalServerError;
+
+            JsonResult result = new JsonResult();
+            result.Data = appointmentResult;
+            return result;
+        }
     }
 }

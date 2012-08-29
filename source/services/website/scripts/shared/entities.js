@@ -555,6 +555,16 @@ ActionType.prototype.GetSteps = function (sort, status) {
 }
 
 // ---------------------------------------------------------
+// Appointment object - provides prototype functions for Appointment
+
+function Appointment() { };
+Appointment.Extend = function Appointment$Extend(appt) { return $.extend(new Appointment(), appt); }  // extend with Appointment prototypes
+
+// Appointment public functions
+Appointment.prototype.Copy = function () { var copy = $.extend(new Appointment(), this); return copy; };
+
+
+// ---------------------------------------------------------
 // ItemType object - provides prototype functions for ItemType
 
 function ItemType() { }

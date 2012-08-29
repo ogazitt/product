@@ -354,7 +354,7 @@ Item.prototype.Complete = function () {
 
     // make next step active and set due date
     var nextStep = this.nextItem();
-    if (nextStep != null) {
+    if (nextStep != null && nextStep.IsStep()) {
         this.Update(copy, null);
         nextStep.Active(this.GetFieldValue(FieldNames.DueDate));
     } else {
@@ -366,14 +366,14 @@ Item.prototype.Skip = function () {
     this.UpdateStatus(StatusTypes.Skipped, null);
     // find the next step in the Activity and make it Active
     var nextStep = this.nextItem();
-    if (nextStep != null) {
+    if (nextStep != null && nextStep.IsStep()) {
         nextStep.Active(this.GetFieldValue(FieldNames.DueDate));
     } 
 }
 // helper for marking item paused and marking first active child item paused
 Item.prototype.Pause = function () {
     // TODO: this should only iterate 'current' steps
-    var steps = this.GetItems();
+    var steps = this.GetItems(true);
     for (var id in steps) {
         var step = steps[id];
         if (step.IsActive()) {
@@ -437,7 +437,6 @@ Item.prototype.Active = function (newDueDate) {
 
     return null;
 }
-
 
 // Item private functions
 Item.prototype.addItem = function (newItem, activeItem) { this.GetFolder().addItem(newItem, activeItem); };

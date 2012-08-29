@@ -15,6 +15,8 @@ Folder.Extend = function Folder$Extend(folder) { return $.extend(new Folder(), f
 // do not deep copy, remove Items collection, copy is for updating Folder entity only
 Folder.prototype.Copy = function () { var copy = $.extend(new Folder(), this); copy.Items = {}; copy.ItemsMap = {}; return copy; };
 Folder.prototype.IsFolder = function () { return true; };
+Folder.prototype.IsCategory = function () { return (this.ItemTypeID == ItemTypes.Category); };
+Folder.prototype.IsActivity = function () { return (this.ItemTypeID == ItemTypes.Activity); };
 Folder.prototype.IsDefault = function () {
     var defaultList = DataModel.UserSettings.GetDefaultList(this.ItemTypeID);
     if (defaultList != null) {
@@ -117,7 +119,6 @@ Item.prototype.GetItemType = function () { return DataModel.Constants.ItemTypes[
 Item.prototype.GetItems = function (excludeListItems) { return DataModel.GetItems(this.FolderID, this.ID, excludeListItems); };
 Item.prototype.InsertItem = function (newItem, adjacentItem, insertBefore, activeItem) { return DataModel.InsertItem(newItem, this, adjacentItem, insertBefore, activeItem); };
 Item.prototype.Update = function (updatedItem, activeItem) { return DataModel.UpdateItem(this, updatedItem, activeItem); };
-Item.prototype.UpdateStatus = function (status) { var copy = this.Copy(); copy.Status = status; return this.Update(copy); };
 Item.prototype.Delete = function (activeItem) { return DataModel.DeleteItem(this, activeItem); };
 Item.prototype.HasField = function (name) { return this.GetItemType().HasField(name); };
 Item.prototype.GetField = function (name) { return this.GetItemType().Fields[name]; };
@@ -143,6 +144,9 @@ Item.prototype.GetFieldValue = function (field, handler) {
     if (field != null && this.HasField(field.Name)) {
         if (field.Name == FieldNames.Name) {
             return this.Name;
+        }
+        if (field.Name == FieldNames.Complete) {
+            return (this.Status == StatusTypes.Complete);
         }
         for (var i in this.FieldValues) {
             var fv = this.FieldValues[i];
@@ -175,6 +179,10 @@ Item.prototype.SetFieldValue = function (field, value) {
     if (field != null && this.HasField(field.Name)) {
         if (field.Name == FieldNames.Name) {
             this.Name = value;
+            return true;
+        }
+        if (field.Name == FieldNames.Complete) {
+            this.Status = (value == true) ? StatusTypes.Complete : null;
             return true;
         }
         if (this.FieldValues == null) {
@@ -322,36 +330,112 @@ Item.prototype.GetMapLink = function () {
     }
     return null;
 }
-// helper for completing an step
+
+// Item.Status helpers
+Item.prototype.UpdateStatus = function (status, activeItem) { var copy = this.Copy(); copy.Status = status; return this.Update(copy, activeItem); };
+Item.prototype.IsNullStatus = function () { return (this.Status == null); };
+Item.prototype.IsActive = function () { return (this.Status == StatusTypes.Active); };
+Item.prototype.IsComplete = function () { return (this.Status == StatusTypes.Complete); };
+Item.prototype.IsPaused = function () { return (this.Status == StatusTypes.Paused); };
+Item.prototype.IsSkipped = function () { return (this.Status == StatusTypes.Skipped); };
+
+// Activity and Step Item helpers
+Item.prototype.IsCategory = function () { return (this.ItemTypeID == ItemTypes.Category); };
+Item.prototype.IsActivity = function () { return (this.ItemTypeID == ItemTypes.Activity); };
+Item.prototype.IsStep = function () { return (this.ItemTypeID == ItemTypes.Step); };
+
+// helper for marking item complete and marking next item active
 Item.prototype.Complete = function () {
-    var updatedItem = this.Copy();
-    updatedItem.Status = StatusTypes.Complete;
-    updatedItem.SetFieldValue(this.GetField(FieldNames.Complete), true);
-    // timestamp CompletedOn field
-    if (updatedItem.HasField(FieldNames.CompletedOn)) {
-        updatedItem.SetFieldValue(FieldNames.CompletedOn, new Date().format());
+    var copy = this.Copy();
+    copy.Status = StatusTypes.Complete;
+    if (copy.HasField(FieldNames.CompletedOn)) {
+        copy.SetFieldValue(FieldNames.CompletedOn, new Date().format());
     }
-    this.Update(updatedItem, null);
-    // find the next step in the Activity and make it Active
-    var nextStep = this.nextStep();
-    if (nextStep != null) {
-        var updatedNextStep = nextStep.Copy();
-        updatedNextStep.Status = StatusTypes.Active;
-        nextStep.Update(updatedNextStep, null);
+
+    // make next step active and set due date
+    var nextStep = this.nextItem();
+    if (nextStep != null && nextStep.IsStep()) {
+        this.Update(copy, null);
+        nextStep.Active(this.GetFieldValue(FieldNames.DueDate));
+    } else {
+        this.Update(copy);
     }
 }
-// helper for skipping a step
+// helper for marking item skipped and marking next item active
 Item.prototype.Skip = function () {
-    var updatedItem = this.Copy();
-    updatedItem.Status = StatusTypes.Skipped;
-    this.Update(updatedItem, null);
+    this.UpdateStatus(StatusTypes.Skipped, null);
     // find the next step in the Activity and make it Active
-    var nextStep = this.nextStep();
-    if (nextStep != null) {
-        var updatedNextStep = nextStep.Copy();
-        updatedNextStep.Status = StatusTypes.Active;
-        nextStep.Update(updatedNextStep, null);
+    var nextStep = this.nextItem();
+    if (nextStep != null && nextStep.IsStep()) {
+        nextStep.Active(this.GetFieldValue(FieldNames.DueDate));
+    } 
+}
+// helper for marking item paused and marking first active child item paused
+Item.prototype.Pause = function () {
+    // TODO: this should only iterate 'current' steps
+    var steps = this.GetItems(true);
+    for (var id in steps) {
+        var step = steps[id];
+        if (step.IsActive()) {
+            step.UpdateStatus(StatusTypes.Paused, null);
+            break;
+        }
     }
+    this.UpdateStatus(StatusTypes.Paused);
+}
+// helper for marking item active and marking appropriate child item active
+// if due date is required, item requiring due date will be returned
+Item.prototype.Active = function (newDueDate) {
+    var steps = this.GetItems(true);
+    if (ItemMap.count(steps) == 0) {
+        var dueDate = (newDueDate != null) ? newDueDate : this.GetFieldValue(FieldNames.DueDate);
+        if (dueDate == null || dueDate.length == 0) {
+            return this;
+        } else {
+            // always update due date, in case new date was provided
+            var copy = this.Copy();
+            copy.Status = StatusTypes.Active;
+            copy.SetFieldValue(FieldNames.DueDate, dueDate);
+            this.Update(copy);
+            return null;
+        }
+    }
+
+    // TODO: this should only iterate 'current' steps
+    var prevStep = null;
+    for (var id in steps) {
+        var step = steps[id];
+        if (step.IsPaused()) {
+            // mark first paused step active
+            step.UpdateStatus(StatusTypes.Active, null);
+            this.UpdateStatus(StatusTypes.Active);
+            return null;
+        }
+        if (step.IsNullStatus()) {
+            // mark first null step active
+            var dueDate = (newDueDate != null) ? newDueDate : step.GetFieldValue(FieldNames.DueDate);
+            if (dueDate == null || dueDate.length == 0) {
+                if (prevStep != null) {         // try using due date of previous step
+                    dueDate = prevStep.GetFieldValue(FieldNames.DueDate);
+                } else {                        // try using due date of parent activity
+                    dueDate = this.GetFieldValue(FieldNames.DueDate);
+                }
+            }
+            if (dueDate != null && dueDate.length > 0) {
+                var copy = step.Copy();
+                copy.Status = StatusTypes.Active;
+                copy.SetFieldValue(FieldNames.DueDate, dueDate);
+                step.Update(copy, null);
+                this.UpdateStatus(StatusTypes.Active);
+                return null;
+            } else {
+                return step;
+            }
+        }
+        prevStep = step;
+    }
+
+    return null;
 }
 
 // Item private functions
@@ -376,6 +460,13 @@ Item.prototype.update = function (updatedItem, activeItem) {
     }
     return false;
 };
+Item.prototype.nextItem = function () {
+    var parent = this.GetParent();
+    var parentItems = (parent == null) ? this.GetFolder().GetItems() : parent.GetItems();
+    var myIndex = ItemMap.indexOf(parentItems, this.ID);
+    var nextItem = ItemMap.itemAt(parentItems, myIndex + 1);
+    return nextItem;
+}
 Item.prototype.selectNextItem = function () {
     var parent = this.GetParent();
     var parentItems = (parent == null) ? this.GetFolder().GetItems() : parent.GetItems();
@@ -424,13 +515,6 @@ Item.prototype.replaceReference = function (refList, itemToRef) {
     }
     return false;
 }
-Item.prototype.nextStep = function () {
-    var parent = this.GetParent();
-    var parentItems = (parent == null) ? this.GetFolder().GetItems() : parent.GetItems();
-    var myIndex = ItemMap.indexOf(parentItems, this.ID);
-    var nextItem = ItemMap.itemAt(parentItems, myIndex + 1);
-    return nextItem;
-}
 
 // ---------------------------------------------------------
 // ActionType object - provides prototype functions for ActionType
@@ -448,11 +532,9 @@ ActionType.prototype.GetSteps = function (sort, status) {
         var folder = DataModel.Folders[i];
         for (var j in folder.Items) {
             var item = folder.Items[j];
-            if (item.ItemTypeID == ItemTypes.Step) {
+            if (item.IsStep()) {
                 if (this.Name == ActionTypes.All || item.GetActionType() === this) {
                     if (item.Status == status) steps[index++] = item;
-                    // TODO: remove (this is for testing)
-                    else if (!item.GetFieldValue(FieldNames.Complete)) steps[index++] = item;
                 }
             }
         }
@@ -466,8 +548,8 @@ ActionType.prototype.GetSteps = function (sort, status) {
         var dueDateA = new Date(dueA);
         var dueDateB = new Date(dueB);
         if (dueDateA == dueDateB) return 0;
-        if (dueDateA > dueDateB) return -1;
-        return 1;
+        if (dueDateA > dueDateB) return 1;
+        return -1;
     });
     return steps;
 }

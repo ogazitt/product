@@ -127,8 +127,6 @@ namespace BuiltSteady.Product.Shared.Entities
         public const string Name = "Name";                  // String       friendly name (all items have a name)
         public const string Description = "Description";    // String       additional notes or comments
         public const string Repeat = "Repeat";              // String       recurrence
-        public const string Active = "Active";              // Boolean      activity or step is active
-        public const string Skip = "Skip";                  // Boolean      step is skipped
         public const string Complete = "Complete";          // Boolean      step is complete
         public const string CompletedOn = "CompletedOn";    // DateTime     time at which action is marked complete
         public const string DueDate = "DueDate";            // DateTime     activity or step due date
@@ -308,7 +306,7 @@ namespace BuiltSteady.Product.Shared.Entities
     public class UserConstants
     {
         public static string SchemaVersion { get { return "1.0.2012.0816"; } }
-        public static string ConstantsVersion { get { return "2012-08-20"; } }
+        public static string ConstantsVersion { get { return "2012-08-28"; } }
 
         public static List<ActionType> DefaultActionTypes()
         {
@@ -380,7 +378,9 @@ namespace BuiltSteady.Product.Shared.Entities
             itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000014"), FieldType = FieldTypes.Guid, Name = FieldNames.Contacts, DisplayName = "Contacts", DisplayType = DisplayTypes.ContactList, ItemTypeID = SystemItemTypes.Activity, IsPrimary = false, SortOrder = 4 });
             itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000015"), FieldType = FieldTypes.Guid, Name = FieldNames.Locations, DisplayName = "Locations", DisplayType = DisplayTypes.LocationList, ItemTypeID = SystemItemTypes.Activity, IsPrimary = false, SortOrder = 5 });
             itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000016"), FieldType = FieldTypes.Json, Name = FieldNames.WebLinks, DisplayName = "Web Links", DisplayType = DisplayTypes.LinkArray, ItemTypeID = SystemItemTypes.Activity, IsPrimary = false, SortOrder = 6 });
-            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000017"), FieldType = FieldTypes.DateTime, Name = FieldNames.DueDate, DisplayName = "Start", DisplayType = DisplayTypes.Hidden, ItemTypeID = SystemItemTypes.Activity, IsPrimary = false, SortOrder = 7 });
+            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000017"), FieldType = FieldTypes.DateTime, Name = FieldNames.DueDate, DisplayName = "Due Date", DisplayType = DisplayTypes.Hidden, ItemTypeID = SystemItemTypes.Activity, IsPrimary = false, SortOrder = 7 });
+            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000018"), FieldType = FieldTypes.Boolean, Name = FieldNames.Complete, DisplayName = "Complete", DisplayType = DisplayTypes.Hidden, ItemTypeID = SystemItemTypes.Activity, IsPrimary = false, SortOrder = 8 });
+            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000019"), FieldType = FieldTypes.DateTime, Name = FieldNames.CompletedOn, DisplayName = "Completed On", DisplayType = DisplayTypes.Hidden, ItemTypeID = SystemItemTypes.Activity, IsPrimary = false, SortOrder = 9 });
 
             // create Step
             itemTypes.Add(itemType = new ItemType() { ID = SystemItemTypes.Step, Name = ItemTypeNames.Step, UserID = SystemUsers.User, Fields = new List<Field>() });
@@ -388,12 +388,11 @@ namespace BuiltSteady.Product.Shared.Entities
             itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000022"), FieldType = FieldTypes.DateTime, Name = FieldNames.DueDate, DisplayName = "Due Date", DisplayType = DisplayTypes.DatePicker, ItemTypeID = SystemItemTypes.Step, IsPrimary = true, SortOrder = 2 });
             itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000023"), FieldType = FieldTypes.String, Name = FieldNames.Description, DisplayName = "Notes", DisplayType = DisplayTypes.TextArea, ItemTypeID = SystemItemTypes.Step, IsPrimary = true, SortOrder = 3 });
             itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000024"), FieldType = FieldTypes.Boolean, Name = FieldNames.Complete, DisplayName = "Complete", DisplayType = DisplayTypes.Checkbox, ItemTypeID = SystemItemTypes.Step, IsPrimary = true, SortOrder = 4 });
-            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000025"), FieldType = FieldTypes.Boolean, Name = FieldNames.Skip, DisplayName = "Skip", DisplayType = DisplayTypes.Hidden, ItemTypeID = SystemItemTypes.Step, IsPrimary = false, SortOrder = 5 });
-            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000026"), FieldType = FieldTypes.DateTime, Name = FieldNames.CompletedOn, DisplayName = "Completed On", DisplayType = DisplayTypes.Hidden, ItemTypeID = SystemItemTypes.Step, IsPrimary = false, SortOrder = 6 });
-            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000027"), FieldType = FieldTypes.Guid, Name = FieldNames.Contacts, DisplayName = "Contact", DisplayType = DisplayTypes.ContactList, ItemTypeID = SystemItemTypes.Step, IsPrimary = false, SortOrder = 7 });
-            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000028"), FieldType = FieldTypes.Guid, Name = FieldNames.Locations, DisplayName = "Location", DisplayType = DisplayTypes.LocationList, ItemTypeID = SystemItemTypes.Step, IsPrimary = false, SortOrder = 8 });
-            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000029"), FieldType = FieldTypes.Json, Name = FieldNames.WebLinks, DisplayName = "Web Links", DisplayType = DisplayTypes.LinkArray, ItemTypeID = SystemItemTypes.Step, IsPrimary = false, SortOrder = 9 });
-            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-00000000002A"), FieldType = FieldTypes.String, Name = FieldNames.ActionType, DisplayName = "Action", DisplayType = DisplayTypes.Hidden, ItemTypeID = SystemItemTypes.Step, IsPrimary = false, SortOrder = 10 });
+            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000025"), FieldType = FieldTypes.DateTime, Name = FieldNames.CompletedOn, DisplayName = "Completed On", DisplayType = DisplayTypes.Hidden, ItemTypeID = SystemItemTypes.Step, IsPrimary = false, SortOrder = 5 });
+            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000026"), FieldType = FieldTypes.Guid, Name = FieldNames.Contacts, DisplayName = "Contact", DisplayType = DisplayTypes.ContactList, ItemTypeID = SystemItemTypes.Step, IsPrimary = false, SortOrder = 6 });
+            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000027"), FieldType = FieldTypes.Guid, Name = FieldNames.Locations, DisplayName = "Location", DisplayType = DisplayTypes.LocationList, ItemTypeID = SystemItemTypes.Step, IsPrimary = false, SortOrder = 7 });
+            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000028"), FieldType = FieldTypes.Json, Name = FieldNames.WebLinks, DisplayName = "Web Links", DisplayType = DisplayTypes.LinkArray, ItemTypeID = SystemItemTypes.Step, IsPrimary = false, SortOrder = 8 });
+            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000029"), FieldType = FieldTypes.String, Name = FieldNames.ActionType, DisplayName = "Action", DisplayType = DisplayTypes.Hidden, ItemTypeID = SystemItemTypes.Step, IsPrimary = false, SortOrder = 9 });
             
             // create Contact
             itemTypes.Add(itemType = new ItemType() { ID = SystemItemTypes.Contact, Name = ItemTypeNames.Contact, UserID = SystemUsers.User, Icon = "contact.png", Fields = new List<Field>() });

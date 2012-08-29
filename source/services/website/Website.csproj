@@ -296,6 +296,8 @@
     <Content Include="views\dashboard\NextSteps.aspx" />
     <Content Include="views\mobile\Home.aspx" />
     <Content Include="views\account\MobileSignIn.aspx" />
+    <Content Include="views\shared\ModalPrompt.ascx" />
+    <Content Include="views\shared\ModalMessage.ascx" />
     <Content Include="views\shared\IntroCarouselControl.ascx" />
     <Content Include="views\shared\SignInControl.ascx" />
     <Content Include="Web.config">

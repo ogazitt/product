@@ -15,7 +15,7 @@ body { padding-top: 54px; padding-bottom: 40px; }
 /* increase default font-awesome size */
 i { font-size: 18px; }
 a { cursor: pointer; }
-a.icon:hover, a i:hover { text-decoration: none; }
+a i:hover, a.icon:hover { text-decoration: none; }
 textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].pac-placeholder { color: #ccc; }
 
 /* center checkbox when add-on in input-prepend */
@@ -78,12 +78,15 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .tab-content .form-vertical .control-group { margin: 0 10px 0 0; padding: 0; }
 .dashboard-center .tab-content .form-vertical .control-label { font-size: 8pt; margin: 0 0 -4px 8px; }
 /* .dashboard-center .tab-content .form-vertical .btn-group > .btn:first-child { min-width: 60px; text-align: left; } */
-.dashboard-center .nav-list small { font-size: 90%; margin-right: 12px;  }
-.dashboard-center .nav-list .form-inline .checkbox { margin-right: 6px; margin-top: -2px; }
+.dashboard-center .manager-folders .form-inline .checkbox { margin-right: 6px; margin-top: -2px; }
+.dashboard-center .manager-folders small { font-size: 90%; margin-right: 12px; }
 .dashboard-center .manager-folders { position: relative; }
 .dashboard-center .manager-folders .tab-content .nav-list { overflow-y: auto; overflow-x: hidden; padding: 0; }
 .dashboard-center .manager-folders .tab-content .nav-list li { border-top: 1px solid @btnBorder; padding: 0 0 0 8px; }
 .dashboard-center .manager-folders .tab-content .nav-list li.selected { background-color: @btnBackgroundHighlight; }  
+.dashboard-center .manager-folders .tab-content .nav-list li.complete { background-color: @infoBackground; }  
+.dashboard-center .manager-folders .tab-content .nav-list li.skipped { background-color: @btnBackgroundHighlight; }  
+.dashboard-center .manager-folders .tab-content .nav-list li.paused { background-color: @warningBackground; }  
 .dashboard-center .manager-folders .tab-content textarea { height: 60px; }
 .dashboard-center .manager-folders .tab-content .input-inline-max { display:inline-block; width: 90%; }
 

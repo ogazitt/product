@@ -84,12 +84,15 @@ FolderManager.prototype.show = function (forceRender) {
 FolderManager.prototype.render = function () {
     var activeView = this.activeView();
     var activeItem = this.activeItem();
+    var activeList = this.activeList();
 
     var $tabs = this.$element.find('.nav-tabs');
     var $tabContent = this.$element.find('.tab-content');
-    $tabs.find('li a:first').empty().append(this.activeListName());
+    $tabs.find('li a:first').empty().append(this.activeListName(activeList));
 
-    if (activeItem == null) {
+
+    var activityIsRunning = activeList.IsActivity() && !activeList.IsPaused();
+    if (activeItem == null || activityIsRunning) {
         $tabs.find('a[href=".' + FolderManager.ItemView + '"]').hide();
     } else {
         $itemTab = $tabs.find('a[href=".' + FolderManager.ItemView + '"]');
@@ -100,8 +103,8 @@ FolderManager.prototype.render = function () {
     var $view = this.views[activeView];
     var maxContentHeight = this.$parentElement.outerHeight() - $tabs.outerHeight();
     if (activeView == FolderManager.ItemView) {
-        if (activeItem == null) {
-            // switch to ListView if no items in current List
+        if (activeItem == null || activityIsRunning) {
+            // switch to ListView if no items in current List or Activity is running
             activeView = FolderManager.ListView;
             this.activeView(activeView);
         } else {
@@ -109,30 +112,46 @@ FolderManager.prototype.render = function () {
         }
     }
     if (activeView == FolderManager.ListView) {
-        this.listEditor.render($view, this.activeList(), maxContentHeight);
+        this.listEditor.render($view, activeList, maxContentHeight);
     }
     $tabs.find('a[href=".' + activeView + '"]').tab('show');
     this.renderStatus();
 }
 
-FolderManager.prototype.renderStatus = function (list) {
+FolderManager.prototype.renderStatus = function () {
     var $status = this.$element.children('div.item-status').empty();
-    var list = this.activeList();
-    if (list != null && !list.IsFolder() && list.ItemTypeID == ItemTypes.Activity) {
-        if (list.Status == StatusTypes.Active) {
-            var $pause = $('<a><i class="icon-pause"></i></a>').appendTo($status);
-            $pause.attr('title', 'Pause').tooltip(Control.ttDelayBottom);
+    var activity = this.activeList();
+    if (activity != null && !activity.IsFolder() && activity.IsActivity()) {
+        if (!activity.IsPaused()) {
+            var $btnPause = $('<a><i class="icon-pause"></i></a>').appendTo($status);
+            $btnPause.attr('title', 'Pause Activity').tooltip(Control.noDelayBottom);
 
-            $pause.click(function () {
+            $btnPause.click(function () {
                 $(this).tooltip('hide');
-                list.UpdateStatus(StatusTypes.Paused); 
+                activity.Pause();
             });
         } else {
-            var $play = $('<a><i class="icon-play"></i></a>').appendTo($status);
-            $play.attr('title', 'Run').tooltip(Control.ttDelayBottom);
-            $play.click(function () {
+            var $btnRun = $('<a><i class="icon-play"></i></a>').appendTo($status);
+            $btnRun.attr('title', 'Start Activity').tooltip(Control.noDelayBottom);
+
+            $btnRun.click(function () {
                 $(this).tooltip('hide');
-                list.UpdateStatus(StatusTypes.Active);
+                var itemNeedsDueDate = activity.Active();
+                if (itemNeedsDueDate != null) {
+                    // item needs a due date
+                    var header = 'Select due date';
+                    header += (itemNeedsDueDate.IsActivity()) ? ' for activity' : ' for first step';
+                    var $dialog = $('<div><label>Due date: </label><input type="text"></div>');
+                    Control.popup($dialog, header, function (inputs) {
+                        if (inputs.length == 1 && inputs[0].length > 0) {
+                            var item = activity.Active(inputs[0]);
+                            if (item != null) {
+                                // unable to set valid due date on activity or next step
+                                Control.alert('Activity is not running.','Could not set valid due date on activity or next step. Try setting due date first.');
+                            }
+                        }
+                    });
+                }
             });
         }
     }
@@ -200,8 +219,8 @@ FolderManager.prototype.activeList = function () {
     return null;
 }
 
-FolderManager.prototype.activeListName = function () {
-    var activeList = this.activeList();
+FolderManager.prototype.activeListName = function (list) {
+    var activeList = (list == null) ? this.activeList() : list;
     if (activeList != null) {
         var $icon = Control.Icons.forItemType(activeList);
         return $('<span>&nbsp;' + activeList.Name + '</span>').prepend($icon);

@@ -40,15 +40,31 @@ NewItemEditor.prototype.render = function ($element, list) {
             this.$element = $('<div class="row-fluid" />').appendTo($element);
         }
         this.$element.empty();
-
-        var itemType = list.ItemTypeID;
-        if (itemType == ItemTypes.Activity) { itemType = ItemTypes.Step };
         this.list = list;
-        this.newItem = Item.Extend({ Name: '', ItemTypeID: itemType });
 
-        // render name field for new item 
-        $field = this.renderNameField(this.$element);
-        $field.val('');
+        if (list.IsActivity() && !list.IsPaused()) {
+            // activity is running
+            var steps = list.GetItems();
+            if (ItemMap.count(steps) == 0) {
+                // activity without steps, just display properties
+                var $form = $('<a class="form-inline icon"/>').appendTo(this.$element);
+                var field = list.GetField(FieldNames.Complete);
+                Control.Checkbox.render($form, list, field);
+
+                if (list.IsComplete()) {
+                    field = list.GetField(FieldNames.CompletedOn);
+                    Control.Text.render($form, list, field, 'small', 'Completed on ');
+                } else {
+                    field = list.GetField(FieldNames.DueDate);
+                    Control.Text.render($form, list, field, 'small', 'Due on ');
+                }
+            }
+        } else {
+            // render name field for new item 
+            this.newItem = Item.Extend({ Name: '', ItemTypeID: (list.IsActivity() ? ItemTypes.Step : list.ItemTypeID) });
+            var $field = this.renderNameField(this.$element);
+            $field.val('');
+        }
     }
     return this.$element;
 }
@@ -99,44 +115,55 @@ ListView.prototype.render = function ($element, list, height) {
     this.hide();
     this.$element.empty();
     if (height != null) { this.$element.css('max-height', height); }
-    if (this.renderListItems(list.GetItems(true)) > 0) {
+    if (this.renderListItems(list) > 0) {
         this.show();
         var $selected = this.$element.find('li.selected');
-        // scroll selected item into view
-        var scroll = $selected.offset().top - height + this.$element.scrollTop();
-        if (scroll > 0) {
-            this.$element.animate({ scrollTop: scroll }, 500);
+        if ($selected.length == 1) {
+            // scroll selected item into view
+            var scroll = $selected.offset().top - height + this.$element.scrollTop();
+            if (scroll > 0) {
+                this.$element.animate({ scrollTop: scroll }, 500);
+            }
         }
     }
 }
 
-ListView.prototype.renderListItems = function (listItems) {
+ListView.prototype.renderListItems = function (list) {
+    var listItems = list.GetItems(true);
+    var runMode = list.IsActivity() && list.IsActive();
     var itemCount = 0;
     for (var id in listItems) {
         var item = listItems[id];
         var $li = $('<li class="position-relative" />').appendTo(this.$element);
         $li.data('control', this);
         $li.data('item', item);
-        if (item.IsSelected()) { $li.addClass('selected'); }
 
-        var $item = $('<a class="form-inline drag-handle" />').appendTo($li);
-        var $deleteBtn = Control.Icons.deleteBtn(item).appendTo($li);
-        $deleteBtn.addClass('absolute-right');
-        //$deleteBtn.addClass('pull-right');
+        var $item;
+        if (runMode) {
+            if (item.IsActive()) { $li.addClass('selected'); }
+            if (!item.IsNullStatus()) { $li.addClass(item.Status.toLowerCase()); }
+            $item = $('<a class="form-inline" />').appendTo($li);
+            this.renderNameField($item, item);
+        } else {
+            if (item.IsSelected()) { $li.addClass('selected'); }
+            if (item.IsPaused()) { $li.addClass('paused'); }
 
-        this.renderNameField($item, item);
+            $item = $('<a class="form-inline drag-handle" />').appendTo($li);
+            var $deleteBtn = Control.Icons.deleteBtn(item).appendTo($li);
+            $deleteBtn.addClass('absolute-right');
+            this.renderNameField($item, item);
 
-        // click item to select
-        $li.bind('click', function (e) {
-            if ($(this).hasClass('ui-sortable-helper') ||
+            // click item to select
+            $li.bind('click', function (e) {
+                if ($(this).hasClass('ui-sortable-helper') ||
                 $(e.srcElement).hasClass('dt-checkbox') ||
                 $(e.srcElement).hasClass('dt-email')) {
-                return;
-            }
-            var item = $(this).data('item');
-            Control.get(this).parentControl.selectItem(item);
-        });
-
+                    return;
+                }
+                var item = $(this).data('item');
+                Control.get(this).parentControl.selectItem(item);
+            });
+        }
         this.renderFields($item, item);
         itemCount++;
     }

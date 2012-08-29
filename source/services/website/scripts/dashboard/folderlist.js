@@ -15,13 +15,13 @@ FolderList.prototype.init = function (folders) {
     // only display Category folders
     this.folders = {};
     for (var id in folders) {
-        if (folders[id].ItemTypeID == ItemTypes.Category) {
+        if (folders[id].IsCategory()) {
             this.folders[id] = folders[id];
         }
     }
     // TODO: temporarily display People & Places until moved
     for (var id in folders) {
-        if (folders[id].ItemTypeID != ItemTypes.Category) {
+        if (!folders[id].IsCategory()) {
             this.folders[id] = folders[id];
         }
     }
@@ -83,7 +83,7 @@ FolderList.prototype.renderItems = function ($folder, folder) {
         if (item.IsList) {
             $item = $('<li class="position-relative"><a class="selector"><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
             $item.find('span').prepend(Control.Icons.forItemType(item));
-            if (item.ItemTypeID == ItemTypes.Activity && item.Status == StatusTypes.Paused) {
+            if (item.IsActivity() && item.IsPaused()) {
                  $item.find('a').addClass(StatusTypes.Paused.toLowerCase());
             }  
             $item.data('control', this);
@@ -218,7 +218,7 @@ FolderList.prototype.renderAddBtn = function ($element) {
 }
 
 FolderList.prototype.showCommands = function ($item, item) {
-    if (item.ItemTypeID == ItemTypes.Category || item.ItemTypeID == ItemTypes.Activity) {
+    if (item.IsCategory() || item.IsActivity()) {
         var $btnDropdown = $item.find('.btn-dropdown');
         $('<i class="icon-caret-down dropdown-toggle" data-toggle="dropdown"></i>').appendTo($btnDropdown);
         var $menu = $('<ul class="dropdown-menu pull-right" role="menu"></ul>').appendTo($btnDropdown);

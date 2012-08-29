@@ -9,8 +9,9 @@
 // shared helpers used by controls
 var Control = function Control$() {};
 Control.noDelay = { delay: { show: 0, hide: 0} };           // tooltip with no delay
+Control.noDelayBottom = { delay: { show: 0, hide: 0 }, placement: 'bottom' };
 Control.ttDelay = { delay: { show: 500, hide: 200} };       // default tooltip delay
-Control.ttDelayBottom = { delay: { show: 500, hide: 200}, placement: 'bottom' };
+Control.ttDelayBottom = { delay: { show: 500, hide: 200 }, placement: 'bottom' };
 // helper function for preventing event bubbling
 Control.preventDefault = function Control$preventDefault(e) { e.preventDefault(); }
 
@@ -107,6 +108,29 @@ Control.confirm = function Control$confirm(message, header, handlerOK, handlerCa
     }
 }
 
+Control.popup = function Control$popup($dialog, header, handlerOK, handlerCancel) {
+    var $modalPrompt = $('#modalPrompt');
+    if ($modalPrompt.length == 0) {
+        alert("Page requires modalPrompt control to support popup!");
+    } else {
+        if (header == null) { header = 'Input required.'; }
+        $modalPrompt.find('.modal-header h3').html(header);
+        $modalPrompt.find('.modal-body p').empty().append($dialog);
+        $modalPrompt.modal({ backdrop: 'static', keyboard: false });
+        $modalPrompt.find('.modal-footer .btn-primary').click(function () {
+            $modalPrompt.modal('hide');
+            var inputs = [];
+            $.each($modalPrompt.find('.modal-body input'), function () {
+                inputs.push($(this).val());
+            });
+            if (handlerOK != null) { handlerOK(inputs); }
+        });
+        $modalPrompt.find('.modal-footer .btn-cancel').click(function () {
+            $modalPrompt.modal('hide');
+            if (handlerCancel != null) { handlerCancel(); }
+        });
+    }
+}
 
 // ---------------------------------------------------------
 // Browser static object
@@ -779,6 +803,12 @@ Control.Checkbox.render = function Control$Checkbox$render($element, item, field
     $checkbox.data('item', item);
     $checkbox.data('field', field);
     $checkbox.change(function () { Control.Checkbox.update($(this)); });
+
+    // disable if completed in running activity
+    var parent = item.GetParentContainer();
+    if (item.IsComplete() && parent.IsActivity() && !parent.IsPaused()) {
+        $checkbox.attr('disabled', 'disabled');
+    }
     return $checkbox;
 }
 
@@ -789,13 +819,14 @@ Control.Checkbox.update = function Control$Checkbox$update($checkbox) {
     var currentValue = item.GetFieldValue(field);
     if (value != currentValue) {
         $checkbox.tooltip('hide');
-        var updatedItem = item.Copy();
-        updatedItem.SetFieldValue(field, value);
         // when Complete field is set true, timestamp CompletedOn field
         if (value == true && field.Name == FieldNames.Complete && item.HasField(FieldNames.CompletedOn)) {
-            updatedItem.SetFieldValue(FieldNames.CompletedOn, new Date().format());
+            item.Complete();
+        } else {
+            var copy = item.Copy();
+            copy.SetFieldValue(field, value);
+            item.Update(copy);
         }
-        item.Update(updatedItem);
     }
 }
 

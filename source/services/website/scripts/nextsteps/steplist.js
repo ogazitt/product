@@ -153,6 +153,16 @@ ListView.prototype.actionButton = function (item) {
                 return Control.Icons.callBtn(item);
             }
             break;
+        case ActionTypes.TextMessage:
+            if (item.GetPhoneNumber() != null) {
+                return Control.Icons.textBtn(item);
+            }
+            break;
+        case ActionTypes.SendEmail:
+            if (item.GetEmail() != null) {
+                return Control.Icons.emailBtn(item);
+            }
+            break;
         case ActionTypes.Map:
             if (item.GetMapLink() != null) {
                 return Control.Icons.mapBtn(item);

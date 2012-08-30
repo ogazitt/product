@@ -164,6 +164,8 @@ ListView.prototype.actionButton = function (item) {
                 return Control.Icons.mapBtn(item);
             }
             break;
+        case ActionTypes.Schedule:
+            return Control.Icons.scheduleBtn(item);
     }
 }
 

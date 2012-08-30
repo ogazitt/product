@@ -247,8 +247,8 @@ namespace BuiltSteady.Product.ServiceHost
             DateTime utcStartTime, utcEndTime;
             FieldValue fvStartTime = item.GetFieldValue(FieldNames.DueDate);
             FieldValue fvEndTime = item.GetFieldValue(FieldNames.EndDate);
-            if (fvStartTime != null && !string.IsNullOrEmpty(fvStartTime.Value) && 
-                fvEndTime != null && !string.IsNullOrEmpty(fvEndTime.Value) && 
+            if (fvStartTime != null && !string.IsNullOrEmpty(fvStartTime.Value) &&
+                fvEndTime != null && !string.IsNullOrEmpty(fvEndTime.Value) &&
                 DateTime.TryParse(fvStartTime.Value, out utcStartTime) &&
                 DateTime.TryParse(fvEndTime.Value, out utcEndTime))
             {
@@ -265,9 +265,9 @@ namespace BuiltSteady.Product.ServiceHost
 
                 FieldValue fvDescription = item.GetFieldValue(FieldNames.Description);
                 if (fvDescription != null && !string.IsNullOrEmpty(fvDescription.Value))
-                {  
+                {
                     calEvent.Description = fvDescription.Value;
-                }                
+                }
 
                 // TODO: investigate using Gadget to support link back to product
 
@@ -302,6 +302,65 @@ namespace BuiltSteady.Product.ServiceHost
                 }
             }
             return false;
+        }
+
+        public Item AddCalendarEvent(Appointment appt)
+        {
+            DateTime utcStartTime, utcEndTime;
+            if (DateTime.TryParse(appt.StartTime, out utcStartTime) &&
+                DateTime.TryParse(appt.EndTime, out utcEndTime))
+            {
+                var item = storage.GetItem(this.user, appt.ItemID);
+
+                Event calEvent = new Event()
+                {
+                    Summary = appt.Name,
+                    Start = new EventDateTime() { DateTime = XmlConvert.ToString(utcStartTime, XmlDateTimeSerializationMode.Utc) },
+                    End = new EventDateTime() { DateTime = XmlConvert.ToString(utcEndTime, XmlDateTimeSerializationMode.Utc) },
+                    Description = appt.Notes,
+                    ExtendedProperties = new Event.ExtendedPropertiesData(),
+                };
+                // add item id as private extended property for event
+                if (item != null)
+                {
+                    calEvent.ExtendedProperties.Private = new Event.ExtendedPropertiesData.PrivateData();
+                    calEvent.ExtendedProperties.Private.Add(ExtensionItemID, item.ID.ToString());
+                }
+
+                // TODO: investigate using Gadget to support link back to product
+
+                try
+                {
+                    EventsResource.InsertRequest eventInsertReq = this.CalendarService.Events.Insert(calEvent, UserCalendar);
+                    Event result = eventInsertReq.Fetch();
+
+                    if (result.HtmlLink != null && item != null)
+                    {   // add event HtmlLink as a WebLink in item
+                        
+                        FieldValue fvWebLinks = item.GetFieldValue(FieldNames.WebLinks, true);
+                        JsonWebLink webLink = new JsonWebLink() { Name = "Calendar Event", Url = result.HtmlLink };
+                        List<JsonWebLink> webLinks = (string.IsNullOrEmpty(fvWebLinks.Value)) ?
+                            new List<JsonWebLink>() : JsonSerializer.Deserialize<List<JsonWebLink>>(fvWebLinks.Value);
+                        //var webLink = new { Name = "Calendar Event", Url = result.HtmlLink };
+                        //var webLinks = (string.IsNullOrEmpty(fvWebLinks.Value)) ?
+                        //    new List<object>() : JsonSerializer.Deserialize<List<object>>(fvWebLinks.Value);
+                        webLinks.Add(webLink);
+                        fvWebLinks.Value = JsonSerializer.Serialize(webLinks);
+                    }
+
+                    // add event id to UserFolder EntityRefs for item
+                    //Item metaItem = storage.UserFolder.GetEntityRef(user, item);
+                    //FieldValue fvCalEventID = metaItem.GetFieldValue(ExtendedFieldNames.CalEventID, true);
+                    //fvCalEventID.Value = result.Id;
+                    storage.SaveChanges();
+                    return item;
+                }
+                catch (Exception e)
+                {
+                    TraceLog.TraceException("Could not add appointment to Calendar", e);
+                }
+            }
+            return null;
         }
 
         public bool UpdateCalendarEvent(Item item)

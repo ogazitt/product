@@ -355,7 +355,7 @@ Control.Icons.skipBtn = function Control$Icons$skipBtn(item) {
 
 // return an element that is an icon for skipping an item
 Control.Icons.deferBtn = function Control$Icons$deferBtn(item) {
-    var $icon = $('<h2 class="icon-calendar"></h2>');
+    var $icon = $('<h2 class="icon-time"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
     $icon.attr('title', 'Defer').tooltip(Control.ttDelay);
@@ -474,6 +474,80 @@ Control.Icons.textBtn = function Control$Icons$textBtn(item) {
             }
             return false;
         }
+        return false;   // do not propogate event
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
+}
+
+Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
+    var $icon = $('<h2 class="icon-calendar"></h2>');
+    $icon.css('cursor', 'pointer');
+    $icon.data('item', item);
+    $icon.attr('title', 'Schedule').tooltip(Control.ttDelay);
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        var item = $this.data('item');
+        var $dialog = $('<div><label>Date: </label><input type="date"><label>Start time: </label><input type="time"><label>End time: </label><input type="time"></div>');
+        var header = 'When should appointment be scheduled for?';
+        if (Browser.IsMobile()) {
+        } else {
+        }
+        Control.popup($dialog, header, function (inputs) {
+            if (inputs[0].length == 0) {
+                Control.alert('Please provide a date for the appointment', 'Schedule appointment');
+            }
+            else {
+                var now = new Date();
+                var start = new Date(inputs[0]);
+                var end = new Date(start);
+                var startTime = Utilities.parseTime(inputs[1]);
+                var endTime = Utilities.parseTime(inputs[2]);
+                if (startTime != null) {
+                    start.setHours(startTime.getHours());
+                    start.setMinutes(startTime.getMinutes());
+                    if (endTime != null) {
+                        end.setHours(endTime.getHours());
+                        end.setMinutes(endTime.getMinutes());
+                    }
+                    else { // if no end time, default to one hour duration
+                        end.setHours(startTime.getHours() + 1);
+                        end.setMinutes(startTime.getMinutes());
+                    }
+                }
+                else {
+                    // if no start time was set, create a full day appointment
+                    start.setHours(0);
+                    start.setMinutes(0);
+                    end.setDate(end.getDate() + 1);
+                    end.setHours(0);
+                    end.setMinutes(0);
+                }
+                // create appointment object
+                var loc = item.GetLocation();
+                var location = (loc != null) ? loc.Address : null;
+                var appt = Appointment.Extend({ Name: item.Name, StartTime: start, EndTime: end, Location: location, ItemID: item.ID });
+                Service.InvokeController('UserInfo', 'CreateAppointment',
+                    { 'Appointment': appt },
+                    function (responseState) {
+                        var result = responseState.result;
+                        if (result.StatusCode != '200') {
+                            Control.alert('Server was unable to add appointment', 'Schedule appointment');
+                        }
+                        else {
+                            var returnedItem = result.Result;
+                            var success = item.update(returnedItem, null);  // update local DataModel (do not fire datachanged)
+                            item.Complete();
+
+                            // report success to the user
+                            var formattedDate = (startTime != null) ? start.format('shortDateTime') : start.format('shortDate');
+                            Control.alert('An appointment for ' + formattedDate + ' was created on your calendar', 'Schedule appointment');
+                        }
+                    }
+                );
+            }
+        });
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome

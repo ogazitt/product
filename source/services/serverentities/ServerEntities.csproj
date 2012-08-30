@@ -60,6 +60,7 @@
     <Compile Include="ActionType.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Appointment.cs" />
     <Compile Include="GalleryCategory.cs" />
     <Compile Include="GalleryActivity.cs" />
     <Compile Include="DatabaseVersion.cs" />

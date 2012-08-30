@@ -914,7 +914,7 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-center .tab-content{padding:12px;border:1px solid #ccc;border-top-color:transparent;-webkit-border-radius:0 4px 4px 4px;-moz-border-radius:0 4px 4px 4px;border-radius:0 4px 4px 4px}
 .dashboard-center .tab-content .form-vertical{min-height:240px}
 .dashboard-center .tab-content .form-vertical .control-group{margin:0 10px 0 0;padding:0}
-.dashboard-center .tab-content .form-vertical .control-label{font-size:8pt;margin:0 0 -4px 8px}
+.dashboard-center .tab-content .form-vertical .control-label,.modal-body .control-label{font-size:8pt;margin:0 0 -4px 8px}
 .dashboard-center .manager-folders .form-inline .checkbox{margin-right:6px;margin-top:-2px}
 .dashboard-center .manager-folders small{font-size:90%;margin-right:12px}
 .dashboard-center .manager-folders{position:relative}
@@ -953,10 +953,10 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .inline-left{display:inline-block;float:left}
 .inline-right{display:inline-block;float:right}
 .control-group.inline-right{margin-left:8px}
-.item-status{position:absolute;top:10px;right:12px}
-.item-status i{font-size:16pt}
-.item-status i.icon-play{color:#62c462}
-.item-status i.icon-play:hover{color:#51a351}
+.item-status{position:absolute;top:10px;right:0}
+.item-status i{font-size:16pt;margin-right:12px}
+.item-status i.icon-play,.item-status i.icon-forward,.item-status i.icon-backward{color:#62c462}
+.item-status i.icon-play:hover,.item-status i.icon-forward:hover,.item-status i.icon-backward:hover{color:#51a351}
 .item-status i.icon-pause{color:#fbb450}
 .item-status i.icon-pause:hover{color:#f89406}
 .icon.drag-handle{position:absolute;top:7px;left:1px;color:transparent;cursor:n-resize;font-family:Arial;font-size:22pt}

@@ -77,8 +77,8 @@ Control.alert = function Control$alert(message, header, handlerClose) {
         $modalMessage.find('.modal-body p').html(message);
         $modalMessage.modal('show');
         if (handlerClose != null) {
-            $modalMessage.find('.modal-header .close').click(function () { handlerClose(); });
-            $modalMessage.find('.modal-footer .btn-primary').click(function () { handlerClose(); });
+            $modalMessage.find('.modal-header .close').unbind('click').click(function () { handlerClose(); });
+            $modalMessage.find('.modal-footer .btn-primary').unbind('click').click(function () { handlerClose(); });
         }
     }
 }
@@ -97,11 +97,11 @@ Control.confirm = function Control$confirm(message, header, handlerOK, handlerCa
         $modalPrompt.find('.modal-header h3').html(header);
         $modalPrompt.find('.modal-body p').html(message);
         $modalPrompt.modal({ backdrop: 'static', keyboard: false });
-        $modalPrompt.find('.modal-footer .btn-primary').click(function () {
+        $modalPrompt.find('.modal-footer .btn-primary').unbind('click').click(function () {
             $modalPrompt.modal('hide');
             if (handlerOK != null) { handlerOK(); }
         });
-        $modalPrompt.find('.modal-footer .btn-cancel').click(function () {
+        $modalPrompt.find('.modal-footer .btn-cancel').unbind('click').click(function () {
             $modalPrompt.modal('hide');
             if (handlerCancel != null) { handlerCancel(); }
         });
@@ -117,7 +117,7 @@ Control.popup = function Control$popup($dialog, header, handlerOK, handlerCancel
         $modalPrompt.find('.modal-header h3').html(header);
         $modalPrompt.find('.modal-body p').empty().append($dialog);
         $modalPrompt.modal({ backdrop: 'static', keyboard: false });
-        $modalPrompt.find('.modal-footer .btn-primary').click(function () {
+        $modalPrompt.find('.modal-footer .btn-primary').unbind('click').click(function () {
             $modalPrompt.modal('hide');
             var inputs = [];
             $.each($modalPrompt.find('.modal-body input'), function () {
@@ -125,7 +125,7 @@ Control.popup = function Control$popup($dialog, header, handlerOK, handlerCancel
             });
             if (handlerOK != null) { handlerOK(inputs); }
         });
-        $modalPrompt.find('.modal-footer .btn-cancel').click(function () {
+        $modalPrompt.find('.modal-footer .btn-cancel').unbind('click').click(function () {
             $modalPrompt.modal('hide');
             if (handlerCancel != null) { handlerCancel(); }
         });
@@ -199,10 +199,10 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
     var $icon = $('<i></i>');
     switch (itemType) {
         case ItemTypes.Activity:
-            if (item.Status == StatusTypes.Paused)
-                $icon.addClass('icon-pause');
-            else
-                $icon.addClass('icon-play');
+            if (item.IsPaused()) { $icon.addClass('icon-pause'); }
+            else if (item.IsActive()) { $icon.addClass('icon-play'); }
+            else if (item.IsComplete()) { $icon.addClass('icon-check'); }
+            else { $icon.addClass('icon-stop'); }
             break;
         case ItemTypes.Step:
             $icon.addClass('icon-check');

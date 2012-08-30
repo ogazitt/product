@@ -131,28 +131,56 @@ FolderManager.prototype.renderStatus = function () {
                 activity.Pause();
             });
         } else {
-            var $btnRun = $('<a><i class="icon-play"></i></a>').appendTo($status);
-            $btnRun.attr('title', 'Start Activity').tooltip(Control.noDelayBottom);
 
-            $btnRun.click(function () {
-                $(this).tooltip('hide');
-                var itemNeedsDueDate = activity.Active();
-                if (itemNeedsDueDate != null) {
-                    // item needs a due date
-                    var header = 'Select due date';
-                    header += (itemNeedsDueDate.IsActivity()) ? ' for activity' : ' for first step';
-                    var $dialog = $('<div><label>Due date: </label><input type="text"></div>');
-                    Control.popup($dialog, header, function (inputs) {
-                        if (inputs.length == 1 && inputs[0].length > 0) {
-                            var item = activity.Active(inputs[0]);
-                            if (item != null) {
-                                // unable to set valid due date on activity or next step
-                                Control.alert('Activity is not running.','Could not set valid due date on activity or next step. Try setting due date first.');
-                            }
+            // helper function for displaying popup dialog to input due date
+            var popupDueDate = function (item, activity) {
+                var header = 'Select due date';
+                header += (item.IsActivity()) ? ' for activity' : ' for first step';
+                var field = item.GetField(FieldNames.DueDate);
+                var $dialog = $('<div class="control-group"><label class="control-label">Due Date</label></div>');
+                Control.DateTime.renderDatePicker($dialog, item, field);
+                Control.popup($dialog, header, function (inputs) {
+                    if (inputs.length == 1 && inputs[0].length > 0) {
+                        var itemNeedsDueDate = activity.Start(inputs[0]);
+                        if (itemNeedsDueDate != null) {
+                            // unable to set valid due date on activity or next step
+                            Control.alert('Activity is not running.', 'Could not set valid due date on activity or next step. Try setting due date first.');
                         }
-                    });
-                }
-            });
+                    }
+                });
+            }
+
+
+            var status = activity.CanResume();
+            if (status.Start || status.Resume) {
+                var title = (status.Start) ? 'Start Activity' : 'Resume Activity';
+                var $btnStart = $('<a><i class="icon-play"></i></a>').appendTo($status);
+                $btnStart.attr('title', title).tooltip(Control.noDelayBottom);
+
+                $btnStart.click(function () {
+                    $(this).tooltip('hide');
+                    var itemNeedsDueDate = activity.Start();
+                    if (itemNeedsDueDate != null) {
+                        // item needs a due date
+                        popupDueDate(itemNeedsDueDate, activity);
+                    }
+                });
+            }
+
+            if (status.Restart) {
+                var $btnRestart = $('<a><i class="icon-backward"></i></a>').prependTo($status);
+                $btnRestart.attr('title', 'Restart Activity').tooltip(Control.noDelayBottom);
+
+                $btnRestart.click(function () {
+                    $(this).tooltip('hide');
+                    var itemNeedsDueDate = activity.Restart();
+                    if (itemNeedsDueDate != null) {
+                        // item needs a due date
+                        popupDueDate(itemNeedsDueDate, activity);
+                    }
+                });
+            }
+
         }
     }
 }

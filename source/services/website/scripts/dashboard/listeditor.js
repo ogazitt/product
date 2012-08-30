@@ -130,7 +130,7 @@ ListView.prototype.render = function ($element, list, height) {
 
 ListView.prototype.renderListItems = function (list) {
     var listItems = list.GetItems(true);
-    var runMode = list.IsActivity() && list.IsActive();
+    var runMode = list.IsActivity() && !list.IsPaused();
     var itemCount = 0;
     for (var id in listItems) {
         var item = listItems[id];

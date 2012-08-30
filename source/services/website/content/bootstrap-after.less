@@ -84,9 +84,10 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .manager-folders .tab-content .nav-list { overflow-y: auto; overflow-x: hidden; padding: 0; }
 .dashboard-center .manager-folders .tab-content .nav-list li { border-top: 1px solid @btnBorder; padding: 0 0 0 8px; }
 .dashboard-center .manager-folders .tab-content .nav-list li.selected { background-color: @btnBackgroundHighlight; }  
-.dashboard-center .manager-folders .tab-content .nav-list li.complete { background-color: @infoBackground; }  
-.dashboard-center .manager-folders .tab-content .nav-list li.skipped { background-color: @btnBackgroundHighlight; }  
-.dashboard-center .manager-folders .tab-content .nav-list li.paused { background-color: @warningBackground; }  
+.dashboard-center .manager-folders .tab-content .nav-list li.st-complete { background-color: @infoBackground; }  
+.dashboard-center .manager-folders .tab-content .nav-list li.st-skipped { background-color: @errorBackground; }  
+.dashboard-center .manager-folders .tab-content .nav-list li.st-active { background-color: @successBackground; }  
+.dashboard-center .manager-folders .tab-content .nav-list li.st-paused { background-color: @successBackground; }  
 .dashboard-center .manager-folders .tab-content textarea { height: 60px; }
 .dashboard-center .manager-folders .tab-content .input-inline-max { display:inline-block; width: 90%; }
 
@@ -134,8 +135,10 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 /* item status icon */
 .item-status { position: absolute; top: 10px; right: 0; }
 .item-status i { font-size: 16pt; margin-right: 12px; }
-.item-status i.icon-play, .item-status i.icon-forward, .item-status i.icon-backward { color: @btnSuccessBackground }
-.item-status i.icon-play:hover, .item-status i.icon-forward:hover, .item-status i.icon-backward:hover { color: @btnSuccessBackgroundHighlight }
+.item-status i.icon-play { color: @btnSuccessBackground }
+.item-status i.icon-play:hover { color: @btnSuccessBackgroundHighlight }
+.item-status i.icon-forward, .item-status i.icon-backward { color: @btnPrimaryBackground }
+.item-status i.icon-forward:hover, .item-status i.icon-backward:hover { color: @btnPrimaryBackgroundHighlight }
 .item-status i.icon-pause { color: @btnWarningBackground }
 .item-status i.icon-pause:hover { color: @btnWarningBackgroundHighlight }
 

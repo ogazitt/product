@@ -566,7 +566,7 @@ Control.Text.render = function Control$Text$render($element, item, field, tag, t
     var value = item.GetFieldValue(field);
     if (field.DisplayType == DisplayTypes.DatePicker) {
         value = Control.DateTime.format(value, 'mediumDate');
-    } else if (field.DisplayType == DisplayTypes.DateTimePicker) {
+    } else if (field.FieldType == FieldTypes.DateTime) {
         value = Control.DateTime.format(value);
     }
 
@@ -947,9 +947,9 @@ Control.Checkbox.render = function Control$Checkbox$render($element, item, field
     $checkbox.data('field', field);
     $checkbox.change(function () { Control.Checkbox.update($(this)); });
 
-    // disable if completed in running activity
+    // disable if completed or skipped in running activity
     var parent = item.GetParentContainer();
-    if (item.IsComplete() && parent.IsActivity() && !parent.IsPaused()) {
+    if (item.IsStep() && parent.IsActivity() && !parent.IsPaused() && (item.IsComplete() || item.IsSkipped())) {
         $checkbox.attr('disabled', 'disabled');
     }
     return $checkbox;

@@ -338,6 +338,7 @@ Item.prototype.IsActive = function () { return (this.Status == StatusTypes.Activ
 Item.prototype.IsComplete = function () { return (this.Status == StatusTypes.Complete); };
 Item.prototype.IsPaused = function () { return (this.Status == StatusTypes.Paused); };
 Item.prototype.IsSkipped = function () { return (this.Status == StatusTypes.Skipped); };
+Item.prototype.StatusClass = function () { return (this.IsNullStatus()) ? '' : ('st-' + this.Status.toLowerCase()); };
 
 // Activity and Step Item helpers
 Item.prototype.IsCategory = function () { return (this.ItemTypeID == ItemTypes.Category); };
@@ -403,12 +404,20 @@ Item.prototype.Complete = function () {
 }
 // helper for marking item skipped and marking next step active
 Item.prototype.Skip = function () {
-    this.UpdateStatus(StatusTypes.Skipped, null);
+    var copy = this.Copy();
+    copy.Status = StatusTypes.Skipped;
+    if (copy.HasField(FieldNames.CompletedOn)) {
+        copy.SetFieldValue(FieldNames.CompletedOn, new Date().format());
+    }
+
     // find the next step in the Activity and make it Active
     var nextStep = this.nextItem();
     if (nextStep != null && nextStep.IsStep()) {
+        this.Update(copy, null);
         nextStep.Active(this.GetFieldValue(FieldNames.DueDate));
-    } 
+    } else {
+        this.Update(copy);
+    }
 }
 // helper for marking item paused and marking first active child item paused
 Item.prototype.Pause = function () {

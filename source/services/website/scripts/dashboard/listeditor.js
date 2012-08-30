@@ -8,6 +8,7 @@
 function ListEditor(parentControl) {
     this.parentControl = parentControl;
     this.$element = null;
+    this.$activity = null;
 
     this.newItemEditor = new NewItemEditor(this);
     this.listView = new ListView(this);
@@ -15,10 +16,54 @@ function ListEditor(parentControl) {
 
 ListEditor.prototype.render = function ($element, list, maxHeight) {
     if (this.$element == null) { this.$element = $element; }
-    var $newItem = this.newItemEditor.render(this.$element, list);
-    var newItemHeight = ($newItem != null) ? $newItem.outerHeight() : 0;
-    this.listView.render(this.$element, list, maxHeight - newItemHeight - 28);   // exclude top & bottom padding
-    $newItem.find('.fn-name').focus();
+    var $activity = null, $newItem = null;
+    var activityHeight = 0, newItemHeight = 0;
+
+    // render activity
+    $activity = this.renderActivity(this.$element, list);
+    activityHeight = ($activity != null) ? $activity.outerHeight() : 0;
+
+    // render new item input
+    $newItem = this.newItemEditor.render(this.$element, list);
+    newItemHeight = ($newItem != null) ? $newItem.outerHeight() : 0;
+
+    // render child items
+    this.listView.render(this.$element, list, maxHeight - activityHeight - newItemHeight - 28);   // exclude top & bottom padding
+    if ($newItem != null) { $newItem.find('.fn-name').focus(); }
+}
+
+ListEditor.prototype.renderActivity = function ($element, activity) {
+    if (this.$activity == null) {
+        this.$activity = $('<ul class="nav nav-list" />').prependTo($element);
+    }
+    this.$activity.empty();
+    if (!activity.IsActivity()) { return this.$activity; }
+
+    if (!activity.IsPaused()) {                 // activity is running
+        var steps = activity.GetItems(true);
+        if (ItemMap.count(steps) == 0) {
+            // activity without steps, display all properties
+            var $li = $('<li />').appendTo(this.$activity);
+            $li.addClass(activity.StatusClass());
+
+            var $form = $('<a class="form-inline icon"/>').appendTo($li);
+            var field = activity.GetField(FieldNames.Complete);
+            Control.Checkbox.render($form, activity, field);
+
+            if (activity.IsComplete()) {
+                field = activity.GetField(FieldNames.CompletedOn);
+                Control.Text.render($form, activity, field, 'small', 'Completed on ');
+            } else {
+                field = activity.GetField(FieldNames.DueDate);
+                Control.Text.render($form, activity, field, 'small', 'Due on ');
+            }
+        } else {
+            // activity with steps, only display repeat
+        }
+    } else {                                    // activity is paused
+    }
+
+    return this.$activity;
 }
 
 ListEditor.prototype.selectItem = function (item) {
@@ -40,27 +85,9 @@ NewItemEditor.prototype.render = function ($element, list) {
             this.$element = $('<div class="row-fluid" />').appendTo($element);
         }
         this.$element.empty();
-        this.list = list;
-
-        if (list.IsActivity() && !list.IsPaused()) {
-            // activity is running
-            var steps = list.GetItems();
-            if (ItemMap.count(steps) == 0) {
-                // activity without steps, just display properties
-                var $form = $('<a class="form-inline icon"/>').appendTo(this.$element);
-                var field = list.GetField(FieldNames.Complete);
-                Control.Checkbox.render($form, list, field);
-
-                if (list.IsComplete()) {
-                    field = list.GetField(FieldNames.CompletedOn);
-                    Control.Text.render($form, list, field, 'small', 'Completed on ');
-                } else {
-                    field = list.GetField(FieldNames.DueDate);
-                    Control.Text.render($form, list, field, 'small', 'Due on ');
-                }
-            }
-        } else {
-            // render name field for new item 
+        // render input for new item if not a running activity
+        if (!list.IsActivity() || list.IsPaused()) {
+            this.list = list;
             this.newItem = Item.Extend({ Name: '', ItemTypeID: (list.IsActivity() ? ItemTypes.Step : list.ItemTypeID) });
             var $field = this.renderNameField(this.$element);
             $field.val('');
@@ -141,12 +168,12 @@ ListView.prototype.renderListItems = function (list) {
         var $item;
         if (runMode) {
             if (item.IsActive()) { $li.addClass('selected'); }
-            if (!item.IsNullStatus()) { $li.addClass(item.Status.toLowerCase()); }
+            $li.addClass(item.StatusClass());
             $item = $('<a class="form-inline" />').appendTo($li);
             this.renderNameField($item, item);
         } else {
             if (item.IsSelected()) { $li.addClass('selected'); }
-            if (item.IsPaused()) { $li.addClass('paused'); }
+            if (item.IsPaused()) { $li.addClass(item.StatusClass()); }
 
             $item = $('<a class="form-inline drag-handle" />').appendTo($li);
             var $deleteBtn = Control.Icons.deleteBtn(item).appendTo($li);
@@ -206,13 +233,15 @@ ListView.prototype.renderField = function ($element, item, field) {
                 var endField = item.GetField(FieldNames.EndDate);
                 $field = Control.DateTime.renderRange($element, item, field, endField, 'small');
             }
-            else if (item.HasField(FieldNames.Complete) && item.GetFieldValue(FieldNames.Complete) != true) {
+            else if (!(item.IsComplete() || item.IsSkipped())) {
                 $field = Control.Text.render($element, item, field, 'small', 'Due on ');
             }
             break;
         case FieldNames.CompletedOn:
-            if (item.GetFieldValue(FieldNames.Complete) == true) {
+            if (item.IsComplete()) {
                 $field = Control.Text.render($element, item, field, 'small', 'Completed on ');
+            } else if (item.IsSkipped()) {
+                $field = Control.Text.render($element, item, field, 'small', 'Skipped on ');
             }
             break;
         case FieldNames.Category:

@@ -921,9 +921,10 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-center .manager-folders .tab-content .nav-list{overflow-y:auto;overflow-x:hidden;padding:0}
 .dashboard-center .manager-folders .tab-content .nav-list li{border-top:1px solid #ccc;padding:0 0 0 8px}
 .dashboard-center .manager-folders .tab-content .nav-list li.selected{background-color:#e6e6e6}
-.dashboard-center .manager-folders .tab-content .nav-list li.complete{background-color:#d9edf7}
-.dashboard-center .manager-folders .tab-content .nav-list li.skipped{background-color:#e6e6e6}
-.dashboard-center .manager-folders .tab-content .nav-list li.paused{background-color:#fcf8e3}
+.dashboard-center .manager-folders .tab-content .nav-list li.st-complete{background-color:#d9edf7}
+.dashboard-center .manager-folders .tab-content .nav-list li.st-skipped{background-color:#f2dede}
+.dashboard-center .manager-folders .tab-content .nav-list li.st-active{background-color:#dff0d8}
+.dashboard-center .manager-folders .tab-content .nav-list li.st-paused{background-color:#dff0d8}
 .dashboard-center .manager-folders .tab-content textarea{height:60px}
 .dashboard-center .manager-folders .tab-content .input-inline-max{display:inline-block;width:90%}
 .dashboard-center .carousel .input-block-level{border-left-color:transparent;border-bottom-color:transparent;border-right-color:transparent;background-color:transparent;overflow-y:hidden}
@@ -955,8 +956,10 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .control-group.inline-right{margin-left:8px}
 .item-status{position:absolute;top:10px;right:0}
 .item-status i{font-size:16pt;margin-right:12px}
-.item-status i.icon-play,.item-status i.icon-forward,.item-status i.icon-backward{color:#62c462}
-.item-status i.icon-play:hover,.item-status i.icon-forward:hover,.item-status i.icon-backward:hover{color:#51a351}
+.item-status i.icon-play{color:#62c462}
+.item-status i.icon-play:hover{color:#51a351}
+.item-status i.icon-forward,.item-status i.icon-backward{color:#08c}
+.item-status i.icon-forward:hover,.item-status i.icon-backward:hover{color:#05c}
 .item-status i.icon-pause{color:#fbb450}
 .item-status i.icon-pause:hover{color:#f89406}
 .icon.drag-handle{position:absolute;top:7px;left:1px;color:transparent;cursor:n-resize;font-family:Arial;font-size:22pt}

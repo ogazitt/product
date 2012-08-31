@@ -277,6 +277,18 @@ Item.prototype.GetLocation = function () {
             return list[id].GetFieldValue(FieldNames.EntityRef);
         }
     }
+    // if item doesn't have a location, try the parent
+    var parent = this.GetParent();
+    if (parent != null) {
+        listItem = parent.GetFieldValue(FieldNames.Locations);
+        if (listItem != null) {
+            list = DataModel.GetItems(listItem.FolderID, listItem.ID, true);
+            for (var id in list) {
+                // return first item
+                return list[id].GetFieldValue(FieldNames.EntityRef);
+            }
+        }
+    }
     return null;
 }
 // helper for getting the first location associated with the item
@@ -287,6 +299,18 @@ Item.prototype.GetContact = function () {
         for (var id in list) {
             // return first item
             return list[id].GetFieldValue(FieldNames.EntityRef);
+        }
+    }
+    // if item doesn't have a contact, try the parent
+    var parent = this.GetParent();
+    if (parent != null) {
+        listItem = parent.GetFieldValue(FieldNames.Locations);
+        if (listItem != null) {
+            list = DataModel.GetItems(listItem.FolderID, listItem.ID, true);
+            for (var id in list) {
+                // return first item
+                return list[id].GetFieldValue(FieldNames.EntityRef);
+            }
         }
     }
     return null;

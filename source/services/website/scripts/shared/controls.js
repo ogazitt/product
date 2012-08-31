@@ -406,7 +406,8 @@ Control.Icons.callBtn = function Control$Icons$callBtn(item) {
                 window.open("tel:" + phone);
             }
             else {
-                Control.alert('<p>This action only works on a mobile device</p>', 'call ' + Control.Icons.formatPhoneNumber(phone));
+                Control.alert('<p>This action only works on a mobile device</p>', 'call ' + 
+                    Control.Icons.formatPhoneNumber(phone));
             }
             return false;
         }
@@ -470,7 +471,8 @@ Control.Icons.textBtn = function Control$Icons$textBtn(item) {
                 window.open("sms:" + phone);
             }
             else {
-                Control.alert('<p>This action only works on a mobile device</p>', 'text ' + Control.Icons.formatPhoneNumber(phone));
+                Control.alert('<p>This action only works on a mobile device</p>', 'text ' + 
+                    Control.Icons.formatPhoneNumber(phone));
             }
             return false;
         }

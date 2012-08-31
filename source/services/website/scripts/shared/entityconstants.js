@@ -171,12 +171,12 @@ var SystemUsers = {
 
 var ActionTypes = {
     All: "All",
-    Remind: "Remind",
+    Remind: "Reminder",
     Call: "Call",
+    Schedule: "Add to calendar",
+    Errand: "Errand",
     SendEmail: "Email",
-    AskFriends: "Ask FB friends",
+    TextMessage: "Text",
+    AskFriends: "Ask Facebook friends",
     Find: "Find local businesses",
-    Schedule: "Schedule on calendar",
-    Map: "Map",
-    TextMessage: "Text"
 }

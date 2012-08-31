@@ -109,8 +109,13 @@ InfoManager.prototype.activeItem = function () {
 InfoManager.prototype.activeItemName = function () {
     var activeItem = this.activeItem();
     if (activeItem != null) {
-        var actionType = activeItem.GetActionType();
-        var $icon = Control.Icons.forActionType(actionType);
+        if (activeItem.ItemTypeID == ItemTypes.Step) {
+            var actionType = activeItem.GetActionType();
+            var $icon = Control.Icons.forActionType(actionType);
+        }
+        else {
+            var $icon = Control.Icons.forItemType(activeItem);
+        }
         return $('<span>&nbsp;' + activeItem.Name + '</span>').prepend($icon);
     }
     return $('<span>Item View</span>');

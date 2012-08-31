@@ -63,6 +63,26 @@
             return null;
         }
 
+        // get a list of children for an Item
+        public List<Item> GetChildren(User user, Item item)
+        {
+            return GetChildren(user, item.ID);
+        }
+
+        // get a list of children for an ItemID
+        public List<Item> GetChildren(User user, Guid itemID)
+        {
+            return Items.Include("FieldValues").Where(i => i.ParentID == itemID && i.UserID == user.ID).ToList();
+        }
+
+        public List<Item> GetChildrenForFieldValue(User user, Item item, string fieldValueName)
+        {
+            var fv = item.GetFieldValue(fieldValueName);
+            if (fv == null || fv.Value == null)
+                return null;
+            return GetChildren(user, new Guid(fv.Value));
+        }
+
         // get or create an Item by name in given folder for given user (include FieldValues if NOT a List)
         public Item GetOrCreateItem(User user, Folder folder, string name, Guid? itemTypeID = null, bool isList = false)
         {

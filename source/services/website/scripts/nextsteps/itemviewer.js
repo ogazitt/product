@@ -21,7 +21,7 @@ ItemViewer.prototype.show = function () {
 }
 
 ItemViewer.prototype.render = function ($element, item) {
-    if (item != null && !(item.IsFolder() || item.IsList)) {
+    if (item != null && !item.IsFolder()) {
         if (this.$element == null) {
             this.$element = $('<form class="row-fluid form-vertical carousel" />').appendTo($element);
             this.$element.data('control', this);

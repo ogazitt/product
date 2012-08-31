@@ -217,7 +217,7 @@ Item.prototype.AddReference = function (field, item, replace) {
             if (replace == true) {
                 return this.replaceReference(refList, item);
             } else {
-                return this.addReference(refList, item);
+                return this.addReference(refList, item, true);
             }
         } else {
             // create refList and addReference in success handler
@@ -263,7 +263,7 @@ Item.prototype.RemoveReferences = function (field) {
 
 Item.prototype.GetActionType = function () {
     var actionTypeName = this.GetFieldValue(FieldNames.ActionType);
-    if (actionTypeName == null) actionTypeName = ActionTypes.Remind;
+    if (actionTypeName == null) actionTypeName = ActionTypes.Reminder;
     var actionType = DataModel.FindActionType(actionTypeName);
     return actionType;
 }
@@ -482,8 +482,18 @@ Item.prototype.selectNextItem = function () {
     }
     return null;
 }
-Item.prototype.addReference = function (refList, itemToRef) {
+Item.prototype.addReference = function (refList, itemToRef, eliminateDup) {
     if (refList.IsList) {
+        if (eliminateDup) {
+            // look for an identical reference and stop processing if one is found
+            var itemRefs = refList.GetItems();
+            for (var id in itemRefs) {
+                var itemRef = itemRefs[id];
+                var refID = itemRef.GetFieldValue(FieldNames.EntityRef);
+                if (refID.ID == itemToRef.ID)
+                    return false;
+            }
+        }
         // create and insert the item reference
         var itemRef = Item.Extend(
         {

@@ -159,7 +159,7 @@ ListView.prototype.actionButton = function (item) {
                 return Control.Icons.emailBtn(item);
             }
             break;
-        case ActionTypes.Map:
+        case ActionTypes.Errand:
             if (item.GetMapLink() != null) {
                 return Control.Icons.mapBtn(item);
             }
@@ -174,8 +174,12 @@ ListView.prototype.renderNameField = function ($item, item) {
     field = fields[FieldNames.Name];
     // workaround for IE9 bug - where the name field for list items past the first one is indented. 
     // adding a zero-height <p> fixes this.
-    var $p = $('<p style="height: 0px;" />'); 
+    var $p = $('<p style="height: 0px;" />');
     $p.appendTo($item);
+    Control.Text.renderActivityLink($item, item, function (activity) {
+        NextStepsPage.showManager(NextStepsPage.infoManager);
+        NextStepsPage.infoManager.selectItem(activity);        
+    });
     Control.Text.renderLabel($item, item, field).appendTo($item);
 }
 

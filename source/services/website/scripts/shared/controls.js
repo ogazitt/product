@@ -235,7 +235,7 @@ Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
         case ActionTypes.All:
             $icon.addClass('icon-play');
             break;
-        case ActionTypes.Remind:
+        case ActionTypes.Reminder:
             $icon.addClass('icon-time');
             break;
         case ActionTypes.Call:
@@ -253,8 +253,8 @@ Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
         case ActionTypes.Schedule:
             $icon.addClass('icon-calendar');
             break;
-        case ActionTypes.Map:
-            $icon.addClass('icon-map-marker');
+        case ActionTypes.Errand:
+            $icon.addClass('icon-shopping-cart');
             break;
         case ActionTypes.TextMessage:
             $icon.addClass('icon-list-alt');
@@ -484,12 +484,14 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
     var $icon = $('<h2 class="icon-calendar"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
-    $icon.attr('title', 'Schedule').tooltip(Control.ttDelay);
+    $icon.attr('title', 'Add to calendar').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
-        var $dialog = $('<div><label>Date: </label><input type="date"><label>Start time: </label><input type="time"><label>End time: </label><input type="time"></div>');
+        var activity = item.GetParent();
+        var $dialog = $('<div><label>Date: </label><input type="date"/><label>Start time: </label><input type="time"/><label>End time: </label><input type="time"/><label>Title: </label><input type="text" id="name"/></div>');
+        $dialog.find('#name').val(activity.Name);
         var header = 'When should appointment be scheduled for?';
         if (Browser.IsMobile()) {
         } else {
@@ -607,6 +609,17 @@ Control.Text.renderEmail = function Control$Text$renderEmail($element, item, fie
         $link.addClass(field.Class);
         $link.attr('href', 'mailto:' + value);
         $link.html(value);
+    }
+    return $link;
+}
+// render activity link
+Control.Text.renderActivityLink = function Control$Text$renderActivityLink($element, item, handler) {
+    var $link;
+    var parent = item.GetParent();
+    var value = parent.Name;
+    if (value != null) {
+        $link = $('<a><strong>' + value + '</strong></a><strong>&nbsp;:&nbsp;</strong>').appendTo($element);
+        $link.click(function (e) { handler(parent); });
     }
     return $link;
 }
@@ -1170,10 +1183,17 @@ Control.ContactList.update = function Control$ContactList$update($input) {
         contact = $.parseJSON(jsonContact);
     }
 
+    var parent = item.GetParent();
+
     if (contact != null && contact.ItemTypeID == ItemTypes.Reference) {
         // add reference to existing contact
         contact = { Name: contact.Name, ID: contact.FieldValues[0].Value };
         item.AddReference(field, contact, true);
+        if (parent != null && parent.IsActivity) {
+            // if parent is an activity, add a reference in its location list as well 
+            // (but do not replace any references - hence flag = false below
+            parent.AddReference(field, contact, false);
+        }
     } else {
         if (contact != null) {
             contact = Item.Extend(contact);
@@ -1182,6 +1202,11 @@ Control.ContactList.update = function Control$ContactList$update($input) {
             if (existingContact != null) {
                 // add reference to existing contact
                 item.AddReference(field, contact, true);
+                if (parent != null && parent.IsActivity) {
+                    // if parent is an activity, add a reference in its location list as well 
+                    // (but do not replace any references - hence flag = false below
+                    parent.AddReference(field, existingContact, false);
+                }
                 return;
             }
         } else {
@@ -1192,6 +1217,11 @@ Control.ContactList.update = function Control$ContactList$update($input) {
         DataModel.InsertItem(contact, contactList, null, null, null,
             function (insertedContact) {
                 item.AddReference(field, insertedContact, true);
+                if (parent != null && parent.IsActivity) {
+                    // if parent is an activity, add a reference in its location list as well 
+                    // (but do not replace any references - hence flag = false below
+                    parent.AddReference(field, insertedContact, false);
+                }
             });
     }
 }
@@ -1242,6 +1272,7 @@ Control.LocationList.update = function Control$LocationList$update($input) {
         return;
     }
 
+    var parent = item.GetParent();
     var latlong = $input.data(FieldNames.LatLong);
     var place = $input.data('place');
     if (place != null && place.geometry != null) {
@@ -1251,6 +1282,11 @@ Control.LocationList.update = function Control$LocationList$update($input) {
     if (existingLocation != null) {
         // add reference to existing location
         item.AddReference(field, existingLocation, true);
+        if (parent != null && parent.IsActivity) {
+            // if parent is an activity, add a reference in its location list as well 
+            // (but do not replace any references - hence flag = false below
+            parent.AddReference(field, existingLocation, false);
+        }
     } else {
         // create new location and add reference
         var locationList = DataModel.UserSettings.GetDefaultList(ItemTypes.Location);
@@ -1266,6 +1302,11 @@ Control.LocationList.update = function Control$LocationList$update($input) {
         DataModel.InsertItem(newLocation, locationList, null, null, null,
             function (insertedLocation) {
                 item.AddReference(field, insertedLocation, true);
+                if (parent != null && parent.IsActivity) {
+                    // if parent is an activity, add a reference in its location list as well 
+                    // (but do not replace any references - hence flag = false below
+                    parent.AddReference(field, insertedLocation, false);
+                }
             });
     }
 }
@@ -1369,7 +1410,7 @@ Control.ActionType.renderDropdown = function Control$ActionType$renderDropdown($
     if (!item.HasField(FieldNames.ActionType)) return;
 
     var currentActionTypeName = item.GetFieldValue(FieldNames.ActionType);
-    if (currentActionTypeName == null) currentActionTypeName = ActionTypes.Remind;
+    if (currentActionTypeName == null) currentActionTypeName = ActionTypes.Reminder;
     var $wrapper = $wrapper = $('<div class="control-group"></div>').appendTo($element);
     if (noLabel != true) {
         var labelType = (item.IsFolder() || item.IsList) ? 'List' : 'Item';

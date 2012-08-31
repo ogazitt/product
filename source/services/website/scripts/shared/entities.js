@@ -338,13 +338,48 @@ Item.prototype.IsActive = function () { return (this.Status == StatusTypes.Activ
 Item.prototype.IsComplete = function () { return (this.Status == StatusTypes.Complete); };
 Item.prototype.IsPaused = function () { return (this.Status == StatusTypes.Paused); };
 Item.prototype.IsSkipped = function () { return (this.Status == StatusTypes.Skipped); };
+Item.prototype.StatusClass = function () { return (this.IsNullStatus()) ? '' : ('st-' + this.Status.toLowerCase()); };
 
 // Activity and Step Item helpers
 Item.prototype.IsCategory = function () { return (this.ItemTypeID == ItemTypes.Category); };
 Item.prototype.IsActivity = function () { return (this.ItemTypeID == ItemTypes.Activity); };
 Item.prototype.IsStep = function () { return (this.ItemTypeID == ItemTypes.Step); };
 
-// helper for marking item complete and marking next item active
+// helper for determining options for starting activity
+// returns object { Start: bool, Resume: bool, Restart: bool }
+Item.prototype.CanResume = function () {
+    var status = { Start: false, Resume: false, Restart: false }
+    var steps = this.GetItems(true);
+    if (ItemMap.count(steps) == 0) {
+        var dueDate = this.GetFieldValue(FieldNames.DueDate);
+        var completedOn = this.GetFieldValue(FieldNames.CompletedOn);
+        var hasDueDate = (dueDate != null && dueDate.length > 0);
+        var hasCompletedOn = (completedOn != null && completedOn.length > 0);
+        status.Start = !hasDueDate;
+        status.Resume = hasDueDate && !hasCompletedOn;
+        status.Restart = hasDueDate && hasCompletedOn;
+        return status;
+    }
+
+    // TODO: this should only iterate 'current' steps
+    var allNull = true;
+    var allNullAfter = true;
+    var allCompleteBefore = true;
+    var pauseCount = 0;
+    for (var id in steps) {
+        var step = steps[id];
+        if (!step.IsNullStatus()) { allNull = false; }
+        if (step.IsPaused()) { pauseCount++; }
+        if (pauseCount == 0 && !(step.IsComplete() || step.IsSkipped())) { allCompleteBefore = false; }
+        if (pauseCount == 1 && !(step.IsPaused() || step.IsNullStatus())) { allNullAfter = false; }
+    }
+    status.Start = allNull;
+    status.Resume = (pauseCount == 1 && allCompleteBefore && allNullAfter);
+    status.Restart = !status.Start;
+    return status;
+};
+
+// helper for marking item complete and marking next step active
 Item.prototype.Complete = function () {
     var copy = this.Copy();
     copy.Status = StatusTypes.Complete;
@@ -358,17 +393,31 @@ Item.prototype.Complete = function () {
         this.Update(copy, null);
         nextStep.Active(this.GetFieldValue(FieldNames.DueDate));
     } else {
+        if (this.IsStep()) {
+            var parent = this.GetParent();
+            if (parent != null && parent.IsActivity()) {
+                parent.UpdateStatus(StatusTypes.Complete, null);
+            }
+        }
         this.Update(copy);
     }
 }
-// helper for marking item skipped and marking next item active
+// helper for marking item skipped and marking next step active
 Item.prototype.Skip = function () {
-    this.UpdateStatus(StatusTypes.Skipped, null);
+    var copy = this.Copy();
+    copy.Status = StatusTypes.Skipped;
+    if (copy.HasField(FieldNames.CompletedOn)) {
+        copy.SetFieldValue(FieldNames.CompletedOn, new Date().format());
+    }
+
     // find the next step in the Activity and make it Active
     var nextStep = this.nextItem();
     if (nextStep != null && nextStep.IsStep()) {
+        this.Update(copy, null);
         nextStep.Active(this.GetFieldValue(FieldNames.DueDate));
-    } 
+    } else {
+        this.Update(copy);
+    }
 }
 // helper for marking item paused and marking first active child item paused
 Item.prototype.Pause = function () {
@@ -383,8 +432,9 @@ Item.prototype.Pause = function () {
     }
     this.UpdateStatus(StatusTypes.Paused);
 }
-// helper for marking item active and marking appropriate child item active
+// helpers for marking item active and marking appropriate child item active
 // if due date is required, item requiring due date will be returned
+Item.prototype.Start = function (newDueDate) { return this.Active(newDueDate); }
 Item.prototype.Active = function (newDueDate) {
     var steps = this.GetItems(true);
     if (ItemMap.count(steps) == 0) {
@@ -437,6 +487,29 @@ Item.prototype.Active = function (newDueDate) {
 
     return null;
 }
+
+// helper for resetting an activity to restart (null status and due dates)
+Item.prototype.Restart = function () {
+    var steps = this.GetItems(true);
+    if (ItemMap.count(steps) == 0) {
+        var copy = this.Copy();
+        copy.SetFieldValue(FieldNames.DueDate, null);
+        copy.SetFieldValue(FieldNames.CompletedOn, null);
+        this.Update(copy, null);
+        return copy.Active();
+    } else {
+        // TODO: this should only iterate 'current' steps
+        for (var id in steps) {
+            var step = steps[id];
+            var copy = step.Copy();
+            copy.Status = null;
+            copy.SetFieldValue(FieldNames.DueDate, null);
+            step.Update(copy, null);
+        }
+    }
+    return this.Active();
+}
+
 
 // Item private functions
 Item.prototype.addItem = function (newItem, activeItem) { this.GetFolder().addItem(newItem, activeItem); };

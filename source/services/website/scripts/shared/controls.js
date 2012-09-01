@@ -307,13 +307,13 @@ Control.Icons.deleteBtn = function Control$Icons$deleteBtn(item) {
     return $('<a class="icon" />').append($icon);
 }
 
-// wrap an <h2>-style icon button (used in steplist) with a btn style appropriate for rendering on mobile devices
+// wrap an icon-large button (used in steplist) with a btn style appropriate for rendering on mobile devices
 Control.Icons.createToolbarButton = function Control$Icons$createToolbarButton($iconButton, propagate) {
-    var $btn = $('<a class="btn step-button" />').append($iconButton);
+    var $btn = $('<a class="btn btn-step" />').append($iconButton);
     $btn.addClass('pull-left');
     $btn.one('click', function (e) {
-        var $h2 = $iconButton.find('h2');
-        $h2.click();
+        var $icon = $iconButton.find('i');
+        $icon.click();
         return (propagate == true) ? true : false;
     });
     return $btn;
@@ -322,7 +322,7 @@ Control.Icons.createToolbarButton = function Control$Icons$createToolbarButton($
 // return an element that is an icon for completing an item
 Control.Icons.completeBtn = function Control$Icons$completeBtn(item, handler) {
     var $icon = $('<h2 class="icon-check"></h2>');
-    $icon.css('cursor', 'pointer');
+    var $icon = $('<i class="icon-check icon-large"></i>');
     $icon.data('item', item);
     $icon.attr('title', 'Complete').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
@@ -374,8 +374,7 @@ Control.Icons.completeHandler = function Control$Icons$completeHandler(item) {
 
 // return an element that is an icon for skipping an item
 Control.Icons.skipBtn = function Control$Icons$skipBtn(item) {
-    var $icon = $('<h2 class="icon-step-forward"></h2>');
-    $icon.css('cursor', 'pointer');
+    var $icon = $('<i class="icon-step-forward icon-large"></i>');
     $icon.data('item', item);
     $icon.attr('title', 'Skip').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
@@ -391,8 +390,7 @@ Control.Icons.skipBtn = function Control$Icons$skipBtn(item) {
 
 // return an element that is an icon for skipping an item
 Control.Icons.deferBtn = function Control$Icons$deferBtn(item) {
-    var $icon = $('<h2 class="icon-time"></h2>');
-    $icon.css('cursor', 'pointer');
+    var $icon = $('<i class="icon-time icon-large"></i>');
     $icon.data('item', item);
     $icon.attr('title', 'Defer').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
@@ -409,8 +407,7 @@ Control.Icons.deferBtn = function Control$Icons$deferBtn(item) {
 
 // return an element that is an icon for getting more information for an item
 Control.Icons.infoBtn = function Control$Icons$infoBtn(item) {
-    var $icon = $('<h2 class="icon-info-sign"></h2>');
-    $icon.css('cursor', 'pointer');
+    var $icon = $('<i class="icon-info-sign  icon-large"></i>');
     $icon.data('item', item);
     $icon.attr('title', 'Information').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
@@ -428,8 +425,7 @@ Control.Icons.infoBtn = function Control$Icons$infoBtn(item) {
 
 // return an element that is an icon for calling
 Control.Icons.callBtn = function Control$Icons$callBtn(item) {
-    var $icon = $('<h2 class="icon-phone"></h2>');
-    $icon.css('cursor', 'pointer');
+    var $icon = $('<i class="icon-phone icon-large"></i>');
     $icon.data('item', item);
     $icon.attr('title', 'Call').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
@@ -463,7 +459,7 @@ Control.Icons.formatPhoneNumber = function Control$Icons$formatPhoneNumber(phone
 Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
     var link = item.GetMapLink();
     if (link != null) {
-        var $link = $('<h2 class="icon-map-marker"></h2>');
+        var $link = $('<i class="icon-map-marker icon-large"></i>');
         $link.attr('href', link.Url);
         $link.attr('title', 'Map').tooltip(Control.ttDelay);
         $link.click(function () { window.open($(this).attr('href')); return false; });
@@ -473,8 +469,7 @@ Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
 
 // return an element that is an icon for emailing
 Control.Icons.emailBtn = function Control$Icons$emailBtn(item) {
-    var $icon = $('<h2 class="icon-envelope"></h2>');
-    $icon.css('cursor', 'pointer');
+    var $icon = $('<i class="icon-envelope icon-large"></i>');
     $icon.data('item', item);
     $icon.attr('title', 'Email').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
@@ -493,8 +488,7 @@ Control.Icons.emailBtn = function Control$Icons$emailBtn(item) {
 
 // return an element that is an icon for texting
 Control.Icons.textBtn = function Control$Icons$textBtn(item) {
-    var $icon = $('<h2 class="icon-list-alt"></h2>');
-    $icon.css('cursor', 'pointer');
+    var $icon = $('<i class="icon-list-alt icon-large"></i>');
     $icon.data('item', item);
     $icon.attr('title', 'Text').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
@@ -519,8 +513,7 @@ Control.Icons.textBtn = function Control$Icons$textBtn(item) {
 }
 
 Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
-    var $icon = $('<h2 class="icon-calendar"></h2>');
-    $icon.css('cursor', 'pointer');
+    var $icon = $('<i class="icon-calendar icon-large"></i>');
     $icon.data('item', item);
     $icon.attr('title', 'Add to calendar').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
@@ -593,8 +586,7 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
 
 // return an element that is an icon for finding a local business
 Control.Icons.findLocalBtn = function Control$Icons$findLocalBtn(item) {
-    var $icon = $('<h2 class="icon-search"></h2>');
-    $icon.css('cursor', 'pointer');
+    var $icon = $('<i class="icon-search icon-large"></i>');
     $icon.data('item', item);
     $icon.attr('title', 'Find Local').tooltip(Control.ttDelay);
     $icon.bind('click', function () {
@@ -642,16 +634,6 @@ Control.Text.renderLabel = function Control$Text$renderLabel($element, item, fie
     var value = item.GetFieldValue(field);
     if (value != null) {
         $label = $('<label><strong>' + value + '</strong></label>').appendTo($element);
-        $label.addClass(field.Class);
-    }
-    return $label;
-}
-// render h2 label 
-Control.Text.renderH2Label = function Control$Text$renderH2Label($element, item, field) {
-    var $label;
-    var value = item.GetFieldValue(field);
-    if (value != null) {
-        $label = $('<label><h2>' + value + '</h2></label>').appendTo($element);
         $label.addClass(field.Class);
     }
     return $label;

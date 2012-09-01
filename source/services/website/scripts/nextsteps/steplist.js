@@ -50,7 +50,11 @@ ListView.prototype.render = function ($element, list, height) {
 
     this.hide();
     this.$element.empty();
-    if (height != null) { this.$element.css('max-height', height); }
+    // temporary workaround (smillet 8/30/12)
+    // Omri changes have caused tab-content to overflow dashboard-center height 
+    // force max-height of tab-content in StepManager
+    //if (height != null) { this.$element.css('max-height', height); }
+
     if (this.renderListItems(list.GetSteps()) > 0) {
         this.show();
         var $selected = this.$element.find('li.selected');
@@ -80,22 +84,22 @@ ListView.prototype.renderListItems = function (listItems) {
         else {
             // render info, complete, skip, and defer buttons
             var $infoBtn = Control.Icons.infoBtn(item).appendTo($item);
-            $infoBtn.addClass('pull-right');
+            $infoBtn.addClass('pull-right btn-step');
             var $completeBtn = Control.Icons.completeBtn(item).appendTo($item);
-            $completeBtn.addClass('pull-right');
+            $completeBtn.addClass('pull-right btn-step');
             var $skipBtn = Control.Icons.skipBtn(item).appendTo($item);
-            $skipBtn.addClass('pull-right');
+            $skipBtn.addClass('pull-right btn-step');
             var $deferBtn = Control.DeferButton.renderDropdown($item, item);
-            $deferBtn.addClass('pull-right');
+            $deferBtn.addClass('pull-right btn-step');
 
             // render the action button based on the action type
             var $actionButton = this.actionButton(item);
             if ($actionButton != null) {
                 $actionButton.appendTo($item);
-                $actionButton.addClass('pull-right');
+                $actionButton.addClass('pull-right btn-step');
             }
         }
-        
+
         this.renderNameField($item, item);
 
         // click item to select
@@ -116,14 +120,14 @@ ListView.prototype.renderListItems = function (listItems) {
     }
 
     // make the dropdown for the defer button of the last button row into a drop-up
-    if (itemCount > 0) $li.find('div.control-group div').addClass('dropup');
-
+    if (itemCount > 1) { $li.find('div.control-group div').addClass('dropup'); }
     return itemCount;
 }
 
 ListView.prototype.renderToolbar = function ($item, item) {
     var $toolbar = $('<div class="btn-toolbar" />').appendTo($item);
-    $toolbar.css('height', '28px');  // HACK: somehow the height is computed to zero on list items past the first one
+    // HACK: somehow the height is computed to zero on list items past the first one
+    $toolbar.css('height', '28px');  
     
     // render defer dropdown button
     var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
@@ -174,8 +178,7 @@ ListView.prototype.renderNameField = function ($item, item) {
     field = fields[FieldNames.Name];
     // workaround for IE9 bug - where the name field for list items past the first one is indented. 
     // adding a zero-height <p> fixes this.
-    var $p = $('<p style="height: 0px;" />');
-    $p.appendTo($item);
+    $('<p style="height: 0px;" />').appendTo($item);
     Control.Text.renderActivityLink($item, item, function (activity) {
         NextStepsPage.showManager(NextStepsPage.infoManager);
         NextStepsPage.infoManager.selectItem(activity);        

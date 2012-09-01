@@ -274,7 +274,7 @@ table .span21{float:none;width:1644px;margin-left:0}
 table .span22{float:none;width:1724px;margin-left:0}
 table .span23{float:none;width:1804px;margin-left:0}
 table .span24{float:none;width:1884px;margin-left:0}
-[class^="icon-"],[class*=" icon-"]{display:inline-block;width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;background-image:url("images/glyphicons-halflings-omri5.png");background-position:14px 14px;background-repeat:no-repeat}
+[class^="icon-"],[class*=" icon-"]{display:inline-block;width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;background-image:url("images/glyphicons-halflings.png");background-position:14px 14px;background-repeat:no-repeat}
 [class^="icon-"]:last-child,[class*=" icon-"]:last-child{*margin-left:0}
 .icon-white{background-image:url("images/glyphicons-halflings-white.png")}
 .icon-glass{background-position:0 0}
@@ -418,6 +418,39 @@ table .span24{float:none;width:1884px;margin-left:0}
 .icon-filter{background-position:-408px -144px}
 .icon-briefcase{background-position:-432px -144px}
 .icon-fullscreen{background-position:-456px -144px}
+.icon-large{Xwidth:20px;Xheight:20px;Xline-height:28px;Xbackground-position:28px 28px}
+.icon-phone{background-position:0 -2px;background-image:url("images/extraicons-halflings.png")}
+.icon-phone-sign{background-position:-24px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-facebook{background-position:-48px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-facebook-sign{background-position:-72px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-twitter{background-position:-96px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-twitter-sign{background-position:-120px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-github{background-position:-144px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-github-sign{background-position:-168px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-pinterest{background-position:-192px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-pinterest-sign{background-position:-216px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-google-plus{background-position:-240px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-google-plus-sign{background-position:-264px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-linkedin{background-position:-288px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-linkedin-sign{background-position:-312px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-sign-blank{background-position:-336px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-user-md{background-position:-360px 0;background-image:url("images/extraicons-halflings.png")}
+.icon-bell{background-position:0 -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-bolt{background-position:-24px -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-bookmark-empty{background-position:-48px -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-briefcase{background-position:-72px -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-bullhorn{background-position:-96px -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-certificate{background-position:-120px -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-check-empty{background-position:-144px -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-cloud{background-position:-168px -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-credit-card{background-position:-192px -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-dashboard{background-position:-216px -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-legal{background-position:-240px -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-link{background-position:-264px -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-money{background-position:-288px -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-truck{background-position:-312px -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-umbrella{background-position:-336px -24px;background-image:url("images/extraicons-halflings.png")}
+.icon-steps{background-position:-360px -24px;background-image:url("images/extraicons-halflings.png")}
 .dropup,.dropdown{position:relative}
 .dropdown-toggle{*margin-bottom:-3px}
 .dropdown-toggle:active,.open .dropdown-toggle{outline:0}
@@ -825,6 +858,7 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-list ul{margin:0}
 .dashboard-list li a{cursor:pointer}
 .dashboard-list li a.paused{color:#ccc}
+.dashboard-list .itemlist .dropdown-menu{top:0;right:20px}
 .dashboard-left .itemlist span,.dashboard-left .itemlist em{padding-left:21px}
 .dashboard-right li.active{text-transform:uppercase;text-align:center}
 .dashboard-right .dropdown-menu.pull-right{left:auto;right:0}
@@ -836,20 +870,22 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-center .nav-tabs{margin-bottom:0}
 .dashboard-center .nav-tabs .active{font-weight:bold}
 .dashboard-center .tab-content{padding:12px;border:1px solid #ccc;border-top-color:transparent;-webkit-border-radius:0 4px 4px 4px;-moz-border-radius:0 4px 4px 4px;border-radius:0 4px 4px 4px}
-.dashboard-center .tab-content .form-vertical{min-height:240px}
+.dashboard-center .tab-content{min-height:200px}
 .dashboard-center .tab-content .form-vertical .control-group{margin:0 10px 0 0;padding:0}
-.dashboard-center .tab-content .form-vertical .control-label{font-size:8pt;margin:0 0 -4px 8px}
+.dashboard-center .tab-content .form-vertical .control-label,.modal-body .control-label{font-size:8pt;margin:0 0 -4px 8px}
 .dashboard-center .manager-folders .form-inline .checkbox{margin-right:6px;margin-top:-2px}
 .dashboard-center .manager-folders small{font-size:90%;margin-right:12px}
 .dashboard-center .manager-folders{position:relative}
-.dashboard-center .manager-folders .tab-content .nav-list{overflow-y:auto;overflow-x:hidden;padding:0}
-.dashboard-center .manager-folders .tab-content .nav-list li{border-top:1px solid #ccc;padding:0 0 0 8px}
+.dashboard-center .manager-folders .tab-content .nav-list{padding:0}
+.dashboard-center .manager-folders .tab-content .nav-list li{border-top:1px solid #ccc;padding:0 8px 0 8px}
 .dashboard-center .manager-folders .tab-content .nav-list li.selected{background-color:#e6e6e6}
-.dashboard-center .manager-folders .tab-content .nav-list li.complete{background-color:#d9edf7}
-.dashboard-center .manager-folders .tab-content .nav-list li.skipped{background-color:#e6e6e6}
-.dashboard-center .manager-folders .tab-content .nav-list li.paused{background-color:#fcf8e3}
+.dashboard-center .manager-folders .tab-content .nav-list li.st-complete{background-color:#d9edf7}
+.dashboard-center .manager-folders .tab-content .nav-list li.st-skipped{background-color:#f2dede}
+.dashboard-center .manager-folders .tab-content .nav-list li.st-active{background-color:#dff0d8}
+.dashboard-center .manager-folders .tab-content .nav-list li.st-paused{background-color:#dff0d8}
 .dashboard-center .manager-folders .tab-content textarea{height:60px}
 .dashboard-center .manager-folders .tab-content .input-inline-max{display:inline-block;width:90%}
+.dashboard-center .manager-folders .tab-content .nav-list .form-inline .btn-step{margin:8px 2px 2px 2px;padding:2px}
 .dashboard-center .carousel .input-block-level{border-left-color:transparent;border-bottom-color:transparent;border-right-color:transparent;background-color:transparent;overflow-y:hidden}
 .dashboard-center .carousel .input-block-level:focus{overflow-y:auto}
 .dashboard-center .carousel .fn-name{color:black;font-weight:bold;background-color:transparent;border-style:none}
@@ -877,10 +913,12 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .inline-left{display:inline-block;float:left}
 .inline-right{display:inline-block;float:right}
 .control-group.inline-right{margin-left:8px}
-.item-status{position:absolute;top:10px;right:12px}
-.item-status i{font-size:16pt}
+.item-status{position:absolute;top:10px;right:0}
+.item-status i{font-size:16pt;margin-right:12px}
 .item-status i.icon-play{color:#62c462}
 .item-status i.icon-play:hover{color:#51a351}
+.item-status i.icon-forward,.item-status i.icon-backward{color:#08c}
+.item-status i.icon-forward:hover,.item-status i.icon-backward:hover{color:#05c}
 .item-status i.icon-pause{color:#fbb450}
 .item-status i.icon-pause:hover{color:#f89406}
 .icon.drag-handle{position:absolute;top:7px;left:1px;color:transparent;cursor:n-resize;font-family:Arial;font-size:22pt}
@@ -899,6 +937,7 @@ i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;backgrou
 .ui-combobox{position:relative;display:inline-block}
 .ui-combobox .ui-button{position:absolute;margin-left:-1px;padding:0;top:0;bottom:0}
 .ui-autocomplete-input{margin:0;padding:.3em}
+body{padding-bottom:0}
 .navbar .brand{margin:0}
 .navbar .active img{margin:0}
 .navbar-fixed-top .navbar-inner{padding:0 0 0 10px}
@@ -917,12 +956,13 @@ i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;backgrou
 .row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:2px;*margin-left:2px}
 .row-fluid [class*="span"]:first-child{margin-left:0}
 }
-@media(max-width:320px){.navbar .container-fluid{width:320px;*zoom:1}
+@media(max-width:320px){body{padding-left:0;padding-right:0}
+.navbar .container-fluid{width:320px;*zoom:1}
 .container,.container-fluid{width:320px;*zoom:1}
 .row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:2px;*margin-left:2px}
 .row-fluid [class*="span"]:first-child{margin-left:0}
 }
-.dashboard-center .manager-folders .tab-content .nav-list .step-button-list li.step-button{border-top:0}
-.step-button-list{margin-bottom:0}
-.btn-toolbar .btn.step-button{padding-left:8px;padding-right:8px;margin-left:5px}
+.dashboard-center .manager-folders .tab-content .nav-list .btn-step-list li.btn-step{border-top:0}
+.btn-step-list{margin-bottom:0}
+.btn-toolbar .btn.btn-step{padding-left:8px;padding-right:8px;margin-left:5px}
 .modal{width:280px;margin:-175px 0 0 -140px}

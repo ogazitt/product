@@ -56,6 +56,10 @@ StepManager.prototype.show = function (forceRender) {
 
         // render views
         var $tabContent = $('<div class="tab-content" />').appendTo(this.$element);
+        // try to force proper height for scrolling (smillet workaround 8/30/12)
+        var parentHeight = this.$parentElement.height();
+        //$tabContent.css('max-height', parentHeight);
+
         var $view = $('<div class="tab-pane" />').appendTo($tabContent);
         $view.addClass(StepManager.ListView);
         this.views[StepManager.ListView] = $view;
@@ -79,6 +83,10 @@ StepManager.prototype.render = function () {
     var activeItem = this.activeItem();
     var $view = this.views[activeView];
     var maxContentHeight = this.$parentElement.outerHeight() - $tabs.outerHeight();
+    // temporary workaround (smillet 8/30/12)
+    // Omri changes have cause tab-content to overflow dashboard-center height 
+    // force max-height of tab-content
+    $tabContent.css('max-height', maxContentHeight - 30);
 
     if (activeView == StepManager.ListView) {
         this.stepList.render($view, this.activeList(), maxContentHeight);

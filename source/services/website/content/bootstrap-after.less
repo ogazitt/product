@@ -46,6 +46,7 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-list ul { margin: 0; }
 .dashboard-list li a {  cursor: pointer; } 
 .dashboard-list li a.paused { color: @navbarSearchPlaceholderColor; }
+.dashboard-list .itemlist .dropdown-menu { top: 0; right: 20px; }
 .dashboard-left .itemlist span,  .dashboard-left .itemlist em { padding-left: 21px; } 
 .dashboard-right li.active { text-transform: uppercase; text-align: center; }
 .dashboard-right .dropdown-menu.pull-right { left: auto; right: 0; }
@@ -74,15 +75,15 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
     -moz-border-radius: 0 4px 4px 4px;
     border-radius: 0 4px 4px 4px;
 }
-.dashboard-center .tab-content .form-vertical { min-height: 240px; }
+.dashboard-center .tab-content { min-height: 200px; }
 .dashboard-center .tab-content .form-vertical .control-group { margin: 0 10px 0 0; padding: 0; }
 .dashboard-center .tab-content .form-vertical .control-label, .modal-body .control-label { font-size: 8pt; margin: 0 0 -4px 8px; }
 /* .dashboard-center .tab-content .form-vertical .btn-group > .btn:first-child { min-width: 60px; text-align: left; } */
 .dashboard-center .manager-folders .form-inline .checkbox { margin-right: 6px; margin-top: -2px; }
 .dashboard-center .manager-folders small { font-size: 90%; margin-right: 12px; }
 .dashboard-center .manager-folders { position: relative; }
-.dashboard-center .manager-folders .tab-content .nav-list { overflow-y: auto; overflow-x: hidden; padding: 0; }
-.dashboard-center .manager-folders .tab-content .nav-list li { border-top: 1px solid @btnBorder; padding: 0 0 0 8px; }
+.dashboard-center .manager-folders .tab-content .nav-list { padding: 0; }
+.dashboard-center .manager-folders .tab-content .nav-list li { border-top: 1px solid @btnBorder; padding: 0 8px 0 8px; }
 .dashboard-center .manager-folders .tab-content .nav-list li.selected { background-color: @btnBackgroundHighlight; }  
 .dashboard-center .manager-folders .tab-content .nav-list li.st-complete { background-color: @infoBackground; }  
 .dashboard-center .manager-folders .tab-content .nav-list li.st-skipped { background-color: @errorBackground; }  
@@ -90,6 +91,7 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .manager-folders .tab-content .nav-list li.st-paused { background-color: @successBackground; }  
 .dashboard-center .manager-folders .tab-content textarea { height: 60px; }
 .dashboard-center .manager-folders .tab-content .input-inline-max { display:inline-block; width: 90%; }
+.dashboard-center .manager-folders .tab-content .nav-list .form-inline .btn-step { margin: 8px 2px 2px 2px; padding: 2px; }
 
 .dashboard-center .carousel .input-block-level {
     border-left-color: transparent; border-bottom-color: transparent; border-right-color: transparent; 

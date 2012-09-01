@@ -171,7 +171,7 @@ var SystemUsers = {
 
 var ActionTypes = {
     All: "All",
-    Remind: "Reminder",
+    Reminder: "Reminder",
     Call: "Call",
     Schedule: "Add to calendar",
     Errand: "Errand",

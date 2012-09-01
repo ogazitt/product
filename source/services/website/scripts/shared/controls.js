@@ -320,7 +320,7 @@ Control.Icons.createToolbarButton = function Control$Icons$createToolbarButton($
 }
 
 // return an element that is an icon for completing an item
-Control.Icons.completeBtn = function Control$Icons$completeBtn(item) {
+Control.Icons.completeBtn = function Control$Icons$completeBtn(item, handler) {
     var $icon = $('<h2 class="icon-check"></h2>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
@@ -329,11 +329,47 @@ Control.Icons.completeBtn = function Control$Icons$completeBtn(item) {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
-        item.Complete();
-        return true;   // propogate event to refresh display
+        if (handler == null) {
+            item.Complete();
+            return true;   // propogate event to refresh display
+        }
+        if (handler(item)) {
+            item.Complete();
+            return true;
+        }
+        return false;
     });
     // wrap in anchor tag to get tooltips to work in Chrome
     return $('<a class="icon" />').append($icon);
+}
+
+Control.Icons.completeHandler = function Control$Icons$completeHandler(item) {
+    var actionType = item.GetActionType();
+    var activity = item.GetParent();
+    if (actionType == null || activity == null) return false;
+
+    var $dialog = null;
+    var header = null;
+    switch (actionType.Name) {
+        case ActionTypes.Find:
+            $dialog = $('<div>Where will this happen?<p/></div>');
+            var field = item.GetField(FieldNames.Locations);
+            var $field = Control.LocationList.renderInput($dialog, item, field);
+            header = activity.Name;
+            break;
+        default:
+            return true; // indicate that complete returned successfully
+    }
+    if ($dialog != null) {
+        Control.popup($dialog, header, function (inputs) {
+            item.Complete();
+            return true;
+        },
+        function (inputs) {
+            return false;
+        });
+    }
+    return false;  
 }
 
 // return an element that is an icon for skipping an item
@@ -495,9 +531,6 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
         var $dialog = $('<div><label>Date: </label><input type="date"/><label>Start time: </label><input type="time"/><label>End time: </label><input type="time"/><label>Title: </label><input type="text" id="name"/></div>');
         $dialog.find('#name').val(activity.Name);
         var header = 'When should appointment be scheduled for?';
-        if (Browser.IsMobile()) {
-        } else {
-        }
         Control.popup($dialog, header, function (inputs) {
             if (inputs[0].length == 0) {
                 Control.alert('Please provide a date for the appointment', 'Schedule appointment');
@@ -552,6 +585,27 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
                 );
             }
         });
+        return false;   // do not propogate event
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
+}
+
+// return an element that is an icon for finding a local business
+Control.Icons.findLocalBtn = function Control$Icons$findLocalBtn(item) {
+    var $icon = $('<h2 class="icon-search"></h2>');
+    $icon.css('cursor', 'pointer');
+    $icon.data('item', item);
+    $icon.attr('title', 'Find Local').tooltip(Control.ttDelay);
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        var item = $this.data('item');
+        var term = item.Name.toLowerCase();
+        term = term.replace(/$find an /, '');
+        term = term.replace(/$find a /, '');
+        term = term.replace(/$find/, '');
+        window.open('https://maps.google.com/?q=' + term);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -682,7 +736,13 @@ Control.Text.renderInputGrocery = function Control$Text$renderInputGrocery($elem
 // attach place autocomplete behavior to input element
 Control.Text.autoCompletePlace = function Control$Text$autoCompletePlace($input, selectHandler) {
     $input.unbind('keypress');
-    $text.keypress(function (e) { if (e.which == 13) { return false; } });
+    $input.keypress(function (e) { if (e.which == 13) { return false; } });
+    $input.unbind('click').bind('click', function (e) {
+        // make google autocomplete box appear in front of modal dialog
+        $('.pac-container').css('z-index', '10000');
+        $input.unbind('click');
+        return true;  // propagate event further
+    });
     var autoComplete = new google.maps.places.Autocomplete($input[0]);
 
     // TODO: temporary bound to Seattle area (calculate bounds from UserProfile GeoLocation)

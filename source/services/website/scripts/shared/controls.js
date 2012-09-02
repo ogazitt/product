@@ -321,7 +321,6 @@ Control.Icons.createToolbarButton = function Control$Icons$createToolbarButton($
 
 // return an element that is an icon for completing an item
 Control.Icons.completeBtn = function Control$Icons$completeBtn(item, handler) {
-    var $icon = $('<h2 class="icon-check"></h2>');
     var $icon = $('<i class="icon-check icon-large"></i>');
     $icon.data('item', item);
     $icon.attr('title', 'Complete').tooltip(Control.ttDelay);
@@ -594,10 +593,10 @@ Control.Icons.findLocalBtn = function Control$Icons$findLocalBtn(item) {
         $this.tooltip('hide');
         var item = $this.data('item');
         var term = item.Name.toLowerCase();
-        term = term.replace(/$find an /, '');
-        term = term.replace(/$find a /, '');
-        term = term.replace(/$find/, '');
-        window.open('https://maps.google.com/?q=' + term);
+        term = term.replace(/^find an /, '');
+        term = term.replace(/^find a /, '');
+        term = term.replace(/^find /, '');
+        window.open('https://maps.google.com/?q=' + term + '&radius=1');
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome

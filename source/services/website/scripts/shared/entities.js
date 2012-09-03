@@ -171,6 +171,16 @@ Item.prototype.GetFieldValue = function (field, handler) {
     }
     return undefined;       // item does not have the field
 };
+Item.prototype.GetExtendedFieldValue = function (fieldName) {
+    // field parameter can be either field name or field object
+    for (var i in this.FieldValues) {
+        var fv = this.FieldValues[i];
+        if (fv.FieldName == fieldName) {
+            return fv.Value;
+        }
+    }
+    return undefined;       // item does not have the field name
+};
 Item.prototype.SetFieldValue = function (field, value) {
     // field parameter can be either field name or field object
     if (typeof (field) == 'string') {

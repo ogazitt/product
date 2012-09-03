@@ -19,12 +19,6 @@
             public Dictionary<string, string> Contacts = null;
         }
 
-        class JsAppointmentResult
-        {
-            public HttpStatusCode StatusCode = HttpStatusCode.OK;
-            public Item Result;
-        }
-
         public ActionResult PossibleContacts(string startsWith = null, string contains = null, int maxCount = 10)
         {
             JsContactsResult contactsResults = new JsContactsResult();
@@ -65,22 +59,6 @@
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             result.Data = contactsResults;
-            return result;
-        }
-
-        [HttpPost]
-        public ActionResult CreateAppointment(Appointment appointment)
-        {
-            GoogleClient client = new GoogleClient(CurrentUser, StorageContext);
-            var item = client.AddCalendarEvent(appointment);
-            var appointmentResult = new JsAppointmentResult();
-            if (item != null)
-                appointmentResult.Result = item;
-            else
-                appointmentResult.StatusCode = HttpStatusCode.InternalServerError;
-
-            JsonResult result = new JsonResult();
-            result.Data = appointmentResult;
             return result;
         }
     }

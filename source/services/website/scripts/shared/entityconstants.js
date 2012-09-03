@@ -56,6 +56,19 @@ var FieldNames = {
 
 // ---------------------------------------------------------
 // EntityTypes constants
+var ExtendedFieldNames = {  
+    Intent: "Intent",              // String       normalized intent to help select workflows (extracted from name)
+    SubjectHint: "SubjectHint",    // String       hint as to subject of intent (extracted from name)
+    Article: "Article",            // String       the noun associated with the intent (extracted from name)
+       
+    CalEventID: "CalEventID",      // String       identifier for a Calendar event to associate with an Item  
+
+    SelectedCount: "SelectedCount",// Integer      count of number of times selected (e.g. MRU)
+    SortBy: "SortBy",              // String       field name to sort a list of items by
+}
+
+// ---------------------------------------------------------
+// EntityTypes constants
 
 var EntityTypes = {
     User: "User",
@@ -177,6 +190,6 @@ var ActionTypes = {
     Errand: "Errand",
     SendEmail: "Email",
     TextMessage: "Text",
-    AskFriends: "Ask Facebook friends",
-    Find: "Find local businesses",
+    AskFriends: "Ask on Facebook",
+    Find: "Find local business",
 }

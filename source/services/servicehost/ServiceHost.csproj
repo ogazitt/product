@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AzureOAuthConfiguration.cs" />
+    <Compile Include="processors\StepProcessor.cs" />
     <Compile Include="SuggestionsStorageContext.cs" />
     <Compile Include="UserStorageContext.cs" />
     <Compile Include="GoogleClient.cs" />

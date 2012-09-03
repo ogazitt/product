@@ -157,6 +157,7 @@ namespace BuiltSteady.Product.Shared.Entities
     {  
         public const string Intent = "Intent";              // String       normalized intent to help select workflows (extracted from name)
         public const string SubjectHint = "SubjectHint";    // String       hint as to subject of intent (extracted from name)
+        public const string Article = "Article";            // String       the noun associated with the intent (extracted from name)
        
         public const string CalEventID = "CalEventID";      // String       identifier for a Calendar event to associate with an Item  
 
@@ -164,18 +165,17 @@ namespace BuiltSteady.Product.Shared.Entities
         public const string SortBy = "SortBy";              // String       field name to sort a list of items by
     }
 
-    public class ActionNames
-    {                                                       // FieldNames:
-        public const string Navigate = "Navigate";          // Contacts, Locations
-        public const string Postpone = "Postpone";          // DueDate
-        public const string AddToCalendar = "AddToCalendar";// DueDate
-        public const string Map = "Map";                    // Address
-        public const string Call = "Call";                  // Phone, HomePhone, WorkPhone
-        public const string TextMessage = "TextMessage";    // Phone
-        public const string Browse = "Browse";              // WebLink
-        public const string SendEmail = "SendEmail";        // Email
-        //public const string PostToFacebook = "PostToFacebook";  
-        //public const string Tweet = "Tweet";             
+    public class ActionTypes 
+    {
+        public const string All = "All";
+        public const string Reminder = "Reminder";
+        public const string Call = "Call";
+        public const string Schedule = "Add to calendar";
+        public const string Errand = "Errand";
+        public const string SendEmail = "Email";
+        public const string TextMessage = "Text";
+        public const string AskFriends = "Ask on Facebook";
+        public const string Find = "Find local business";
     }
 
     public class Permissions
@@ -306,23 +306,21 @@ namespace BuiltSteady.Product.Shared.Entities
     public class UserConstants
     {
         public static string SchemaVersion { get { return "1.0.2012.0816"; } }
-        public static string ConstantsVersion { get { return "2012-08-28"; } }
+        public static string ConstantsVersion { get { return "2012-09-02"; } }
 
         public static List<ActionType> DefaultActionTypes()
         {
             // initialize actions
             var actionTypes = new List<ActionType>();
-            actionTypes.Add(new ActionType() { ActionTypeID = 1, FieldName = FieldNames.DueDate, DisplayName = "postpone", ActionName = ActionNames.Postpone, SortOrder = 1 });
-            actionTypes.Add(new ActionType() { ActionTypeID = 2, FieldName = FieldNames.DueDate, DisplayName = "add to calendar", ActionName = ActionNames.AddToCalendar, SortOrder = 2 });
-            actionTypes.Add(new ActionType() { ActionTypeID = 3, FieldName = FieldNames.Address, DisplayName = "map", ActionName = ActionNames.Map, SortOrder = 3 });
-            actionTypes.Add(new ActionType() { ActionTypeID = 4, FieldName = FieldNames.Phone, DisplayName = "call cell", ActionName = ActionNames.Call, SortOrder = 4 });
-            actionTypes.Add(new ActionType() { ActionTypeID = 5, FieldName = FieldNames.HomePhone, DisplayName = "call home", ActionName = ActionNames.Call, SortOrder = 5 });
-            actionTypes.Add(new ActionType() { ActionTypeID = 6, FieldName = FieldNames.WorkPhone, DisplayName = "call work", ActionName = ActionNames.Call, SortOrder = 6 });
-            actionTypes.Add(new ActionType() { ActionTypeID = 7, FieldName = FieldNames.Phone, DisplayName = "text", ActionName = ActionNames.TextMessage, SortOrder = 7 });
-            actionTypes.Add(new ActionType() { ActionTypeID = 8, FieldName = FieldNames.WebLinks, DisplayName = "browse", ActionName = ActionNames.Browse, SortOrder = 8 });
-            actionTypes.Add(new ActionType() { ActionTypeID = 9, FieldName = FieldNames.Email, DisplayName = "email", ActionName = ActionNames.SendEmail, SortOrder = 9 });
-            actionTypes.Add(new ActionType() { ActionTypeID = 10, FieldName = FieldNames.Contacts, DisplayName = "show contacts", ActionName = ActionNames.Navigate, SortOrder = 10 });
-            actionTypes.Add(new ActionType() { ActionTypeID = 11, FieldName = FieldNames.Locations, DisplayName = "show locations", ActionName = ActionNames.Navigate, SortOrder = 11 });
+            actionTypes.Add(new ActionType() { ActionTypeID = 1, FieldName = FieldNames.Name, DisplayName = "All", ActionName = ActionTypes.All, SortOrder = 1 });
+            actionTypes.Add(new ActionType() { ActionTypeID = 2, FieldName = FieldNames.DueDate, DisplayName = "Reminder", ActionName = ActionTypes.Reminder, SortOrder = 2 });
+            actionTypes.Add(new ActionType() { ActionTypeID = 3, FieldName = FieldNames.Phone, DisplayName = "Call", ActionName = ActionTypes.Call, SortOrder = 3 });
+            actionTypes.Add(new ActionType() { ActionTypeID = 4, FieldName = FieldNames.DueDate, DisplayName = "Add to calendar", ActionName = ActionTypes.Schedule, SortOrder = 4 });
+            actionTypes.Add(new ActionType() { ActionTypeID = 5, FieldName = FieldNames.Name, DisplayName = "Errand", ActionName = ActionTypes.Errand, SortOrder = 5 });
+            actionTypes.Add(new ActionType() { ActionTypeID = 6, FieldName = FieldNames.Email, DisplayName = "Email", ActionName = ActionTypes.SendEmail, SortOrder = 6 });
+            actionTypes.Add(new ActionType() { ActionTypeID = 7, FieldName = FieldNames.Phone, DisplayName = "Text", ActionName = ActionTypes.TextMessage, SortOrder = 7 });
+            actionTypes.Add(new ActionType() { ActionTypeID = 8, FieldName = FieldNames.Name, DisplayName = "Ask on Facebook", ActionName = ActionTypes.AskFriends, SortOrder = 8 });
+            actionTypes.Add(new ActionType() { ActionTypeID = 9, FieldName = FieldNames.Name, DisplayName = "Find local business", ActionName = ActionTypes.Find, SortOrder = 9 });
             return actionTypes;
         }
 

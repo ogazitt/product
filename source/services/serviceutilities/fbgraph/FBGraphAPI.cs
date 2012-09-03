@@ -48,9 +48,15 @@ namespace BuiltSteady.Product.ServiceUtilities.FBGraph
             return EndQuery(result);
         }
 
+        public IEnumerable<FBQueryResult> Post(string entity, string query, string parameters)
+        {
+            IAsyncResult result = BeginPost(entity, query, parameters, null, null);
+            return EndPost(result);
+        }
+        
         public IAsyncResult BeginQuery(string entity, AsyncCallback callback, object state)
         {
-            return BeginQuery(entity, null, null);
+            return BeginQuery(entity, null, callback, state);
         }
 
         public IAsyncResult BeginQuery(string entity, string query, AsyncCallback callback, object state)
@@ -68,6 +74,29 @@ namespace BuiltSteady.Product.ServiceUtilities.FBGraph
                 req);
 
             return fbResult;
+        }
+
+        public IAsyncResult BeginPost(string entity, string query, string parameters, AsyncCallback callback, object state)
+        {
+            string uri = ConstructQueryUri(entity, query, parameters);
+            WebRequest req = WebRequest.Create(uri);
+            req.Method = "POST";
+
+            FBResult fbResult = new FBResult(state);
+            fbResult.InnerResult = req.BeginGetResponse(
+                (result) =>
+                {
+                    if (callback != null)
+                        callback(fbResult);
+                },
+                req);
+
+            return fbResult;
+        }
+
+        public IEnumerable<FBQueryResult> EndPost(IAsyncResult result)
+        {
+            return EndQuery(result);
         }
 
         public IEnumerable<FBQueryResult> EndQuery(IAsyncResult result)
@@ -123,7 +152,7 @@ namespace BuiltSteady.Product.ServiceUtilities.FBGraph
 
         #region Query construction
 
-        private string ConstructQueryUri(string entity, string query)
+        private string ConstructQueryUri(string entity, string query, string parameters = null)
         {
             if (AccessToken == null)
                 throw new ApplicationException("Facebook Access Token not set");
@@ -134,6 +163,8 @@ namespace BuiltSteady.Product.ServiceUtilities.FBGraph
                 entity,
                 query != null && query != "" ? (query.StartsWith("/") ? query : query.Substring(1)) : "",
                 AccessToken);
+            if (parameters != null)
+                queryUri += "&" + parameters;
 
             return queryUri;
         }

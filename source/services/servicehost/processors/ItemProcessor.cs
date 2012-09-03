@@ -15,6 +15,8 @@ namespace BuiltSteady.Product.ServiceHost
         {
             if (itemTypeID == SystemItemTypes.Contact)
                 return new ContactProcessor(user, storage);
+            if (itemTypeID == SystemItemTypes.Step)
+                return new StepProcessor(user, storage);
             return null;
         }
 

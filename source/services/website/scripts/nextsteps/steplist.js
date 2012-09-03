@@ -172,6 +172,8 @@ ListView.prototype.actionButton = function (item) {
             return Control.Icons.findLocalBtn(item);
         case ActionTypes.Schedule:
             return Control.Icons.scheduleBtn(item);
+        case ActionTypes.AskFriends:
+            return Control.Icons.askFriendsBtn(item);
     }
 }
 

@@ -10,5 +10,6 @@ namespace BuiltSteady.Product.ServiceUtilities.FBGraph
         public const string Likes = "/likes";
         public const string Movies = "/movies";
         public const string Music = "/music";
+        public const string Questions = "/questions";
     }
 }

@@ -246,5 +246,41 @@ namespace BuiltSteady.Product.ServiceHost.Helpers
             }
             return true;
         }
+
+        public static bool PostQuestion(User user, UserStorageContext storage, string question)
+        {
+            // set up the FB API context
+            FBGraphAPI fbApi = new FBGraphAPI();
+            UserCredential cred = user.GetCredential(UserCredential.FacebookConsent);
+            if (cred != null && cred.AccessToken != null)
+            {
+                fbApi.AccessToken = cred.AccessToken;
+            }
+            else
+            {
+                TraceLog.TraceError(TRACE_NO_FB_TOKEN);
+                return false;
+            }
+
+            try
+            {   
+                // using foreach because the Post API returns an IEnumerable, but there is only one result
+                foreach (var result in fbApi.Post("me", FBQueries.Questions, "question=" + question))
+                {
+                    var id = result[FBQueryResult.ID];
+                    if (id != null)
+                        TraceLog.TraceInfo(String.Format("Posted question {0} to Facebook", id));
+                    else
+                        TraceLog.TraceInfo("Unknown response received for posting question to Facebook");
+                    break;
+                }
+            }
+            catch (Exception ex)
+            {
+                TraceLog.TraceException("Posting to Facebook failed", ex);
+                return false;
+            }
+            return true;
+        }
     }
 }

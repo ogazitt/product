@@ -26,7 +26,7 @@ Service.requestQueue = [];
 
 Service.fbConsentUri = 'https://www.facebook.com/dialog/oauth';
 Service.fbRedirectPath = 'oauthconsent/facebook';
-Service.fbScopes = 'user_birthday,friends_likes,friends_birthday';
+Service.fbScopes = 'user_birthday,friends_likes,friends_birthday,publish_stream';
 Service.googleConsentUri = 'oauthconsent/google';
 Service.cloudADConsentUri = 'oauthconsent/cloudAD';
 

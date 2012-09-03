@@ -123,6 +123,9 @@ Control.popup = function Control$popup($dialog, header, handlerOK, handlerCancel
             $.each($modalPrompt.find('.modal-body input'), function () {
                 inputs.push($(this).val());
             });
+            $.each($modalPrompt.find('.modal-body textarea'), function () {
+                inputs.push($(this).val());
+            });
             if (handlerOK != null) { handlerOK(inputs); }
         });
         $modalPrompt.find('.modal-footer .btn-cancel').unbind('click').click(function () {
@@ -557,7 +560,7 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
                 var loc = item.GetLocation();
                 var location = (loc != null) ? loc.Address : null;
                 var appt = Appointment.Extend({ Name: item.Name, StartTime: start, EndTime: end, Location: location, ItemID: item.ID });
-                Service.InvokeController('UserInfo', 'CreateAppointment',
+                Service.InvokeController('Actions', 'CreateAppointment',
                     { 'Appointment': appt },
                     function (responseState) {
                         var result = responseState.result;
@@ -572,6 +575,53 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
                             // report success to the user
                             var formattedDate = (startTime != null) ? start.format('shortDateTime') : start.format('shortDate');
                             Control.alert('An appointment for ' + formattedDate + ' was created on your calendar', 'Schedule appointment');
+                        }
+                    }
+                );
+            }
+        });
+        return false;   // do not propogate event
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
+}
+
+Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
+    var $icon = $('<i class="icon-facebook icon-large"></i>');
+    $icon.data('item', item);
+    $icon.attr('title', 'Ask Facebook Friends').tooltip(Control.ttDelay);
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        var item = $this.data('item');
+        var activity = item.GetParent();
+        var $dialog = $('<div><label>Question: </label><textarea /></div>');
+        var location = 'Redmond'; // hardcode for now
+        var text = 'Do you know a good ' + item.GetExtendedFieldValue(ExtendedFieldNames.Article) + ' in ' + location + '?';
+        $dialog.find('textarea').val(text).css('height', '75');
+        var header = 'Ask Facebook friends';
+        Control.popup($dialog, header, function (inputs) {
+            if (inputs[0].length == 0) {
+                Control.alert('Please provide a question to ask on Facebook', 'Ask Facebook friends');
+            }
+            else {
+                text = inputs[0];
+                Service.InvokeController('Actions', 'PostOnFacebook',
+                    { 'Question': text },
+                    function (responseState) {
+                        var result = responseState.result;
+                        if (result.StatusCode != '200') {
+                            Control.alert('Server was unable to post on Facebook', 'Ask Facebook friends');
+                        }
+                        else {
+                            var returnedItem = result.Result;
+                            if (returnedItem != null) {
+                                var success = item.update(returnedItem, null);  // update local DataModel (do not fire datachanged)
+                                item.Complete();
+                            }
+
+                            // report success to the user
+                            Control.alert('Question posted on Facebook!', 'Ask Facebook friends');
                         }
                     }
                 );

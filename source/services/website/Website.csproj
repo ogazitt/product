@@ -164,6 +164,7 @@
   <ItemGroup>
     <Compile Include="controllers\AccountController.cs" />
     <Compile Include="controllers\BaseController.cs" />
+    <Compile Include="controllers\ActionsController.cs" />
     <Compile Include="controllers\MobileController.cs" />
     <Compile Include="controllers\OAuthConsentController.cs" />
     <Compile Include="controllers\UserInfoController.cs" />
@@ -249,7 +250,6 @@
     <Content Include="scripts\master.generated.min.js">
       <DependentUpon>master.js.chirp.config</DependentUpon>
     </Content>
-    <Content Include="scripts\mobile\actiontypelist.js" />
     <Content Include="scripts\nextsteps\infomanager.js" />
     <Content Include="scripts\nextsteps\itemviewer.js" />
     <Content Include="scripts\nextsteps\nextsteps.generated.min.js">

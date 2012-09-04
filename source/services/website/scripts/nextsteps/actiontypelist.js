@@ -35,12 +35,26 @@ ActionTypeList.prototype.fireSelectionChanged = function (actionType, userAction
 
 ActionTypeList.prototype.render = function ($element, actionTypes) {
     if (actionTypes != null) {
+        $element.empty();
         this.init(actionTypes);
+        this.renderActionTypeList($element, actionTypes);
     }
-    $element.empty();
-    this.$element = $('<ul class="nav nav-pills nav-stacked" />').appendTo($element);
+    else if (this.$element == null) {
+        this.renderActionTypeList($element, this.actionTypes);
+    }
+    else if ($element.find('.actiontypelist') == null) {
+        this.$element.appendTo($element);
+    }
+    this.show();
+    // select current ActionType
+    this.select(this.$currentActionType, this.currentActionType);
+    this.fireSelectionChanged(this.currentActionType, true);
+}
+
+ActionTypeList.prototype.renderActionTypeList = function ($element, actionTypes) {
+    this.$element = $('<ul class="nav nav-pills nav-stacked actiontypelist" />').appendTo($element);
     //Control.List.sortable(this.$element);
-    var $currentActionType = null;
+    this.$currentActionType = null;
     for (var id in this.actionTypes) {
         var actionType = this.actionTypes[id];
         var actionTypeName = Browser.IsMobile() ? '' : '&nbsp;' + actionType.Name;
@@ -51,19 +65,17 @@ ActionTypeList.prototype.render = function ($element, actionTypes) {
         $actionType.find('strong').prepend(Control.Icons.forActionType(actionType));
         if (this.currentActionType == null) {
             this.currentActionType = actionType;
-            $currentActionType = $actionType;
+            this.$currentActionType = $actionType;
         }
-        if (this.currentActionType == actionType) $currentActionType = $actionType;
+        if (this.currentActionType == actionType) this.$currentActionType = $actionType;
     }
-    // select current ActionType
-    this.select($currentActionType, this.currentActionType);
-    this.fireSelectionChanged(this.currentActionType);
 }
 
 ActionTypeList.prototype.actionTypeClicked = function ($actionType) {
     var actionType = $actionType.data('item');
     this.select($actionType, actionType);
     this.currentActionType = actionType;
+    this.$currentActionType = $actionType;
     this.fireSelectionChanged(actionType, true);  // signal that this was a user click
 }
 
@@ -74,4 +86,16 @@ ActionTypeList.prototype.select = function ($item, item) {
 
 ActionTypeList.prototype.deselect = function () {
     this.$element.find('li').removeClass('active');
+}
+
+ActionTypeList.prototype.show = function () {
+    if (this.$element != null) {
+        this.$element.show();
+    }
+}
+
+ActionTypeList.prototype.hide = function () {
+    if (this.$element != null) {
+        this.$element.hide();
+    }
 }

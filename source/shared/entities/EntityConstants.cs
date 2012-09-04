@@ -299,6 +299,7 @@ namespace BuiltSteady.Product.Shared.Entities
     public class UserEntities
     {
         // user folders
+        public const string Inbox = "Inbox";
         public const string People = "People";
         public const string Places = "Places";
     }
@@ -464,6 +465,30 @@ namespace BuiltSteady.Product.Shared.Entities
 
 #if !CLIENT
             FolderUser folderUser;
+            folderUser = new FolderUser() { ID = Guid.NewGuid(), FolderID = folderID, UserID = currentUser.ID, PermissionID = Permissions.Full };
+#endif
+            // create Inbox folder
+            folder = new Folder()
+            {
+                ID = folderID,
+                SortOrder = 0,
+                Name = UserEntities.Inbox,
+                ItemTypeID = SystemItemTypes.Category,
+#if CLIENT
+                Items = new ObservableCollection<Item>(),
+#else
+                Items = new List<Item>(),
+                UserID = currentUser.ID,
+                FolderUsers = new List<FolderUser>() { folderUser }
+#endif
+            };
+            folders.Add(folder);
+            // make this defaultList for Activities
+            defaultLists.Add(SystemItemTypes.Activity, folder);
+
+            folderID = Guid.NewGuid();
+
+#if !CLIENT
             folderUser = new FolderUser() { ID = Guid.NewGuid(), FolderID = folderID, UserID = currentUser.ID, PermissionID = Permissions.Full };
 #endif
             // create People folder

@@ -1,6 +1,11 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 <% if (Request.IsAuthenticated) { %>
 <ul class="nav nav-pills pull-right">
+<% if (Request.Url.PathAndQuery.IndexOf("mobile", StringComparison.CurrentCultureIgnoreCase) >= 0) { %>
+    <li class="option-nextsteps hide"><a><i class="icon-play icon-white"></i>&nbsp;</a></li>
+    <li class="option-categories hide"><a><i class="icon-folder-open icon-white"></i>&nbsp;</a></li>
+    <li class="option-add hide"><a><i class="icon-plus icon-white"></i>&nbsp;</a></li>
+<% } %>
     <li class="divider-vertical"></li>    
     <li class="dropdown active">
         <a class="dropdown-toggle" data-toggle="dropdown">
@@ -8,7 +13,7 @@
         </a>
         <ul class="dropdown-menu">
 <% if (Request.Url.PathAndQuery.IndexOf("mobile", StringComparison.CurrentCultureIgnoreCase) >= 0) { %>
-            <li><a href="<%: Url.Content("~/mobile") %>"><i class="icon-play"></i> Next Steps</a></li>
+            <li><a href="<%: Url.Content("~/mobile/home") %>"><i class="icon-play"></i> Next Steps</a></li>
 <% } else { %>
             <li><a href="<%: Url.Content("~/dashboard/home") %>"><i class="icon-dashboard"></i> Activity Dashboard</a></li>
             <li><a href="<%: Url.Content("~/dashboard/nextsteps") %>"><i class="icon-play"></i> Next Steps</a></li>

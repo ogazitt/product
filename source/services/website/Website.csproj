@@ -250,8 +250,14 @@
     <Content Include="scripts\master.generated.min.js">
       <DependentUpon>master.js.chirp.config</DependentUpon>
     </Content>
+    <Content Include="scripts\nextsteps\categorylist.js" />
+    <Content Include="scripts\nextsteps\activitymanager.js" />
+    <Content Include="scripts\nextsteps\activitylist.js" />
     <Content Include="scripts\nextsteps\infomanager.js" />
     <Content Include="scripts\nextsteps\itemviewer.js" />
+    <Content Include="scripts\nextsteps\nextsteps-mobile.generated.min.js">
+      <DependentUpon>nextsteps-mobile.js.chirp.config</DependentUpon>
+    </Content>
     <Content Include="scripts\nextsteps\nextsteps.generated.min.js">
       <DependentUpon>nextsteps.js.chirp.config</DependentUpon>
     </Content>
@@ -405,6 +411,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="scripts\nextsteps\nextsteps.js.chirp.config" />
+    <Content Include="scripts\nextsteps\nextsteps-mobile.js.chirp.config" />
     <None Include="startup\Install.cmd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

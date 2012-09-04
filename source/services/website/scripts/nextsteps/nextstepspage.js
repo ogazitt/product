@@ -11,6 +11,8 @@ var NextStepsPage = function NextStepsPage$() {
     this.dataModel = null;
     this.stepList = null;
     this.actionTypeList = null;
+    this.categoryList = null;
+    this.currentList = null;
     this.currentManager = null;
 }
 
@@ -28,10 +30,22 @@ NextStepsPage.Init = function NextStepsPage$Init(dataModel) {
     NextStepsPage.$element = $('.dashboard-region');
     NextStepsPage.$center = $('.dashboard-center');
     NextStepsPage.$left = $('.dashboard-left');
+    NextStepsPage.$left.empty();
 
     // actionType list
     NextStepsPage.actionTypeList = new ActionTypeList(dataModel.ActionTypes);
     NextStepsPage.actionTypeList.addSelectionChangedHandler('nextsteps', NextStepsPage.ManageActionType);
+
+    // category list
+    if (Browser.IsMobile()) {
+        NextStepsPage.categoryList = new CategoryList(dataModel.Folders);
+        NextStepsPage.categoryList.addSelectionChangedHandler('nextsteps', NextStepsPage.ManageCategory);
+        NextStepsPage.activityManager = new ActivityManager(NextStepsPage, NextStepsPage.$center);
+        //NextStepsPage.activityManager.addSelectionChangedHandler('nextsteps', NextStepsPage.ManageCategory);
+    }
+
+    // set initial list (actionTypeList)
+    //NextStepsPage.currentList = NextStepsPage.actionTypeList;
 
     // info manager
     NextStepsPage.infoManager = new InfoManager(NextStepsPage, NextStepsPage.$center);
@@ -52,6 +66,9 @@ NextStepsPage.Init = function NextStepsPage$Init(dataModel) {
 
     // add options to header dropdown
     NextStepsPage.showHeaderOptions();
+
+    // render the page
+    NextStepsPage.render();
 }
 
 NextStepsPage.Close = function NextStepsPage$Close(event) {
@@ -61,7 +78,9 @@ NextStepsPage.Close = function NextStepsPage$Close(event) {
 
 // event handler, do not reference 'this' to access static NextStepsPage
 NextStepsPage.ManageDataChange = function NextStepsPage$ManageDataChange(folderID, itemID) {
-    NextStepsPage.actionTypeList.render(NextStepsPage.$left, NextStepsPage.dataModel.ActionTypes);
+    //NextStepsPage.actionTypeList.render(NextStepsPage.$left, NextStepsPage.dataModel.ActionTypes);
+    NextStepsPage.currentList.render(NextStepsPage.$left);
+    //NextStepsPage.render(NextStepsPage.currentList);
 }
 
 // event handler, do not reference 'this' to access static NextStepsPage
@@ -72,16 +91,30 @@ NextStepsPage.ManageActionType = function NextStepsPage$ManageActionType(actionT
     NextStepsPage.stepManager.selectActionType(actionType);
 }
 
+// event handler, do not reference 'this' to access static NextStepsPage
+NextStepsPage.ManageCategory = function NextStepsPage$ManageCategory(category, userAction) {
+    // reset manager to Step Manager only if this was a user action
+    var manager = NextStepsPage.activityManager;
+    NextStepsPage.showManager(manager);
+    NextStepsPage.activityManager.selectCategory(category);
+}
+
 // ---------------------------------------------------------
 // private methods
 
-NextStepsPage.render = function NextStepsPage$render(folderID, itemID) {
-    NextStepsPage.actionTypeList.render(NextStepsPage.$left);
+NextStepsPage.render = function NextStepsPage$render(list) {
+    if (list == null) list = NextStepsPage.actionTypeList;
+    if (NextStepsPage.currentList != list) {
+        NextStepsPage.currentList = list;
+        NextStepsPage.actionTypeList.hide();
+        NextStepsPage.categoryList.hide();
+        NextStepsPage.currentList.render(NextStepsPage.$left);
+    }
 }
 
 // show options in header dropdown (refresh, settings, etc.)
 NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
-    $dropdown = $('.navbar-fixed-top .pull-right .dropdown-menu');
+    $dropdown = $('.navbar-fixed-top .pull-right');
     // refresh
     $menuitem = $dropdown.find('.option-refresh');
     $menuitem.show();
@@ -89,12 +122,53 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
         NextStepsPage.dataModel.Refresh();
         e.preventDefault();
     });
+
+    if (Browser.IsMobile()) {
+        // next steps
+        $menuitem = $dropdown.find('.option-nextsteps');
+        $menuitem.show();
+        $menuitem.click(function (e) {
+            NextStepsPage.render(NextStepsPage.actionTypeList);
+            e.preventDefault();
+        });
+        // categories
+        $menuitem = $dropdown.find('.option-categories');
+        $menuitem.show();
+        $menuitem.click(function (e) {
+            NextStepsPage.render(NextStepsPage.categoryList);
+            e.preventDefault();
+        });
+        // add
+        $menuitem = $dropdown.find('.option-add');
+        $menuitem.show();
+        var $dialog = $('<div><label>Activity name: </label><input type="text" /></div>');
+        //$dialog.find('#name').val(activity.Name);
+        var header = 'Add a new activity';
+        $menuitem.click(function (e) {
+            Control.popup($dialog, header, function (inputs) {
+                if (inputs[0].length == 0) {
+                    Control.alert('Please provide a name for the activity', 'Add activity');
+                }
+                else {
+                    var name = inputs[0];
+                    // create appointment object
+                    var activity = Item.Extend({ Name: name, ItemTypeID: ItemTypes.Activity, IsList: true, Status: StatusTypes.Paused });
+                    var inbox = DataModel.UserSettings.GetDefaultList(ItemTypes.Activity);
+                    inbox.InsertItem(activity);
+                }
+            });
+            e.preventDefault();
+        });
+    }
 }
 
 NextStepsPage.showManager = function NextStepsPage$showManager(manager, forceRender) {
     if (NextStepsPage.currentManager != manager) {
         NextStepsPage.stepManager.hide();
         NextStepsPage.infoManager.hide();
+        if (NextStepsPage.activityManager != null) {
+            NextStepsPage.activityManager.hide();
+        }
         NextStepsPage.currentManager = manager;
         (manager.addWell == true) ? NextStepsPage.$center.addClass('well') : NextStepsPage.$center.removeClass('well');
     }
@@ -116,7 +190,7 @@ NextStepsPage.resize = function NextStepsPage$resize() {
     NextStepsPage.$left.height(dbHeight);
     NextStepsPage.$center.height(dbHeight);
 
-    NextStepsPage.actionTypeList.render(NextStepsPage.$left);
+    NextStepsPage.render(NextStepsPage.currentList);
     NextStepsPage.showManager(NextStepsPage.currentManager, true);
 
     $(window).bind('resize', NextStepsPage.resize);

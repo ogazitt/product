@@ -133,7 +133,7 @@ ListView.prototype.renderToolbar = function ($item, item) {
     var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
     $deferBtn.addClass('pull-left');
     // render complete, skip, info buttons
-    Control.Icons.createToolbarButton(Control.Icons.completeBtn(item, function (item) { Control.Icons.completeHandler(item); }), true).appendTo($toolbar);
+    Control.Icons.createToolbarButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }), true).appendTo($toolbar);
     Control.Icons.createToolbarButton(Control.Icons.skipBtn(item), true).appendTo($toolbar);
     Control.Icons.createToolbarButton(Control.Icons.infoBtn(item), false).appendTo($toolbar);
     // render action button

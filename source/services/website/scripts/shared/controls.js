@@ -68,7 +68,7 @@ Control.collapse = function Control$collapse($element, delay) {
 Control.alert = function Control$alert(message, header, handlerClose) {
     var $modalMessage = $('#modalMessage');
     if ($modalMessage.length == 0) {
-        message.replace('<br\>', '\r');
+        message.replace('<br/>', '\r');
         alert(message);
         if (handlerClose != null) { handlerClose(); }
     } else {
@@ -313,9 +313,13 @@ Control.Icons.deleteBtn = function Control$Icons$deleteBtn(item) {
 // wrap an icon-large button (used in steplist) with a btn style appropriate for rendering on mobile devices
 Control.Icons.createToolbarButton = function Control$Icons$createToolbarButton($iconButton, propagate) {
     var $btn = $('<a class="btn btn-step" />').append($iconButton);
-    $btn.addClass('pull-left');
+    var $icon = $iconButton.find('i');
+    $icon.addClass('icon-blue');
+    var title = $icon.attr('title');
+    $icon.attr('title', null);
+    var $title = $('<p />').appendTo($btn);
+    $title.html(title);
     $btn.one('click', function (e) {
-        var $icon = $iconButton.find('i');
         $icon.click();
         return (propagate == true) ? true : false;
     });
@@ -326,8 +330,9 @@ Control.Icons.createToolbarButton = function Control$Icons$createToolbarButton($
 Control.Icons.completeBtn = function Control$Icons$completeBtn(item, handler) {
     var $icon = $('<i class="icon-check icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Complete').tooltip(Control.ttDelay);
-    $icon.bind('click', function () {
+    $icon.attr('title', 'Complete');
+    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
@@ -378,7 +383,8 @@ Control.Icons.completeHandler = function Control$Icons$completeHandler(item) {
 Control.Icons.skipBtn = function Control$Icons$skipBtn(item) {
     var $icon = $('<i class="icon-step-forward icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Skip').tooltip(Control.ttDelay);
+    $icon.attr('title', 'Skip');
+    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -392,18 +398,16 @@ Control.Icons.skipBtn = function Control$Icons$skipBtn(item) {
 
 // return an element that is an icon for skipping an item
 Control.Icons.deferBtn = function Control$Icons$deferBtn(item) {
-    var $icon = $('<i class="icon-time icon-large"></i>');
+    var $icon = $('<i class="icon-time icon-large icon-blue"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Defer').tooltip(Control.ttDelay);
+    $icon.attr('title', 'Defer');
+    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
-        // the parent control (the Control.DeferButton.renderDropdown) handles the actual work
+        // the parent control (Control.DeferButton.renderDropdown) handles the actual work
         return true;   // propogate event
     });
-    // wrap in anchor tag to get tooltips to work in Chrome
-    // doesn't appear that this is needed (it also messes up the click event)
-    //return $('<a class="icon" />').append($icon);
     return $icon;
 }
 
@@ -411,7 +415,8 @@ Control.Icons.deferBtn = function Control$Icons$deferBtn(item) {
 Control.Icons.infoBtn = function Control$Icons$infoBtn(item) {
     var $icon = $('<i class="icon-info-sign  icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Information').tooltip(Control.ttDelay);
+    $icon.attr('title', 'Info');
+    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -429,7 +434,8 @@ Control.Icons.infoBtn = function Control$Icons$infoBtn(item) {
 Control.Icons.callBtn = function Control$Icons$callBtn(item) {
     var $icon = $('<i class="icon-phone icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Call').tooltip(Control.ttDelay);
+    $icon.attr('title', 'Call');
+    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -461,20 +467,23 @@ Control.Icons.formatPhoneNumber = function Control$Icons$formatPhoneNumber(phone
 Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
     var link = item.GetMapLink();
     if (link != null) {
-        var $link = $('<i class="icon-map-marker icon-large"></i>');
-        $link.attr('href', link.Url);
-        $link.attr('title', 'Map').tooltip(Control.ttDelay);
-        $link.click(function () { window.open($(this).attr('href')); return false; });
-        return $link;
+        var $icon = $('<i class="icon-map-marker icon-large icon-blue"></i>');
+        $icon.attr('href', link.Url);
+        $icon.attr('title', 'Map');
+        if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+
+        $icon.click(function () { window.open($(this).attr('href')); return false; });
+        return $icon;
     }
 }
 
 // return an element that is an icon for emailing
 Control.Icons.emailBtn = function Control$Icons$emailBtn(item) {
-    var $icon = $('<i class="icon-envelope icon-large"></i>');
+    var $icon = $('<i class="icon-envelope icon-large icon-blue"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Email').tooltip(Control.ttDelay);
-    $icon.bind('click', function () {
+    $icon.attr('title', 'Email');
+    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
@@ -492,8 +501,9 @@ Control.Icons.emailBtn = function Control$Icons$emailBtn(item) {
 Control.Icons.textBtn = function Control$Icons$textBtn(item) {
     var $icon = $('<i class="icon-list-alt icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Text').tooltip(Control.ttDelay);
-    $icon.bind('click', function () {
+    $icon.attr('title', 'Text');
+    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
@@ -517,7 +527,8 @@ Control.Icons.textBtn = function Control$Icons$textBtn(item) {
 Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
     var $icon = $('<i class="icon-calendar icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Add to calendar').tooltip(Control.ttDelay);
+    $icon.attr('title', 'Calendar');
+    if (!Browser.IsMobile()) { $icon.attr('title', 'Add to calendar').tooltip(Control.ttDelay); }
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -589,7 +600,8 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
 Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
     var $icon = $('<i class="icon-facebook icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Ask Facebook Friends').tooltip(Control.ttDelay);
+    $icon.attr('title', 'Ask Friends');
+    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -637,7 +649,8 @@ Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
 Control.Icons.findLocalBtn = function Control$Icons$findLocalBtn(item) {
     var $icon = $('<i class="icon-search icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Find Local').tooltip(Control.ttDelay);
+    $icon.attr('title', 'Find');
+    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -1552,18 +1565,20 @@ Control.DeferButton.renderDropdown = function Control$DeferButton$renderDropdown
     // only render if the item type has an DueDate field
     if (!item.HasField(FieldNames.DueDate)) return;
 
-    var $wrapper = $('<div class="control-group"></div>').appendTo($element);
-    var $btnGroup = $('<div />').appendTo($wrapper);
-    if (Browser.IsMobile()) {
-        $btnGroup.addClass('btn-group');
-    }
-    else {
-        $btnGroup.addClass('dropdown');
-    }
-    var $btn = $('<a class="dropdown-toggle icon" data-toggle="dropdown"></a>').append(Control.Icons.deferBtn(item)).appendTo($btnGroup);
-    if (Browser.IsMobile()) { $btn.addClass('btn'); }
+    var $btnGroup = $('<div class="control-group inline" />').appendTo($element);
+    if (Browser.IsMobile()) { $btnGroup.addClass('btn-group'); }
+    else { $btnGroup.addClass('dropdown'); }
+
+    var $icon = Control.Icons.deferBtn(item);
+    var $btn = $('<a class="dropdown-toggle" data-toggle="dropdown"></a>').append($icon).appendTo($btnGroup);
+    if (Browser.IsMobile()) { $btn.addClass('btn btn-step'); }
     var $dropdown = $('<ul class="dropdown-menu" />').appendTo($btnGroup);
     $dropdown.data('item', item);
+
+    var title = $icon.attr('title');
+    $icon.attr('title', null);
+    var $title = $('<p />').appendTo($btn);
+    $title.html(title);
 
     // get the current due date
     var field = item.GetField(FieldNames.DueDate);
@@ -1590,7 +1605,7 @@ Control.DeferButton.renderDropdown = function Control$DeferButton$renderDropdown
         $menuitem.find('a').append('<span>&nbsp;Next month</span>');
         $menuitem.click(function (e) { Control.DeferButton.update(item, 30); e.preventDefault(); });
     }
-    return $wrapper;
+    return $btnGroup;
 }
 
 Control.DeferButton.update = function Control$DeferButton$update(item, days) {

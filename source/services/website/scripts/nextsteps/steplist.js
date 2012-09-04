@@ -75,71 +75,54 @@ ListView.prototype.renderListItems = function (listItems) {
         var $li = $('<li />').appendTo(this.$element);
         $li.data('control', this);
         $li.data('item', item);
-
-        var $item = $('<a class="form-inline" />').appendTo($li);
+        var $wrapper = $('<div style="display:inline-block;width:100%" />').appendTo($li);
 
         if (Browser.IsMobile()) {
-            this.renderToolbar($li, item);
+            this.renderNameField($wrapper, item);
+            this.renderFields($wrapper, item);
+            this.renderToolbar($wrapper, item);
         }
         else {
+            var $item = $('<div class="pull-left" />').appendTo($wrapper);
+            this.renderNameField($item, item);
+            this.renderFields($item, item);
+
+            var $toolbar = $('<div class="btn-toolbar pull-right" />').appendTo($wrapper);
             // render info, complete, skip, and defer buttons
-            var $infoBtn = Control.Icons.infoBtn(item).appendTo($item);
-            $infoBtn.addClass('pull-right btn-step');
-            var $completeBtn = Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }).appendTo($item);
-            $completeBtn.addClass('pull-right btn-step');
-            var $skipBtn = Control.Icons.skipBtn(item).appendTo($item);
-            $skipBtn.addClass('pull-right btn-step');
-            var $deferBtn = Control.DeferButton.renderDropdown($item, item);
-            $deferBtn.addClass('pull-right btn-step');
+            var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
+            var $skipBtn = Control.Icons.skipBtn(item).appendTo($toolbar);
+            var $completeBtn = Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }).appendTo($toolbar);
+            var $infoBtn = Control.Icons.infoBtn(item).appendTo($toolbar);
 
             // render the action button based on the action type
             var $actionButton = this.actionButton(item);
             if ($actionButton != null) {
-                $actionButton.appendTo($item);
-                $actionButton.addClass('pull-right btn-step');
+                $actionButton.prependTo($toolbar);
             }
         }
 
-        this.renderNameField($item, item);
-
-        // click item to select
-        $li.bind('click', function (e) {
-            if ($(this).hasClass('ui-sortable-helper') ||
-                $(e.srcElement).hasClass('dt-checkbox') ||
-                $(e.srcElement).hasClass('dropdown-toggle') ||
-                $(e.srcElement).parent().hasClass('dropdown-toggle') ||
-                $(e.srcElement).hasClass('dt-email')) {
-                return;
-            }
-            var item = $(this).data('item');
-            Control.get(this).parentControl.selectItem(item);
-        });
-
-        this.renderFields($item, item);
         itemCount++;
     }
 
     // make the dropdown for the defer button of the last button row into a drop-up
-    if (itemCount > 1) { $li.find('div.control-group div').addClass('dropup'); }
+    if (itemCount > 1) { $li.find('div.control-group').addClass('dropup'); }
     return itemCount;
 }
 
 ListView.prototype.renderToolbar = function ($item, item) {
     var $toolbar = $('<div class="btn-toolbar" />').appendTo($item);
-    // HACK: somehow the height is computed to zero on list items past the first one
-    $toolbar.css('height', '28px');  
-    
+
     // render defer dropdown button
     var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
-    $deferBtn.addClass('pull-left');
     // render complete, skip, info buttons
-    Control.Icons.createToolbarButton(Control.Icons.completeBtn(item, function (item) { Control.Icons.completeHandler(item); }), true).appendTo($toolbar);
     Control.Icons.createToolbarButton(Control.Icons.skipBtn(item), true).appendTo($toolbar);
+    Control.Icons.createToolbarButton(Control.Icons.completeBtn(item, function (item) { Control.Icons.completeHandler(item); }), true).appendTo($toolbar);
     Control.Icons.createToolbarButton(Control.Icons.infoBtn(item), false).appendTo($toolbar);
-    // render action button
+
+    // render action buttons
     var $actionButton = this.actionButton(item);
     if ($actionButton != null) {
-        Control.Icons.createToolbarButton($actionButton).appendTo($toolbar);
+        Control.Icons.createToolbarButton($actionButton).prependTo($toolbar);
     }
 }
 
@@ -182,12 +165,13 @@ ListView.prototype.renderNameField = function ($item, item) {
     field = fields[FieldNames.Name];
     // workaround for IE9 bug - where the name field for list items past the first one is indented. 
     // adding a zero-height <p> fixes this.
-    $('<p style="height: 0px;" />').appendTo($item);
+    //$('<p style="height: 0px;" />').appendTo($item);
     Control.Text.renderActivityLink($item, item, function (activity) {
         NextStepsPage.showManager(NextStepsPage.infoManager);
-        NextStepsPage.infoManager.selectItem(activity);        
+        NextStepsPage.infoManager.selectItem(activity);
     });
-    Control.Text.renderLabel($item, item, field).appendTo($item);
+    var $label = Control.Text.renderLabel($item, item, field).appendTo($item);
+    $label.css('display', 'inline-block');
 }
 
 ListView.prototype.renderFields = function ($element, item) {

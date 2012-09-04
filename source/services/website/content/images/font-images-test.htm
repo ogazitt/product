@@ -1,33 +1,39 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Font Awesome Images</title>
-    <link href="/content/master.generated.min.css" rel="stylesheet" type="text/css" />
+    <title>Font Awesome Image Test</title>
+    <link href="/content/mobile.generated.min.css" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
-        .gray table { border: 1px solid #464646; margin: 24px; color: #464646; }
-        .white table { border: 1px solid white; margin: 24px; color: #FFFFFF; }
-        .blue table { border: 1px solid #08C; margin: 24px; color: #08C; }
-        div.gray, div.blue { background-color: #FFFFFF; padding: 8px; }
-        div.white { background-color: #464646; padding: 8px; }
-        td { text-align: center; vertical-align: middle; width : 80px; height: 80px; border-width: 0; padding: 0; margin: 0; } 
-        td i { font-size: 60px; } 
-        .img-steps { height: 54px; width: 54px; margin-top: -16px; }
+        div.gray table { border: 1px solid #464646; margin: 24px; padding: 8px; }
+        div.white table { border: 1px solid #FFFFFF;  background-color: #464646; margin: 24px; padding: 8px; }
+        div.blue table { border: 1px solid #08C;  margin: 24px; padding: 8px; }
+        td { width: 20px; height: 20px; } 
+        div.gray td { border: 1px solid #464646; } 
+        div.white td { border: 1px solid #FFFFFF; } 
+        div.blue td { border: 1px solid #08C; } 
+        div.large td { width: 40px; height: 40px; } 
     </style>
     <script type="text/javascript" src="../../scripts/master.generated.min.js"></script>
     <script type="text/javascript">
         // document ready handler
         $(function () {
-            $('.white').html($('.gray').html());
-            $('.blue').html($('.gray').html());
-            $('.white .img-steps').attr('src', 'steps-white.png');
-            $('.blue .img-steps').attr('src', 'steps-blue.png');
+            var icons = $('.baseline').html();
+            $('.white').html(icons);
+            $('.blue').html(icons);
+            $('.large.gray').html(icons);
+            $('.large.white').html(icons);
+            $('.large.blue').html(icons);
+
+            $('.white i').addClass('icon-white');
+            $('.blue i').addClass('icon-blue');
+            $('.large i').addClass('icon-large');
         });
     </script>
 </head>
 <body>
 
-<div class='gray'>
+<div class='gray baseline'>
 <table>
 <tr>
     <td><i class='icon-glass'></i></td>
@@ -44,7 +50,7 @@
     <td><i class='icon-ok'></i></td>
     <td><i class='icon-remove'></i></td>
     <td><i class='icon-zoom-in'></i></td>
-    <td class='img-steps'><img src='steps.png' class='img-steps' /></td>
+    <td><i class='icon-steps'></i></td>
 </tr>
 <tr>
     <td><i class='icon-zoom-out'></i></td>
@@ -273,6 +279,12 @@
 <div class='white'>
 </div>
 <div class='blue'>
+</div>
+<div class='large gray'>
+</div>
+<div class='large white'>
+</div>
+<div class='large blue'>
 </div>
 
 </body>

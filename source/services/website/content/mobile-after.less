@@ -43,9 +43,15 @@ body { padding-bottom: 0; }
 }
 
 /* correct some styles for steplist buttons */
-.dashboard-center .manager-folders .tab-content .nav-list .btn-step-list li.btn-step { border-top: 0px; }
-.btn-step-list { margin-bottom: 0px; }
-.btn-toolbar .btn.btn-step { padding-left: 8px; padding-right: 8px; margin-left: 5px;}
+.btn-toolbar .btn-group { vertical-align: top; }
+.btn-toolbar .btn.btn-step { padding: 0; margin: 0 2px 0 0; width: 48px; height: 40px; text-align: center; }
+.btn-toolbar .btn.btn-step i { padding: 0; margin: 2px 0 0 0; }
+.btn-toolbar .btn.btn-step p { padding: 0; margin: -10px 0 0 0; font-size: 8pt; color: @linkColor; }
+.btn-toolbar .btn.btn-step:hover p  { color: @textColor; }
+
+.dashboard-left .nav-stacked li .icon-large { height: 24px; }
+.dashboard-left .nav-stacked li p { font-size: 8pt; color: @linkColor;  }
+.dashboard-left .nav-stacked li.active p { font-size: 8pt; color: @white;  }
 
 /* make the modal dialogs fit the viewport */
 /* NOTE: this isn't working yet. the modal dialog is now shrunk but is no longer centered in the viewport.  on a phone it's unusable. */

@@ -43,17 +43,27 @@ ActionTypeList.prototype.render = function ($element, actionTypes) {
     var $currentActionType = null;
     for (var id in this.actionTypes) {
         var actionType = this.actionTypes[id];
-        var actionTypeName = Browser.IsMobile() ? '' : '&nbsp;' + actionType.Name;
-        $actionType = $('<li><a><strong>' + actionTypeName + '</strong></a></li>').appendTo(this.$element);
-        $actionType.data('control', this);
-        $actionType.data('item', actionType);
-        $actionType.click(function () { Control.get(this).actionTypeClicked($(this)); });
-        $actionType.find('strong').prepend(Control.Icons.forActionType(actionType));
+        var $li = $('<li />').appendTo(this.$element);
+        $li.data('control', this);
+        $li.data('item', actionType);
+        $li.click(function () { Control.get(this).actionTypeClicked($(this)); });
+
+        var $icon = Control.Icons.forActionType(actionType);
+        var $actionType = $('<a />').appendTo($li);
+
+        if (Browser.IsMobile()) {
+            $icon.addClass('icon-large icon-blue');
+            //$('<p>' + actionType.Name + '</p>').appendTo($actionType);
+        } else {
+            $('<span>&nbsp;' + actionType.Name + '</span>').appendTo($actionType);
+        }
+        $actionType.prepend($icon);
+
         if (this.currentActionType == null) {
             this.currentActionType = actionType;
-            $currentActionType = $actionType;
+            $currentActionType = $li;
         }
-        if (this.currentActionType == actionType) $currentActionType = $actionType;
+        if (this.currentActionType == actionType) { $currentActionType = $li; }
     }
     // select current ActionType
     this.select($currentActionType, this.currentActionType);

@@ -943,6 +943,7 @@ body{padding-bottom:0}
 .navbar-fixed-top .navbar-inner{padding:0 0 0 10px}
 .navbar-fixed-bottom .pull-right{margin:12px 0 0 0}
 .navbar .nav li a#brand{padding-left:0;padding-right:0}
+.navbar .nav li.divider-vertical{margin-left:0;margin-right:0}
 .container-fluid{padding-left:0;padding-right:0}
 @media(max-width:768px){body{padding-left:0;padding-right:0}
 .navbar .container-fluid{width:100%;*zoom:1}

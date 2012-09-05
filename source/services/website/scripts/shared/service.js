@@ -78,7 +78,7 @@ Service.DeleteResource = function Service$DeleteResource(resource, id, data, suc
 }
 
 Service.NavigateToDashboard = function Service$NavigateToDashboard() {
-    window.navigate(Service.siteUrl);
+    window.location = Service.siteUrl;
 }
 
 Service.ChangeTheme = function Service$ChangeTheme(theme) {
@@ -92,17 +92,17 @@ Service.SignOut = function Service$SignOut() {
 
 Service.GetFacebookConsent = function Service$GetFacebookConsent() {
     var uri = Service.fbConsentUri + "?client_id=" + Service.fbAppID + "&redirect_uri=" + encodeURI(Service.domainUrl + Service.fbRedirectPath) + "&scope=" + Service.fbScopes;
-    window.navigate(uri);
+    window.location = uri;
 }
 
 Service.GetGoogleConsent = function Service$GetGoogleConsent() {
     var uri = Service.googleConsentUri;
-    window.navigate(uri);
+    window.location = uri;
 }
 
 Service.GetCloudADConsent = function Service$GetCloudADConsent() {
     var uri = Service.cloudADConsentUri;
-    window.navigate(uri);
+    window.locatin = uri;
 }
 
 Service.Geocoder = function Service$Geocoder() {

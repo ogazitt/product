@@ -928,7 +928,9 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-center .manager-folders .tab-content .nav-list li.st-paused{background-color:#dff0d8}
 .dashboard-center .manager-folders .tab-content textarea{height:60px}
 .dashboard-center .manager-folders .tab-content .input-inline-max{display:inline-block;width:90%}
-.dashboard-center .manager-folders .tab-content .nav-list .form-inline .btn-step{margin:8px 2px 2px 2px;padding:2px}
+.dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar{margin:8px 2px 2px 2px}
+.dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar.pull-right{float:right}
+.btn-toolbar .icon-large{text-align:left;padding:4px 0 0 8px}
 .dashboard-center .carousel .input-block-level{border-left-color:transparent;border-bottom-color:transparent;border-right-color:transparent;background-color:transparent;overflow-y:hidden}
 .dashboard-center .carousel .input-block-level:focus{overflow-y:auto}
 .dashboard-center .carousel .fn-name{color:black;font-weight:bold;background-color:transparent;border-style:none}
@@ -953,9 +955,9 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .absolute-right{position:absolute;top:4px;right:6px}
 .popup-text{position:absolute;top:2px;left:2px;width:80%}
 .icon.absolute-right:hover{background-color:transparent}
+.inline{display:inline-block}
 .inline-left{display:inline-block;float:left}
 .inline-right{display:inline-block;float:right}
-.control-group.inline-right{margin-left:8px}
 .item-status{position:absolute;top:10px;right:0}
 .item-status i{font-size:16pt;margin-right:12px}
 .item-status i.icon-play{color:#62c462}

@@ -107,7 +107,9 @@ NextStepsPage.render = function NextStepsPage$render(list) {
     if (NextStepsPage.currentList != list) {
         NextStepsPage.currentList = list;
         NextStepsPage.actionTypeList.hide();
-        NextStepsPage.categoryList.hide();
+        if (NextStepsPage.categoryList != null) {
+            NextStepsPage.categoryList.hide();
+        }
         NextStepsPage.currentList.render(NextStepsPage.$left);
     }
 }

@@ -672,6 +672,33 @@ ActionType.prototype.GetSteps = function (sort, status) {
 }
 
 // ---------------------------------------------------------
+// GalleryCategory object - provides prototype functions for GalleryCategory
+
+function GalleryCategory() { };
+GalleryCategory.Extend = function GalleryCategory$Extend(category) { return $.extend(new GalleryCategory(), category); }   // extend with GalleryCategory prototypes
+
+// GalleryCategory public functions
+// do not deep copy, remove Activities collection, copy is for updating GalleryCategory entity only
+GalleryCategory.prototype.Copy = function () { var copy = $.extend(new GalleryCategory(), this); copy.Activities = {}; copy.ItemsMap = {}; return copy; };
+GalleryCategory.prototype.IsSelected = function () { return DataModel.UserSettings.IsCategorySelected(this.ID); };
+GalleryCategory.prototype.IsExpanded = function () { return DataModel.UserSettings.IsCategoryExpanded(this.ID); };
+GalleryCategory.prototype.Expand = function (expand) { DataModel.UserSettings.ExpandCategory(this.ID, expand); };
+GalleryCategory.prototype.GetActivities = function () { return this.Activities; };
+GalleryCategory.prototype.GetActivity = function (itemID) { return this.Activities[itemID]; }
+GalleryCategory.prototype.IsGalleryCategory = function () { return true; }
+
+// ---------------------------------------------------------
+// GalleryActivity object - provides prototype functions for GalleryActivity
+
+function GalleryActivity() { };
+GalleryActivity.Extend = function GalleryActivity$Extend(activity) { return $.extend(new GalleryActivity(), activity); }   // extend with GalleryCategory prototypes
+
+// GalleryActivity public functions
+GalleryActivity.prototype.Copy = function () { var copy = $.extend(new GalleryActivity(), this); copy.ItemsMap = {}; return copy; };
+GalleryActivity.prototype.IsGalleryActivity = function () { return true; }
+GalleryActivity.prototype.IsSelected = function () { return DataModel.UserSettings.IsActivitySelected(this.ID); };
+
+// ---------------------------------------------------------
 // Appointment object - provides prototype functions for Appointment
 
 function Appointment() { };
@@ -914,6 +941,14 @@ UserSettings.prototype.IsFolderSelected = function (folderID) {
     return (this.ViewState.SelectedFolder == folderID);
 }
 
+UserSettings.prototype.IsCategorySelected = function (categoryID) {
+    return (this.ViewState.SelectedCategory == categoryID);
+}
+
+UserSettings.prototype.IsActivitySelected = function (activityID) {
+    return (this.ViewState.SelectedActivity == activityID);
+}
+
 UserSettings.prototype.IsItemSelected = function (itemID, includingChildren) {
     if (includingChildren == true) {
         var item = DataModel.FindItem(this.ViewState.SelectedItem);
@@ -928,8 +963,18 @@ UserSettings.prototype.ExpandFolder = function (folderID, expand) {
     else { delete this.ViewState.ExpandedFolders[folderID]; }
 }
 
+UserSettings.prototype.ExpandCategory = function (categoryID, expand) {
+    if (this.ViewState.ExpandedCategories == null) { this.ViewState.ExpandedCategories = {}; }
+    if (expand == true) { this.ViewState.ExpandedCategories[categoryID] = true; }
+    else { delete this.ViewState.ExpandedCategories[categoryID]; }
+}
+
 UserSettings.prototype.IsFolderExpanded = function (folderID) {
     return (this.ViewState.ExpandedFolders != null && this.ViewState.ExpandedFolders[folderID] == true);
+}
+
+UserSettings.prototype.IsCategoryExpanded = function (categoryID) {
+    return (this.ViewState.ExpandedCategories != null && this.ViewState.ExpandedCategories[categoryID] == true);
 }
 
 UserSettings.prototype.Save = function () {

@@ -31,9 +31,9 @@
             }
         }
 
-        [WebGet(UriTemplate = "")]
+        [WebGet(UriTemplate = "{type}")]
         [LogMessages]
-        public HttpResponseMessageWrapper<List<GalleryCategory>> Get(HttpRequestMessage req)
+        public HttpResponseMessageWrapper<List<GalleryCategory>> Get(HttpRequestMessage req, string type)
         {
             Operation operation = null;
             if (false)  // TODO: turn authentication back on by removing this if statement
@@ -50,8 +50,7 @@
                     GalleryCategories.
                     Include("Subcategories.Activities").
                     Include("Activities").
-                    Where(c => c.ParentID == null).
-                    ToList();
+                    Where(c => c.ParentID == null).ToList();
                 var response = ReturnResult<List<GalleryCategory>>(req, operation, categories, HttpStatusCode.OK);
                 response.Headers.CacheControl = new CacheControlHeaderValue() { NoCache = true };
                 return response;

@@ -15,6 +15,7 @@ Service.ConstantsResource = 'contants';
 Service.FoldersResource = 'folders';
 Service.ItemsResource = 'items';
 Service.SuggestionsResource = 'suggestions';
+Service.GalleryResource = 'gallery';
 
 // ---------------------------------------------------------
 // private members

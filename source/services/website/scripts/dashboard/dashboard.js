@@ -47,6 +47,11 @@ Dashboard.Init = function Dashboard$Init(dataModel, renewFBToken, consentStatus)
     Dashboard.suggestionList = new SuggestionList();
     Dashboard.suggestionList.addSelectionChangedHandler('dashboard', Dashboard.ManageChoice);
 
+    // activity gallery 
+    Dashboard.activityGallery = new ActivityGallery();
+    Dashboard.activityGallery.addSelectionChangedHandler('dashboard', Dashboard.ManageGallery);
+    Dashboard.dataModel.GetGalleryCategories(Dashboard.renderGallery);
+
     // suggestions manager
     Dashboard.suggestionManager = new SuggestionManager(Dashboard.dataModel);
     // help and settings managers
@@ -139,6 +144,7 @@ Dashboard.ManageChoice = function Dashboard$ManageChoice(suggestion) {
 
 Dashboard.render = function Dashboard$render(folderID, itemID) {
     Dashboard.folderList.render(Dashboard.$left);
+    Dashboard.dataModel.GetGalleryCategories(Dashboard.renderGallery);
 }
 
 // show options in header dropdown (refresh, settings, etc.)
@@ -287,6 +293,10 @@ Dashboard.getSuggestions = function Dashboard$getSuggestions(folder, item) {
     } else {
         return Dashboard.dataModel.GetSuggestions(Dashboard.renderSuggestions);
     }   
+}
+
+Dashboard.renderGallery = function Dashboard$renderGallery(categories) {
+    Dashboard.activityGallery.render(Dashboard.$right, categories);
 }
 
 Dashboard.renderSuggestions = function Dashboard$renderSuggestions(suggestions) {

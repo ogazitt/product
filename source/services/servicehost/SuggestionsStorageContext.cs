@@ -20,6 +20,10 @@
                 HasMany(gc => gc.Subcategories).
                 WithOptional().
                 HasForeignKey(gc => gc.ParentID);
+            modelBuilder.Entity<GalleryCategory>().
+                HasMany(gc => gc.Activities).
+                WithOptional().
+                HasForeignKey(ga => ga.CategoryID);
         }
 
         public DbSet<GalleryActivity> GalleryActivities { get; set; }
@@ -176,7 +180,7 @@
             foreach (var sc in subcats)
             {
                 // fix the parent ID for this subcategory before adding
-                sc.ParentID = gc.CategoryID;
+                sc.ParentID = gc.ID;
                 AddGalleryCategory(sc);
             }
 
@@ -191,7 +195,7 @@
 
         void RemoveGalleryCategory(GalleryCategory gc)
         {
-            int? id = gc != null ? (int?)gc.CategoryID : null;
+            int? id = gc != null ? (int?)gc.ID : null;
             
             // process this gallery category's children recursively
 

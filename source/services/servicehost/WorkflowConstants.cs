@@ -10,7 +10,7 @@ namespace BuiltSteady.Product.ServiceHost
     {
         private const string IntentsFileName = @"workflows\Intents.txt";
 
-        public static string SchemaVersion { get { return "1.0.2012.0815"; } }
+        public static string SchemaVersion { get { return "1.0.2012.0904"; } }
         public static string ConstantsVersion { get { return "2012-08-15"; } }
 
         public static List<GalleryCategory> DefaultGallery()
@@ -132,7 +132,7 @@ namespace BuiltSteady.Product.ServiceHost
                 string categoryName = dirname.StartsWith(prefix) ? dirname.Substring(prefix.Length) : dirname;
                 var galleryCategory = new GalleryCategory()
                 {
-                    CategoryID = currID++,
+                    ID = currID++,
                     Name = categoryName,
                     ParentID = parentID,
                     Activities = new List<GalleryActivity>(),
@@ -140,7 +140,7 @@ namespace BuiltSteady.Product.ServiceHost
                 };
 
                 foreach (var dir in Directory.EnumerateDirectories(@"."))
-                    galleryCategory.Subcategories.Add(CreateCategory(dir, galleryCategory.CategoryID, ref currID));
+                    galleryCategory.Subcategories.Add(CreateCategory(dir, galleryCategory.ID, ref currID));
 
                 foreach (var filename in Directory.EnumerateFiles(@".", @"*.json"))
                 {
@@ -153,7 +153,7 @@ namespace BuiltSteady.Product.ServiceHost
 
                         string activityDef = reader.ReadToEnd();
                         if (!String.IsNullOrEmpty(activityDef))
-                            galleryCategory.Activities.Add(new GalleryActivity() { Name = activityName, Definition = activityDef, CategoryID = galleryCategory.CategoryID });
+                            galleryCategory.Activities.Add(new GalleryActivity() { Name = activityName, Definition = activityDef, CategoryID = galleryCategory.ID });
                     }
                 }
                 cdBack = false;

@@ -13,6 +13,7 @@ DataModel.Constants = {};
 DataModel.User = {};
 DataModel.Folders = {};
 DataModel.Suggestions = {};
+DataModel.GalleryCategories = {};
 DataModel.ActionTypes = {};
 DataModel.UserSettings;        
 
@@ -275,6 +276,24 @@ DataModel.DeleteItem = function DataModel$DeleteItem(item, activeItem) {
     return false;
 }
 
+// helper for retrieving gallery categories, invokes server and updates local data model
+DataModel.GetGalleryCategories = function DataModel$GetGalleryCategories(handler, filter) {
+    if (filter == null) { filter = 'system'; }
+
+    // GET the gallery categories
+    Service.GetResource(Service.GalleryResource, filter,
+        function (responseState) {                                      // successHandler
+            var categories = responseState.result;
+            if (categories.length > 0) {
+                DataModel.GalleryCategoriesRetrieved = new Date();            // timestamp
+            }
+            DataModel.processGalleryCategories(categories);
+            if (handler != null) {
+                handler(DataModel.GalleryCategories);
+            }
+        });
+}
+
 // helper for retrieving suggestions, invokes server and updates local data model
 DataModel.GetSuggestions = function DataModel$GetSuggestions(handler, entity, fieldName) {
     var filter = {};
@@ -288,16 +307,16 @@ DataModel.GetSuggestions = function DataModel$GetSuggestions(handler, entity, fi
 
     // using POST to query for suggestions
     Service.InsertResource(Service.SuggestionsResource, filter,
-        function (responseState) {                                      // successHandler
-            var suggestions = responseState.result;
-            if (suggestions.length > 0) {
-                DataModel.SuggestionsRetrieved = new Date();            // timestamp
-            }
-            DataModel.processSuggestions(suggestions);
-            if (handler != null) {
-                handler(DataModel.Suggestions);
-            }
-        });
+    function (responseState) {                                      // successHandler
+        var suggestions = responseState.result;
+        if (suggestions.length > 0) {
+            DataModel.SuggestionsRetrieved = new Date();            // timestamp
+        }
+        DataModel.processSuggestions(suggestions);
+        if (handler != null) {
+            handler(DataModel.Suggestions);
+        }
+    });
 }
 
 // helper for selecting a suggestion, invokes server and updates local data model
@@ -531,6 +550,21 @@ DataModel.processActionTypes = function DataModel$processActionTypes(actionTypes
     // create an associative array over the action types 
     DataModel.ActionTypesMap = new ItemMap(actionTypes);
     DataModel.ActionTypes = DataModel.ActionTypesMap.Items;
+}
+
+DataModel.processGalleryCategories = function DataModel$processGalleryCategories(categories) {
+    for (var i in categories) {
+        var category = GalleryCategory.Extend(categories[i]);  // extend with the GalleryCategory functions
+        categories[i] = category;
+        var activities = category.Activities;
+        for (var j in activities) {
+            activities[j] = GalleryActivity.Extend(activities[j]);  // extend with GalleryActivity functions
+        }
+        category.ActivitiesMap = new ItemMap(activities);
+        category.Activities = category.ActivitiesMap.Items;
+    }
+    DataModel.GalleryCategoriesMap = new ItemMap(categories);
+    DataModel.GalleryCategories = DataModel.GalleryCategoriesMap.Items;
 }
 
 DataModel.restoreSelection = function DataModel$restoreSelection(itemID) {

@@ -6,9 +6,8 @@ namespace BuiltSteady.Product.ServerEntities
 {
     public class GalleryCategory
     {
-        [Key]
-        [IgnoreDataMember]
-        public int CategoryID { get; set; }
+        [Key, Column("CategoryID")]
+        public int ID { get; set; }
 
         public string Name { get; set; }
         public List<GalleryActivity> Activities { get; set; }

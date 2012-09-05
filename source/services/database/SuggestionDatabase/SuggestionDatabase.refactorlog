@@ -7,4 +7,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ID" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="83c1ee41-b48b-4eec-85d3-764e1e11b5af" ChangeDateTime="09/05/2012 00:39:07">
+    <Property Name="ElementName" Value="[dbo].[GalleryActivities].[ActivityID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GalleryActivities]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d5d2a0a3-6717-422e-a48c-0a16a2d4bef9" ChangeDateTime="09/05/2012 01:01:21">
+    <Property Name="ElementName" Value="[dbo].[GalleryCategories].[ID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GalleryCategories]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategoryID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5353df6c-c4c0-421d-a8fe-6e250f88bbad" ChangeDateTime="09/05/2012 01:01:46">
+    <Property Name="ElementName" Value="[dbo].[GalleryActivities].[ID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GalleryActivities]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ActivityID" />
+  </Operation>
 </Operations>

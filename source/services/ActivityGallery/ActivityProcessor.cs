@@ -55,12 +55,12 @@ namespace BuiltSteady.Product.ActivityGallery
                 }
 
                 // process all of the subcategories under this (sub)category in the database
-                var subCategories = suggestionsContext.GalleryCategories.Where(gc => gc.ParentID == galleryCategory.CategoryID);
+                var subCategories = suggestionsContext.GalleryCategories.Where(gc => gc.ParentID == galleryCategory.ID);
                 foreach (var sc in subCategories)
                     InstallCategory(userContext, suggestionsContext, user, category, parentID, sc.Name);
 
                 // process all the Activities under this (sub)category
-                var activities = suggestionsContext.GalleryActivities.Where(ga => ga.CategoryID == galleryCategory.CategoryID);
+                var activities = suggestionsContext.GalleryActivities.Where(ga => ga.CategoryID == galleryCategory.ID);
                 foreach (var activity in activities)
                     InstallActivity(userContext, suggestionsContext, category, parentID, activity);
             }

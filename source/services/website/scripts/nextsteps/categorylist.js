@@ -12,7 +12,20 @@ function CategoryList(folders) {
 }
 
 CategoryList.prototype.init = function (folders) {
-    this.folders = folders;
+    // display Category folders first
+    this.folders = {};
+    for (var id in folders) {
+        if (folders[id].IsCategory()) {
+            this.folders[id] = folders[id];
+        }
+    }
+    // then display People and Places folders
+    for (var id in folders) {
+        if (!folders[id].IsCategory()) {
+            this.folders[id] = folders[id];
+        }
+    }
+
     this.$element = null;
 }
 

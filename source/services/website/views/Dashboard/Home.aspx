@@ -32,6 +32,7 @@
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/datamodel.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entities.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entityconstants.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/activitygallery.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/dashboard.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/folderlist.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/foldermanager.js") %>"></script>

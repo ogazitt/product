@@ -48,7 +48,10 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-list li a.paused { color: @navbarSearchPlaceholderColor; }
 .dashboard-list .itemlist .dropdown-menu { top: 0; right: 20px; }
 .dashboard-left .itemlist span,  .dashboard-left .itemlist em { padding-left: 21px; } 
-.dashboard-right li.active { text-transform: uppercase; text-align: center; }
+// 2012-09-04 OG: add the same rule for indenting Activities in dashboard-right (gallery should behave like folderlist)
+.dashboard-right .itemlist span,  .dashboard-left .itemlist em { padding-left: 21px; } 
+// 2012-09-04 OG: remove the CSS rule for li.active for dashboard-right (gallery should behave like folderlist)
+//.dashboard-right li.active { text-transform: uppercase; text-align: center; }
 .dashboard-right .dropdown-menu.pull-right { left: auto; right: 0; }
 
 /* busy animation for suggestions pane */

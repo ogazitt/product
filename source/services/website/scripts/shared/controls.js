@@ -202,16 +202,21 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
     var $icon = $('<i></i>');
     switch (itemType) {
         case ItemTypes.Activity:
-            if (item.IsPaused()) { $icon.addClass('icon-pause'); }
-            else if (item.IsActive()) { $icon.addClass('icon-play'); }
-            else if (item.IsComplete()) { $icon.addClass('icon-check'); }
-            else { $icon.addClass('icon-stop'); }
+            if (typeof (item) == 'object') {
+                if (item.IsPaused()) { $icon.addClass('icon-pause'); }
+                else if (item.IsActive()) { $icon.addClass('icon-play'); }
+                else if (item.IsComplete()) { $icon.addClass('icon-check'); }
+                else { $icon.addClass('icon-stop'); }
+            }
+            else {
+                $icon.addClass('icon-play');
+            }
             break;
         case ItemTypes.Step:
             $icon.addClass('icon-check');
             break;
-        case ItemTypes.Contact:            
-            $icon.addClass(item.IsFolder() ? 'icon-group' :'icon-user');
+        case ItemTypes.Contact:
+            $icon.addClass(item.IsFolder() ? 'icon-group' : 'icon-user');
             break;
         case ItemTypes.Location:
             $icon.addClass('icon-map-marker');
@@ -572,6 +577,10 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
             else {
                 var now = new Date();
                 var start = new Date(inputs[0]);
+                if (start < now) {
+                    Control.alert('The date you provided is in the past', 'Schedule appointment');
+                    return;
+                }
                 var end = new Date(start);
                 var startTime = Utilities.parseTime(inputs[1]);
                 var endTime = Utilities.parseTime(inputs[2]);
@@ -598,7 +607,8 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
                 // create appointment object
                 var loc = item.GetLocation();
                 var location = (loc != null) ? loc.Address : null;
-                var appt = Appointment.Extend({ Name: item.Name, StartTime: start, EndTime: end, Location: location, ItemID: item.ID });
+                var name = (inputs[3].length > 0) ? inputs[3] : activity.Name;
+                var appt = Appointment.Extend({ Name: name, StartTime: start, EndTime: end, Location: location, ItemID: item.ID });
                 Service.InvokeController('Actions', 'CreateAppointment',
                     { 'Appointment': appt },
                     function (responseState) {

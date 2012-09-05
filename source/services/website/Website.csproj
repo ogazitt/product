@@ -239,11 +239,14 @@
     <Content Include="Global.asax" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\dashboard\activitygallery.js" />
     <Content Include="scripts\dashboard\dashboard.generated.min.js">
       <DependentUpon>dashboard.js.chirp.config</DependentUpon>
     </Content>
     <Content Include="scripts\dashboard\dashboard.js" />
-    <Content Include="scripts\dashboard\dashboard.js.chirp.config" />
+    <Content Include="scripts\dashboard\dashboard.js.chirp.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="scripts\dashboard\itemeditor.js" />
     <Content Include="scripts\dashboard\listeditor.js" />
     <Content Include="scripts\json2.js" />

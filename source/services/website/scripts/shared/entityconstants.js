@@ -171,6 +171,18 @@ var SystemFolders = {
 }
 
 // ---------------------------------------------------------
+// UserEntities constants
+
+var UserEntities = {
+    Inbox: "Inbox",
+    People: "People",
+    Places: "Places",
+    Personal: "Personal",
+    Home: "Home",
+    Auto: "Auto"
+}
+
+// ---------------------------------------------------------
 // SystemUsers constants
 
 var SystemUsers = {

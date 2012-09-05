@@ -210,14 +210,16 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
         case ItemTypes.Step:
             $icon.addClass('icon-check');
             break;
-        case ItemTypes.Contact:
-            $icon.addClass('icon-user');
+        case ItemTypes.Contact:            
+            $icon.addClass(item.IsFolder() ? 'icon-group' :'icon-user');
             break;
         case ItemTypes.Location:
             $icon.addClass('icon-map-marker');
             break;
 
         case ItemTypes.Category:
+            return Control.Icons.forFolder(item.IsFolder() ? item : item.GetFolder());
+
         default:
             $icon.addClass('icon-folder-close');
             break;
@@ -264,6 +266,43 @@ Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
             break;
         default:
             $icon.addClass('icon-question-sign');
+            break;
+    }
+    return $icon;
+}
+
+// return an element that is an icon for the folder type
+Control.Icons.forFolder = function Control$Icons$forFolder(folder) {
+    // allow parameter as Folder class or name 
+    var folderName = folder;
+    if (folder != null && typeof (folder) == 'object') {
+        folderName = folder.Name;
+    }
+
+    var $icon = $('<i></i>');
+    switch (folderName) {
+        case UserEntities.Inbox:
+            $icon.addClass('icon-envelope');
+            break;
+        case UserEntities.People:
+            if (Browser.IsMobile()) { $icon.addClass('icon-user'); }
+            else { $icon.addClass('icon-group'); }
+            break;
+        case UserEntities.Places:
+            $icon.addClass('icon-map-marker');
+            break;
+        case UserEntities.Personal:
+            $icon.addClass('icon-user');
+            break;
+        case UserEntities.Home:
+            $icon.addClass('icon-home');
+            break;
+        case UserEntities.Auto:
+            if (Browser.IsMobile()) { $icon.addClass('icon-folder-close'); }
+            else { $icon.addClass('icon-truck'); }
+            break;
+        default:
+            $icon.addClass('icon-folder-close');
             break;
     }
     return $icon;
@@ -473,7 +512,7 @@ Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
         if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
 
         $icon.click(function () { window.open($(this).attr('href')); return false; });
-        return $icon;
+        return $('<a class="icon" />').append($icon);
     }
 }
 
@@ -600,8 +639,8 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
 Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
     var $icon = $('<i class="icon-facebook icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Ask Friends');
-    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    $icon.attr('title', 'Ask');
+    if (!Browser.IsMobile()) { $icon.attr('title', 'Ask Facebook Friends').tooltip(Control.ttDelay); }
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');

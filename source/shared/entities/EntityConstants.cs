@@ -307,7 +307,7 @@ namespace BuiltSteady.Product.Shared.Entities
     public class UserConstants
     {
         public static string SchemaVersion { get { return "1.0.2012.0816"; } }
-        public static string ConstantsVersion { get { return "2012-09-02"; } }
+        public static string ConstantsVersion { get { return "2012-09-05"; } }
 
         public static List<ActionType> DefaultActionTypes()
         {
@@ -431,7 +431,7 @@ namespace BuiltSteady.Product.Shared.Entities
 
             // create Category
             itemTypes.Add(itemType = new ItemType() { ID = SystemItemTypes.Category, Name = ItemTypeNames.Category, UserID = SystemUsers.User, Fields = new List<Field>() });
-            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000071"), FieldType = FieldTypes.String, Name = FieldNames.Name, DisplayName = "Name", DisplayType = DisplayTypes.Text, ItemTypeID = SystemItemTypes.Activity, IsPrimary = true, SortOrder = 1 });
+            itemType.Fields.Add(new Field() { ID = new Guid("00000000-0000-0000-0000-000000000071"), FieldType = FieldTypes.String, Name = FieldNames.Name, DisplayName = "Name", DisplayType = DisplayTypes.Text, ItemTypeID = SystemItemTypes.Category, IsPrimary = true, SortOrder = 1 });
 
             return itemTypes;
         }

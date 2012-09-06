@@ -204,8 +204,8 @@ Dashboard.resize = function Dashboard$resize() {
     Dashboard.$center.height(dbHeight);
     Dashboard.$right.height(dbHeight);
 
-    Dashboard.showManager(Dashboard.currentManager, true);
-    Dashboard.folderList.render(Dashboard.$left);
+    //Dashboard.showManager(Dashboard.currentManager, true);
+    //Dashboard.folderList.render(Dashboard.$left);
     //Dashboard.folderManager.render();
 
     $(window).bind('resize', Dashboard.resize);

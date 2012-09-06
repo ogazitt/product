@@ -51,6 +51,7 @@ ActivityGallery.prototype.render = function ($element, categories) {
             }
             return true;
         });
+        $('<div class="btn-dropdown absolute-right"></div>').appendTo($category);
 
         if (category.IsSelected()) { this.select($category, category); }
         this.renderItems($category, category);
@@ -73,6 +74,8 @@ ActivityGallery.prototype.renderItems = function ($category, category) {
                 }
                 return true;
             });
+            // do not support installing activities via right dropdown menu (no idea which category)
+            //$('<div class="btn-dropdown absolute-right"></div>').appendTo($item);
 
             if (item.IsSelected(true)) { this.select($item, item); }
         }
@@ -97,6 +100,7 @@ ActivityGallery.prototype.itemClicked = function ($item) {
 ActivityGallery.prototype.select = function ($item, item) {
     this.deselect();
     $item.addClass('active');
+    this.showCommands($item, item);
     // scroll selected item into view
     var $container = $item.parents('.dashboard-list').first();
     var height = $container.height();
@@ -111,6 +115,7 @@ ActivityGallery.prototype.deselect = function () {
     $control = this;
     $.each(this.$element.find('li'), function () {
         $(this).removeClass('active');
+        $control.hideCommands($(this));
     });
 }
 
@@ -146,4 +151,22 @@ ActivityGallery.prototype.toggle = function ($category) {
     } else if (!expanded) {
         this.expand($category);
     }
+}
+
+ActivityGallery.prototype.showCommands = function ($item, item) {
+    if (item.IsGalleryCategory() || item.IsGalleryActivity()) {
+        var $btnDropdown = $item.find('.btn-dropdown');
+        $('<i class="icon-caret-down dropdown-toggle" data-toggle="dropdown"></i>').appendTo($btnDropdown);
+        var $menu = $('<ul class="dropdown-menu pull-right" role="menu"></ul>').appendTo($btnDropdown);
+        var $installBtn = $('<li><a href="#"><i class="icon-download"></i>&nbsp;Install</a></li>').appendTo($menu);
+        $installBtn.click(function () { $(this).parents('li').first().data('item').Install(); });
+
+        /* TODO: add support for sub-categories
+        */
+    }
+}
+
+ActivityGallery.prototype.hideCommands = function ($item) {
+    var $btnDropdown = $item.find('.btn-dropdown');
+    $btnDropdown.empty();
 }

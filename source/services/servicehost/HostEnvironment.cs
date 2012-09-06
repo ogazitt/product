@@ -40,6 +40,7 @@ namespace BuiltSteady.Product.ServiceHost
         static string userAccountConnection;
         static string suggestionsConnection;
         static string lexiconFileName;
+        static string galleryDirectory;
         static string traceDirectoryName;
         static string splunkServerEndpoint;
 
@@ -255,6 +256,45 @@ namespace BuiltSteady.Product.ServiceHost
                     }
                 }
                 return lexiconFileName;
+            }
+        }
+
+        public static string GalleryDirectory
+        {
+            get
+            {
+                if (galleryDirectory == null)
+                {
+                    if (IsAzure && !IsAzureDevFabric)
+                    {
+                        // Azure (deployed)
+                        if (HttpContext.Current != null)
+                        {
+                            // web role
+                            galleryDirectory = HttpContext.Current.Server.MapPath(@"bin\gallery\activities");
+                        }
+                        else
+                        {
+                            // worker role
+                            galleryDirectory = @"gallery\activities";
+                        }
+                    }
+                    else
+                    {
+                        // local (either dev fabric or cassini)
+                        if (HttpContext.Current != null)
+                        {
+                            // web role - azure dev fabric OR cassini
+                            galleryDirectory = HttpContext.Current.Server.MapPath(@"bin\gallery\activities");
+                        }
+                        else
+                        {
+                            // azure worker role (dev fabric)
+                            galleryDirectory = @"gallery\activities";
+                        }
+                    }
+                }
+                return galleryDirectory;
             }
         }
 

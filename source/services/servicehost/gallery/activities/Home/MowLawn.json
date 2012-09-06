@@ -1,0 +1,11 @@
+﻿{
+	"Name": "Mow the lawn",
+	"Recurrence": null,
+	"Steps": 
+	[ 
+		{ 
+			"Name": "Mow the lawn",
+			"Action": "Reminder"
+		},
+	]
+}

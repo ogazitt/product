@@ -1,5 +1,5 @@
 ﻿{
-	"Name": "Get a haircut",
+	"Name": "Book an appointment",
 	"Recurrence": null,
 	"Steps": 
 	[ 
@@ -9,7 +9,7 @@
 		},
 		{ 
 			"Name": "Add appointment to calendar",
-			"Action": "AddToCalendar"
+			"Action": "Add to calendar"
 		},
 	] 
 }

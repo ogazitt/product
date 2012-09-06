@@ -51,7 +51,16 @@ namespace BuiltSteady.Product.ServiceHost
                 {
                     // for the web role, grab the session ID from the request header and fall back to thread-local storage
                     if (HttpContext.Current != null)
-                        return HttpContext.Current.Request.Headers[HttpApplicationHeaders.Session];
+                    {
+                        try
+                        {
+                            return HttpContext.Current.Request.Headers[HttpApplicationHeaders.Session];
+                        }
+                        catch (Exception)
+                        {
+                            return "webrole-initialization";
+                        }
+                    }
                     else
                         return session;
                 }

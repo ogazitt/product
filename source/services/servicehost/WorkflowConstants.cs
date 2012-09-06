@@ -11,15 +11,16 @@ namespace BuiltSteady.Product.ServiceHost
         private const string IntentsFileName = @"workflows\Intents.txt";
 
         public static string SchemaVersion { get { return "1.0.2012.0904"; } }
-        public static string ConstantsVersion { get { return "2012-08-15"; } }
+        public static string ConstantsVersion { get { return "2012-09-05c"; } }
 
         public static List<GalleryCategory> DefaultGallery()
         {
             // load activity gallery from directories and files
             bool cdBack = false;
+            var currDir = Directory.GetCurrentDirectory();
             try
             {
-                Directory.SetCurrentDirectory(@"activities");
+                Directory.SetCurrentDirectory(HostEnvironment.GalleryDirectory);
                 cdBack = true;
 
                 // recursively create categories for each of the directories inside of the activities directory
@@ -29,14 +30,14 @@ namespace BuiltSteady.Product.ServiceHost
                     galleryCategories.Add(CreateCategory(dir, null, ref currID));
 
                 cdBack = false;
-                Directory.SetCurrentDirectory(@"..");
+                Directory.SetCurrentDirectory(currDir);
                 return galleryCategories;
             }
             catch (Exception ex)
             {
                 TraceLog.TraceException("Reading gallery failed", ex);
                 if (cdBack)
-                    Directory.SetCurrentDirectory(@"..");
+                    Directory.SetCurrentDirectory(currDir);
                 return null;
             }
         }
@@ -153,7 +154,13 @@ namespace BuiltSteady.Product.ServiceHost
 
                         string activityDef = reader.ReadToEnd();
                         if (!String.IsNullOrEmpty(activityDef))
+                        {
+                            // crack the definition open and retrieve the name if available
+                            var value = JsonValue.Parse(activityDef);
+                            if (!String.IsNullOrEmpty((string)value["Name"]))
+                                activityName = (string)value["Name"];
                             galleryCategory.Activities.Add(new GalleryActivity() { Name = activityName, Definition = activityDef, CategoryID = galleryCategory.ID });
+                        }
                     }
                 }
                 cdBack = false;

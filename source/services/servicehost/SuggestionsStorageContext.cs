@@ -46,7 +46,7 @@
         }
 
         // update constants in Suggestion database to current version defined in WorkflowConstants
-        public bool VersionConstants(string me)
+        public bool VersionConstants(string me, bool onlyGallery = false)
         {   
             try
             {
@@ -107,53 +107,14 @@
 
                 TraceLog.TraceInfo(String.Format("{0} updating Suggestions database to version {1}", me, WorkflowConstants.ConstantsVersion));
 
-                // remove existing gallery activities and categories
-                //foreach (var entity in GalleryActivities.ToList()) { GalleryActivities.Remove(entity); }
-                //SaveChanges();
-                RemoveGalleryCategory(null);
-                var categories = WorkflowConstants.DefaultGallery();
-                if (categories == null)
+                // try to update the gallery, and if the onlyGallery flag is false (which is the default), also try to update the workflows
+                if (!UpdateGallery() || 
+                    !onlyGallery && !UpdateWorkflows())
                 {
-                    TraceLog.TraceError("Could not find or load categories");
                     version.Status = DatabaseVersion.Corrupted;
                     versionContext.SaveChanges();
                     return false;
                 }
-                // add current categories
-                foreach (var entity in categories) 
-                    AddGalleryCategory(entity); 
-                SaveChanges();
-                TraceLog.TraceInfo("Replaced categories");
-
-                // remove existing intents 
-                foreach (var entity in Intents.ToList()) { Intents.Remove(entity); }
-                var intents = WorkflowConstants.DefaultIntents();
-                if (intents == null)
-                {
-                    TraceLog.TraceError("Could not find or load intents");
-                    version.Status = DatabaseVersion.Corrupted;
-                    versionContext.SaveChanges();
-                    return false;
-                }
-                // add current intents
-                foreach (var entity in intents) { Intents.Add(entity); }
-                SaveChanges();
-                TraceLog.TraceInfo("Replaced intents");
-
-                // remove existing workflow types
-                foreach (var entity in WorkflowTypes.ToList()) { WorkflowTypes.Remove(entity); }
-                var workflowTypes = WorkflowConstants.DefaultWorkflowTypes();
-                if (workflowTypes == null)
-                {
-                    TraceLog.TraceError("Could not find or load workflow definitions");
-                    version.Status = DatabaseVersion.Corrupted;
-                    versionContext.SaveChanges();
-                    return false;
-                }
-                // add current workflow types
-                foreach (var entity in workflowTypes) { WorkflowTypes.Add(entity); }
-                SaveChanges();
-                TraceLog.TraceInfo("Replaced workflow types");
 
                 // save the new version number
                 version.Status = DatabaseVersion.OK;
@@ -171,8 +132,61 @@
             }
         }
 
+        bool UpdateGallery()
+        {
+            // remove existing gallery activities and categories
+            RemoveGalleryCategory(null);
+            var categories = WorkflowConstants.DefaultGallery();
+            if (categories == null)
+            {
+                TraceLog.TraceError("Could not find or load categories");
+                return false;
+            }
+            // add current categories
+            foreach (var entity in categories)
+                AddGalleryCategory(entity);
+            SaveChanges();
+            TraceLog.TraceInfo("Replaced categories");
+
+            return true;
+        }
+
+        bool UpdateWorkflows()
+        {
+            // remove existing intents 
+            foreach (var entity in Intents.ToList()) { Intents.Remove(entity); }
+            var intents = WorkflowConstants.DefaultIntents();
+            if (intents == null)
+            {
+                TraceLog.TraceError("Could not find or load intents");
+                return false;
+            }
+            // add current intents
+            foreach (var entity in intents) { Intents.Add(entity); }
+            SaveChanges();
+            TraceLog.TraceInfo("Replaced intents");
+
+            // remove existing workflow types
+            foreach (var entity in WorkflowTypes.ToList()) { WorkflowTypes.Remove(entity); }
+            var workflowTypes = WorkflowConstants.DefaultWorkflowTypes();
+            if (workflowTypes == null)
+            {
+                TraceLog.TraceError("Could not find or load workflow definitions");
+                return false;
+            }
+            // add current workflow types
+            foreach (var entity in workflowTypes) { WorkflowTypes.Add(entity); }
+            SaveChanges();
+            TraceLog.TraceInfo("Replaced workflow types");
+            
+            return true;
+        }
+
         void AddGalleryCategory(GalleryCategory gc)
         {
+            if (gc == null) 
+                return;
+
             var subcats = gc.Subcategories;
             gc.Subcategories = null;
             GalleryCategories.Add(gc);

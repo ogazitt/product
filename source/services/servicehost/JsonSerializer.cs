@@ -41,7 +41,7 @@ namespace BuiltSteady.Product.ServiceHost
                         break;
                     case JTokenType.Array:
                         JArray list = token.Value as JArray;
-                        var query = from jobj in list select new JsonValue(new JObject(jobj));
+                        var query = from jobj in list select new JsonValue(jobj.GetType() == typeof(JObject) ? (JObject)jobj : new JObject(jobj));
                         var jlist = new JsonList();
                         jlist.AddRange(query);
                         break;
@@ -68,7 +68,7 @@ namespace BuiltSteady.Product.ServiceHost
                 JArray list = obj as JArray;
                 if (list != null)
                 {
-                    var query = from jobj in list select new JsonValue(new JObject(jobj));
+                    var query = from jobj in list select new JsonValue(jobj.GetType() == typeof(JObject) ? (JObject) jobj : new JObject(jobj));
                     var jlist = new JsonList();
                     jlist.AddRange(query);
                     return jlist;

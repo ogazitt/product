@@ -83,6 +83,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AzureOAuthConfiguration.cs" />
+    <Compile Include="gallery\ActivityDefinition.cs" />
+    <Compile Include="gallery\GalleryProcessor.cs" />
+    <Compile Include="gallery\ActivityStep.cs" />
     <Compile Include="processors\StepProcessor.cs" />
     <Compile Include="SuggestionsStorageContext.cs" />
     <Compile Include="UserStorageContext.cs" />
@@ -120,6 +123,24 @@
     </Content>
     <Content Include="nlp\LGPL.txt" />
     <None Include="App.config" />
+    <Content Include="gallery\activities\Auto\OilChange.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="gallery\activities\Generic\BookAppointment.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="gallery\activities\Personal\Exercise\WorkOut.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="gallery\activities\Personal\Haircut.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="gallery\activities\Home\WaterLawn.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="gallery\activities\Home\MowLawn.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

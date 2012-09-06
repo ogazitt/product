@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 using BuiltSteady.Product.ServerEntities;
 using BuiltSteady.Product.ServiceHost;
 
-namespace BuiltSteady.Product.ActivityGallery
+namespace BuiltSteady.Product.ServiceHost.Gallery
 {
     public class ActivityStep
     {

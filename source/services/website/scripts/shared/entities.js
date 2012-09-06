@@ -686,6 +686,21 @@ GalleryCategory.prototype.Expand = function (expand) { DataModel.UserSettings.Ex
 GalleryCategory.prototype.GetActivities = function () { return this.Activities; };
 GalleryCategory.prototype.GetActivity = function (itemID) { return this.Activities[itemID]; }
 GalleryCategory.prototype.IsGalleryCategory = function () { return true; }
+GalleryCategory.prototype.IsGalleryActivity = function () { return false; }
+GalleryCategory.prototype.Install = function () {
+    Service.InvokeController('Actions', 'InstallCategory',
+        { 'category': this },
+        function (responseState) {
+            var result = responseState.result;
+            if (result.StatusCode != '200') {
+                Control.alert('Server was unable to install the category', 'Install Category');
+            }
+            else {
+                Dashboard.dataModel.Refresh();
+            }
+        }
+    );
+}
 
 // ---------------------------------------------------------
 // GalleryActivity object - provides prototype functions for GalleryActivity
@@ -695,8 +710,23 @@ GalleryActivity.Extend = function GalleryActivity$Extend(activity) { return $.ex
 
 // GalleryActivity public functions
 GalleryActivity.prototype.Copy = function () { var copy = $.extend(new GalleryActivity(), this); copy.ItemsMap = {}; return copy; };
+GalleryActivity.prototype.IsGalleryCategory = function () { return false; }
 GalleryActivity.prototype.IsGalleryActivity = function () { return true; }
 GalleryActivity.prototype.IsSelected = function () { return DataModel.UserSettings.IsActivitySelected(this.ID); };
+GalleryActivity.prototype.Install = function () {
+    Service.InvokeController('Actions', 'InstallActivity',
+        { 'activity': this },
+        function (responseState) {
+            var result = responseState.result;
+            if (result.StatusCode != '200') {
+                Control.alert('Server was unable to install the category', 'Install Activity');
+            }
+            else {
+                Dashboard.dataModel.Refresh();
+            }
+        }
+    );
+}
 
 // ---------------------------------------------------------
 // Appointment object - provides prototype functions for Appointment

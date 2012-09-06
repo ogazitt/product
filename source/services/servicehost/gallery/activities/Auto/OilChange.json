@@ -4,12 +4,16 @@
 	"Steps": 
 	[ 
 		{ 
+			"Name": "Find an oil change service",
+			"Action": "Find local business"
+		},
+		{ 
 			"Name": "Call for appointment",
 			"Action": "Call"
 		},
 		{ 
 			"Name": "Add appointment to calendar",
-			"Action": "AddToCalendar"
+			"Action": "Add to calendar"
 		},
 	] 
 }

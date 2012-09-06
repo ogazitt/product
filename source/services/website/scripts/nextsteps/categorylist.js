@@ -68,7 +68,7 @@ CategoryList.prototype.renderCategoryList = function ($element, folders) {
     this.$element = $('<ul class="nav nav-pills nav-stacked categorylist" />').appendTo($element);
     //Control.List.sortable(this.$element);
     this.$currentFolder = null;
-    
+
     for (var id in this.folders) {
         var folder = this.folders[id];
         var folderName = Browser.IsMobile() ? '' : '&nbsp;' + folder.Name;
@@ -76,7 +76,9 @@ CategoryList.prototype.renderCategoryList = function ($element, folders) {
         $folder.data('control', this);
         $folder.data('item', folder);
         $folder.click(function () { Control.get(this).folderClicked($(this)); });
-        $folder.find('strong').prepend(Control.Icons.forFolder(folder));
+        var $icon = Control.Icons.forFolder(folder);
+        $icon.addClass('icon-large icon-blue');
+        $folder.find('strong').prepend($icon);
         if (this.currentFolder == null) {
             this.currentFolder = folder;
             this.$currentFolder = $folder;

@@ -75,7 +75,7 @@ ListView.prototype.renderListItems = function (listItems) {
         var $li = $('<li />').appendTo(this.$element);
         $li.data('control', this);
         $li.data('item', item);
-        var $wrapper = $('<div style="display:inline-block;width:100%" />').appendTo($li);
+        var $wrapper = $('<div class="inline" />').appendTo($li);
 
         if (Browser.IsMobile()) {
             this.renderNameField($wrapper, item);
@@ -83,6 +83,7 @@ ListView.prototype.renderListItems = function (listItems) {
             this.renderToolbar($wrapper, item);
         }
         else {
+            $wrapper.css('width', '100%');
             var $item = $('<div class="pull-left" />').appendTo($wrapper);
             this.renderNameField($item, item);
             this.renderFields($item, item);

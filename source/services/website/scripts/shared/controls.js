@@ -290,11 +290,11 @@ Control.Icons.forFolder = function Control$Icons$forFolder(folder) {
             $icon.addClass('icon-envelope');
             break;
         case UserEntities.People:
-            if (Browser.IsMobile()) { $icon.addClass('icon-user'); }
-            else { $icon.addClass('icon-group'); }
+            $icon.addClass('icon-group');
             break;
         case UserEntities.Places:
-            $icon.addClass('icon-map-marker');
+            //$icon.addClass('icon-map-marker');
+            $icon.addClass('icon-globe');
             break;
         case UserEntities.Personal:
             $icon.addClass('icon-user');
@@ -303,8 +303,7 @@ Control.Icons.forFolder = function Control$Icons$forFolder(folder) {
             $icon.addClass('icon-home');
             break;
         case UserEntities.Auto:
-            if (Browser.IsMobile()) { $icon.addClass('icon-folder-close'); }
-            else { $icon.addClass('icon-truck'); }
+            $icon.addClass('icon-truck');
             break;
         default:
             $icon.addClass('icon-folder-close');
@@ -374,8 +373,8 @@ Control.Icons.createToolbarButton = function Control$Icons$createToolbarButton($
 Control.Icons.completeBtn = function Control$Icons$completeBtn(item, handler) {
     var $icon = $('<i class="icon-check icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Complete');
-    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    $icon.attr('title', 'Done');
+    if (!Browser.IsMobile()) { $icon.attr('title', 'Complete').tooltip(Control.ttDelay); }
     $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');

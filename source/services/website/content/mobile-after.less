@@ -3,7 +3,6 @@
 */
 
 @import "bootstrap-after.less"; 
-
 /* remove padding at bottom, no footer in mobile pages */
 body { padding-bottom: 0; }
 
@@ -14,6 +13,9 @@ body { padding-bottom: 0; }
 .navbar-fixed-bottom .pull-right { margin: 12px 0px 0 0; }
 .navbar .nav li a#brand { padding-left: 0px; padding-right: 0px; }
 .navbar .nav li.divider-vertical { margin-left: 0px; margin-right: 0px; }
+.navbar ul.nav.pull-right { margin-left: 0; }
+.navbar .nav-pills li a { padding-left: 4px; padding-right: 4px; }
+.navbar .nav-pills li.dropdown a { padding-left: 4px; padding-right: 10px; }
 
 /* eliminate padding for containers */
 .container-fluid { padding-left: 0px; padding-right: 0px; }
@@ -43,20 +45,19 @@ body { padding-bottom: 0; }
     .row-fluid [class*="span"]:first-child{margin-left:0}
 }
 
-/* correct some styles for steplist buttons */
+// style toolbar for steps 
 .btn-toolbar .btn-group { vertical-align: top; }
-.btn-toolbar .btn.btn-step { padding: 0; margin: 0 2px 0 0; width: 48px; height: 40px; text-align: center; }
+.btn-toolbar .btn.btn-step { padding: 0; margin: 0 2px 0 0; width: 36px; height: 36px; text-align: center; }
 .btn-toolbar .btn.btn-step i { padding: 0; margin: 2px 0 0 0; }
-.btn-toolbar .btn.btn-step p { padding: 0; margin: -10px 0 0 0; font-size: 8pt; color: @linkColor; }
+.btn-toolbar .btn.btn-step p { padding: 0; margin: -5px 0 0 0; font-size: 7pt; color: @linkColor; }
 .btn-toolbar .btn.btn-step:hover p  { color: @textColor; }
 
-.dashboard-left .nav-stacked li .icon-large { height: 24px; }
+// style selector buttons in left pane 
+.dashboard-left .nav-stacked li { text-align: right; }
+.dashboard-left .nav-stacked li .icon-large { margin: -4px 0 -4px -8px; }
 .dashboard-left .nav-stacked li p { font-size: 8pt; color: @linkColor;  }
 .dashboard-left .nav-stacked li.active p { font-size: 8pt; color: @white;  }
 
-/* make the modal dialogs fit the viewport */
-/* NOTE: this isn't working yet. the modal dialog is now shrunk but is no longer centered in the viewport.  on a phone it's unusable. */
-.modal { 
-    width: 280px;
-    margin: -175px 0 0 -140px;
-}
+
+// make the modal dialogs fit the viewport for mobile
+.modal { width: 280px; margin: -175px 0 0 -140px; }

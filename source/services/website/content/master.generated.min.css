@@ -897,13 +897,12 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 }
 @media(max-width:400px){.navbar .container-fluid{width:400px;*zoom:1}
 }
-.dashboard-list{padding:6px;overflow-y:auto}
-.dashboard-list ul{margin:0}
+.dashboard-list{padding:6px;overflow-y:auto;over-flow-x:hidden}
+.dashboard-list ul{margin:0;over-flow-x:hidden}
 .dashboard-list li a{cursor:pointer}
 .dashboard-list li a.paused{color:#ccc}
 .dashboard-list .itemlist .dropdown-menu{top:0;right:20px}
-.dashboard-left .itemlist span,.dashboard-left .itemlist em{padding-left:21px}
-.dashboard-right .itemlist span,.dashboard-left .itemlist em{padding-left:21px}
+.dashboard-list .itemlist span,.dashboard-list .itemlist em{padding-left:21px}
 .dashboard-right .dropdown-menu.pull-right{left:auto;right:0}
 .dashboard-right .working{text-align:center;width:100%}
 .dashboard-right .working span{display:inline-block;width:16px;height:11px;background:transparent url(images/busy.gif) no-repeat;opacity:.6;filter:alpha(opacity=60)}

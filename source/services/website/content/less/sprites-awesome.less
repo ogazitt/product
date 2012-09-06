@@ -28,476 +28,492 @@
 [class^="icon-"],
 [class*=" icon-"] {
   display: inline-block;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   .ie7-restore-right-whitespace();
-  line-height: 16px;
+  line-height: 18px;
   vertical-align: text-top;
   background-image: url("@{iconAwesomeSpritePath}");
-  background-position:16px 16px;
+  background-position:18px 18px;
   background-repeat: no-repeat;
 }
 .icon-white { background-image: url("@{iconAwesomeSpritePathWhite}"); }
 .icon-blue { background-image: url("@{iconAwesomeSpritePathBlue}"); }
-.icon-large { width: 32px; height: 32px; line-height: 32px; background-image: url("@{iconAwesomeSpritePathLarge}"); }
+.icon-large { width: 26px; height: 24px; line-height: 24px; background-image: url("@{iconAwesomeSpritePathLarge}"); }
 .icon-large.icon-white { background-image: url("@{iconAwesomeSpritePathWhiteLarge}"); }
 .icon-large.icon-blue { background-image: url("@{iconAwesomeSpritePathBlueLarge}"); }
 
+// style elements using icon sprites
 .nav-pills li:hover .icon-blue, .btn:hover .icon-blue { background-image: url("@{iconAwesomeSpritePath}"); }
 .nav-pills li:hover .icon-large.icon-blue, .btn:hover .icon-large.icon-blue { background-image: url("@{iconAwesomeSpritePathLarge}"); }
 .nav-pills li.active [class^="icon-"], .nav-pills li.active [class*=" icon-"] { background-image: url("@{iconAwesomeSpritePathWhite}"); }
 .nav-pills li.active .icon-large, .nav-pills li.active:hover .icon-large { background-image: url("@{iconAwesomeSpritePathWhiteLarge}"); }
 
-.icon-glass              { background-position: -2px   -2px; }
-.icon-music              { background-position: -22px  -2px; }
-.icon-search             { background-position: -42px  -2px; }
-.icon-envelope           { background-position: -62px  -2px; }
-.icon-heart              { background-position: -82px  -2px; }
-.icon-star               { background-position: -100px -2px; }
-.icon-star-empty         { background-position: -122px -2px; }
-.icon-user               { background-position: -142px -2px; }
-.icon-film               { background-position: -162px -2px; }
-.icon-th-large           { background-position: -182px -2px; }
-.icon-th-list            { background-position: -202px -2px; }
-.icon-ok                 { background-position: -222px -2px; }
-.icon-remove             { background-position: -242px -2px; }
-.icon-zoom-in            { background-position: -262px -2px; }
-.icon-steps              { background-position: -282px -2px; }
+.nav-pills li.active .dropdown-menu li i { background-image: url("@{iconAwesomeSpritePath}"); }
+.nav-pills li.active .dropdown-menu li:hover i { background-image: url("@{iconAwesomeSpritePathWhite}"); }
+.dropdown-menu li .icon-large { background-image: url("@{iconAwesomeSpritePathLarge}"); }
+.dropdown-menu li:hover .icon-large { background-image: url("@{iconAwesomeSpritePathWhiteLarge}"); }
 
-.icon-zoom-out           { background-position: -2px   -22px; }
-.icon-off                { background-position: -22px   -22px; }
-.icon-signal             { background-position: -42px   -22px; }
-.icon-cog                { background-position: -62px   -22px; }
-.icon-trash              { background-position: -82px   -22px; }
-.icon-home               { background-position: -102px  -22px; }
-.icon-file               { background-position: -122px  -22px; }
-.icon-time               { background-position: -142px  -22px; }
-.icon-road               { background-position: -162px  -22px; }
-.icon-download-alt       { background-position: -182px  -22px; }
-.icon-download           { background-position: -202px  -22px; }
-.icon-upload             { background-position: -222px  -22px; }
-.icon-inbox              { background-position: -242px  -22px; }
-.icon-play-circle        { background-position: -262px  -22px; }
-.icon-repeat             { background-position: -282px  -22px; }
 
-.icon-refresh            { background-position: -2px    -42px; }
-.icon-list-alt           { background-position: -22px   -42px; }
-.icon-lock               { background-position: -42px   -42px; }
-.icon-flag               { background-position: -62px   -42px; }
-.icon-headphones         { background-position: -82px   -42px; }
-.icon-volume-off         { background-position: -102px  -42px; }
-.icon-volume-down        { background-position: -122px  -42px; }
-.icon-volume-up          { background-position: -142px  -42px; }
-.icon-qrcode             { background-position: -162px  -42px; }
-.icon-barcode            { background-position: -182px  -42px; }
-.icon-tag                { background-position: -202px  -42px; }
-.icon-tags               { background-position: -222px  -42px; }
-.icon-book               { background-position: -242px  -42px; }
-.icon-bookmark           { background-position: -262px  -42px; }
-.icon-print              { background-position: -282px  -42px; }
+@iconH: -24;
+@iconV: -23;
+@hOff: 0px;
+@vOff: 0px;
+.imagePos(@h, @v) { background-position: (@iconH * @h) - @hOff (@iconV * @v) - @vOff; }
 
-.icon-camera             { background-position: -2px    -62px; }
-.icon-font               { background-position: -22px   -62px; }
-.icon-bold               { background-position: -42px   -62px; }
-.icon-italic             { background-position: -62px   -62px; }
-.icon-text-height        { background-position: -82px   -62px; }
-.icon-text-width         { background-position: -102px  -62px; }
-.icon-align-left         { background-position: -122px  -62px; }
-.icon-align-center       { background-position: -142px  -62px; }
-.icon-align-right        { background-position: -162px  -62px; }
-.icon-align-justify      { background-position: -182px  -62px; }
-.icon-list               { background-position: -202px  -62px; }
-.icon-indent-left        { background-position: -222px  -62px; }
-.icon-indent-right       { background-position: -242px  -62px; }
-.icon-facetime-video     { background-position: -262px  -62px; }
-.icon-picture            { background-position: -282px  -62px; }
+.icon-glass              { .imagePos(0px,  0px); }
+.icon-music              { .imagePos(1px,  0px); }
+.icon-search             { .imagePos(2px,  0px); }
+.icon-envelope           { .imagePos(3px,  0px); }
+.icon-heart              { .imagePos(4px,  0px); }
+.icon-star               { .imagePos(5px,  0px); }
+.icon-star-empty         { .imagePos(6px,  0px); }
+.icon-user               { .imagePos(7px,  0px); }
+.icon-film               { .imagePos(8px,  0px); }
+.icon-th-large           { .imagePos(9px,  0px); }
+.icon-th-list            { .imagePos(10px, 0px); }
+.icon-ok                 { .imagePos(11px, 0px); }
+.icon-remove             { .imagePos(12px, 0px); }
+.icon-zoom-in            { .imagePos(13px, 0px); }
+.icon-steps              { .imagePos(14px, 0px); }
 
-.icon-pencil             { background-position: -2px    -82px; }
-.icon-map-marker         { background-position: -22px   -82px; }
-.icon-adjust             { background-position: -42px   -82px; }
-.icon-tint               { background-position: -62px   -82px; }
-.icon-edit               { background-position: -82px   -82px; }
-.icon-share              { background-position: -102px  -82px; }
-.icon-check              { background-position: -122px  -82px; }
-.icon-move               { background-position: -142px  -82px; }
-.icon-step-backward      { background-position: -162px  -82px; }
-.icon-fast-backward      { background-position: -182px  -82px; }
-.icon-backward           { background-position: -202px  -82px; }
-.icon-play               { background-position: -222px  -82px; }
-.icon-pause              { background-position: -242px  -82px; }
-.icon-stop               { background-position: -262px  -82px; }
-.icon-forward            { background-position: -282px  -82px; }
+.icon-zoom-out           { .imagePos(0px,  1px); }
+.icon-off                { .imagePos(1px,  1px); }
+.icon-signal             { .imagePos(2px,  1px); }
+.icon-cog                { .imagePos(3px,  1px); }
+.icon-trash              { .imagePos(4px,  1px); }
+.icon-home               { .imagePos(5px,  1px); }
+.icon-file               { .imagePos(6px,  1px); }
+.icon-time               { .imagePos(7px,  1px); }
+.icon-road               { .imagePos(8px,  1px); }
+.icon-download-alt       { .imagePos(9px,  1px); }
+.icon-download           { .imagePos(10px, 1px); }
+.icon-upload             { .imagePos(11px, 1px); }
+.icon-inbox              { .imagePos(12px, 1px); }
+.icon-play-circle        { .imagePos(13px, 1px); }
+.icon-repeat             { .imagePos(14px, 1px); }
 
-.icon-fast-forward       { background-position: -2px    -102px; }
-.icon-step-forward       { background-position: -22px   -102px; }
-.icon-eject              { background-position: -42px   -102px; }
-.icon-chevron-left       { background-position: -62px   -102px; }
-.icon-chevron-right      { background-position: -82px   -102px; }
-.icon-plus-sign          { background-position: -102px  -102px; }
-.icon-minus-sign         { background-position: -122px  -102px; }
-.icon-remove-sign        { background-position: -142px  -102px; }
-.icon-ok-sign            { background-position: -162px  -102px; }
-.icon-question-sign      { background-position: -182px  -102px; }
-.icon-info-sign          { background-position: -202px  -102px; }
-.icon-screenshot         { background-position: -222px  -102px; }
-.icon-remove-circle      { background-position: -242px  -102px; }
-.icon-ok-circle          { background-position: -262px  -102px; }
-.icon-ban-circle         { background-position: -282px  -102px; }
+.icon-refresh            { .imagePos(0px,  2px); }
+.icon-list-alt           { .imagePos(1px,  2px); }
+.icon-lock               { .imagePos(2px,  2px); }
+.icon-flag               { .imagePos(3px,  2px); }
+.icon-headphones         { .imagePos(4px,  2px); }
+.icon-volume-off         { .imagePos(5px,  2px); }
+.icon-volume-down        { .imagePos(6px,  2px); }
+.icon-volume-up          { .imagePos(7px,  2px); }
+.icon-qrcode             { .imagePos(8px,  2px); }
+.icon-barcode            { .imagePos(9px,  2px); }
+.icon-tag                { .imagePos(10px, 2px); }
+.icon-tags               { .imagePos(11px, 2px); }
+.icon-book               { .imagePos(12px, 2px); }
+.icon-bookmark           { .imagePos(13px, 2px); }
+.icon-print              { .imagePos(14px, 2px); }
 
-.icon-arrow-left         { background-position: -2px    -122px; }
-.icon-arrow-right        { background-position: -22px   -122px; }
-.icon-arrow-up           { background-position: -42px   -122px; }
-.icon-arrow-down         { background-position: -62px   -122px; }
-.icon-share-alt          { background-position: -82px   -122px; }
-.icon-resize-full        { background-position: -102px  -122px; }
-.icon-resize-small       { background-position: -122px  -122px; }
-.icon-plus               { background-position: -142px  -122px; }
-.icon-minus              { background-position: -162px  -122px; }
-.icon-asterisk           { background-position: -182px  -122px; }
-.icon-exclamation-sign   { background-position: -202px  -122px; }
-.icon-gift               { background-position: -222px  -122px; }
-.icon-leaf               { background-position: -242px  -122px; }
-.icon-fire               { background-position: -262px  -122px; }
-.icon-eye-open           { background-position: -282px  -122px; }
+.icon-camera             { .imagePos(0px,  3px); }
+.icon-font               { .imagePos(1px,  3px); }
+.icon-bold               { .imagePos(2px,  3px); }
+.icon-italic             { .imagePos(3px,  3px); }
+.icon-text-height        { .imagePos(4px,  3px); }
+.icon-text-width         { .imagePos(5px,  3px); }
+.icon-align-left         { .imagePos(6px,  3px); }
+.icon-align-center       { .imagePos(7px,  3px); }
+.icon-align-right        { .imagePos(8px,  3px); }
+.icon-align-justify      { .imagePos(9px,  3px); }
+.icon-list               { .imagePos(10px, 3px); }
+.icon-indent-left        { .imagePos(11px, 3px); }
+.icon-indent-right       { .imagePos(12px, 3px); }
+.icon-facetime-video     { .imagePos(13px, 3px); }
+.icon-picture            { .imagePos(14px, 3px); }
 
-.icon-eye-close          { background-position: -2px    -142px; }
-.icon-warning-sign       { background-position: -22px   -142px; }
-.icon-plane              { background-position: -42px   -142px; }
-.icon-calendar           { background-position: -62px   -142px; }
-.icon-random             { background-position: -82px   -142px; }
-.icon-comment            { background-position: -102px  -142px; }
-.icon-magnet             { background-position: -122px  -142px; }
-.icon-chevron-up         { background-position: -142px  -142px; }
-.icon-chevron-down       { background-position: -162px  -142px; }
-.icon-retweet            { background-position: -182px  -142px; }
-.icon-shopping-cart      { background-position: -202px  -142px; }
-.icon-folder-close       { background-position: -222px  -142px; }
-.icon-folder-open        { background-position: -242px  -142px; }
-.icon-resize-vertical    { background-position: -262px  -142px; }
-.icon-resize-horizontal  { background-position: -282px  -142px; }
+.icon-pencil             { .imagePos(0px,  4px); }
+.icon-map-marker         { .imagePos(1px,  4px); }
+.icon-adjust             { .imagePos(2px,  4px); }
+.icon-tint               { .imagePos(3px,  4px); }
+.icon-edit               { .imagePos(4px,  4px); }
+.icon-share              { .imagePos(5px,  4px); }
+.icon-check              { .imagePos(6px,  4px); }
+.icon-move               { .imagePos(7px,  4px); }
+.icon-step-backward      { .imagePos(8px,  4px); }
+.icon-fast-backward      { .imagePos(9px,  4px); }
+.icon-backward           { .imagePos(10px, 4px); }  
+.icon-play               { .imagePos(11px, 4px); }  
+.icon-pause              { .imagePos(12px, 4px); }
+.icon-stop               { .imagePos(13px, 4px); }
+.icon-forward            { .imagePos(14px, 4px); }
 
-.icon-bar-chart          { background-position: -2px    -162px; }
-.icon-twitter-sign       { background-position: -22px   -162px; }
-.icon-facebook-sign      { background-position: -42px   -162px; }
-.icon-camera-retro       { background-position: -62px   -162px; }
-.icon-key                { background-position: -82px   -162px; }
-.icon-cogs               { background-position: -102px  -162px; }
-.icon-comments           { background-position: -122px  -162px; }
-.icon-thumbs-up          { background-position: -142px  -162px; }
-.icon-thumbs-down        { background-position: -162px  -162px; }
-.icon-star-half          { background-position: -182px  -162px; }
-.icon-heart-empty        { background-position: -202px  -162px; }
-.icon-signout            { background-position: -222px  -162px; }
-.icon-linkedin-sign      { background-position: -242px  -162px; }
-.icon-pushpin            { background-position: -262px  -162px; }
-.icon-external-link      { background-position: -282px  -162px; }
+.icon-fast-forward       { .imagePos(0px,  5px); }
+.icon-step-forward       { .imagePos(1px,  5px); }
+.icon-eject              { .imagePos(2px,  5px); }
+.icon-chevron-left       { .imagePos(3px,  5px); }
+.icon-chevron-right      { .imagePos(4px,  5px); }
+.icon-plus-sign          { .imagePos(5px,  5px); }
+.icon-minus-sign         { .imagePos(6px,  5px); }
+.icon-remove-sign        { .imagePos(7px,  5px); }
+.icon-ok-sign            { .imagePos(8px,  5px); }
+.icon-question-sign      { .imagePos(9px,  5px); }
+.icon-info-sign          { .imagePos(10px, 5px); }
+.icon-screenshot         { .imagePos(11px, 5px); }
+.icon-remove-circle      { .imagePos(12px, 5px); }
+.icon-ok-circle          { .imagePos(13px, 5px); }
+.icon-ban-circle         { .imagePos(14px, 5px); }
 
-.icon-signin             { background-position: -2px    -182px; }
-.icon-trophy             { background-position: -22px   -182px; }
-.icon-github-sign        { background-position: -42px   -182px; }
-.icon-upload-alt         { background-position: -62px   -182px; }
-.icon-lemon              { background-position: -82px   -182px; }
-.icon-phone              { background-position: -102px  -182px; }
-.icon-check-empty        { background-position: -122px  -182px; }
-.icon-bookmark-empty     { background-position: -142px  -182px; }
-.icon-phone-sign         { background-position: -162px  -182px; }
-.icon-twitter            { background-position: -182px  -182px; }
-.icon-facebook           { background-position: -202px  -182px; }
-.icon-github             { background-position: -222px  -182px; }
-.icon-unlock             { background-position: -242px  -182px; }
-.icon-credit-card        { background-position: -262px  -182px; }
-.icon-rss                { background-position: -282px  -182px; }
+.icon-arrow-left         { .imagePos(0px,  6px); }
+.icon-arrow-right        { .imagePos(1px,  6px); }
+.icon-arrow-up           { .imagePos(2px,  6px); }
+.icon-arrow-down         { .imagePos(3px,  6px); }
+.icon-share-alt          { .imagePos(4px,  6px); }
+.icon-resize-full        { .imagePos(5px,  6px); }
+.icon-resize-small       { .imagePos(6px,  6px); }
+.icon-plus               { .imagePos(7px,  6px); }
+.icon-minus              { .imagePos(8px,  6px); }
+.icon-asterisk           { .imagePos(9px,  6px); }
+.icon-exclamation-sign   { .imagePos(10px, 6px); }
+.icon-gift               { .imagePos(11px, 6px); }
+.icon-leaf               { .imagePos(12px, 6px); }
+.icon-fire               { .imagePos(13px, 6px); }
+.icon-eye-open           { .imagePos(14px, 6px); }
 
-.icon-hdd                { background-position: -2px    -202px; }
-.icon-bullhorn           { background-position: -22px   -202px; }
-.icon-bell               { background-position: -42px   -202px; }
-.icon-certificate        { background-position: -62px   -202px; }
-.icon-hand-right         { background-position: -82px   -202px; }
-.icon-hand-left          { background-position: -102px  -202px; }
-.icon-hand-up            { background-position: -122px  -202px; }
-.icon-hand-down          { background-position: -142px  -202px; }
-.icon-circle-arrow-left  { background-position: -162px  -202px; }
-.icon-circle-arrow-right { background-position: -182px  -202px; }
-.icon-circle-arrow-up    { background-position: -202px  -202px; }
-.icon-circle-arrow-down  { background-position: -222px  -202px; }
-.icon-globe              { background-position: -242px  -202px; }
-.icon-wrench             { background-position: -262px  -202px; }
-.icon-tasks              { background-position: -282px  -202px; }
+.icon-eye-close          { .imagePos(0px,  7px); }
+.icon-warning-sign       { .imagePos(1px,  7px); }
+.icon-plane              { .imagePos(2px,  7px); }
+.icon-calendar           { .imagePos(3px,  7px); }
+.icon-random             { .imagePos(4px,  7px); }
+.icon-comment            { .imagePos(5px,  7px); }
+.icon-magnet             { .imagePos(6px,  7px); }
+.icon-chevron-up         { .imagePos(7px,  7px); }
+.icon-chevron-down       { .imagePos(8px,  7px); }
+.icon-retweet            { .imagePos(9px,  7px); }
+.icon-shopping-cart      { .imagePos(10px, 7px); }
+.icon-folder-close       { .imagePos(11px, 7px); }
+.icon-folder-open        { .imagePos(12px, 7px); }
+.icon-resize-vertical    { .imagePos(13px, 7px); }
+.icon-resize-horizontal  { .imagePos(14px, 7px); }
 
-.icon-group              { background-position: -2px    -222px; }
-.icon-link               { background-position: -22px   -222px; }
-.icon-cloud              { background-position: -42px   -222px; }
-.icon-beaker             { background-position: -62px   -222px; }
-.icon-cut                { background-position: -82px   -222px; }
-.icon-copy               { background-position: -102px  -222px; }
-.icon-paper-clip         { background-position: -122px  -222px; }
-.icon-save               { background-position: -142px  -222px; }
-.icon-sign-blank         { background-position: -162px  -222px; }
-.icon-reorder            { background-position: -182px  -222px; }
-.icon-list-ul            { background-position: -202px  -222px; }
-.icon-list-ol            { background-position: -222px  -222px; }
-.icon-strikethrough      { background-position: -242px  -222px; }
-.icon-underline          { background-position: -262px  -222px; }
-.icon-table              { background-position: -282px  -222px; }
+.icon-bar-chart          { .imagePos(0px,  8px); }
+.icon-twitter-sign       { .imagePos(1px,  8px); }
+.icon-facebook-sign      { .imagePos(2px,  8px); }
+.icon-camera-retro       { .imagePos(3px,  8px); }
+.icon-key                { .imagePos(4px,  8px); }
+.icon-cogs               { .imagePos(5px,  8px); }
+.icon-comments           { .imagePos(6px,  8px); }
+.icon-thumbs-up          { .imagePos(7px,  8px); }
+.icon-thumbs-down        { .imagePos(8px,  8px); }
+.icon-star-half          { .imagePos(9px,  8px);}
+.icon-heart-empty        { .imagePos(10px, 8px); }
+.icon-signout            { .imagePos(11px, 8px); }
+.icon-linkedin-sign      { .imagePos(12px, 8px); }
+.icon-pushpin            { .imagePos(13px, 8px); }
+.icon-external-link      { .imagePos(14px, 8px); }
 
-.icon-magic              { background-position: -2px    -242px; }
-.icon-truck              { background-position: -22px   -242px; }
-.icon-pinterest          { background-position: -42px   -242px; }
-.icon-pinterest-sign     { background-position: -62px   -242px; }
-.icon-google-plus-sign   { background-position: -82px   -242px; }
-.icon-google-plus        { background-position: -102px  -242px; }
-.icon-money              { background-position: -122px  -242px; }
-.icon-caret-down         { background-position: -142px  -242px; }
-.icon-caret-up           { background-position: -162px  -242px; }
-.icon-caret-left         { background-position: -182px  -242px; }
-.icon-caret-right        { background-position: -202px  -242px; }
-.icon-columns            { background-position: -222px  -242px; }
-.icon-sort               { background-position: -242px  -242px; }
-.icon-sort-down          { background-position: -262px  -242px; }
-.icon-sort-up            { background-position: -282px  -242px; }
+.icon-signin             { .imagePos(0px,  9px); }
+.icon-trophy             { .imagePos(1px,  9px); }
+.icon-github-sign        { .imagePos(2px,  9px); }
+.icon-upload-alt         { .imagePos(3px,  9px); }
+.icon-lemon              { .imagePos(4px,  9px); }
+.icon-phone              { .imagePos(5px,  9px); }
+.icon-check-empty        { .imagePos(6px,  9px); }
+.icon-bookmark-empty     { .imagePos(7px,  9px); }
+.icon-phone-sign         { .imagePos(8px,  9px); }
+.icon-twitter            { .imagePos(9px,  9px); }   @hOff: -3px;
+.icon-facebook           { .imagePos(10px, 9px); }   @hOff: 0px;
+.icon-github             { .imagePos(11px, 9px); }
+.icon-unlock             { .imagePos(12px, 9px); }
+.icon-credit-card        { .imagePos(13px, 9px); }
+.icon-rss                { .imagePos(14px, 9px); }
 
-.icon-filter             { background-position: -2px    -262px; }
-.icon-briefcase          { background-position: -22px   -262px; }
-.icon-fullscreen         { background-position: -42px   -262px; }
-.icon-envelope-alt       { background-position: -62px   -262px; }
-.icon-linkedin           { background-position: -82px   -262px; }
-.icon-undo               { background-position: -102px  -262px; }
-.icon-legal              { background-position: -122px  -262px; }
-.icon-dashboard          { background-position: -142px  -262px; }
-.icon-comment-alt        { background-position: -162px  -262px; }
-.icon-comments-alt       { background-position: -182px  -262px; }
-.icon-bolt               { background-position: -202px  -262px; }
-.icon-sitemap            { background-position: -222px  -262px; }
-.icon-umbrella           { background-position: -242px  -262px; }
-.icon-paste              { background-position: -262px  -262px; }
-.icon-user-md            { background-position: -282px  -262px; }
+.icon-hdd                { .imagePos(0px,  10px); }
+.icon-bullhorn           { .imagePos(1px,  10px); }
+.icon-bell               { .imagePos(2px,  10px); }
+.icon-certificate        { .imagePos(3px,  10px); }
+.icon-hand-right         { .imagePos(4px,  10px); }
+.icon-hand-left          { .imagePos(5px,  10px); }
+.icon-hand-up            { .imagePos(6px,  10px); }
+.icon-hand-down          { .imagePos(7px,  10px); }
+.icon-circle-arrow-left  { .imagePos(8px,  10px); }
+.icon-circle-arrow-right { .imagePos(9px,  10px); }
+.icon-circle-arrow-up    { .imagePos(10px, 10px); }
+.icon-circle-arrow-down  { .imagePos(11px, 10px); }
+.icon-globe              { .imagePos(12px, 10px); }
+.icon-wrench             { .imagePos(13px, 10px); }
+.icon-tasks              { .imagePos(14px, 10px); }
+
+.icon-group              { .imagePos(0px,  11px); }
+.icon-link               { .imagePos(1px,  11px); }
+.icon-cloud              { .imagePos(2px,  11px); }
+.icon-beaker             { .imagePos(3px,  11px); }
+.icon-cut                { .imagePos(4px,  11px); }
+.icon-copy               { .imagePos(5px,  11px); }
+.icon-paper-clip         { .imagePos(6px,  11px); }
+.icon-save               { .imagePos(7px,  11px); }
+.icon-sign-blank         { .imagePos(8px,  11px); }
+.icon-reorder            { .imagePos(9px,  11px); }
+.icon-list-ul            { .imagePos(10px, 11px); }
+.icon-list-ol            { .imagePos(11px, 11px); }
+.icon-strikethrough      { .imagePos(12px, 11px); }
+.icon-underline          { .imagePos(13px, 11px); }
+.icon-table              { .imagePos(14px, 11px); }
+
+.icon-magic              { .imagePos(0px,  12px); }
+.icon-truck              { .imagePos(1px,  12px); }
+.icon-pinterest          { .imagePos(2px,  12px); }
+.icon-pinterest-sign     { .imagePos(3px,  12px); }
+.icon-google-plus-sign   { .imagePos(4px,  12px); }
+.icon-google-plus        { .imagePos(5px,  12px); }
+.icon-money              { .imagePos(6px,  12px); }
+.icon-caret-down         { .imagePos(7px,  12px); }
+.icon-caret-up           { .imagePos(8px,  12px); }
+.icon-caret-left         { .imagePos(9px,  12px); }
+.icon-caret-right        { .imagePos(10px, 12px); }
+.icon-columns            { .imagePos(11px, 12px); }
+.icon-sort               { .imagePos(12px, 12px); }
+.icon-sort-down          { .imagePos(13px, 12px); }
+.icon-sort-up            { .imagePos(14px, 12px); }
+
+.icon-filter             { .imagePos(0px,  13px); }
+.icon-briefcase          { .imagePos(1px,  13px); }
+.icon-fullscreen         { .imagePos(2px,  13px); }
+.icon-envelope-alt       { .imagePos(3px,  13px); }
+.icon-linkedin           { .imagePos(4px,  13px); }
+.icon-undo               { .imagePos(5px,  13px); }
+.icon-legal              { .imagePos(6px,  13px); }
+.icon-dashboard          { .imagePos(7px,  13px); }
+.icon-comment-alt        { .imagePos(8px,  13px); }
+.icon-comments-alt       { .imagePos(9px,  13px); }
+.icon-bolt               { .imagePos(10px, 13px); }
+.icon-sitemap            { .imagePos(11px, 13px); }
+.icon-umbrella           { .imagePos(12px, 13px); }
+.icon-paste              { .imagePos(13px, 13px); }
+.icon-user-md            { .imagePos(14px, 13px); }
 
 
 // Large Icons
+@iconH: -36;
+@iconV: -35;
 
-.icon-large.icon-glass              { background-position: -4px   -4px; }
-.icon-large.icon-music              { background-position: -44px  -4px; }
-.icon-large.icon-search             { background-position: -84px  -4px; }
-.icon-large.icon-envelope           { background-position: -124px -4px; }
-.icon-large.icon-heart              { background-position: -164px -4px; }
-.icon-large.icon-star               { background-position: -204px -4px; }
-.icon-large.icon-star-empty         { background-position: -244px -4px; }
-.icon-large.icon-user               { background-position: -284px -4px; }
-.icon-large.icon-film               { background-position: -324px -4px; }
-.icon-large.icon-th-large           { background-position: -364px -4px; }
-.icon-large.icon-th-list            { background-position: -404px -4px; }
-.icon-large.icon-ok                 { background-position: -444px -4px; }
-.icon-large.icon-remove             { background-position: -484px -4px; }
-.icon-large.icon-zoom-in            { background-position: -524px -4px; }
-.icon-large.icon-steps              { background-position: -564px -4px; }
+@vOff: 2px;
+.icon-large.icon-glass              { .imagePos(0px,  0px); }
+.icon-large.icon-music              { .imagePos(1px,  0px); }
+.icon-large.icon-search             { .imagePos(2px,  0px); }
+.icon-large.icon-envelope           { .imagePos(3px,  0px); }
+.icon-large.icon-heart              { .imagePos(4px,  0px); }
+.icon-large.icon-star               { .imagePos(5px,  0px); }
+.icon-large.icon-star-empty         { .imagePos(6px,  0px); }
+.icon-large.icon-user               { .imagePos(7px,  0px); }
+.icon-large.icon-film               { .imagePos(8px,  0px); }
+.icon-large.icon-th-large           { .imagePos(9px,  0px); }
+.icon-large.icon-th-list            { .imagePos(10px, 0px); }
+.icon-large.icon-ok                 { .imagePos(11px, 0px); }
+.icon-large.icon-remove             { .imagePos(12px, 0px); }
+.icon-large.icon-zoom-in            { .imagePos(13px, 0px); }
+.icon-large.icon-steps              { .imagePos(14px, 0px); }
+@vOff: 1px;
+.icon-large.icon-zoom-out           { .imagePos(0px,  1px); }
+.icon-large.icon-off                { .imagePos(1px,  1px); }
+.icon-large.icon-signal             { .imagePos(2px,  1px); }
+.icon-large.icon-cog                { .imagePos(3px,  1px); }
+.icon-large.icon-trash              { .imagePos(4px,  1px); }
+.icon-large.icon-home               { .imagePos(5px,  1px); }
+.icon-large.icon-file               { .imagePos(6px,  1px); }
+.icon-large.icon-time               { .imagePos(7px,  1px); }
+.icon-large.icon-road               { .imagePos(8px,  1px); }
+.icon-large.icon-download-alt       { .imagePos(9px,  1px); }
+.icon-large.icon-download           { .imagePos(10px, 1px); }
+.icon-large.icon-upload             { .imagePos(11px, 1px); }
+.icon-large.icon-inbox              { .imagePos(12px, 1px); }
+.icon-large.icon-play-circle        { .imagePos(13px, 1px); }
+.icon-large.icon-repeat             { .imagePos(14px, 1px); }
 
-.icon-large.icon-zoom-out           { background-position: -4px    -44px; }
-.icon-large.icon-off                { background-position: -44px   -44px; }
-.icon-large.icon-signal             { background-position: -84px   -44px; }
-.icon-large.icon-cog                { background-position: -124px  -44px; }
-.icon-large.icon-trash              { background-position: -164px  -44px; }
-.icon-large.icon-home               { background-position: -204px  -44px; }
-.icon-large.icon-file               { background-position: -244px  -44px; }
-.icon-large.icon-time               { background-position: -284px  -44px; }
-.icon-large.icon-road               { background-position: -324px  -44px; }
-.icon-large.icon-download-alt       { background-position: -364px  -44px; }
-.icon-large.icon-download           { background-position: -404px  -44px; }
-.icon-large.icon-upload             { background-position: -444px  -44px; }
-.icon-large.icon-inbox              { background-position: -484px  -44px; }
-.icon-large.icon-play-circle        { background-position: -524px  -44px; }
-.icon-large.icon-repeat             { background-position: -564px  -44px; }
+.icon-large.icon-refresh            { .imagePos(0px,  2px); }
+.icon-large.icon-list-alt           { .imagePos(1px,  2px); }
+.icon-large.icon-lock               { .imagePos(2px,  2px); }
+.icon-large.icon-flag               { .imagePos(3px,  2px); }
+.icon-large.icon-headphones         { .imagePos(4px,  2px); }
+.icon-large.icon-volume-off         { .imagePos(5px,  2px); }
+.icon-large.icon-volume-down        { .imagePos(6px,  2px); }
+.icon-large.icon-volume-up          { .imagePos(7px,  2px); }
+.icon-large.icon-qrcode             { .imagePos(8px,  2px); }
+.icon-large.icon-barcode            { .imagePos(9px,  2px); }
+.icon-large.icon-tag                { .imagePos(10px, 2px); }
+.icon-large.icon-tags               { .imagePos(11px, 2px); }
+.icon-large.icon-book               { .imagePos(12px, 2px); }
+.icon-large.icon-bookmark           { .imagePos(13px, 2px); }
+.icon-large.icon-print              { .imagePos(14px, 2px); }
 
-.icon-large.icon-refresh            { background-position: -4px    -84px; }
-.icon-large.icon-list-alt           { background-position: -44px   -84px; }
-.icon-large.icon-lock               { background-position: -84px   -84px; }
-.icon-large.icon-flag               { background-position: -124px  -84px; }
-.icon-large.icon-headphones         { background-position: -164px  -84px; }
-.icon-large.icon-volume-off         { background-position: -204px  -84px; }
-.icon-large.icon-volume-down        { background-position: -244px  -84px; }
-.icon-large.icon-volume-up          { background-position: -284px  -84px; }
-.icon-large.icon-qrcode             { background-position: -324px  -84px; }
-.icon-large.icon-barcode            { background-position: -364px  -84px; }
-.icon-large.icon-tag                { background-position: -404px  -84px; }
-.icon-large.icon-tags               { background-position: -444px  -84px; }
-.icon-large.icon-book               { background-position: -484px  -84px; }
-.icon-large.icon-bookmark           { background-position: -524px  -84px; }
-.icon-large.icon-print              { background-position: -564px  -84px; }
+.icon-large.icon-camera             { .imagePos(0px,  3px); }
+.icon-large.icon-font               { .imagePos(1px,  3px); }
+.icon-large.icon-bold               { .imagePos(2px,  3px); }
+.icon-large.icon-italic             { .imagePos(3px,  3px); }
+.icon-large.icon-text-height        { .imagePos(4px,  3px); }
+.icon-large.icon-text-width         { .imagePos(5px,  3px); }
+.icon-large.icon-align-left         { .imagePos(6px,  3px); }
+.icon-large.icon-align-center       { .imagePos(7px,  3px); }
+.icon-large.icon-align-right        { .imagePos(8px,  3px); }
+.icon-large.icon-align-justify      { .imagePos(9px,  3px); }
+.icon-large.icon-list               { .imagePos(10px, 3px); }
+.icon-large.icon-indent-left        { .imagePos(11px, 3px); }
+.icon-large.icon-indent-right       { .imagePos(12px, 3px); }
+.icon-large.icon-facetime-video     { .imagePos(13px, 3px); }
+.icon-large.icon-picture            { .imagePos(14px, 3px); }
+@vOff: 0px;
+.icon-large.icon-pencil             { .imagePos(0px,  4px); }   @hOff: -4px;
+.icon-large.icon-map-marker         { .imagePos(1px,  4px); }   @hOff: 0px;
+.icon-large.icon-adjust             { .imagePos(2px,  4px); }
+.icon-large.icon-tint               { .imagePos(3px,  4px); }
+.icon-large.icon-edit               { .imagePos(4px,  4px); }
+.icon-large.icon-share              { .imagePos(5px,  4px); }
+.icon-large.icon-check              { .imagePos(6px,  4px); }
+.icon-large.icon-move               { .imagePos(7px,  4px); }   @hOff: -4px;
+.icon-large.icon-step-backward      { .imagePos(8px,  4px); }   @hOff: 0px;
+.icon-large.icon-fast-backward      { .imagePos(9px,  4px); }
+.icon-large.icon-backward           { .imagePos(10px, 4px); }   @hOff: -3px;
+.icon-large.icon-play               { .imagePos(11px, 4px); }   @hOff: 0px;
+.icon-large.icon-pause              { .imagePos(12px, 4px); }   
+.icon-large.icon-stop               { .imagePos(13px, 4px); }
+.icon-large.icon-forward            { .imagePos(14px, 4px); }
 
-.icon-large.icon-camera             { background-position: -4px    -124px; }
-.icon-large.icon-font               { background-position: -44px   -124px; }
-.icon-large.icon-bold               { background-position: -84px   -124px; }
-.icon-large.icon-italic             { background-position: -124px  -124px; }
-.icon-large.icon-text-height        { background-position: -164px  -124px; }
-.icon-large.icon-text-width         { background-position: -204px  -124px; }
-.icon-large.icon-align-left         { background-position: -244px  -124px; }
-.icon-large.icon-align-center       { background-position: -284px  -124px; }
-.icon-large.icon-align-right        { background-position: -324px  -124px; }
-.icon-large.icon-align-justify      { background-position: -364px  -124px; }
-.icon-large.icon-list               { background-position: -404px  -124px; }
-.icon-large.icon-indent-left        { background-position: -444px  -124px; }
-.icon-large.icon-indent-right       { background-position: -484px  -124px; }
-.icon-large.icon-facetime-video     { background-position: -524px  -124px; }
-.icon-large.icon-picture            { background-position: -564px  -124px; }
+.icon-large.icon-fast-forward       { .imagePos(0px,  5px); }   @hOff: -4px;
+.icon-large.icon-step-forward       { .imagePos(1px,  5px); }   @hOff: 0px;
+.icon-large.icon-eject              { .imagePos(2px,  5px); }
+.icon-large.icon-chevron-left       { .imagePos(3px,  5px); }
+.icon-large.icon-chevron-right      { .imagePos(4px,  5px); }
+.icon-large.icon-plus-sign          { .imagePos(5px,  5px); }
+.icon-large.icon-minus-sign         { .imagePos(6px,  5px); }
+.icon-large.icon-remove-sign        { .imagePos(7px,  5px); }
+.icon-large.icon-ok-sign            { .imagePos(8px,  5px); }
+.icon-large.icon-question-sign      { .imagePos(9px,  5px); }
+.icon-large.icon-info-sign          { .imagePos(10px, 5px); }
+.icon-large.icon-screenshot         { .imagePos(11px, 5px); }
+.icon-large.icon-remove-circle      { .imagePos(12px, 5px); }
+.icon-large.icon-ok-circle          { .imagePos(13px, 5px); }
+.icon-large.icon-ban-circle         { .imagePos(14px, 5px); }
+@vOff: -1px;
+.icon-large.icon-arrow-left         { .imagePos(0px,  6px); }
+.icon-large.icon-arrow-right        { .imagePos(1px,  6px); }
+.icon-large.icon-arrow-up           { .imagePos(2px,  6px); }
+.icon-large.icon-arrow-down         { .imagePos(3px,  6px); }
+.icon-large.icon-share-alt          { .imagePos(4px,  6px); }
+.icon-large.icon-resize-full        { .imagePos(5px,  6px); }
+.icon-large.icon-resize-small       { .imagePos(6px,  6px); }
+.icon-large.icon-plus               { .imagePos(7px,  6px); }
+.icon-large.icon-minus              { .imagePos(8px,  6px); }
+.icon-large.icon-asterisk           { .imagePos(9px,  6px); }
+.icon-large.icon-exclamation-sign   { .imagePos(10px, 6px); }
+.icon-large.icon-gift               { .imagePos(11px, 6px); }
+.icon-large.icon-leaf               { .imagePos(12px, 6px); }
+.icon-large.icon-fire               { .imagePos(13px, 6px); }
+.icon-large.icon-eye-open           { .imagePos(14px, 6px); }
 
-.icon-large.icon-pencil             { background-position: -4px    -164px; }
-.icon-large.icon-map-marker         { background-position: -44px   -164px; }
-.icon-large.icon-adjust             { background-position: -84px   -164px; }
-.icon-large.icon-tint               { background-position: -124px  -164px; }
-.icon-large.icon-edit               { background-position: -164px  -164px; }
-.icon-large.icon-share              { background-position: -204px  -164px; }
-.icon-large.icon-check              { background-position: -244px  -164px; }
-.icon-large.icon-move               { background-position: -284px  -164px; }
-.icon-large.icon-step-backward      { background-position: -324px  -164px; }
-.icon-large.icon-fast-backward      { background-position: -364px  -164px; }
-.icon-large.icon-backward           { background-position: -404px  -164px; }
-.icon-large.icon-play               { background-position: -444px  -164px; }
-.icon-large.icon-pause              { background-position: -484px  -164px; }
-.icon-large.icon-stop               { background-position: -524px  -164px; }
-.icon-large.icon-forward            { background-position: -564px  -164px; }
+.icon-large.icon-eye-close          { .imagePos(0px,  7px); }
+.icon-large.icon-warning-sign       { .imagePos(1px,  7px); }
+.icon-large.icon-plane              { .imagePos(2px,  7px); }
+.icon-large.icon-calendar           { .imagePos(3px,  7px); }
+.icon-large.icon-random             { .imagePos(4px,  7px); }
+.icon-large.icon-comment            { .imagePos(5px,  7px); }
+.icon-large.icon-magnet             { .imagePos(6px,  7px); }
+.icon-large.icon-chevron-up         { .imagePos(7px,  7px); }
+.icon-large.icon-chevron-down       { .imagePos(8px,  7px); }
+.icon-large.icon-retweet            { .imagePos(9px,  7px); }
+.icon-large.icon-shopping-cart      { .imagePos(10px, 7px); }
+.icon-large.icon-folder-close       { .imagePos(11px, 7px); }
+.icon-large.icon-folder-open        { .imagePos(12px, 7px); }
+.icon-large.icon-resize-vertical    { .imagePos(13px, 7px); }
+.icon-large.icon-resize-horizontal  { .imagePos(14px, 7px); }
+@vOff: -2px;
+.icon-large.icon-bar-chart          { .imagePos(0px,  8px); }
+.icon-large.icon-twitter-sign       { .imagePos(1px,  8px); }
+.icon-large.icon-facebook-sign      { .imagePos(2px,  8px); }
+.icon-large.icon-camera-retro       { .imagePos(3px,  8px); }
+.icon-large.icon-key                { .imagePos(4px,  8px); }
+.icon-large.icon-cogs               { .imagePos(5px,  8px); }
+.icon-large.icon-comments           { .imagePos(6px,  8px); }
+.icon-large.icon-thumbs-up          { .imagePos(7px,  8px); }
+.icon-large.icon-thumbs-down        { .imagePos(8px,  8px); }
+.icon-large.icon-star-half          { .imagePos(9px,  8px);}
+.icon-large.icon-heart-empty        { .imagePos(10px, 8px); }
+.icon-large.icon-signout            { .imagePos(11px, 8px); }
+.icon-large.icon-linkedin-sign      { .imagePos(12px, 8px); }
+.icon-large.icon-pushpin            { .imagePos(13px, 8px); }
+.icon-large.icon-external-link      { .imagePos(14px, 8px); }
+@vOff: -3px;
+.icon-large.icon-signin             { .imagePos(0px,  9px); }
+.icon-large.icon-trophy             { .imagePos(1px,  9px); }
+.icon-large.icon-github-sign        { .imagePos(2px,  9px); }
+.icon-large.icon-upload-alt         { .imagePos(3px,  9px); }
+.icon-large.icon-lemon              { .imagePos(4px,  9px); }
+.icon-large.icon-phone              { .imagePos(5px,  9px); }
+.icon-large.icon-check-empty        { .imagePos(6px,  9px); }
+.icon-large.icon-bookmark-empty     { .imagePos(7px,  9px); }
+.icon-large.icon-phone-sign         { .imagePos(8px,  9px); }
+.icon-large.icon-twitter            { .imagePos(9px,  9px); }   @hOff: -6px;
+.icon-large.icon-facebook           { .imagePos(10px, 9px); }   @hOff: 0px; 
+.icon-large.icon-github             { .imagePos(11px, 9px); }
+.icon-large.icon-unlock             { .imagePos(12px, 9px); }
+.icon-large.icon-credit-card        { .imagePos(13px, 9px); }
+.icon-large.icon-rss                { .imagePos(14px, 9px); }
 
-.icon-large.icon-fast-forward       { background-position: -4px    -204px; }
-.icon-large.icon-step-forward       { background-position: -44px   -204px; }
-.icon-large.icon-eject              { background-position: -84px   -204px; }
-.icon-large.icon-chevron-left       { background-position: -124px  -204px; }
-.icon-large.icon-chevron-right      { background-position: -164px  -204px; }
-.icon-large.icon-plus-sign          { background-position: -204px  -204px; }
-.icon-large.icon-minus-sign         { background-position: -244px  -204px; }
-.icon-large.icon-remove-sign        { background-position: -284px  -204px; }
-.icon-large.icon-ok-sign            { background-position: -324px  -204px; }
-.icon-large.icon-question-sign      { background-position: -364px  -204px; }
-.icon-large.icon-info-sign          { background-position: -404px  -204px; }
-.icon-large.icon-screenshot         { background-position: -444px  -204px; }
-.icon-large.icon-remove-circle      { background-position: -484px  -204px; }
-.icon-large.icon-ok-circle          { background-position: -524px  -204px; }
-.icon-large.icon-ban-circle         { background-position: -564px  -204px; }
+.icon-large.icon-hdd                { .imagePos(0px,  10px); }
+.icon-large.icon-bullhorn           { .imagePos(1px,  10px); }
+.icon-large.icon-bell               { .imagePos(2px,  10px); }
+.icon-large.icon-certificate        { .imagePos(3px,  10px); }
+.icon-large.icon-hand-right         { .imagePos(4px,  10px); }
+.icon-large.icon-hand-left          { .imagePos(5px,  10px); }
+.icon-large.icon-hand-up            { .imagePos(6px,  10px); }
+.icon-large.icon-hand-down          { .imagePos(7px,  10px); }
+.icon-large.icon-circle-arrow-left  { .imagePos(8px,  10px); }
+.icon-large.icon-circle-arrow-right { .imagePos(9px,  10px); }
+.icon-large.icon-circle-arrow-up    { .imagePos(10px, 10px); }
+.icon-large.icon-circle-arrow-down  { .imagePos(11px, 10px); }
+.icon-large.icon-globe              { .imagePos(12px, 10px); }
+.icon-large.icon-wrench             { .imagePos(13px, 10px); }
+.icon-large.icon-tasks              { .imagePos(14px, 10px); }
 
-.icon-large.icon-arrow-left         { background-position: -4px    -244px; }
-.icon-large.icon-arrow-right        { background-position: -44px   -244px; }
-.icon-large.icon-arrow-up           { background-position: -84px   -244px; }
-.icon-large.icon-arrow-down         { background-position: -124px  -244px; }
-.icon-large.icon-share-alt          { background-position: -164px  -244px; }
-.icon-large.icon-resize-full        { background-position: -204px  -244px; }
-.icon-large.icon-resize-small       { background-position: -244px  -244px; }
-.icon-large.icon-plus               { background-position: -284px  -244px; }
-.icon-large.icon-minus              { background-position: -324px  -244px; }
-.icon-large.icon-asterisk           { background-position: -364px  -244px; }
-.icon-large.icon-exclamation-sign   { background-position: -404px  -244px; }
-.icon-large.icon-gift               { background-position: -444px  -244px; }
-.icon-large.icon-leaf               { background-position: -484px  -244px; }
-.icon-large.icon-fire               { background-position: -524px  -244px; }
-.icon-large.icon-eye-open           { background-position: -564px  -244px; }
-
-.icon-large.icon-eye-close          { background-position: -4px    -284px; }
-.icon-large.icon-warning-sign       { background-position: -44px   -284px; }
-.icon-large.icon-plane              { background-position: -84px   -284px; }
-.icon-large.icon-calendar           { background-position: -124px  -284px; }
-.icon-large.icon-random             { background-position: -164px  -284px; }
-.icon-large.icon-comment            { background-position: -204px  -284px; }
-.icon-large.icon-magnet             { background-position: -244px  -284px; }
-.icon-large.icon-chevron-up         { background-position: -284px  -284px; }
-.icon-large.icon-chevron-down       { background-position: -324px  -284px; }
-.icon-large.icon-retweet            { background-position: -364px  -284px; }
-.icon-large.icon-shopping-cart      { background-position: -404px  -284px; }
-.icon-large.icon-folder-close       { background-position: -444px  -284px; }
-.icon-large.icon-folder-open        { background-position: -484px  -284px; }
-.icon-large.icon-resize-vertical    { background-position: -524px  -284px; }
-.icon-large.icon-resize-horizontal  { background-position: -564px  -284px; }
-
-.icon-large.icon-bar-chart          { background-position: -4px    -324px; }
-.icon-large.icon-twitter-sign       { background-position: -44px   -324px; }
-.icon-large.icon-facebook-sign      { background-position: -84px   -324px; }
-.icon-large.icon-camera-retro       { background-position: -124px  -324px; }
-.icon-large.icon-key                { background-position: -164px  -324px; }
-.icon-large.icon-cogs               { background-position: -204px  -324px; }
-.icon-large.icon-comments           { background-position: -244px  -324px; }
-.icon-large.icon-thumbs-up          { background-position: -284px  -324px; }
-.icon-large.icon-thumbs-down        { background-position: -324px  -324px; }
-.icon-large.icon-star-half          { background-position: -364px  -324px; }
-.icon-large.icon-heart-empty        { background-position: -404px  -324px; }
-.icon-large.icon-signout            { background-position: -444px  -324px; }
-.icon-large.icon-linkedin-sign      { background-position: -484px  -324px; }
-.icon-large.icon-pushpin            { background-position: -524px  -324px; }
-.icon-large.icon-external-link      { background-position: -564px  -324px; }
-
-.icon-large.icon-signin             { background-position: -4px    -364px; }
-.icon-large.icon-trophy             { background-position: -44px   -364px; }
-.icon-large.icon-github-sign        { background-position: -84px   -364px; }
-.icon-large.icon-upload-alt         { background-position: -124px  -364px; }
-.icon-large.icon-lemon              { background-position: -164px  -364px; }
-.icon-large.icon-phone              { background-position: -204px  -364px; }
-.icon-large.icon-check-empty        { background-position: -244px  -364px; }
-.icon-large.icon-bookmark-empty     { background-position: -284px  -364px; }
-.icon-large.icon-phone-sign         { background-position: -324px  -364px; }
-.icon-large.icon-twitter            { background-position: -364px  -364px; }
-.icon-large.icon-facebook           { background-position: -404px  -364px; }
-.icon-large.icon-github             { background-position: -444px  -364px; }
-.icon-large.icon-unlock             { background-position: -484px  -364px; }
-.icon-large.icon-credit-card        { background-position: -524px  -364px; }
-.icon-large.icon-rss                { background-position: -564px  -364px; }
-
-.icon-large.icon-hdd                { background-position: -4px    -404px; }
-.icon-large.icon-bullhorn           { background-position: -44px   -404px; }
-.icon-large.icon-bell               { background-position: -84px   -404px; }
-.icon-large.icon-certificate        { background-position: -124px  -404px; }
-.icon-large.icon-hand-right         { background-position: -164px  -404px; }
-.icon-large.icon-hand-left          { background-position: -204px  -404px; }
-.icon-large.icon-hand-up            { background-position: -244px  -404px; }
-.icon-large.icon-hand-down          { background-position: -284px  -404px; }
-.icon-large.icon-circle-arrow-left  { background-position: -324px  -404px; }
-.icon-large.icon-circle-arrow-right { background-position: -364px  -404px; }
-.icon-large.icon-circle-arrow-up    { background-position: -404px  -404px; }
-.icon-large.icon-circle-arrow-down  { background-position: -444px  -404px; }
-.icon-large.icon-globe              { background-position: -484px  -404px; }
-.icon-large.icon-wrench             { background-position: -524px  -404px; }
-.icon-large.icon-tasks              { background-position: -564px  -404px; }
-
-.icon-large.icon-group              { background-position: -4px    -444px; }
-.icon-large.icon-link               { background-position: -44px   -444px; }
-.icon-large.icon-cloud              { background-position: -84px   -444px; }
-.icon-large.icon-beaker             { background-position: -124px  -444px; }
-.icon-large.icon-cut                { background-position: -164px  -444px; }
-.icon-large.icon-copy               { background-position: -204px  -444px; }
-.icon-large.icon-paper-clip         { background-position: -244px  -444px; }
-.icon-large.icon-save               { background-position: -284px  -444px; }
-.icon-large.icon-sign-blank         { background-position: -324px  -444px; }
-.icon-large.icon-reorder            { background-position: -364px  -444px; }
-.icon-large.icon-list-ul            { background-position: -404px  -444px; }
-.icon-large.icon-list-ol            { background-position: -444px  -444px; }
-.icon-large.icon-strikethrough      { background-position: -484px  -444px; }
-.icon-large.icon-underline          { background-position: -524px  -444px; }
-.icon-large.icon-table              { background-position: -564px  -444px; }
-
-.icon-large.icon-magic              { background-position: -4px    -484px; }
-.icon-large.icon-truck              { background-position: -44px   -484px; }
-.icon-large.icon-pinterest          { background-position: -84px   -484px; }
-.icon-large.icon-pinterest-sign     { background-position: -124px  -484px; }
-.icon-large.icon-google-plus-sign   { background-position: -164px  -484px; }
-.icon-large.icon-google-plus        { background-position: -204px  -484px; }
-.icon-large.icon-money              { background-position: -244px  -484px; }
-.icon-large.icon-caret-down         { background-position: -284px  -484px; }
-.icon-large.icon-caret-up           { background-position: -324px  -484px; }
-.icon-large.icon-caret-left         { background-position: -364px  -484px; }
-.icon-large.icon-caret-right        { background-position: -404px  -484px; }
-.icon-large.icon-columns            { background-position: -444px  -484px; }
-.icon-large.icon-sort               { background-position: -484px  -484px; }
-.icon-large.icon-sort-down          { background-position: -524px  -484px; }
-.icon-large.icon-sort-up            { background-position: -564px  -484px; }
-
-.icon-large.icon-filter             { background-position: -4px    -524px; }
-.icon-large.icon-briefcase          { background-position: -44px   -524px; }
-.icon-large.icon-fullscreen         { background-position: -84px   -524px; }
-.icon-large.icon-envelope-alt       { background-position: -124px  -524px; }
-.icon-large.icon-linkedin           { background-position: -164px  -524px; }
-.icon-large.icon-undo               { background-position: -204px  -524px; }
-.icon-large.icon-legal              { background-position: -244px  -524px; }
-.icon-large.icon-dashboard          { background-position: -284px  -524px; }
-.icon-large.icon-comment-alt        { background-position: -324px  -524px; }
-.icon-large.icon-comments-alt       { background-position: -364px  -524px; }
-.icon-large.icon-bolt               { background-position: -404px  -524px; }
-.icon-large.icon-sitemap            { background-position: -444px  -524px; }
-.icon-large.icon-umbrella           { background-position: -484px  -524px; }
-.icon-large.icon-paste              { background-position: -524px  -524px; }
-.icon-large.icon-user-md            { background-position: -564px  -524px; }
+.icon-large.icon-group              { .imagePos(0px,  11px); }
+.icon-large.icon-link               { .imagePos(1px,  11px); }
+.icon-large.icon-cloud              { .imagePos(2px,  11px); }
+.icon-large.icon-beaker             { .imagePos(3px,  11px); }
+.icon-large.icon-cut                { .imagePos(4px,  11px); }
+.icon-large.icon-copy               { .imagePos(5px,  11px); }
+.icon-large.icon-paper-clip         { .imagePos(6px,  11px); }
+.icon-large.icon-save               { .imagePos(7px,  11px); }
+.icon-large.icon-sign-blank         { .imagePos(8px,  11px); }
+.icon-large.icon-reorder            { .imagePos(9px,  11px); }
+.icon-large.icon-list-ul            { .imagePos(10px, 11px); }
+.icon-large.icon-list-ol            { .imagePos(11px, 11px); }
+.icon-large.icon-strikethrough      { .imagePos(12px, 11px); }
+.icon-large.icon-underline          { .imagePos(13px, 11px); }
+.icon-large.icon-table              { .imagePos(14px, 11px); }
+@vOff: -4px;
+.icon-large.icon-magic              { .imagePos(0px,  12px); }
+.icon-large.icon-truck              { .imagePos(1px,  12px); }
+.icon-large.icon-pinterest          { .imagePos(2px,  12px); }
+.icon-large.icon-pinterest-sign     { .imagePos(3px,  12px); }
+.icon-large.icon-google-plus-sign   { .imagePos(4px,  12px); }
+.icon-large.icon-google-plus        { .imagePos(5px,  12px); }
+.icon-large.icon-money              { .imagePos(6px,  12px); }
+.icon-large.icon-caret-down         { .imagePos(7px,  12px); }
+.icon-large.icon-caret-up           { .imagePos(8px,  12px); }
+.icon-large.icon-caret-left         { .imagePos(9px,  12px); }
+.icon-large.icon-caret-right        { .imagePos(10px, 12px); }
+.icon-large.icon-columns            { .imagePos(11px, 12px); }
+.icon-large.icon-sort               { .imagePos(12px, 12px); }
+.icon-large.icon-sort-down          { .imagePos(13px, 12px); }
+.icon-large.icon-sort-up            { .imagePos(14px, 12px); }
+@vOff: -5px;
+.icon-large.icon-filter             { .imagePos(0px,  13px); }
+.icon-large.icon-briefcase          { .imagePos(1px,  13px); }
+.icon-large.icon-fullscreen         { .imagePos(2px,  13px); }
+.icon-large.icon-envelope-alt       { .imagePos(3px,  13px); }
+.icon-large.icon-linkedin           { .imagePos(4px,  13px); }
+.icon-large.icon-undo               { .imagePos(5px,  13px); }
+.icon-large.icon-legal              { .imagePos(6px,  13px); }
+.icon-large.icon-dashboard          { .imagePos(7px,  13px); }
+.icon-large.icon-comment-alt        { .imagePos(8px,  13px); }
+.icon-large.icon-comments-alt       { .imagePos(9px,  13px); }
+.icon-large.icon-bolt               { .imagePos(10px, 13px); }
+.icon-large.icon-sitemap            { .imagePos(11px, 13px); }
+.icon-large.icon-umbrella           { .imagePos(12px, 13px); }
+.icon-large.icon-paste              { .imagePos(13px, 13px); }
+.icon-large.icon-user-md            { .imagePos(14px, 13px); }
 
 
 

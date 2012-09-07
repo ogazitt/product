@@ -186,6 +186,7 @@ FolderList.prototype.renderAddBtn = function ($element) {
     $addBtn.find('em').prepend('<i class="icon-plus-sign"></i>');
     $addBtn.find('em').append(label);
     $addBtn.click(function () {
+        var thisControl = Control.get(this);
         var $item = $(this);
         var item = (category != null) ?
             Item.Extend({ Name: 'New Activity', ItemTypeID: ItemTypes.Activity, IsList: true, Status: StatusTypes.Paused }) :
@@ -201,16 +202,19 @@ FolderList.prototype.renderAddBtn = function ($element) {
             if (e.which == 13) {
                 add($(this).val(), item);
                 $item.find('input').remove();
+                return false;
             }
         });
         var add = function (name, item) {
-            if (name != null && name.length > 0) {
+            if (name != null && name.length > 0 && item.ID === undefined) {
                 item.Name = name;
                 if (category != null) {
                     category.Expand(true);
                     category.InsertItem(item);
                 } else {
                     DataModel.InsertFolder(item);
+                    var $folder = thisControl.$element.find('li.active');
+                    thisControl.expand($folder);
                 }
             }
         }

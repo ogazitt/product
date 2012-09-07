@@ -66,6 +66,7 @@ Dashboard.Init = function Dashboard$Init(dataModel, renewFBToken, consentStatus)
         Dashboard.dataModel.restoreSelection();
     } else {
         Dashboard.showManager(Dashboard.helpManager);
+        Dashboard.folderList.render(Dashboard.$left, Dashboard.dataModel.Folders);
     }
 
     // bind events

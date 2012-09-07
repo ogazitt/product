@@ -302,31 +302,36 @@ HelpManager.prototype.render = function () {
     $help.append(HelpManager.tagline);
     $connect = $('<p style="margin: 64px 0 -32px 0"></p>').appendTo($help);
 
-    var $this = this;
-    var dashboard = this.parentControl;
-    dashboard.dataModel.GetSuggestions(function (suggestions) {
-        $this.renderConnect($connect, suggestions);
-    });
+    if (this.connectSuggestions == null) {
+        var thisControl = this;
+        var dashboard = this.parentControl;
+        dashboard.dataModel.GetSuggestions(function (suggestions) {
+            thisControl.renderConnect($connect, suggestions);
+        });
+    } else {
+        this.renderConnect($connect, this.connectSuggestions);
+    }
 }
 
 HelpManager.prototype.renderConnect = function ($element, suggestions) {
     $element.empty();
-    var dashboard = this.parentControl;
-    var suggestionManager = dashboard.suggestionManager;
+    this.connectSuggestions = suggestions;
+    var thisControl = this;
+    var suggestionManager = this.parentControl.suggestionManager;
 
     // connect to facebook
     var fbConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetFBConsent);
     if (fbConsent != null) {
         var $btn = $('<a><img src="/content/images/connect-to-facebook.png" alt="Facebook" /></a>').appendTo($element);
         $btn.css('margin-right', '32px');
-        $btn.click(function () { suggestionManager.select(fbConsent); });
+        $btn.click(function () { suggestionManager.select(fbConsent); thisControl.connectSuggestions = null; });
     }
     // connect to google calendar
     var gcConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetGoogleConsent);
     if (gcConsent != null) {
         $btn = $('<a class="btn"><img src="/content/images/google-calendar.png" alt="Google" /></a>').appendTo($element);
         $btn.css('margin-right', '32px');
-        $btn.click(function () { suggestionManager.select(gcConsent); });
+        $btn.click(function () { suggestionManager.select(gcConsent); thisControl.connectSuggestions = null; });
     }
 }
 

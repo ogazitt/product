@@ -164,15 +164,12 @@ ListView.prototype.actionButton = function (item) {
 ListView.prototype.renderNameField = function ($item, item) {
     var fields = item.GetFields();
     field = fields[FieldNames.Name];
-    // workaround for IE9 bug - where the name field for list items past the first one is indented. 
-    // adding a zero-height <p> fixes this.
-    //$('<p style="height: 0px;" />').appendTo($item);
-    Control.Text.renderActivityLink($item, item, function (activity) {
+    var $strong = $('<strong />').appendTo($item);
+    Control.Text.renderActivityLink($strong, item, function (activity) {
         NextStepsPage.showManager(NextStepsPage.infoManager);
         NextStepsPage.infoManager.selectItem(activity);
     });
-    var $label = Control.Text.renderLabel($item, item, field).appendTo($item);
-    $label.css('display', 'inline-block');
+    Control.Text.render($strong, item, field, 'span', ' : ').appendTo($item);
 }
 
 ListView.prototype.renderFields = function ($element, item) {

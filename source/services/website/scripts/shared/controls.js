@@ -362,7 +362,8 @@ Control.Icons.createToolbarButton = function Control$Icons$createToolbarButton($
     $icon.attr('title', null);
     var $title = $('<p />').appendTo($btn);
     $title.html(title);
-    $btn.one('click', function (e) {
+    //$btn.one('click', function (e) {
+    $btn.click(function (e) {
         $icon.click();
         return (propagate == true) ? true : false;
     });
@@ -766,7 +767,8 @@ Control.Text.renderActivityLink = function Control$Text$renderActivityLink($elem
     var parent = item.GetParent();
     var value = parent.Name;
     if (value != null) {
-        $link = $('<a><strong>' + value + '</strong></a><strong>&nbsp;:&nbsp;</strong>').appendTo($element);
+        $link = $('<a>' + value + '</a>').appendTo($element);
+        $link.css('whitespace', 'nowrap');
         $link.click(function (e) { handler(parent); });
     }
     return $link;

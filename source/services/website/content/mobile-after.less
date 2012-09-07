@@ -18,29 +18,29 @@ body { padding-bottom: 0; }
 .navbar .nav-pills li.dropdown a { padding-left: 4px; padding-right: 10px; }
 
 /* eliminate padding for containers */
-.container-fluid { padding-left: 0px; padding-right: 0px; }
+.container-fluid { padding-left: 0; padding-right: 0; }
 
 /* customize mobile viewports */
 
 @media(max-width:768px) {
-    body{padding-left:0; padding-right:0;}
+    body{padding-left:4; padding-right:4;}
     .navbar .container-fluid{width:100%;*zoom:1}
-    .container, .container-fluid{width:768px;*zoom:1}
+    .container, .container-fluid{width:100%; Xwidth:768px; *zoom:1}
     .row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:2px;*margin-left:2px}
     .row-fluid [class*="span"]:first-child{margin-left:0}
 }
 
 @media(max-width:480px) {
-    body{padding-left:0; padding-right:0;}
-    .navbar .container-fluid{width:480px;*zoom:1}
-    .container, .container-fluid{width:480px;*zoom:1}
+    body{padding-left:2; padding-right:2;}
+    .navbar .container-fluid{width:100%; Xwidth:480px; *zoom:1}
+    .container, .container-fluid{width:100%; Xwidth:480px; *zoom:1}
     .row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:2px;*margin-left:2px}
     .row-fluid [class*="span"]:first-child{margin-left:0}
 }
 @media(max-width:320px) {
-    body{padding-left:0; padding-right:0; }
-    .navbar .container-fluid{width:320px;*zoom:1 }
-    .container, .container-fluid{width:320px;*zoom:1}
+    body{padding-left:2; padding-right:2; }
+    .navbar .container-fluid{width:100%; Xwidth:320px;*zoom:1 }
+    .container, .container-fluid{width:100%;min-width:300px; Xwidth:320px; *zoom:1}
     .row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:2px;*margin-left:2px}
     .row-fluid [class*="span"]:first-child{margin-left:0}
 }

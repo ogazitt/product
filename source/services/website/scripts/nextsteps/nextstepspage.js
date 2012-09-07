@@ -186,7 +186,8 @@ NextStepsPage.resize = function NextStepsPage$resize() {
     var headerHeight = $('.navbar-fixed-top').height();
     var footerHeight = $('.navbar-fixed-bottom').height();
     var dbHeight = winHeight - (headerHeight + footerHeight + 30);
-
+    // set min height for phone in landscape mode
+    dbHeight = (dbHeight < 280) ? 280 : dbHeight;
     NextStepsPage.$left.height(dbHeight);
     NextStepsPage.$center.height(dbHeight);
 

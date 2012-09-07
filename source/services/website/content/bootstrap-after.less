@@ -42,16 +42,12 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 
 /* dashboard styles */
 /* TODO: move into dashboard.less file */
-.dashboard-list { padding: 6px; overflow-y: auto; }
-.dashboard-list ul { margin: 0; }
+.dashboard-list { padding: 6px; overflow-y: auto; over-flow-x: hidden; }
+.dashboard-list ul { margin: 0; over-flow-x: hidden; }
 .dashboard-list li a {  cursor: pointer; } 
 .dashboard-list li a.paused { color: @navbarSearchPlaceholderColor; }
 .dashboard-list .itemlist .dropdown-menu { top: 0; right: 20px; }
-.dashboard-left .itemlist span,  .dashboard-left .itemlist em { padding-left: 21px; } 
-// 2012-09-04 OG: add the same rule for indenting Activities in dashboard-right (gallery should behave like folderlist)
-.dashboard-right .itemlist span,  .dashboard-left .itemlist em { padding-left: 21px; } 
-// 2012-09-04 OG: remove the CSS rule for li.active for dashboard-right (gallery should behave like folderlist)
-//.dashboard-right li.active { text-transform: uppercase; text-align: center; }
+.dashboard-list .itemlist span,  .dashboard-list .itemlist em { padding-left: 21px; } 
 .dashboard-right .dropdown-menu.pull-right { left: auto; right: 0; }
 
 /* busy animation for suggestions pane */
@@ -78,6 +74,7 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
     -moz-border-radius: 0 4px 4px 4px;
     border-radius: 0 4px 4px 4px;
 }
+
 .dashboard-center .tab-content { min-height: 200px; }
 .dashboard-center .tab-content .form-vertical .control-group { margin: 0 10px 0 0; padding: 0; }
 .dashboard-center .tab-content .form-vertical .control-label, .modal-body .control-label { font-size: 8pt; margin: 0 0 -4px 8px; }

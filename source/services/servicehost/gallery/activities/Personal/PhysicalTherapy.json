@@ -1,10 +1,10 @@
 ﻿{
-	"Name": "Haircut",
+	"Name": "Physical therapy",
 	"Recurrence": null,
 	"Steps": 
 	[ 
 		{ 
-			"Name": "Find a hair salon",
+			"Name": "Find a physical therapist",
 			"Action": "Find local business"
 		},
 		{ 

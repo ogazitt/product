@@ -1,10 +1,10 @@
 ﻿{
-	"Name": "Haircut",
+	"Name": "Emission testing",
 	"Recurrence": null,
 	"Steps": 
 	[ 
 		{ 
-			"Name": "Find a hair salon",
+			"Name": "Find emission testing center",
 			"Action": "Find local business"
 		},
 		{ 

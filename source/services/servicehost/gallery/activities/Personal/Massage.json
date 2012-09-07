@@ -1,10 +1,10 @@
 ﻿{
-	"Name": "Haircut",
+	"Name": "Massage",
 	"Recurrence": null,
 	"Steps": 
 	[ 
 		{ 
-			"Name": "Find a hair salon",
+			"Name": "Find a spa",
 			"Action": "Find local business"
 		},
 		{ 

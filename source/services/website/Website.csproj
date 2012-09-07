@@ -165,6 +165,7 @@
     <Compile Include="controllers\AccountController.cs" />
     <Compile Include="controllers\BaseController.cs" />
     <Compile Include="controllers\ActionsController.cs" />
+    <Compile Include="controllers\NextStepsController.cs" />
     <Compile Include="controllers\MobileController.cs" />
     <Compile Include="controllers\OAuthConsentController.cs" />
     <Compile Include="controllers\UserInfoController.cs" />

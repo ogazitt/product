@@ -1,10 +1,10 @@
 ﻿{
-	"Name": "Haircut",
+	"Name": "Schedule a handyman",
 	"Recurrence": null,
 	"Steps": 
 	[ 
 		{ 
-			"Name": "Find a hair salon",
+			"Name": "Find a handyman",
 			"Action": "Find local business"
 		},
 		{ 
@@ -15,5 +15,5 @@
 			"Name": "Add appointment to calendar",
 			"Action": "Add to calendar"
 		},
-	] 
+	]
 }

@@ -1,10 +1,10 @@
 ﻿{
-	"Name": "Haircut",
+	"Name": "Wash the windows",
 	"Recurrence": null,
 	"Steps": 
 	[ 
 		{ 
-			"Name": "Find a hair salon",
+			"Name": "Find a window washer",
 			"Action": "Find local business"
 		},
 		{ 
@@ -15,5 +15,5 @@
 			"Name": "Add appointment to calendar",
 			"Action": "Add to calendar"
 		},
-	] 
+	]
 }

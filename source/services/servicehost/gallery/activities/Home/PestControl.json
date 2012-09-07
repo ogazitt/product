@@ -1,10 +1,10 @@
 ﻿{
-	"Name": "Haircut",
+	"Name": "Pest control",
 	"Recurrence": null,
 	"Steps": 
 	[ 
 		{ 
-			"Name": "Find a hair salon",
+			"Name": "Find a pest control service",
 			"Action": "Find local business"
 		},
 		{ 
@@ -15,5 +15,5 @@
 			"Name": "Add appointment to calendar",
 			"Action": "Add to calendar"
 		},
-	] 
+	]
 }

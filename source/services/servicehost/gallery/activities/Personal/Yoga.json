@@ -1,15 +1,11 @@
 ﻿{
-	"Name": "Haircut",
+	"Name": "Yoga",
 	"Recurrence": null,
 	"Steps": 
 	[ 
 		{ 
-			"Name": "Find a hair salon",
+			"Name": "Find an yoga studio",
 			"Action": "Find local business"
-		},
-		{ 
-			"Name": "Call for appointment",
-			"Action": "Call"
 		},
 		{ 
 			"Name": "Add appointment to calendar",

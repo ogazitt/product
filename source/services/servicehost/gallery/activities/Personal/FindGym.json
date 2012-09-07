@@ -1,0 +1,11 @@
+﻿{
+	"Name": "Find a gym",
+	"Recurrence": null,
+	"Steps": 
+	[ 
+		{ 
+			"Name": "Find a gym",
+			"Action": "Find local business"
+		},
+	] 
+}

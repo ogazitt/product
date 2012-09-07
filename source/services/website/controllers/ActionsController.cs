@@ -25,6 +25,17 @@
             public HttpStatusCode StatusCode = HttpStatusCode.OK;
         }
 
+        public ActionResult CreateNextSteps()
+        {
+            var jsResult = new JsResult();
+            GoogleClient client = new GoogleClient(CurrentUser, StorageContext);
+            if (!client.AddNextStepsEvent(null))
+                jsResult.StatusCode = HttpStatusCode.NotFound;
+            JsonResult result = new JsonResult();
+            result.Data = jsResult;
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public ActionResult CreateAppointment(Appointment appointment)
         {

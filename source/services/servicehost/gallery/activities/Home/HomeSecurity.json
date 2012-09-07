@@ -1,10 +1,10 @@
 ﻿{
-	"Name": "Haircut",
+	"Name": "Order home security service",
 	"Recurrence": null,
 	"Steps": 
 	[ 
 		{ 
-			"Name": "Find a hair salon",
+			"Name": "Find a home security service",
 			"Action": "Find local business"
 		},
 		{ 
@@ -15,5 +15,5 @@
 			"Name": "Add appointment to calendar",
 			"Action": "Add to calendar"
 		},
-	] 
+	]
 }

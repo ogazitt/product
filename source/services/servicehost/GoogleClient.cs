@@ -336,7 +336,7 @@ namespace BuiltSteady.Product.ServiceHost
 
                     if (result.HtmlLink != null && item != null)
                     {   // add event HtmlLink as a WebLink in item
-                        
+
                         FieldValue fvWebLinks = item.GetFieldValue(FieldNames.WebLinks, true);
                         JsonWebLink webLink = new JsonWebLink() { Name = "Calendar Event", Url = result.HtmlLink };
                         List<JsonWebLink> webLinks = (string.IsNullOrEmpty(fvWebLinks.Value)) ?
@@ -361,6 +361,36 @@ namespace BuiltSteady.Product.ServiceHost
                 }
             }
             return null;
+        }
+
+        public bool AddNextStepsEvent(DateTime? utcStartTime)
+        {
+            utcStartTime = utcStartTime.HasValue ? utcStartTime.Value.Date : DateTime.UtcNow.Date;
+            DateTime utcEndTime = utcStartTime.Value + TimeSpan.FromDays(1d);
+            const string nextStepsAppointmentName = @"Next Steps";
+            const string nextStepsLinkText = @"View Next Steps: ";
+            string url = "http://twostepdev1.cloudapp.net/nextsteps";
+
+            Event calEvent = new Event()
+            {
+                Summary = nextStepsAppointmentName,
+                Start = new EventDateTime() { Date = utcStartTime.Value.ToString("yyyy-MM-dd") },
+                End = new EventDateTime() { Date = utcEndTime.ToString("yyyy-MM-dd") },
+                Recurrence = new List<string>() { "RRULE:FREQ=DAILY" }
+            };
+            calEvent.Description = nextStepsLinkText + url;
+
+            try
+            {
+                EventsResource.InsertRequest eventInsertReq = this.CalendarService.Events.Insert(calEvent, UserCalendar);
+                Event result = eventInsertReq.Fetch();
+            }
+            catch (Exception ex)
+            {
+                TraceLog.TraceException("Could not add Next Steps appointment to Calendar", ex);
+                return false;
+            }
+            return true;
         }
 
         public bool UpdateCalendarEvent(Item item)

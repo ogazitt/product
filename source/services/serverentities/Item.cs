@@ -18,6 +18,7 @@ namespace BuiltSteady.Product.ServerEntities
         public Guid ItemTypeID { get; set; }
         public float SortOrder { get; set; }
         public string Status { get; set; }
+        public string Group { get; set; }
 
         public List<ItemTag> ItemTags { get; set; }
         public List<FieldValue> FieldValues { get; set; }

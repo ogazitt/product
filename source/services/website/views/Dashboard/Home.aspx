@@ -28,10 +28,13 @@
     <!-- use merged and minified scripts when deployed to Azure -->
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/dashboard.generated.min.js") %>"></script>
 <%  } else { %>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/controls.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/control-core.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/control-display.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/control-icons.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/datamodel.js") %>"></script>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entities.js") %>"></script>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entityconstants.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entity-core.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entity-constants.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entity-objects.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/activitygallery.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/dashboard.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/folderlist.js") %>"></script>

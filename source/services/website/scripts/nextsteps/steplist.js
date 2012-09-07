@@ -45,15 +45,10 @@ ListView.prototype.render = function ($element, list, height) {
     if (list == null) { return; }
     if (this.$element == null) {
         this.$element = $('<ul class="nav nav-list" />').appendTo($element);
-        //Control.List.sortable(this.$element);
     }
 
     this.hide();
     this.$element.empty();
-    // temporary workaround (smillet 8/30/12)
-    // Omri changes have caused tab-content to overflow dashboard-center height 
-    // force max-height of tab-content in StepManager
-    //if (height != null) { this.$element.css('max-height', height); }
 
     if (this.renderListItems(list.GetSteps()) > 0) {
         this.show();
@@ -75,14 +70,27 @@ ListView.prototype.renderListItems = function (listItems) {
         var $li = $('<li />').appendTo(this.$element);
         $li.data('control', this);
         $li.data('item', item);
-        var $wrapper = $('<div class="inline" />').appendTo($li);
 
         if (Browser.IsMobile()) {
+            var $wrapper = $('<a class="inline" />').appendTo($li);
             this.renderNameField($wrapper, item);
             this.renderFields($wrapper, item);
             this.renderToolbar($wrapper, item);
+
+            // select
+            $li.click(function (e) {
+                if ($(e.target).hasClass('btn-step') || $(e.target.parentElement).hasClass('btn-step'))
+                { return true; }
+
+                $(this).siblings('li').removeClass('selected');
+                $(this).siblings('li').find('.btn-toolbar').hide();
+                $(this).addClass('selected');
+                $(this).find('.btn-toolbar').toggle();
+            });
+
         }
         else {
+            var $wrapper = $('<dive class="inline" />').appendTo($li);
             $wrapper.css('width', '100%');
             var $item = $('<div class="pull-left" />').appendTo($wrapper);
             this.renderNameField($item, item);
@@ -111,19 +119,19 @@ ListView.prototype.renderListItems = function (listItems) {
 }
 
 ListView.prototype.renderToolbar = function ($item, item) {
-    var $toolbar = $('<div class="btn-toolbar" />').appendTo($item);
+    var $toolbar = $('<div class="btn-toolbar hide" />').appendTo($item);
 
     // render defer dropdown button
     var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
     // render skip, complete, info buttons
-    Control.Icons.createToolbarButton(Control.Icons.skipBtn(item), true).appendTo($toolbar);
-    Control.Icons.createToolbarButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }), true).appendTo($toolbar);
-    Control.Icons.createToolbarButton(Control.Icons.infoBtn(item), false).appendTo($toolbar);
+    this.mobileButton(Control.Icons.skipBtn(item), true).appendTo($toolbar);
+    this.mobileButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }), true).appendTo($toolbar);
+    this.mobileButton(Control.Icons.infoBtn(item), false).appendTo($toolbar);
 
     // render action buttons
     var $actionButton = this.actionButton(item);
     if ($actionButton != null) {
-        Control.Icons.createToolbarButton($actionButton).prependTo($toolbar);
+        this.mobileButton($actionButton).prependTo($toolbar);
     }
 }
 
@@ -159,6 +167,22 @@ ListView.prototype.actionButton = function (item) {
         case ActionTypes.AskFriends:
             return Control.Icons.askFriendsBtn(item);
     }
+}
+
+// wrap an icon with a btn style appropriate for rendering on mobile devices
+ListView.prototype.mobileButton = function Control$Icons$mobileButton($iconButton, propagate) {
+    var $btn = $('<a class="btn btn-step" />').append($iconButton);
+    var $icon = $iconButton.find('i');
+    $icon.addClass('icon-blue');
+    var title = $icon.attr('title');
+    $icon.attr('title', null);
+    var $title = $('<p />').appendTo($btn);
+    $title.html(title);
+    $btn.click(function (e) { 
+        $icon.click();
+        return (propagate == true) ? true : false;
+    });
+    return $btn;
 }
 
 ListView.prototype.renderNameField = function ($item, item) {

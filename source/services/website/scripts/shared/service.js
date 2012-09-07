@@ -314,3 +314,28 @@ var HttpStatusCode = new function HttpStatusCode$() {
     this.GatewayTimeout = 504;
     this.HttpVersionNotSupported = 505;
 }
+
+// ---------------------------------------------------------
+// Browser static object
+// get information about browser
+var Browser = function Browser$() { };
+Browser.isMobile = false;
+
+Browser.IsMobile = function Browser$IsMobile(val) {
+    if (val !== undefined) { Browser.isMobile = val; }
+    return Browser.isMobile;
+}
+Browser.IsMSIE = function Browser$IsMSIE() {
+    return (navigator.appName == 'Microsoft Internet Explorer'); 
+}
+Browser.MSIE_Version = function Browser$MSIE_Version() {
+    var version = -1;                                           // return -1 if not MSIE
+    if (Browser.IsMSIE) {
+        var regex = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+        if (regex.exec(navigator.userAgent) != null) {
+            version = parseFloat(RegExp.$1);
+        }
+    }
+    return version;
+}
+

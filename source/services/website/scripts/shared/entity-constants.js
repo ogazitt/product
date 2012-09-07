@@ -1,5 +1,9 @@
-﻿// ---------------------------------------------------------
-// DATAMODEL CONSTANTS (keep in sync with EntityConstants.cs)
+﻿//----------------------------------------------------------
+// Copyright (C) BuiltSteady Inc. All rights reserved.
+//----------------------------------------------------------
+// entity-constants.js
+//
+// Constants for entities (keep in sync with EntityConstants.cs)
 
 // ---------------------------------------------------------
 // ItemTypes constants

@@ -27,10 +27,13 @@
     <!-- use merged and minified scripts when deployed to Azure -->
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/nextsteps.generated.min.js") %>"></script>
 <%  } else { %>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/controls.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/control-core.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/control-display.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/control-icons.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/datamodel.js") %>"></script>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entities.js") %>"></script>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entityconstants.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entity-core.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entity-constants.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entity-objects.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/actiontypelist.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/infomanager.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/itemviewer.js") %>"></script>

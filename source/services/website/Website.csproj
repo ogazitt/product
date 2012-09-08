@@ -274,10 +274,13 @@
     <Content Include="scripts\nextsteps\steplist.js" />
     <Content Include="scripts\nextsteps\actiontypelist.js" />
     <Content Include="scripts\nextsteps\nextstepspage.js" />
-    <Content Include="scripts\shared\controls.js" />
+    <Content Include="scripts\shared\control-display.js" />
+    <Content Include="scripts\shared\control-icons.js" />
+    <Content Include="scripts\shared\control-core.js" />
+    <Content Include="scripts\shared\entity-objects.js" />
     <Content Include="scripts\shared\datamodel.js" />
-    <Content Include="scripts\shared\entities.js" />
-    <Content Include="scripts\shared\entityconstants.js" />
+    <Content Include="scripts\shared\entity-constants.js" />
+    <Content Include="scripts\shared\entity-core.js" />
     <Content Include="scripts\shared\math.uuid.js" />
     <Content Include="scripts\dashboard\suggestionmanager.js" />
     <Content Include="scripts\dashboard\suggestionlist.js" />

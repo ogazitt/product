@@ -98,7 +98,7 @@ namespace BuiltSteady.Product.Website
                 TraceLog.TraceFatal("Cannot check and/or update the User database constants, unrecoverable error");
                 return;
             }
-            if (!Storage.NewSuggestionsContext.VersionConstants(Me, true))
+            if (!Storage.NewSuggestionsContext.VersionConstants(Me))
             {
                 TraceLog.TraceFatal("Cannot check and/or update the Suggestions database constants, unrecoverable error");
                 return;

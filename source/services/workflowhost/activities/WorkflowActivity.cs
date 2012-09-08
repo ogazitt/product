@@ -23,6 +23,7 @@ namespace BuiltSteady.Product.WorkflowHost.Activities
         public const string LikeSuggestionList = "LikeSuggestionList";
         public const string ParentID = "ParentID";
         public const string SubjectHint = "SubjectHint";
+        public const string WaitState = "WaitState";
     }
 
     public abstract class WorkflowActivity

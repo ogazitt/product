@@ -1,0 +1,24 @@
+﻿{
+	"States": 
+	[ 
+		{ 
+			"Name": "Wait", 
+			"ActivityDefinition": 
+			{ 
+				"Name": "Wait",
+				"Until": "11:59:59PM"
+			},
+			"NextState": "Update" 
+		}, 
+		{ "Name": "Update", "Activity": "UpdateNextStepsAppointment", "NextState": "InvokeRefreshWorkflow" },
+		{ 
+			"Name": "InvokeRefreshWorkflow",
+			"ActivityDefinition": 
+			{
+				"Name": "StartWorkflow",
+				"WorkflowType": "RefreshNextStepsAppointment"
+			}, 
+			"NextState": null 
+		}
+	] 
+}

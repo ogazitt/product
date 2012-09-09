@@ -19,6 +19,7 @@ namespace BuiltSteady.Product.ServiceHost
         public const string WorkflowWorkerTimeoutConfigKey = "WorkflowWorkerTimeout";
         public const string WorkflowWorkerCountConfigKey = "WorkflowWorkerCount";
         const string DeploymentNameConfigKey = "DeploymentName";
+        const string PublicUrlConfigKey = "PublicUrl";
         const string UserDataConnectionConfigKey = "UsersConnection";
         const string UserAccountConnectionConfigKey = "UsersConnection";
         const string SuggestionsConnectionConfigKey = "SuggestionsConnection";
@@ -36,6 +37,7 @@ namespace BuiltSteady.Product.ServiceHost
         static int?  splunkLocalPort;
         static RoleSize? azureRoleSize;
         static string deploymentName;
+        static string publicUrl;
         static string userDataConnection;
         static string userAccountConnection;
         static string suggestionsConnection;
@@ -168,6 +170,18 @@ namespace BuiltSteady.Product.ServiceHost
                     deploymentName = ConfigurationSettings.Get(DeploymentNameConfigKey);
                 }
                 return deploymentName;
+            }
+        }
+
+        public static string PublicUrl
+        {
+            get
+            {
+                if (publicUrl == null)
+                {
+                    publicUrl = ConfigurationSettings.Get(PublicUrlConfigKey);
+                }
+                return publicUrl;
             }
         }
 

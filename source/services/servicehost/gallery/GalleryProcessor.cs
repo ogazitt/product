@@ -151,7 +151,10 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
                     0f) + 1000f;
                 activity.SortOrder = sortOrder;
 
-                // TODO: set the cadence
+                // if provided, set the default cadence of the activity
+                if (def.Recurrence != null)
+                    activity.GetFieldValue(FieldNames.Repeat, true).Value = def.Recurrence;
+
                 userContext.Items.Add(activity);
                 userContext.SaveChanges();
 

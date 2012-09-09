@@ -16,6 +16,7 @@
       <Setting name="GoogleClientSecret" value="JzoT-C-U9Nb8ehzthQI6ALSB" />
       <!-- Logging configuration -->
       <Setting name="DeploymentName" value="Production" />
+      <Setting name="PublicUrl" value="https://www.zaplify.com" />
       <Setting name="AzureLoggingEnabled" value="1" />
       <Setting name="SplunkLoggingEnabled" value="1" />
       <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />
@@ -48,6 +49,7 @@
       <Setting name="GoogleClientSecret" value="JzoT-C-U9Nb8ehzthQI6ALSB" />
       <!-- Logging configuration -->
       <Setting name="DeploymentName" value="Production" />
+      <Setting name="PublicUrl" value="https://www.zaplify.com" />
       <Setting name="AzureLoggingEnabled" value="1" />
       <Setting name="SplunkLoggingEnabled" value="0" />
       <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />

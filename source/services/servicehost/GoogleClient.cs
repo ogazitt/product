@@ -478,19 +478,41 @@ namespace BuiltSteady.Product.ServiceHost
         
         public bool AddNextStepsEvent(DateTime? utcStartTime, string desc = null)
         {
+            // store user information from Facebook in UserProfile
+            UserProfile userProfile = storage.ClientFolder.GetUserProfile(user);
+            if (userProfile == null)
+            {
+                TraceLog.TraceError("Could not access UserProfile to import Google information into.");
+                return false;
+            }
+
+            // get offset of user's timezone from UTC
+            var tzinfo = TimeZoneInfo.FindSystemTimeZoneById(userProfile.Timezone);
+            var utcOffset = tzinfo.GetUtcOffset(DateTime.UtcNow);
+
+            // get the start date and adjust for the user's local timezone
             utcStartTime = utcStartTime.HasValue ? utcStartTime.Value.Date : DateTime.UtcNow.Date;
+            utcStartTime = (utcStartTime.Value + utcOffset).Date;
+
             DateTime utcEndTime = utcStartTime.Value + TimeSpan.FromDays(1d);
             const string nextStepsAppointmentName = @"Next Steps";
             const string nextStepsLinkText = @"View Next Steps: ";
-            string url = "http://twostepdev1.cloudapp.net/nextsteps\n";  // TODO: get from config
+            string url = HostEnvironment.PublicUrl + "/nextsteps\n";
 
             Event calEvent = new Event()
             {
                 Summary = nextStepsAppointmentName,
                 Start = new EventDateTime() { Date = utcStartTime.Value.ToString("yyyy-MM-dd") },
                 End = new EventDateTime() { Date = utcEndTime.ToString("yyyy-MM-dd") },
-                //Recurrence = new List<string>() { "RRULE:FREQ=DAILY" }
-                //TODO: add reminder
+                Reminders = new Event.RemindersData() 
+                { 
+                    UseDefault = false,
+                    Overrides = new List<EventReminder>() 
+                    { 
+                        new EventReminder() { Method = "popup", Minutes = 0 /* can't have negative values to move to 6am */ }, 
+                        new EventReminder() { Method = "sms", Minutes = 0 }, 
+                    } 
+                }
             };
             calEvent.Description = nextStepsLinkText + url;
             if (desc != null)
@@ -498,8 +520,10 @@ namespace BuiltSteady.Product.ServiceHost
 
             try
             {
+                // execute request
                 EventsResource.InsertRequest eventInsertReq = this.CalendarService.Events.Insert(calEvent, UserCalendar);
                 Event result = eventInsertReq.Fetch();
+
                 // store the event ID in the calendar settings
                 CalendarSettings calendarSettings = storage.ClientFolder.GetCalendarSettings(user);
                 if (calendarSettings != null)

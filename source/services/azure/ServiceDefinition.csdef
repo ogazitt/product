@@ -17,6 +17,7 @@
       <Setting name="GoogleClientID" />
       <Setting name="GoogleClientSecret" />
       <Setting name="DeploymentName" />
+      <Setting name="PublicUrl" />
       <Setting name="AzureLoggingEnabled" />
       <Setting name="SplunkLoggingEnabled" />
       <Setting name="SplunkServerEndpoint" />
@@ -71,6 +72,7 @@
       <Setting name="GoogleClientID" />
       <Setting name="GoogleClientSecret" />
       <Setting name="DeploymentName" />
+      <Setting name="PublicUrl" />
       <Setting name="AzureLoggingEnabled" />
       <Setting name="SplunkLoggingEnabled" />
       <Setting name="SplunkServerEndpoint" />

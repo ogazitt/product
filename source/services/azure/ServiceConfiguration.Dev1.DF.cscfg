@@ -16,6 +16,7 @@
       <Setting name="GoogleClientSecret" value="ZXNIvIaFpN5Ovc9CKgqW8Ql1" />
       <!-- Logging configuration -->
       <Setting name="DeploymentName" value="Dev1" />
+      <Setting name="PublicUrl" value="http://twostepdev1.cloudapp.net" />
       <Setting name="AzureLoggingEnabled" value="1" />
       <Setting name="SplunkLoggingEnabled" value="1" />
       <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />
@@ -48,6 +49,7 @@
       <Setting name="GoogleClientSecret" value="ZXNIvIaFpN5Ovc9CKgqW8Ql1" />
       <!-- Logging configuration -->
       <Setting name="DeploymentName" value="Dev1" />
+      <Setting name="PublicUrl" value="http://twostepdev1.cloudapp.net" />
       <Setting name="AzureLoggingEnabled" value="1" />
       <Setting name="SplunkLoggingEnabled" value="1" />
       <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />

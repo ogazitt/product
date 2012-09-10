@@ -125,11 +125,19 @@ FolderManager.prototype.renderStatus = function () {
         if (!activity.IsPaused()) {
             var $btnPause = $('<a><i class="icon-pause"></i></a>').appendTo($status);
             $btnPause.attr('title', 'Pause Activity').tooltip(Control.noDelayBottom);
-
             $btnPause.click(function () {
                 $(this).tooltip('hide');
                 activity.Pause();
             });
+
+            if (activity.IsComplete()) {
+                var rrule = Recurrence.Extend(activity.GetFieldValue(FieldNames.Repeat));
+                if (rrule.IsEnabled()) {
+                    var $btnForward = $('<a><i class="icon-forward"></i></a>').appendTo($status);
+                    $btnForward.attr('title', 'Repeat Activity').tooltip(Control.noDelayBottom);
+                }
+            }
+
         } else {
 
             // helper function for displaying popup dialog to input due date
@@ -149,7 +157,6 @@ FolderManager.prototype.renderStatus = function () {
                     }
                 });
             }
-
 
             var status = activity.CanResume();
             if (status.Start || status.Resume) {

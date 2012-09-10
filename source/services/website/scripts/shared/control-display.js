@@ -128,12 +128,6 @@ Control.Text.renderInputGrocery = function Control$Text$renderInputGrocery($elem
 Control.Text.autoCompletePlace = function Control$Text$autoCompletePlace($input, selectHandler) {
     $input.unbind('keypress');
     $input.keypress(function (e) { if (e.which == 13) { return false; } });
-    $input.unbind('click').bind('click', function (e) {
-        // make google autocomplete box appear in front of modal dialog
-        $('.pac-container').css('z-index', '10000');
-        $input.unbind('click');
-        return true;  // propagate event further
-    });
     var autoComplete = new google.maps.places.Autocomplete($input[0]);
 
     // TODO: temporary bound to Seattle area (calculate bounds from UserProfile GeoLocation)

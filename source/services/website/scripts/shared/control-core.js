@@ -113,14 +113,19 @@ Control.confirm = function Control$confirm(message, header, handlerOK, handlerCa
 // modal dialog
 Control.popup = function Control$popup($dialog, header, handlerOK, handlerCancel) {
     var $modalPrompt = $('#modalPrompt');
+
     if ($modalPrompt.length == 0) {
         alert("Page requires modalPrompt control to support popup!");
     } else {
+        $modalPrompt = $modalPrompt.clone();
+        $modalPrompt.attr('id', 'modalPromptOpen');
+        $modalPrompt = $modalPrompt.appendTo($('body'));
+
         if (header == null) { header = 'Input required.'; }
         $modalPrompt.find('.modal-header h3').html(header);
         $modalPrompt.find('.modal-body p').empty().append($dialog);
         $modalPrompt.modal({ backdrop: 'static', keyboard: false });
-        $modalPrompt.find('.modal-footer .btn-primary').unbind('click').click(function () {
+        $modalPrompt.find('.modal-footer .btn-primary').click(function () {
             $modalPrompt.modal('hide');
             var inputs = [];
             $.each($modalPrompt.find('.modal-body input'), function () {
@@ -130,10 +135,12 @@ Control.popup = function Control$popup($dialog, header, handlerOK, handlerCancel
                 inputs.push($(this).val());
             });
             if (handlerOK != null) { handlerOK(inputs); }
+            $modalPrompt.remove();
         });
         $modalPrompt.find('.modal-footer .btn-cancel').unbind('click').click(function () {
             $modalPrompt.modal('hide');
             if (handlerCancel != null) { handlerCancel(); }
+            $modalPrompt.remove();
         });
     }
 }

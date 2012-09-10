@@ -918,6 +918,8 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-center .manager-folders .form-inline .checkbox{margin-right:6px;margin-top:-2px}
 .dashboard-center .manager-folders small{font-size:90%;margin-right:12px}
 .dashboard-center .manager-folders{position:relative}
+.dashboard-center .manager-folders .tab-content textarea{height:60px}
+.dashboard-center .manager-folders .tab-content .input-inline-max{display:inline-block;width:90%}
 .dashboard-center .manager-folders .tab-content .nav-list{padding:0}
 .dashboard-center .manager-folders .tab-content .nav-list li{border-top:1px solid #ccc;padding:0 8px 0 8px}
 .dashboard-center .manager-folders .tab-content .nav-list li.selected{background-color:#e6e6e6}
@@ -925,8 +927,6 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-center .manager-folders .tab-content .nav-list li.st-skipped{background-color:#f2dede}
 .dashboard-center .manager-folders .tab-content .nav-list li.st-active{background-color:#dff0d8}
 .dashboard-center .manager-folders .tab-content .nav-list li.st-paused{background-color:#dff0d8}
-.dashboard-center .manager-folders .tab-content textarea{height:60px}
-.dashboard-center .manager-folders .tab-content .input-inline-max{display:inline-block;width:90%}
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar{margin:8px 2px 2px 2px}
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar.pull-right{float:right}
 .btn-toolbar .icon-large{text-align:left;padding:4px 0 0 8px}
@@ -972,6 +972,13 @@ li.active:hover .icon.drag-handle{color:#fff}
 .btn-dropdown{color:#fff;cursor:pointer}
 .btn-dropdown.open .dropdown-toggle{background-color:transparent}
 i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;background:transparent url(images/icon-azure.png) no-repeat}
+.repeat-frequency{max-width:80px;margin-right:20px}
+.repeat-interval{max-width:60px}
+.repeat-summary{margin:24px 0 -12px 0}
+label.checkbox{cursor:pointer}
+label.checkbox .checkbox{margin-top:-2px}
+.ui-datepicker[style]{z-index:2000!important}
+.pac-container[style]{z-index:2000!important}
 .ui-timepicker-div .ui-widget-header{margin-bottom:8px}
 .ui-timepicker-div dl{text-align:left}
 .ui-timepicker-div dl dt{height:25px;margin-bottom:-25px;margin-left:8px}

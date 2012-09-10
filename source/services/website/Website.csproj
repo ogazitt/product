@@ -195,7 +195,6 @@
     <Compile Include="WebRole.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="content\repeat.aspx" />
     <Content Include="content\images\awesome-sprites-blue-large.png" />
     <Content Include="content\images\awesome-sprites-blue.png" />
     <Content Include="content\images\awesome-sprites-large.png" />

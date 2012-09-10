@@ -1,0 +1,19 @@
+﻿{
+	"Name": "Dental cleaning",
+	"Recurrence": null,
+	"Steps": 
+	[ 
+		{ 
+			"Name": "Find a dentist",
+			"Action": "Find local business"
+		},
+		{ 
+			"Name": "Call for appointment",
+			"Action": "Call"
+		},
+		{ 
+			"Name": "Add appointment to calendar",
+			"Action": "Add to calendar"
+		},
+	] 
+}

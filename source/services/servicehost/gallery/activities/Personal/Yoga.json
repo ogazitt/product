@@ -1,0 +1,15 @@
+﻿{
+	"Name": "Yoga",
+	"Recurrence": null,
+	"Steps": 
+	[ 
+		{ 
+			"Name": "Find an yoga studio",
+			"Action": "Find local business"
+		},
+		{ 
+			"Name": "Add appointment to calendar",
+			"Action": "Add to calendar"
+		},
+	] 
+}

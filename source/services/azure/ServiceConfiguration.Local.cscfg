@@ -17,6 +17,7 @@
       <Setting name="GoogleClientSecret" value="CaDG0ahs9UpyM2EGf-ffaL5i" />
       <!-- Logging configuration -->
       <Setting name="DeploymentName" value="Local" />
+      <Setting name="PublicUrl" value="http://localhost:8888" />
       <Setting name="AzureLoggingEnabled" value="0" />
       <Setting name="SplunkLoggingEnabled" value="0" />
       <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />
@@ -51,6 +52,7 @@
       <Setting name="GoogleClientSecret" value="CaDG0ahs9UpyM2EGf-ffaL5i" />
       <!-- Logging configuration -->
       <Setting name="DeploymentName" value="Local" />
+      <Setting name="PublicUrl" value="http://localhost:8888" />
       <Setting name="AzureLoggingEnabled" value="1" />
       <Setting name="SplunkLoggingEnabled" value="1" />
       <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />

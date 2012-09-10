@@ -61,6 +61,12 @@ namespace BuiltSteady.Product.Shared.Entities
             set { accessor.Set("GeoLocation", value); }
         }
 
+        public string Timezone
+        {
+            get { return accessor.Get("Timezone"); }
+            set { accessor.Set("Timezone", value); }
+        }
+
 #if !CLIENT
         // ********************************************************************
         // server can create and access metadata for UserProfile
@@ -120,6 +126,12 @@ namespace BuiltSteady.Product.Shared.Entities
         {
             get { return metadata.GetNullableDate("LastSync"); }
             set { metadata.SetDate("LastSync", (DateTime)value); }
+        }
+
+        public string NextStepsEventID
+        {
+            get { return metadata.Get("NextStepsEventID"); }
+            set { metadata.Set("NextStepsEventID", value); }
         }
 #endif
 

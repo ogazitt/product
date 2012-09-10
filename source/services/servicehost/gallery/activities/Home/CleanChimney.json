@@ -1,0 +1,19 @@
+﻿{
+	"Name": "Clean the chimney",
+	"Recurrence": null,
+	"Steps": 
+	[ 
+		{ 
+			"Name": "Find a chimney sweep",
+			"Action": "Find local business"
+		},
+		{ 
+			"Name": "Call for appointment",
+			"Action": "Call"
+		},
+		{ 
+			"Name": "Add appointment to calendar",
+			"Action": "Add to calendar"
+		},
+	]
+}

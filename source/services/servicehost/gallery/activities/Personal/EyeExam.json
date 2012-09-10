@@ -1,0 +1,19 @@
+﻿{
+	"Name": "Eye exam",
+	"Recurrence": null,
+	"Steps": 
+	[ 
+		{ 
+			"Name": "Find an optometrist",
+			"Action": "Find local business"
+		},
+		{ 
+			"Name": "Call for appointment",
+			"Action": "Call"
+		},
+		{ 
+			"Name": "Add appointment to calendar",
+			"Action": "Add to calendar"
+		},
+	] 
+}

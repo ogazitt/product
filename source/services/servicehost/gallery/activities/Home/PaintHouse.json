@@ -1,0 +1,19 @@
+﻿{
+	"Name": "Paint the house",
+	"Recurrence": null,
+	"Steps": 
+	[ 
+		{ 
+			"Name": "Find a house painter",
+			"Action": "Find local business"
+		},
+		{ 
+			"Name": "Call for appointment",
+			"Action": "Call"
+		},
+		{ 
+			"Name": "Add appointment to calendar",
+			"Action": "Add to calendar"
+		},
+	]
+}

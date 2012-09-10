@@ -87,14 +87,14 @@
             return returnMessage;
         }
 
-        public static void EnqueueMessage(object obj)
+        public static void EnqueueMessage(object obj, TimeSpan? hiddenFor = null)
         {
             DataContractJsonSerializer dcs = new DataContractJsonSerializer(obj.GetType());
             var ms = new MemoryStream();
             dcs.WriteObject(ms, obj);
             ms.Position = 0;
             byte[] bytes = new byte[ms.Length];
-            int len = ms.Read(bytes, 0, (int) ms.Length);  // messages can only be 8K so the cast is safe
+            int len = ms.Read(bytes, 0, (int)ms.Length);  // messages can only be 8K so the cast is safe
             if (len < ms.Length)
             {
                 var newbytes = new byte[len];
@@ -103,7 +103,11 @@
             }
 
             var msg = new CloudQueueMessage(bytes);
-            Queue.AddMessage(msg);
+            if (hiddenFor.HasValue)
+                Queue.AddMessage(msg, null, hiddenFor);
+            else
+                Queue.AddMessage(msg);
+
             TraceLog.TraceInfo(String.Format("Enqueued a {0}: {1}", obj.GetType().Name, obj.ToString()));
         }
 

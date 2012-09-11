@@ -38,15 +38,21 @@ ListEditor.prototype.renderActivity = function ($element, activity) {
     }
     this.$activity.empty();
     if (!activity.IsActivity()) { return this.$activity; }
+    var steps = activity.GetItems(true);
+    var hasSteps = ItemMap.count(steps) > 0;
 
-    if (!activity.IsPaused()) {                 // activity is running
-        var steps = activity.GetItems(true);
-        if (ItemMap.count(steps) == 0) {
-            // activity without steps, display all properties
-            var $li = $('<li />').appendTo(this.$activity);
+    if (hasSteps || !activity.IsPaused()) {
+        var $li = $('<li />').appendTo(this.$activity);
+        var $form = $('<div class="form-inline icon"/>').appendTo($li);
+
+        if (hasSteps) {
+            // activity with steps, display repeat
+            $li.attr('style', 'margin-bottom: 12px; border-top-color: transparent;');
+            var field = activity.GetField(FieldNames.Repeat);
+            Control.Repeat.render($form, activity, field);
+        } else if (!activity.IsPaused()) {
+            // running activity without steps, display properties
             $li.addClass(activity.StatusClass());
-
-            var $form = $('<a class="form-inline icon"/>').appendTo($li);
             var field = activity.GetField(FieldNames.Complete);
             Control.Checkbox.render($form, activity, field);
 
@@ -57,12 +63,8 @@ ListEditor.prototype.renderActivity = function ($element, activity) {
                 field = activity.GetField(FieldNames.DueDate);
                 Control.Text.render($form, activity, field, 'small', 'Due on ');
             }
-        } else {
-            // activity with steps, only display repeat
         }
-    } else {                                    // activity is paused
     }
-
     return this.$activity;
 }
 

@@ -419,7 +419,7 @@ Item.prototype.CanResume = function () {
         if (pauseCount == 1 && !(step.IsPaused() || step.IsNullStatus())) { allNullAfter = false; }
     }
     status.Start = allNull;
-    status.Resume = (pauseCount == 1 && allCompleteBefore && allNullAfter);
+    status.Resume = (pauseCount < 2 && allCompleteBefore && allNullAfter);
     status.Restart = !status.Start;
     return status;
 };
@@ -461,6 +461,12 @@ Item.prototype.Skip = function () {
         this.Update(copy, null);
         nextStep.Active(this.GetFieldValue(FieldNames.DueDate));
     } else {
+        if (this.IsStep()) {
+            var parent = this.GetParent();
+            if (parent != null && parent.IsActivity()) {
+                parent.UpdateStatus(StatusTypes.Complete, null);
+            }
+        }
         this.Update(copy);
     }
 }
@@ -529,6 +535,8 @@ Item.prototype.Active = function (newDueDate) {
         }
         prevStep = step;
     }
+    // no null or paused steps, all must be skipped or complete
+    this.UpdateStatus(StatusTypes.Complete);
 
     return null;
 }

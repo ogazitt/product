@@ -1187,6 +1187,8 @@ li.active:hover .icon.drag-handle{color:#fff}
 .btn-dropdown{color:#fff;cursor:pointer}
 .btn-dropdown.open .dropdown-toggle{background-color:transparent}
 i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;background:transparent url(images/icon-azure.png) no-repeat}
+.ui-datepicker[style]{z-index:2000!important}
+.pac-container[style]{z-index:2000!important}
 .ui-timepicker-div .ui-widget-header{margin-bottom:8px}
 .ui-timepicker-div dl{text-align:left}
 .ui-timepicker-div dl dt{height:25px;margin-bottom:-25px;margin-left:8px}

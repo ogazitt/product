@@ -68,7 +68,7 @@ var ExtendedFieldNames = {
     CalEventID: "CalEventID",      // String       identifier for a Calendar event to associate with an Item  
 
     SelectedCount: "SelectedCount",// Integer      count of number of times selected (e.g. MRU)
-    SortBy: "SortBy",              // String       field name to sort a list of items by
+    SortBy: "SortBy"               // String       field name to sort a list of items by
 }
 
 // ---------------------------------------------------------
@@ -207,5 +207,41 @@ var ActionTypes = {
     SendEmail: "Email",
     TextMessage: "Text",
     AskFriends: "Ask on Facebook",
-    Find: "Find local business",
+    Find: "Find local business"
+}
+
+// ---------------------------------------------------------
+// Frequency constants for Recurrence
+var Frequency = {
+    Daily: "Daily",
+    Weekly: "Weekly",
+    Monthly: "Monthly",
+    Yearly: "Yearly"
+}
+var FrequencyLabels = {
+    Daily: "days",
+    Weekly: "weeks",
+    Monthly: "months",
+    Yearly: "years"
+}
+
+// ---------------------------------------------------------
+// Weekdays constants for Recurrence
+var Weekdays = {
+    Sunday: "SU",
+    Monday: "MO",
+    Tuesday: "TU",
+    Wednesday: "WE",
+    Thursday: "TH",
+    Friday: "FR",
+    Saturday: "SA"
+}
+var WeekdayLabels = {
+    SU: "Sunday",
+    MO: "Monday",
+    TU: "Tuesday",
+    WE: "Wednesday",
+    TH: "Thursday",
+    FR: "Friday",
+    SA: "Saturday"
 }

@@ -82,6 +82,8 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .manager-folders .form-inline .checkbox { margin-right: 6px; margin-top: -2px; }
 .dashboard-center .manager-folders small { font-size: 90%; margin-right: 12px; }
 .dashboard-center .manager-folders { position: relative; }
+.dashboard-center .manager-folders .tab-content textarea { height: 60px; }
+.dashboard-center .manager-folders .tab-content .input-inline-max { display:inline-block; width: 90%; }
 .dashboard-center .manager-folders .tab-content .nav-list { padding: 0; }
 .dashboard-center .manager-folders .tab-content .nav-list li { border-top: 1px solid @btnBorder; padding: 0 8px 0 8px; }
 .dashboard-center .manager-folders .tab-content .nav-list li.selected { background-color: @btnBackgroundHighlight; }  
@@ -89,8 +91,6 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .manager-folders .tab-content .nav-list li.st-skipped { background-color: @errorBackground; }  
 .dashboard-center .manager-folders .tab-content .nav-list li.st-active { background-color: @successBackground; }  
 .dashboard-center .manager-folders .tab-content .nav-list li.st-paused { background-color: @successBackground; }  
-.dashboard-center .manager-folders .tab-content textarea { height: 60px; }
-.dashboard-center .manager-folders .tab-content .input-inline-max { display:inline-block; width: 90%; }
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar { margin: 8px 2px 2px 2px; }
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar.pull-right { float: right; }
 .btn-toolbar .icon-large { text-align:left; padding: 4px 0 0 8px; }
@@ -161,6 +161,20 @@ li.active:hover .icon.drag-handle { color: @white; }
 i.icon-azure { display: inline-block; width: 16px; height: 16px; cursor: pointer; 
     background: transparent url(images/icon-azure.png) no-repeat; }
 
+/* repeat control */
+.repeat-frequency { max-width: 80px; margin-right: 20px; }
+.repeat-interval { max-width: 60px; }
+.repeat-summary { margin: 24px 0 -12px 0; }
+label.checkbox { cursor: pointer; }
+label.checkbox .checkbox { margin-top: -2px; }
+
+/*----------------------------------------------------------
+override z-index for use in bootstrap modal dialogs
+----------------------------------------------------------*/
+.ui-datepicker[style] { z-index: 2000 !important; }   // jquery-ui datepicker
+.pac-container[style] { z-index: 2000 !important; }   // google-places autocomplete
+
+
 /*----------------------------------------------------------
 jquery-ui timepicker extension
 ----------------------------------------------------------*/
@@ -177,3 +191,5 @@ jquery-ui combobox extension
 .ui-combobox { position: relative; display: inline-block; }
 .ui-combobox .ui-button { position: absolute; margin-left: -1px; padding: 0; top: 0; bottom: 0; }
 .ui-autocomplete-input { margin: 0; padding: 0.3em }
+
+

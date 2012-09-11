@@ -20,6 +20,8 @@
     <!-- modal popup dialogs -->
     <% Html.RenderPartial("ModalMessage"); %>
     <% Html.RenderPartial("ModalPrompt"); %>
+    <!-- repeat control dialog -->
+    <% Html.RenderPartial("RepeatControl"); %>
 
 </asp:Content>
 
@@ -36,6 +38,7 @@
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entity-constants.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entity-objects.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/activitygallery.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/control-repeat.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/dashboard.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/folderlist.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/foldermanager.js") %>"></script>

@@ -246,6 +246,7 @@
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\dashboard\activitygallery.js" />
+    <Content Include="scripts\dashboard\control-repeat.js" />
     <Content Include="scripts\dashboard\dashboard.generated.min.js">
       <DependentUpon>dashboard.js.chirp.config</DependentUpon>
     </Content>
@@ -320,6 +321,7 @@
     <Content Include="views\dashboard\NextSteps.aspx" />
     <Content Include="views\mobile\Home.aspx" />
     <Content Include="views\account\MobileSignIn.aspx" />
+    <Content Include="views\shared\RepeatControl.ascx" />
     <Content Include="views\shared\ModalPrompt.ascx" />
     <Content Include="views\shared\ModalMessage.ascx" />
     <Content Include="views\shared\IntroCarouselControl.ascx" />

@@ -167,6 +167,71 @@ LinkArray.prototype.Parse = function (text) {
 }
 
 // ---------------------------------------------------------
+// Recurrence object  
+// { Frequency: "DAILY", Interval: 1, ByDay: "", ByMonthDay: "", ByYearDay: "", ByMonth: "" }
+//
+function Recurrence() { 
+    this.Frequency = Frequency.Daily;
+    this.Interval = 1;
+    this.ByDay = "";
+    this.ByMonthDay = "";
+    this.ByYearDay = "";
+    this.ByMonth = "";
+};
+Recurrence.Extend = function Recurrence$Extend(rrule) {
+    // input as either json string or json object
+    if (typeof (rrule) == 'string') {
+        rrule = $.parseJSON(rrule);
+    }
+    return $.extend(new Recurrence(), rrule);
+}
+
+Recurrence.prototype.ToJson = function () { return JSON.stringify(this); }
+Recurrence.prototype.IsEnabled = function () { return (this.On != null); }
+Recurrence.prototype.Enable = function () { this.On = 1; }
+Recurrence.prototype.Disable = function () { delete this['On']; }
+Recurrence.prototype.IsDaily = function () { return this.Frequency == Frequency.Daily; };
+Recurrence.prototype.IsWeekly = function () { return this.Frequency == Frequency.Weekly; };
+Recurrence.prototype.IsMonthly = function () { return this.Frequency == Frequency.Monthly; };
+Recurrence.prototype.IsYearly = function () { return this.Frequency == Frequency.Yearly; };
+Recurrence.prototype.HasDay = function (day) { return this.ByDay.indexOf(day) != -1; };
+Recurrence.prototype.AddDay = function (day) { this.ByDay = this.ByDay.concat(day+','); };
+Recurrence.prototype.RemoveDay = function (day) { this.ByDay = this.ByDay.replace(day+',',''); };
+
+Recurrence.prototype.Summary = function (on) {
+    var summary = "Repeat?";
+    if (this.IsEnabled() || on == true) {
+        // generate summary statement
+        var txtFreq = FrequencyLabels[this.Frequency];
+        if (this.Interval == 1) { txtFreq = txtFreq.substr(0, txtFreq.length - 1); }
+        var txtIntv = this.Interval.toString();
+        var txtEnd = '</strong> after completing current activity ';
+
+        if (this.IsWeekly()) {
+            var days = this.ByDay.split(',');
+            if (days[days.length - 1].length == 0) {
+                days = days.slice(0, -1);      // remove last empty entry
+            }
+            if (days.length > 0) {
+                txtIntv = (this.Interval == 1) ? 'every' : 'every ' + txtIntv;
+                if (days.length == 7) {
+                    txtEnd = 'each day';
+                } else {
+                    txtEnd = '';
+                    $.each(days, function (i, day) {
+                        txtEnd += (i == 0) ? ' on ' : ((i == days.length - 1) ? ' and ' : ', ');
+                        txtEnd += WeekdayLabels[$.trim(day)];
+                    });
+                }
+                txtEnd += '</strong>';
+            }
+        }
+        var summary = "Repeat <strong>" + txtIntv + ' ' + txtFreq + ' ' + txtEnd;
+    }
+    return summary;
+};
+
+// ---------------------------------------------------------
 // UserSettings object - provides prototype functions
 
 function UserSettings(clientFolder, webClientFolder) {

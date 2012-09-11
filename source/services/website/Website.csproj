@@ -309,8 +309,12 @@
     <Content Include="startup\DeployBlob.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="startup\Microsoft.WindowsAzure.StorageClient.dll" />
-    <Content Include="startup\Microsoft.WindowsAzure.StorageClient.xml" />
+    <Content Include="startup\Microsoft.WindowsAzure.StorageClient.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="startup\Microsoft.WindowsAzure.StorageClient.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="views\account\SignIn.aspx" />
     <Content Include="views\dashboard\Home.aspx" />
     <Content Include="views\dashboard\NextSteps.aspx" />

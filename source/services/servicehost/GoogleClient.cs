@@ -491,8 +491,7 @@ namespace BuiltSteady.Product.ServiceHost
             var utcOffset = tzinfo.GetUtcOffset(DateTime.UtcNow);
 
             // get the start date and adjust for the user's local timezone
-            utcStartTime = utcStartTime.HasValue ? utcStartTime.Value.Date : DateTime.UtcNow.Date;
-            utcStartTime = (utcStartTime.Value + utcOffset).Date;
+            utcStartTime = utcStartTime.HasValue ? utcStartTime.Value.Date : (DateTime.UtcNow + utcOffset).Date;
 
             DateTime utcEndTime = utcStartTime.Value + TimeSpan.FromDays(1d);
             const string nextStepsAppointmentName = @"Next Steps";

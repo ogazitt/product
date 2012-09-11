@@ -141,20 +141,11 @@ ListView.prototype.actionButton = function (item) {
     var actionTypeName = actionType.Name;
     switch (actionTypeName) {
         case ActionTypes.Call:
-            if (item.GetPhoneNumber() != null) {
-                return Control.Icons.callBtn(item);
-            }
-            break;
+            return Control.Icons.callBtn(item);
         case ActionTypes.TextMessage:
-            if (item.GetPhoneNumber() != null) {
-                return Control.Icons.textBtn(item);
-            }
-            break;
+            return Control.Icons.textBtn(item);
         case ActionTypes.SendEmail:
-            if (item.GetEmail() != null) {
-                return Control.Icons.emailBtn(item);
-            }
-            break;
+            return Control.Icons.emailBtn(item);
         case ActionTypes.Errand:
             if (item.GetMapLink() != null) {
                 return Control.Icons.mapBtn(item);

@@ -311,20 +311,24 @@ Control.Icons.callBtn = function Control$Icons$callBtn(item) {
     $icon.data('item', item);
     $icon.attr('title', 'Call');
     if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    var handler = function (phoneNumber) {
+        // call the phone number
+        phoneNumber = phoneNumber.replace(/[^0-9]+/g, '');
+        if (Browser.IsMobile()) { window.open("tel:" + phoneNumber); }
+        else {
+            Control.alert('<p>This action only works on a mobile device</p>', 'call ' +
+                Control.Icons.formatPhoneNumber(phoneNumber));
+        }
+    };
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
         var phone = item.GetPhoneNumber();
-        if (phone != null) {
-            if (Browser.IsMobile()) {
-                window.open("tel:" + phone);
-            }
-            else {
-                Control.alert('<p>This action only works on a mobile device</p>', 'call ' + 
-                    Control.Icons.formatPhoneNumber(phone));
-            }
-            return false;
+        if (phone != null) { handler(phone); }
+        else {
+            // obtain phone number and invoke the handler at the end
+            Control.Icons.infoDialog(item, FieldNames.Phone, 'Phone', 'tel', handler);
         }
         return false;   // do not propogate event
     });
@@ -358,13 +362,17 @@ Control.Icons.emailBtn = function Control$Icons$emailBtn(item) {
     $icon.data('item', item);
     $icon.attr('title', 'Email');
     if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    var handler = function (email) { window.open('mailto:' + email); };
+
     $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
         var email = item.GetEmail();
-        if (email != null) {
-            window.open('mailto:' + email);
+        if (email != null) { handler(email); }
+        else {
+            // obtain email and invoke the handler at the end
+            Control.Icons.infoDialog(item, FieldNames.Email, 'Email', 'email', handler);
         }
         return false;   // do not propogate event
     });
@@ -378,20 +386,24 @@ Control.Icons.textBtn = function Control$Icons$textBtn(item) {
     $icon.data('item', item);
     $icon.attr('title', 'Text');
     if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    var handler = function (phoneNumber) {
+        // call the phone number
+        phoneNumber = phoneNumber.replace(/[^0-9]+/g, '');
+        if (Browser.IsMobile()) { window.open("sms:" + phoneNumber); }
+        else {
+            Control.alert('<p>This action only works on a mobile device</p>', 'text ' +
+                Control.Icons.formatPhoneNumber(phoneNumber));
+        }
+    };
     $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
         var phone = item.GetPhoneNumber();
-        if (phone != null) {
-            if (Browser.IsMobile()) {
-                window.open("sms:" + phone);
-            }
-            else {
-                Control.alert('<p>This action only works on a mobile device</p>', 'text ' + 
-                    Control.Icons.formatPhoneNumber(phone));
-            }
-            return false;
+        if (phone != null) { handler(phone); }
+        else {
+            // obtain phone number and invoke the handler at the end
+            Control.Icons.infoDialog(item, FieldNames.Phone, 'Phone', 'sms', handler);
         }
         return false;   // do not propogate event
     });
@@ -546,6 +558,83 @@ Control.Icons.findLocalBtn = function Control$Icons$findLocalBtn(item) {
     return $('<a class="icon" />').append($icon);
 }
 
+Control.Icons.infoDialog = function Control$Icons$infoDialog(item, fieldName, labelName, inputType, handler) {
+    // set up defaults
+    fieldName = (fieldName == null) ? FieldNames.Phone : fieldName;
+    labelName = (labelName == null) ? "Phone" : labelName;
+    inputType = (inputType == null) ? "tel" : inputType;
+    // set up dialog
+    var header = 'Please choose a location or a contact';
+    var $dialog = $('<div class="form-vertical control-group"></div>');
+    $('<label class="control-label">Choose a location</label>').appendTo($dialog);
+    var locfield = item.GetField(FieldNames.Locations);
+    var $locfield = Control.LocationList.renderInput($dialog, item, locfield, function ($input) {
+        if (fieldName == FieldNames.Phone) {
+            var place = $input.data('place');
+            if (place != null) { $dataField.val(place.formatted_phone_number); }
+            else { $dataField.val(''); }
+        }
+        else { $dataField.val(''); }
+    });
+    $dialog.append('<label class="control-label">Or, choose a contact</label>');
+    var confield = item.GetField(FieldNames.Contacts);
+    var $confield = Control.ContactList.renderInput($dialog, item, confield, function ($input) {
+        var contactJson = $input.data(FieldNames.Contacts);
+        var contact = Item.Extend($.parseJSON(contactJson));
+        contact = DataModel.FindItem(contact.ID);
+        if (contact != null) { $dataField.val(contact.GetFieldValue(fieldName)); }
+        else { $dataField.val(''); }
+    });
+    $dialog.append('<div class="controls" style="margin-top:6px"><label class="control-label">' +
+        labelName + '</label><input type="' + inputType + '" id="dataField"/></div>');
+    var $dataField = $dialog.find('#dataField');
+
+    $locfield.blur(function (e) {
+        if ($locfield.val().length > 0) { $confield.attr('disabled', true); }
+        else { $confield.attr('disabled', false); }
+        return true;
+    });
+    $confield.blur(function (e) {
+        if ($confield.val().length > 0) { $locfield.attr('disabled', true); }
+        else { $locfield.attr('disabled', false); }
+        return true;
+    });
+
+    Control.popup($dialog, header, function (inputs) {
+        if (inputs[2].length == 0) {
+            Control.alert('Please provide a phone number for the location or contact', 'Call');
+        }
+        else if ((inputs[0].length == 0 || inputs[0] == 'Enter a location') && inputs[1].length == 0) {
+            Control.alert('Please provide a location or contact', 'Call');
+        }
+        else {
+            var dataValue = inputs[2];
+
+            // update the field with the contact or location 
+            if (inputs[1].length > 0) {
+                Control.ContactList.update($confield, function (returnedItem) {
+                    // store the phone number in the contact
+                    returnedItem = Item.Extend(returnedItem);
+                    var contact = Item.Extend(returnedItem);
+                    contact.SetFieldValue(fieldName, dataValue);
+                    returnedItem.Update(contact);
+                });
+            }
+            else if (inputs[0].length > 0) {
+                Control.LocationList.update($locfield, function (returnedItem) {
+                    // store the phone number in the location
+                    returnedItem = Item.Extend(returnedItem);
+                    var location = Item.Extend(returnedItem);
+                    location.SetFieldValue(fieldName, dataValue);
+                    returnedItem.Update(location);
+                });
+            }
+
+            // invoke handler
+            if (handler != null) { handler(dataValue); }
+        }
+    });
+}
 
 // ---------------------------------------------------------
 // Control.ItemType static object

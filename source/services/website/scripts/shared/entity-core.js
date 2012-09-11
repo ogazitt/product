@@ -329,7 +329,7 @@ Item.prototype.GetContact = function () {
 // helper for finding a phone number of an item (via locations or contacts)
 Item.prototype.GetPhoneNumber = function () {
     var item = this.GetLocation();
-    if (item == null) item = this.GetContact();
+    if (item == null) { item = this.GetContact(); }
     if (item != null) {
         var phone = item.GetFieldValue(FieldNames.Phone);
         if (phone != null) phone = phone.replace(/[^0-9]+/g, '');
@@ -337,15 +337,25 @@ Item.prototype.GetPhoneNumber = function () {
     }
     return null;
 }
+// helper for setting a phone number on an item's first contact
+Item.prototype.SetPhoneNumber = function (phone, item) {
+    if (item == null) { item = this.GetContact(); }
+    if (item != null) { item.SetFieldValue(FieldNames.Phone, phone); }
+}
 // helper for finding an email of an item (via locations or contacts)
 Item.prototype.GetEmail = function () {
     var item = this.GetLocation();
-    if (item == null) item = this.GetContact();
+    if (item == null) { item = this.GetContact(); }
     if (item != null) {
         var email = item.GetFieldValue(FieldNames.Email);
         return email;
     }
     return null;
+}
+// helper for setting an email on an item's first contact
+Item.prototype.SetEmail = function (email, item) {
+    if (item == null) { item = this.GetContact(); }
+    if (item != null) { item.SetFieldValue(FieldNames.Email, email); }
 }
 // helper for finding a map link (via locations or contacts)
 Item.prototype.GetMapLink = function () {

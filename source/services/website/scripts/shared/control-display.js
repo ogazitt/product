@@ -594,12 +594,14 @@ Control.DateTime.formatUTC = function Control$DateTime$formatUTC(text) {
 // Control.ContactList static object
 //
 Control.ContactList = {};
-Control.ContactList.renderInput = function Control$ContactList$renderInput($element, item, field) {
+Control.ContactList.renderInput = function Control$ContactList$renderInput($element, item, field, handler) {
     $input = $('<input type="text" />').appendTo($element);
     $input.addClass(field.Class);
     $input.data('item', item);
     $input.data('field', field);
-    $input.keypress(function (e) { if (e.which == 13) { Control.ContactList.update($(e.srcElement)); return false; } });
+    handler = (handler == null) ? Control.ContactList.update : handler;
+
+    $input.keypress(function (e) { if (e.which == 13) { handler($(e.srcElement)); return false; } });
     var value = item.GetFieldValue(field);
     var text = '';
     if (value != null && value.IsList) {
@@ -615,12 +617,13 @@ Control.ContactList.renderInput = function Control$ContactList$renderInput($elem
     }
     $input.val(text);
 
-    Control.Text.autoCompleteContact($input, Control.ContactList.update);
+    Control.Text.autoCompleteContact($input, handler);
 
     return $input;
 }
 
-Control.ContactList.update = function Control$ContactList$update($input) {
+// if passed, handler is called with the new contact item that is inserted into the DataModel
+Control.ContactList.update = function Control$ContactList$update($input, handler) {
     var item = $input.data('item');
     var field = $input.data('field');
     var contactName = $input.val();
@@ -639,13 +642,14 @@ Control.ContactList.update = function Control$ContactList$update($input) {
 
     if (contact != null && contact.ItemTypeID == ItemTypes.Reference) {
         // add reference to existing contact
-        contact = { Name: contact.Name, ID: contact.FieldValues[0].Value };
-        item.AddReference(field, contact, true);
+        var contactRef = { Name: contact.Name, ID: contact.FieldValues[0].Value };
+        item.AddReference(field, contactRef, true);
         if (parent != null && parent.IsActivity) {
             // if parent is an activity, add a reference in its location list as well 
             // (but do not replace any references - hence flag = false below
-            parent.AddReference(field, contact, false);
+            parent.AddReference(field, contactRef, false);
         }
+        if (handler) { handler(contact); }
     } else {
         if (contact != null) {
             contact = Item.Extend(contact);
@@ -659,6 +663,7 @@ Control.ContactList.update = function Control$ContactList$update($input) {
                     // (but do not replace any references - hence flag = false below
                     parent.AddReference(field, existingContact, false);
                 }
+                if (handler) { handler(existingContact); }
                 return;
             }
         } else {
@@ -674,6 +679,7 @@ Control.ContactList.update = function Control$ContactList$update($input) {
                     // (but do not replace any references - hence flag = false below
                     parent.AddReference(field, insertedContact, false);
                 }
+                if (handler) { handler(insertedContact); }
             });
     }
 }
@@ -682,12 +688,14 @@ Control.ContactList.update = function Control$ContactList$update($input) {
 // Control.LocationList static object
 //
 Control.LocationList = {};
-Control.LocationList.renderInput = function Control$LocationList$renderInput($element, item, field) {
+Control.LocationList.renderInput = function Control$LocationList$renderInput($element, item, field, handler) {
     $input = $('<input type="text" />').appendTo($element);
     $input.addClass(field.Class);
     $input.data('item', item);
     $input.data('field', field);
-    $input.keypress(function (e) { if (e.which == 13) { Control.LocationList.update($(e.srcElement)); return false; } });
+    handler = (handler == null) ? Control.LocationList.update : handler;
+
+    $input.keypress(function (e) { if (e.which == 13) { handler($(e.srcElement)); return false; } });
     var value = item.GetFieldValue(field);
     var text = '';
     if (value != null && value.IsList) {
@@ -710,12 +718,13 @@ Control.LocationList.renderInput = function Control$LocationList$renderInput($el
     $input.val(text);
 
     //Control.Text.autoCompleteAddress($input, Control.LocationList.update);
-    Control.Text.autoCompletePlace($input, Control.LocationList.update);
+    Control.Text.autoCompletePlace($input, handler);
 
     return $input;
 }
 
-Control.LocationList.update = function Control$LocationList$update($input) {
+// if passed, handler is called with the new location item that is inserted into the DataModel
+Control.LocationList.update = function Control$LocationList$update($input, handler) {
     var item = $input.data('item');
     var field = $input.data('field');
     var address = $input.val();
@@ -739,6 +748,7 @@ Control.LocationList.update = function Control$LocationList$update($input) {
             // (but do not replace any references - hence flag = false below
             parent.AddReference(field, existingLocation, false);
         }
+        if (handler) { handler(existingLocation); }
     } else {
         // create new location and add reference
         var locationList = DataModel.UserSettings.GetDefaultList(ItemTypes.Location);
@@ -759,6 +769,7 @@ Control.LocationList.update = function Control$LocationList$update($input) {
                     // (but do not replace any references - hence flag = false below
                     parent.AddReference(field, insertedLocation, false);
                 }
+                if (handler) { handler(insertedLocation); }
             });
     }
 }

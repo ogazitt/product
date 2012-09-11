@@ -260,9 +260,9 @@
     <Content Include="scripts\master.generated.min.js">
       <DependentUpon>master.js.chirp.config</DependentUpon>
     </Content>
-    <Content Include="scripts\nextsteps\categorylist.js" />
-    <Content Include="scripts\nextsteps\activitymanager.js" />
-    <Content Include="scripts\nextsteps\activitylist.js" />
+    <Content Include="scripts\nextsteps\mobile\categorylist.js" />
+    <Content Include="scripts\nextsteps\mobile\activitymanager.js" />
+    <Content Include="scripts\nextsteps\mobile\activitylist.js" />
     <Content Include="scripts\nextsteps\infomanager.js" />
     <Content Include="scripts\nextsteps\itemviewer.js" />
     <Content Include="scripts\nextsteps\nextsteps-mobile.generated.min.js">

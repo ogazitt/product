@@ -15,6 +15,12 @@ namespace BuiltSteady.Product.ServerEntities
         [IgnoreDataMember]
         public string Definition { get; set; }
 
+        [IgnoreDataMember]
+        public string Filter { get; set; }
+
+        [IgnoreDataMember]
+        public bool InGallery { get; set; }
+
         public override string ToString()
         {
             return this.Name;

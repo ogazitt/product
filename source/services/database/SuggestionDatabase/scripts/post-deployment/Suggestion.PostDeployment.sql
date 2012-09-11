@@ -12,7 +12,7 @@ Post-Deployment Script Template
 
 /* Suggestions database - set the schema version */
 DECLARE @VersionString NVARCHAR(16);
-SET @VersionString = N'1.0.2012.0904';
+SET @VersionString = N'1.0.2012.0911';
 UPDATE [dbo].[DatabaseVersions]  SET [VersionType] = N'Schema', [VersionString] = @VersionString, [Status] = 'OK' WHERE VersionType = N'Schema'
 IF @@ROWCOUNT=0
     INSERT INTO [dbo].[DatabaseVersions] ([VersionType], [VersionString], [Status]) VALUES (N'Schema', @VersionString, N'OK')

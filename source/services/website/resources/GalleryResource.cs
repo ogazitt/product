@@ -36,21 +36,19 @@
         public HttpResponseMessageWrapper<List<GalleryCategory>> Get(HttpRequestMessage req, string type)
         {
             Operation operation = null;
-            if (false)  // TODO: turn authentication back on by removing this if statement
-            {
-                HttpStatusCode code = AuthenticateUser(req);
-                if (code != HttpStatusCode.OK)
-                {   // user not authenticated
-                    return ReturnResult<List<GalleryCategory>>(req, operation, code);
-                }
+            HttpStatusCode code = AuthenticateUser(req);
+            if (code != HttpStatusCode.OK)
+            {   // user not authenticated
+                return ReturnResult<List<GalleryCategory>>(req, operation, code);
             }
+
             try
             {
                 var categories = SuggestionsStorageContext.
                     GalleryCategories.
                     Include("Subcategories.Activities").
                     Include("Activities").
-                    Where(c => c.ParentID == null).ToList();
+                    Where(c => c.ParentID == null && c.InGallery == true).ToList();
                 var response = ReturnResult<List<GalleryCategory>>(req, operation, categories, HttpStatusCode.OK);
                 response.Headers.CacheControl = new CacheControlHeaderValue() { NoCache = true };
                 return response;

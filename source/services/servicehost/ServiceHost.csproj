@@ -126,124 +126,124 @@
     </Content>
     <Content Include="nlp\LGPL.txt" />
     <None Include="App.config" />
-    <Content Include="gallery\activities\Auto\ChangeOil.json">
+    <Content Include="gallery\galleryactivities\01-Auto\ChangeOil.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Generic\BookAppointment.json">
+    <Content Include="gallery\systemactivities\System.Generic\BookAppointment.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\WorkOut.json">
+    <Content Include="gallery\galleryactivities\03-Personal\WorkOut.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\Haircut.json">
+    <Content Include="gallery\galleryactivities\03-Personal\Haircut.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\WaterLawn.json">
+    <Content Include="gallery\galleryactivities\02-Home\WaterLawn.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\MowLawn.json">
+    <Content Include="gallery\galleryactivities\02-Home\MowLawn.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\Massage.json">
+    <Content Include="gallery\galleryactivities\03-Personal\Massage.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\Nails.json">
+    <Content Include="gallery\galleryactivities\03-Personal\Nails.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\Facial.json">
+    <Content Include="gallery\galleryactivities\03-Personal\Facial.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\HairColor.json">
+    <Content Include="gallery\galleryactivities\03-Personal\HairColor.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\DentalCleaning.json">
+    <Content Include="gallery\galleryactivities\03-Personal\DentalCleaning.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\HealthCheckup.json">
+    <Content Include="gallery\galleryactivities\03-Personal\HealthCheckup.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\EyeExam.json">
+    <Content Include="gallery\galleryactivities\03-Personal\EyeExam.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\OrderContacts.json">
+    <Content Include="gallery\systemactivities\System.Personal\OrderContacts.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\PhysicalTherapy.json">
+    <Content Include="gallery\systemactivities\System.Personal\PhysicalTherapy.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\Chiropractic.json">
+    <Content Include="gallery\systemactivities\System.Personal\Chiropractic.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\PersonalTraining.json">
+    <Content Include="gallery\galleryactivities\03-Personal\PersonalTraining.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\FindGym.json">
+    <Content Include="gallery\galleryactivities\03-Personal\FindGym.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Personal\Yoga.json">
+    <Content Include="gallery\systemactivities\System.Personal\Yoga.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\TakeOutTrash.json">
+    <Content Include="gallery\galleryactivities\02-Home\TakeOutTrash.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\CleanGutters.json">
+    <Content Include="gallery\galleryactivities\02-Home\CleanGutters.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\PaintHouse.json">
+    <Content Include="gallery\systemactivities\System.Home\PaintHouse.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\ServiceFurnace.json">
+    <Content Include="gallery\galleryactivities\02-Home\ServiceFurnace.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\PestControl.json">
+    <Content Include="gallery\galleryactivities\02-Home\PestControl.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\CleanAirDucts.json">
+    <Content Include="gallery\galleryactivities\02-Home\CleanAirDucts.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\WashWindows.json">
+    <Content Include="gallery\galleryactivities\02-Home\WashWindows.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\Handyman.json">
+    <Content Include="gallery\galleryactivities\02-Home\Handyman.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\ChangeAirFilter.json">
+    <Content Include="gallery\galleryactivities\02-Home\ChangeAirFilter.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\OrderAirFilter.json">
+    <Content Include="gallery\systemactivities\System.Home\OrderAirFilter.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\UnclogSink.json">
+    <Content Include="gallery\systemactivities\System.Home\UnclogSink.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\CleanChimney.json">
+    <Content Include="gallery\systemactivities\System.Home\CleanChimney.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\HomeSecurity.json">
+    <Content Include="gallery\systemactivities\System.Home\HomeSecurity.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Home\ChlorinatePool.json">
+    <Content Include="gallery\systemactivities\System.Home\ChlorinatePool.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Auto\ReplaceTires.json">
+    <Content Include="gallery\galleryactivities\01-Auto\ReplaceTires.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Auto\RenewTabs.json">
+    <Content Include="gallery\galleryactivities\01-Auto\RenewTabs.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Auto\EmissionTesting.json">
+    <Content Include="gallery\galleryactivities\01-Auto\EmissionTesting.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Auto\ReplaceBrakes.json">
+    <Content Include="gallery\galleryactivities\01-Auto\ReplaceBrakes.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="gallery\activities\Auto\CheckTires.json">
+    <Content Include="gallery\galleryactivities\01-Auto\CheckTires.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="gallery\activities\Home\FixOutlet.json">
+    <None Include="gallery\systemactivities\System.Home\FixOutlet.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="gallery\activities\Home\UnclogToilet.json">
+    <Content Include="gallery\systemactivities\System.Home\UnclogToilet.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config">
@@ -251,7 +251,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="gallery\activities\Personal\Exercise\" />
+    <Folder Include="gallery\systemactivities\System.Auto\" />
+    <Folder Include="gallery\systemactivities\System.Personal\Exercise\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

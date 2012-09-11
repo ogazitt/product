@@ -79,7 +79,7 @@
         public ActionResult InstallActivity(GalleryActivity activity, Folder category)
         {
             var jsResult = new JsResult();
-            if (!GalleryProcessor.InstallActivity(this.StorageContext, Storage.NewSuggestionsContext, category, null, activity))
+            if (!GalleryProcessor.InstallActivity(this.StorageContext, Storage.NewSuggestionsContext, this.CurrentUser, category, null, activity))
                 jsResult.StatusCode = HttpStatusCode.NotFound;
             JsonResult result = new JsonResult();
             result.Data = jsResult;

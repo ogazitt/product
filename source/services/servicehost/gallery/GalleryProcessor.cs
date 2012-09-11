@@ -25,28 +25,7 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
                 // if the caller didn't pass in a Category, merge with an existing folder (by name), or create a new folder
                 if (category == null)
                 {
-                    category = userContext.Folders.FirstOrDefault(f => f.UserID == user.ID && f.Name == newCategory.Name);
-                    if (category == null)
-                    {
-                        category = new Folder()
-                        {
-                            ID = Guid.NewGuid(),
-                            Name = galleryCategory.Name,
-                            UserID = user.ID,
-                            ItemTypeID = SystemItemTypes.Category,
-                        };
-
-                        // make this the last category in the list
-                        float sortOrder = (userContext.Folders.Any(i => i.UserID == user.ID && i.ItemTypeID == SystemItemTypes.Category) ?
-                            userContext.Folders.Where(i => i.UserID == user.ID && i.ItemTypeID == SystemItemTypes.Category).
-                            Select(i => i.SortOrder).
-                            Max() :
-                            0f) + 1000f;
-                        category.SortOrder = sortOrder;
-
-                        userContext.Folders.Add(category);
-                        userContext.SaveChanges();
-                    }
+                    category = CreateCategory(userContext, user, newCategory.Name);
                     parentID = null;
                 }
                 else
@@ -99,23 +78,22 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
             return true;
         }
 
-        public static bool InstallActivity(UserStorageContext userContext, SuggestionsStorageContext suggestionsContext, Folder category, Guid? subCategory, int id)
+        public static bool InstallActivity(UserStorageContext userContext, SuggestionsStorageContext suggestionsContext, User user, Folder category, Guid? subCategory, GalleryActivity galleryActivity)
         {
-            try
-            {
-                // find the gallery activity in the database
-                var ga = suggestionsContext.GalleryActivities.FirstOrDefault(a => a.ID == id);
-                if (ga != null)
-                    return InstallActivity(userContext, suggestionsContext, category, subCategory, ga);
-                else
-                    TraceLog.TraceError("Could not find gallery activity ID " + id);
+            // get activity from context
+            var activity = suggestionsContext.GalleryActivities.FirstOrDefault(ga => ga.ID == galleryActivity.ID);
+            if (activity == null)
                 return false;
-            }
-            catch (Exception ex)
+
+            if (category == null)
             {
-                TraceLog.TraceException("InstallActivity failed", ex);
-                return false;
+                var galleryCategory = suggestionsContext.GalleryCategories.FirstOrDefault(gc => gc.ID == activity.CategoryID);
+                if (galleryCategory == null)
+                    return false;
+                category = CreateCategory(userContext, user, galleryCategory.Name);
             }
+
+            return InstallActivity(userContext, suggestionsContext, category, subCategory, activity);
         }
 
         public static bool InstallActivity(UserStorageContext userContext, SuggestionsStorageContext suggestionsContext, Folder category, Guid? subCategory, GalleryActivity galleryActivity)
@@ -174,7 +152,34 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
             return true;
         }
 
-        public static void InstallStep(UserStorageContext userContext, Folder category, Guid activity, ActivityStep activityStep, float sortOrder)
+        private static Folder CreateCategory(UserStorageContext userContext, User user, string name)
+        {
+            var category = userContext.Folders.FirstOrDefault(f => f.UserID == user.ID && f.Name == name);
+            if (category == null)
+            {
+                category = new Folder()
+                {
+                    ID = Guid.NewGuid(),
+                    Name = name,
+                    UserID = user.ID,
+                    ItemTypeID = SystemItemTypes.Category,
+                };
+
+                // make this the last category in the list
+                float sortOrder = (userContext.Folders.Any(i => i.UserID == user.ID && i.ItemTypeID == SystemItemTypes.Category) ?
+                    userContext.Folders.Where(i => i.UserID == user.ID && i.ItemTypeID == SystemItemTypes.Category).
+                    Select(i => i.SortOrder).
+                    Max() :
+                    0f) + 1000f;
+                category.SortOrder = sortOrder;
+
+                userContext.Folders.Add(category);
+                userContext.SaveChanges();
+            }
+            return category;
+        }
+
+        private static void InstallStep(UserStorageContext userContext, Folder category, Guid activity, ActivityStep activityStep, float sortOrder)
         {
             try
             {

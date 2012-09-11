@@ -16,6 +16,9 @@ namespace BuiltSteady.Product.ServerEntities
         [IgnoreDataMember]
         public int? ParentID { get; set; }
 
+        [IgnoreDataMember]
+        public bool InGallery { get; set; }
+
         public override string ToString()
         {
             return this.Name;

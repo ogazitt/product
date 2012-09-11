@@ -10,8 +10,8 @@ namespace BuiltSteady.Product.ServiceHost
     {
         private const string IntentsFileName = @"workflows\Intents.txt";
 
-        public static string SchemaVersion { get { return "1.0.2012.0904"; } }
-        public static string ConstantsVersion { get { return "2012-09-07e"; } }
+        public static string SchemaVersion { get { return "1.0.2012.0911"; } }
+        public static string ConstantsVersion { get { return "2012-09-11c"; } }
 
         public static List<GalleryCategory> DefaultGallery()
         {
@@ -23,11 +23,18 @@ namespace BuiltSteady.Product.ServiceHost
                 Directory.SetCurrentDirectory(HostEnvironment.GalleryDirectory);
                 cdBack = true;
 
-                // recursively create categories for each of the directories inside of the activities directory
                 var galleryCategories = new List<GalleryCategory>();
                 int currID = 0;
+
+                // recursively create categories for each of the directories inside of the activities directory
+                Directory.SetCurrentDirectory(@"galleryactivities");
                 foreach (var dir in Directory.EnumerateDirectories(@"."))
-                    galleryCategories.Add(CreateCategory(dir, null, ref currID));
+                    galleryCategories.Add(CreateCategory(dir, null, ref currID, true));
+
+                // do the same for system activities that won't be displayed in the gallery
+                Directory.SetCurrentDirectory(@"..\systemactivities");
+                foreach (var dir in Directory.EnumerateDirectories(@"."))
+                    galleryCategories.Add(CreateCategory(dir, null, ref currID, false));
 
                 cdBack = false;
                 Directory.SetCurrentDirectory(currDir);
@@ -119,7 +126,7 @@ namespace BuiltSteady.Product.ServiceHost
             }
         }
 
-        static GalleryCategory CreateCategory(string dirname, int? parentID, ref int currID)
+        static GalleryCategory CreateCategory(string dirname, int? parentID, ref int currID, bool inGallery)
         {
             bool cdBack = false;
             const string prefix = @".\";
@@ -130,18 +137,24 @@ namespace BuiltSteady.Product.ServiceHost
                 Directory.SetCurrentDirectory(dirname);
                 cdBack = true;
 
+                // construct category name
                 string categoryName = dirname.StartsWith(prefix) ? dirname.Substring(prefix.Length) : dirname;
+                var index = categoryName.IndexOf('-');
+                if (index >= 0)
+                    categoryName = categoryName.Substring(index + 1);
+                
                 var galleryCategory = new GalleryCategory()
                 {
                     ID = currID++,
                     Name = categoryName,
                     ParentID = parentID,
+                    InGallery = inGallery,
                     Activities = new List<GalleryActivity>(),
                     Subcategories = new List<GalleryCategory>()
                 };
 
                 foreach (var dir in Directory.EnumerateDirectories(@"."))
-                    galleryCategory.Subcategories.Add(CreateCategory(dir, galleryCategory.ID, ref currID));
+                    galleryCategory.Subcategories.Add(CreateCategory(dir, galleryCategory.ID, ref currID, inGallery));
 
                 foreach (var filename in Directory.EnumerateFiles(@".", @"*.json"))
                 {
@@ -159,7 +172,16 @@ namespace BuiltSteady.Product.ServiceHost
                             var value = JsonValue.Parse(activityDef);
                             if (!String.IsNullOrEmpty((string)value["Name"]))
                                 activityName = (string)value["Name"];
-                            galleryCategory.Activities.Add(new GalleryActivity() { Name = activityName, Definition = activityDef, CategoryID = galleryCategory.ID });
+                            var filter = value["Filter"] != null ? value["Filter"].ToString() : null;
+                            
+                            galleryCategory.Activities.Add(new GalleryActivity() 
+                            { 
+                                Name = activityName, 
+                                Definition = activityDef, 
+                                CategoryID = galleryCategory.ID, 
+                                InGallery = inGallery,
+                                Filter = filter
+                            });
                         }
                     }
                 }

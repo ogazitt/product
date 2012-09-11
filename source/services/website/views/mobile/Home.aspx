@@ -35,14 +35,14 @@
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entity-constants.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entity-objects.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/actiontypelist.js") %>"></script>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/activitylist.js") %>"></script>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/activitymanager.js") %>"></script>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/categorylist.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/infomanager.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/itemviewer.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/nextstepspage.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/steplist.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/stepmanager.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/mobile/activitylist.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/mobile/activitymanager.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/mobile/categorylist.js") %>"></script>
 <%  } %>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/jquery-ui-timepicker.js") %>"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>

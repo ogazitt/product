@@ -236,7 +236,7 @@ Control.Icons.completeHandler = function Control$Icons$completeHandler(item) {
         case ActionTypes.Find:
             $dialog = $('<div>Where will this happen?<p/></div>');
             var field = item.GetField(FieldNames.Locations);
-            var $field = Control.LocationList.renderInput($dialog, item, field);
+            var $field = Control.LocationList.renderInput($dialog, item, field, function (input) { return false; });
             header = activity.Name;
             break;
         default:
@@ -244,6 +244,7 @@ Control.Icons.completeHandler = function Control$Icons$completeHandler(item) {
     }
     if ($dialog != null) {
         Control.popup($dialog, header, function (inputs) {
+            Control.LocationList.update($field);
             item.Complete();
             return true;
         },
@@ -251,7 +252,7 @@ Control.Icons.completeHandler = function Control$Icons$completeHandler(item) {
             return false;
         });
     }
-    return false;  
+    return false;
 }
 
 // return an element that is an icon for skipping an item
@@ -460,7 +461,7 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
                 }
                 // create appointment object
                 var loc = item.GetLocation();
-                var location = (loc != null) ? loc.Address : null;
+                var location = (loc != null) ? loc.GetFieldValue(FieldNames.Address) : null;
                 var name = (inputs[3].length > 0) ? inputs[3] : activity.Name;
                 var appt = Appointment.Extend({ Name: name, StartTime: start, EndTime: end, Location: location, ItemID: item.ID });
                 Service.InvokeController('Actions', 'CreateAppointment',
@@ -477,7 +478,7 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
 
                             // report success to the user
                             var formattedDate = (startTime != null) ? start.format('shortDateTime') : start.format('shortDate');
-                            Control.alert('An appointment for ' + formattedDate + ' was created on your calendar', 'Schedule appointment');
+                            Control.alert('An appointment for ' + formattedDate + ' was created on your calendar', name);
                         }
                     }
                 );

@@ -347,6 +347,7 @@ namespace BuiltSteady.Product.ServiceHost
                     Start = new EventDateTime() { DateTime = XmlConvert.ToString(utcStartTime, XmlDateTimeSerializationMode.Utc) },
                     End = new EventDateTime() { DateTime = XmlConvert.ToString(utcEndTime, XmlDateTimeSerializationMode.Utc) },
                     Description = appt.Notes,
+                    Location = appt.Location,
                     ExtendedProperties = new Event.ExtendedPropertiesData(),
                 };
                 // add item id as private extended property for event

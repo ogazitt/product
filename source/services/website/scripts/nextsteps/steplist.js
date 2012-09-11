@@ -75,7 +75,7 @@ ListView.prototype.renderListItems = function (listItems) {
             var $wrapper = $('<a class="inline" />').appendTo($li);
             this.renderNameField($wrapper, item);
             this.renderFields($wrapper, item);
-            this.renderToolbar($wrapper, item);
+            Control.Actions.render($wrapper, item);
 
             // select
             $li.click(function (e) {
@@ -90,24 +90,12 @@ ListView.prototype.renderListItems = function (listItems) {
 
         }
         else {
-            var $wrapper = $('<dive class="inline" />').appendTo($li);
+            var $wrapper = $('<div class="inline" />').appendTo($li);
             $wrapper.css('width', '100%');
             var $item = $('<div class="pull-left" />').appendTo($wrapper);
             this.renderNameField($item, item);
             this.renderFields($item, item);
-
-            var $toolbar = $('<div class="btn-toolbar pull-right" />').appendTo($wrapper);
-            // render info, complete, skip, and defer buttons
-            var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
-            var $skipBtn = Control.Icons.skipBtn(item).appendTo($toolbar);
-            var $completeBtn = Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }).appendTo($toolbar);
-            var $infoBtn = Control.Icons.infoBtn(item).appendTo($toolbar);
-
-            // render the action button based on the action type
-            var $actionButton = this.actionButton(item);
-            if ($actionButton != null) {
-                $actionButton.prependTo($toolbar);
-            }
+            Control.Actions.render($wrapper, item);
         }
 
         itemCount++;
@@ -116,73 +104,6 @@ ListView.prototype.renderListItems = function (listItems) {
     // make the dropdown for the defer button of the last button row into a drop-up
     if (itemCount > 1) { $li.find('div.control-group').addClass('dropup'); }
     return itemCount;
-}
-
-ListView.prototype.renderToolbar = function ($item, item) {
-    var $toolbar = $('<div class="btn-toolbar hide" />').appendTo($item);
-
-    // render defer dropdown button
-    var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
-    // render skip, complete, info buttons
-    this.mobileButton(Control.Icons.skipBtn(item), true).appendTo($toolbar);
-    this.mobileButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }), true).appendTo($toolbar);
-    this.mobileButton(Control.Icons.infoBtn(item), false).appendTo($toolbar);
-
-    // render action buttons
-    var $actionButton = this.actionButton(item);
-    if ($actionButton != null) {
-        this.mobileButton($actionButton).prependTo($toolbar);
-    }
-}
-
-ListView.prototype.actionButton = function (item) {
-    var actionType = item.GetActionType();
-    if (actionType == null) return null;
-    var actionTypeName = actionType.Name;
-    switch (actionTypeName) {
-        case ActionTypes.Call:
-            if (item.GetPhoneNumber() != null) {
-                return Control.Icons.callBtn(item);
-            }
-            break;
-        case ActionTypes.TextMessage:
-            if (item.GetPhoneNumber() != null) {
-                return Control.Icons.textBtn(item);
-            }
-            break;
-        case ActionTypes.SendEmail:
-            if (item.GetEmail() != null) {
-                return Control.Icons.emailBtn(item);
-            }
-            break;
-        case ActionTypes.Errand:
-            if (item.GetMapLink() != null) {
-                return Control.Icons.mapBtn(item);
-            }
-            break;
-        case ActionTypes.Find:
-            return Control.Icons.findLocalBtn(item);
-        case ActionTypes.Schedule:
-            return Control.Icons.scheduleBtn(item);
-        case ActionTypes.AskFriends:
-            return Control.Icons.askFriendsBtn(item);
-    }
-}
-
-// wrap an icon with a btn style appropriate for rendering on mobile devices
-ListView.prototype.mobileButton = function Control$Icons$mobileButton($iconButton, propagate) {
-    var $btn = $('<a class="btn btn-step" />').append($iconButton);
-    var $icon = $iconButton.find('i');
-    $icon.addClass('icon-blue');
-    var title = $icon.attr('title');
-    $icon.attr('title', null);
-    var $title = $('<p />').appendTo($btn);
-    $title.html(title);
-    $btn.click(function (e) { 
-        $icon.click();
-        return (propagate == true) ? true : false;
-    });
-    return $btn;
 }
 
 ListView.prototype.renderNameField = function ($item, item) {

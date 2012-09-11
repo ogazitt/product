@@ -154,7 +154,9 @@ var StatusTypes = {
     Active: "Active",
     Complete: "Complete",
     Paused: "Paused",
-    Skipped: "Skipped"
+    Paused: "Paused",
+    Skipped: "Skipped",
+    Stopped: null
 }
 
 // ---------------------------------------------------------

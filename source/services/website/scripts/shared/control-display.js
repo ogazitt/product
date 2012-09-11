@@ -408,7 +408,7 @@ Control.Checkbox.render = function Control$Checkbox$render($element, item, field
 
     // disable if completed or skipped in running activity
     var parent = item.GetParentContainer();
-    if (item.IsStep() && parent.IsActivity() && !parent.IsPaused() && (item.IsComplete() || item.IsSkipped())) {
+    if (item.IsStep() && parent.IsActivity() && parent.IsRunning() && (item.IsComplete() || item.IsSkipped())) {
         $checkbox.attr('disabled', 'disabled');
     }
     return $checkbox;

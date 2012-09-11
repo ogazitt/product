@@ -55,13 +55,10 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
     switch (itemType) {
         case ItemTypes.Activity:
             if (typeof (item) == 'object') {
-                if (item.IsPaused()) { $icon.addClass('icon-pause'); }
-                else if (item.IsActive()) { $icon.addClass('icon-play'); }
-                else if (item.IsComplete()) { $icon.addClass('icon-check'); }
-                else { $icon.addClass('icon-stop'); }
+                return Control.Icons.forStatusType(item);
             }
             else {
-                $icon.addClass('icon-play');
+                return Control.Icons.forStatusType(StatusTypes.Active);
             }
             break;
         case ItemTypes.Step:
@@ -83,6 +80,38 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
     }
     return $icon;
 }
+
+// return an element that is an icon for the status type
+Control.Icons.forStatusType = function Control$Icons$forStatusType(item) {
+    // allow parameter as Item or StatusType
+    var statusType = item;
+    if (typeof (item) == 'object') {
+        statusType = item.Status;
+    }
+
+    var $icon = $('<i></i>');
+    switch (statusType) {
+        case StatusTypes.Active:
+            $icon.addClass('icon-play');
+            break;
+        case StatusTypes.Complete:
+            $icon.addClass('icon-check');
+            break;
+        case StatusTypes.Paused:
+            $icon.addClass('icon-pause');
+            break;
+        case StatusTypes.Skipped:
+            //$icon.addClass('icon-step-forward');
+            $icon.addClass('icon-share');
+            break;
+        default:
+            //$icon.addClass('icon-stop');
+            $icon.addClass('icon-sign-blank');
+            break;
+    }
+    return $icon;
+}
+
 
 // return an element that is an icon for the action type
 Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
@@ -256,7 +285,8 @@ Control.Icons.completeHandler = function Control$Icons$completeHandler(item) {
 
 // return an element that is an icon for skipping an item
 Control.Icons.skipBtn = function Control$Icons$skipBtn(item) {
-    var $icon = $('<i class="icon-step-forward icon-large"></i>');
+    //var $icon = $('<i class="icon-step-forward icon-large"></i>');
+    var $icon = $('<i class="icon-share icon-large"></i>');
     $icon.data('item', item);
     $icon.attr('title', 'Skip');
     if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
@@ -603,8 +633,8 @@ Control.ItemType.update = function Control$ItemType$update($menuitem) {
 //
 Control.ActionType = {};
 Control.ActionType.renderDropdown = function Control$ActionType$renderDropdown($element, item, noLabel) {
-    // only render if the item type has an ActionType field
-    if (!item.HasField(FieldNames.ActionType)) return;
+    // return dummy $element if item has no ActionType field
+    if (!item.HasField(FieldNames.ActionType)) return $('<dummy />');
 
     var currentActionTypeName = item.GetFieldValue(FieldNames.ActionType);
     if (currentActionTypeName == null) currentActionTypeName = ActionTypes.Reminder;
@@ -615,8 +645,8 @@ Control.ActionType.renderDropdown = function Control$ActionType$renderDropdown($
         $(label).appendTo($wrapper);
     }
 
-    var $btnGroup = $('<div class="btn-group" />').appendTo($wrapper);
-    var $btn = $('<a class="btn dropdown-toggle" data-toggle="dropdown" />').appendTo($btnGroup);
+    var $btnGroup = $('<div class="dropdown" />').appendTo($wrapper);
+    var $btn = $('<a class="icon dropdown-toggle" data-toggle="dropdown" />').appendTo($btnGroup);
     Control.Icons.forActionType(currentActionTypeName).appendTo($btn);
     if (noLabel != true) {
         $('<span>&nbsp;&nbsp;' + currentActionTypeName + '</span>').appendTo($btn);
@@ -753,4 +783,86 @@ Control.ThemePicker.render = function Control$ThemePicker$render($element) {
         e.preventDefault();
     });
     return $wrapper;
+}
+
+// ---------------------------------------------------------
+// Control.Actions static object
+// static re-usable helper to display action buttons
+//
+Control.Actions = {};
+Control.Actions.render = function Control$Actions$render($element, item) {
+    if (Browser.IsMobile()) {
+        var $toolbar = $('<div class="btn-toolbar hide" />').appendTo($element);
+        // render defer, skipe, complete and info buttons
+        var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
+        this.mobileButton(Control.Icons.skipBtn(item), true).appendTo($toolbar);
+        this.mobileButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }), true).appendTo($toolbar);
+        this.mobileButton(Control.Icons.infoBtn(item), false).appendTo($toolbar);
+
+        // render the action button based on the action type
+        var $actionButton = this.renderAction(item);
+        if ($actionButton != null) {
+            this.mobileButton($actionButton).prependTo($toolbar);
+        }
+    } else {
+        var $toolbar = $('<div class="btn-toolbar pull-right" />').appendTo($element);
+        // render info, complete, skip, and defer buttons
+        var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
+        var $skipBtn = Control.Icons.skipBtn(item).appendTo($toolbar);
+        var $completeBtn = Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }).appendTo($toolbar);
+        var $infoBtn = Control.Icons.infoBtn(item).appendTo($toolbar);
+
+        // render the action button based on the action type
+        var $actionButton = this.renderAction(item);
+        if ($actionButton != null) {
+            $actionButton.prependTo($toolbar);
+        }        
+    }
+}
+
+Control.Actions.renderAction = function Control$Actions$renderAction(item) {
+    var actionType = item.GetActionType();
+    if (actionType == null) return null;
+    var actionTypeName = actionType.Name;
+    switch (actionTypeName) {
+        case ActionTypes.Call:
+            if (item.GetPhoneNumber() != null) {
+                return Control.Icons.callBtn(item);
+            }
+            break;
+        case ActionTypes.TextMessage:
+            if (item.GetPhoneNumber() != null) {
+                return Control.Icons.textBtn(item);
+            }
+            break;
+        case ActionTypes.SendEmail:
+            if (item.GetEmail() != null) {
+                return Control.Icons.emailBtn(item);
+            }
+            break;
+        case ActionTypes.Errand:
+            if (item.GetMapLink() != null) {
+                return Control.Icons.mapBtn(item);
+            }
+            break;
+        case ActionTypes.Find:
+            return Control.Icons.findLocalBtn(item);
+        case ActionTypes.Schedule:
+            return Control.Icons.scheduleBtn(item);
+        case ActionTypes.AskFriends:
+            return Control.Icons.askFriendsBtn(item);
+    }
+}
+
+// wrap an icon with a btn style appropriate for rendering on mobile devices
+Control.Actions.mobileButton = function Control$Actions$mobileButton($iconButton, propagate) {
+    var $btn = $('<a class="btn btn-step" />').append($iconButton);
+    var $icon = $iconButton.find('i');
+    $icon.addClass('icon-blue');
+    var title = $icon.attr('title');
+    $icon.attr('title', null);
+    var $title = $('<p />').appendTo($btn);
+    $title.html(title);
+    $btn.click(function (e) { $icon.click(); return (propagate == true) ? true : false; });
+    return $btn;
 }

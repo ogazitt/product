@@ -18,6 +18,7 @@ Folder.prototype.Copy = function () { var copy = $.extend(new Folder(), this); c
 Folder.prototype.IsFolder = function () { return true; };
 Folder.prototype.IsCategory = function () { return (this.ItemTypeID == ItemTypes.Category); };
 Folder.prototype.IsActivity = function () { return (this.ItemTypeID == ItemTypes.Activity); };
+Folder.prototype.IsRunning = function () { return false; };
 Folder.prototype.IsDefault = function () {
     var defaultList = DataModel.UserSettings.GetDefaultList(this.ItemTypeID);
     if (defaultList != null) {
@@ -29,7 +30,7 @@ Folder.prototype.IsSelected = function () { return DataModel.UserSettings.IsFold
 Folder.prototype.IsExpanded = function () { return DataModel.UserSettings.IsFolderExpanded(this.ID); };
 Folder.prototype.Expand = function (expand) { DataModel.UserSettings.ExpandFolder(this.ID, expand); };
 Folder.prototype.GetItemType = function () { return DataModel.Constants.ItemTypes[this.ItemTypeID]; };
-Folder.prototype.GetItems = function (excludeListItems) { return DataModel.GetItems(this, null, excludeListItems); };
+Folder.prototype.GetItems = function (excludeListItems, group) { return DataModel.GetItems(this, null, excludeListItems, group); };
 Folder.prototype.GetItem = function (itemID) { return this.Items[itemID]; }
 Folder.prototype.GetItemByName = function (name, parentID) {
     for (id in this.Items) {
@@ -117,7 +118,7 @@ Item.prototype.GetFolder = function () { return (DataModel.getFolder(this.Folder
 Item.prototype.GetParent = function () { return (this.ParentID == null) ? null : this.GetFolder().Items[this.ParentID]; };
 Item.prototype.GetParentContainer = function () { return (this.ParentID == null) ? this.GetFolder() : this.GetParent(); };
 Item.prototype.GetItemType = function () { return DataModel.Constants.ItemTypes[this.ItemTypeID]; };
-Item.prototype.GetItems = function (excludeListItems) { return DataModel.GetItems(this.FolderID, this.ID, excludeListItems); };
+Item.prototype.GetItems = function (excludeListItems, group) { return DataModel.GetItems(this.FolderID, this.ID, excludeListItems, group); };
 Item.prototype.InsertItem = function (newItem, adjacentItem, insertBefore, activeItem) { return DataModel.InsertItem(newItem, this, adjacentItem, insertBefore, activeItem); };
 Item.prototype.Update = function (updatedItem, activeItem) { return DataModel.UpdateItem(this, updatedItem, activeItem); };
 Item.prototype.Delete = function (activeItem) { return DataModel.DeleteItem(this, activeItem); };
@@ -368,12 +369,13 @@ Item.prototype.GetMapLink = function () {
 
 // Item.Status helpers
 Item.prototype.UpdateStatus = function (status, activeItem) { var copy = this.Copy(); copy.Status = status; return this.Update(copy, activeItem); };
-Item.prototype.IsNullStatus = function () { return (this.Status == null); };
+Item.prototype.IsStopped = function () { return (this.Status == StatusTypes.Stopped); };
 Item.prototype.IsActive = function () { return (this.Status == StatusTypes.Active); };
 Item.prototype.IsComplete = function () { return (this.Status == StatusTypes.Complete); };
 Item.prototype.IsPaused = function () { return (this.Status == StatusTypes.Paused); };
 Item.prototype.IsSkipped = function () { return (this.Status == StatusTypes.Skipped); };
-Item.prototype.StatusClass = function () { return (this.IsNullStatus()) ? '' : ('st-' + this.Status.toLowerCase()); };
+Item.prototype.IsRunning = function () { return !(this.IsStopped() || this.IsPaused()); };
+Item.prototype.StatusClass = function () { return (this.IsStopped()) ? 'st-stopped' : ('st-' + this.Status.toLowerCase()); };
 
 // Activity and Step Item helpers
 Item.prototype.IsCategory = function () { return (this.ItemTypeID == ItemTypes.Category); };
@@ -384,7 +386,8 @@ Item.prototype.IsStep = function () { return (this.ItemTypeID == ItemTypes.Step)
 // returns object { Start: bool, Resume: bool, Restart: bool }
 Item.prototype.CanResume = function () {
     var status = { Start: false, Resume: false, Restart: false }
-    var steps = this.GetItems(true);
+    // get current steps (excludeLists and group == null)
+    var steps = this.GetItems(true, null);
     if (ItemMap.count(steps) == 0) {
         var dueDate = this.GetFieldValue(FieldNames.DueDate);
         var completedOn = this.GetFieldValue(FieldNames.CompletedOn);
@@ -396,20 +399,19 @@ Item.prototype.CanResume = function () {
         return status;
     }
 
-    // TODO: this should only iterate 'current' steps
-    var allNull = true;
-    var allNullAfter = true;
+    var allStopped = true;
+    var allStoppedAfter = true;
     var allCompleteBefore = true;
     var pauseCount = 0;
     for (var id in steps) {
         var step = steps[id];
-        if (!step.IsNullStatus()) { allNull = false; }
+        if (!step.IsStopped()) { allStopped = false; }
         if (step.IsPaused()) { pauseCount++; }
         if (pauseCount == 0 && !(step.IsComplete() || step.IsSkipped())) { allCompleteBefore = false; }
-        if (pauseCount == 1 && !(step.IsPaused() || step.IsNullStatus())) { allNullAfter = false; }
+        if (pauseCount == 1 && step.IsRunning()) { allStoppedAfter = false; }
     }
-    status.Start = allNull;
-    status.Resume = (pauseCount < 2 && allCompleteBefore && allNullAfter);
+    status.Start = allStopped;
+    status.Resume = (pauseCount < 2 && allCompleteBefore && allStoppedAfter);
     status.Restart = !status.Start;
     return status;
 };
@@ -462,8 +464,8 @@ Item.prototype.Skip = function () {
 }
 // helper for marking item paused and marking first active child item paused
 Item.prototype.Pause = function () {
-    // TODO: this should only iterate 'current' steps
-    var steps = this.GetItems(true);
+    // get current steps (excludeLists and group == null)
+    var steps = this.GetItems(true, null);
     for (var id in steps) {
         var step = steps[id];
         if (step.IsActive()) {
@@ -477,7 +479,8 @@ Item.prototype.Pause = function () {
 // if due date is required, item requiring due date will be returned
 Item.prototype.Start = function (newDueDate) { return this.Active(newDueDate); }
 Item.prototype.Active = function (newDueDate) {
-    var steps = this.GetItems(true);
+    // get current steps (excludeLists and group == null)
+    var steps = this.GetItems(true, null);
     if (ItemMap.count(steps) == 0) {
         var dueDate = (newDueDate != null) ? newDueDate : this.GetFieldValue(FieldNames.DueDate);
         if (dueDate == null || dueDate.length == 0) {
@@ -492,7 +495,6 @@ Item.prototype.Active = function (newDueDate) {
         }
     }
 
-    // TODO: this should only iterate 'current' steps
     var prevStep = null;
     for (var id in steps) {
         var step = steps[id];
@@ -502,8 +504,8 @@ Item.prototype.Active = function (newDueDate) {
             this.UpdateStatus(StatusTypes.Active);
             return null;
         }
-        if (step.IsNullStatus()) {
-            // mark first null step active
+        if (step.IsStopped()) {
+            // mark first stoppeed step active
             var dueDate = (newDueDate != null) ? newDueDate : step.GetFieldValue(FieldNames.DueDate);
             if (dueDate == null || dueDate.length == 0) {
                 if (prevStep != null) {         // try using due date of previous step
@@ -533,7 +535,8 @@ Item.prototype.Active = function (newDueDate) {
 
 // helper for resetting an activity to restart (null status and due dates)
 Item.prototype.Restart = function () {
-    var steps = this.GetItems(true);
+    // get current steps (excludeLists and group == null)
+    var steps = this.GetItems(true, null);
     if (ItemMap.count(steps) == 0) {
         var copy = this.Copy();
         copy.SetFieldValue(FieldNames.DueDate, null);
@@ -552,7 +555,6 @@ Item.prototype.Restart = function () {
     }
     return this.Active();
 }
-
 
 // Item private functions
 Item.prototype.addItem = function (newItem, activeItem) { this.GetFolder().addItem(newItem, activeItem); };

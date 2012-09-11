@@ -900,10 +900,21 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-list{padding:6px;overflow-y:auto;over-flow-x:hidden}
 .dashboard-list ul{margin:0;over-flow-x:hidden}
 .dashboard-list li a{cursor:pointer}
-.dashboard-list li a.paused{color:#ccc}
 .dashboard-list .itemlist .dropdown-menu{top:0;right:20px}
 .dashboard-list .itemlist span,.dashboard-list .itemlist em{padding-left:21px}
 .dashboard-right .dropdown-menu.pull-right{left:auto;right:0}
+.dashboard-list li a.st-paused,.dashboard-list li a.st-stopped{color:#ccc}
+.dashboard-center li div.form-inline{color:#08c}
+.dashboard-center li div.form-inline:hover{color:#005580;cursor:default}
+.dashboard-center li.st-paused{background-color:#fcf8e3}
+.dashboard-list li a.st-paused i,.dashboard-center li.st-paused .form-inline i{color:#fbb450}
+.dashboard-list li a.st-paused i:hover,.dashboard-center li.st-paused .form-inline i:hover{color:#f89406}
+.dashboard-list li a.st-stopped i,.dashboard-center li.st-stopped .form-inline i{color:#999}
+.dashboard-list li a.st-stopped i:hover,.dashboard-center li.st-stopped .form-inline i:hover{color:#555}
+.dashboard-list li a.st-skipped i,.dashboard-center li.st-skipped .form-inline i{color:#ee5f5b}
+.dashboard-list li a.st-skipped i:hover,.dashboard-center li.st-skipped .form-inline i:hover{color:#bd362f}
+.dashboard-list li a.st-active i,.dashboard-center li.st-active .form-inline i{color:#62c462}
+.dashboard-list li a.st-active i:hover,.dashboard-center li.st-active .form-inline i:hover{color:#51a351}
 .dashboard-right .working{text-align:center;width:100%}
 .dashboard-right .working span{display:inline-block;width:16px;height:11px;background:transparent url(images/busy.gif) no-repeat;opacity:.6;filter:alpha(opacity=60)}
 .dashboard-center{padding:0;margin:0}
@@ -915,6 +926,7 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-center .tab-content{min-height:200px}
 .dashboard-center .tab-content .form-vertical .control-group{margin:0 10px 0 0;padding:0}
 .dashboard-center .tab-content .form-vertical .control-label,.modal-body .control-label{font-size:8pt;margin:0 0 -4px 8px}
+.dashboard-center .manager-folders div.form-inline{padding:4px 0 0 0}
 .dashboard-center .manager-folders .form-inline .checkbox{margin-right:6px;margin-top:-2px}
 .dashboard-center .manager-folders small{font-size:90%;margin-right:12px}
 .dashboard-center .manager-folders{position:relative}
@@ -922,11 +934,8 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-center .manager-folders .tab-content .input-inline-max{display:inline-block;width:90%}
 .dashboard-center .manager-folders .tab-content .nav-list{padding:0}
 .dashboard-center .manager-folders .tab-content .nav-list li{border-top:1px solid #ccc;padding:0 8px 0 8px}
-.dashboard-center .manager-folders .tab-content .nav-list li.selected{background-color:#e6e6e6}
-.dashboard-center .manager-folders .tab-content .nav-list li.st-complete{background-color:#d9edf7}
-.dashboard-center .manager-folders .tab-content .nav-list li.st-skipped{background-color:#f2dede}
-.dashboard-center .manager-folders .tab-content .nav-list li.st-active{background-color:#dff0d8}
-.dashboard-center .manager-folders .tab-content .nav-list li.st-paused{background-color:#dff0d8}
+.dashboard-center .manager-folders .tab-content .nav-list li.selected{background-color:#eee}
+.dashboard-center .manager-folders .tab-content .nav-list li.st-paused{background-color:#fcf8e3}
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar{margin:8px 2px 2px 2px}
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar.pull-right{float:right}
 .btn-toolbar .icon-large{text-align:left;padding:4px 0 0 8px}
@@ -935,10 +944,10 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-center .carousel .fn-name{color:black;font-weight:bold;background-color:transparent;border-style:none}
 .dashboard-center .carousel .fn-name:focus{color:black;font-weight:normal;background-color:#fff}
 .dashboard-center .carousel .form-inline .checkbox{margin-right:6px;margin-top:5px}
-.dashboard-center .carousel .form-inline.well{height:64px;padding:8px 8px 8px 8px}
+.dashboard-center .carousel .form-inline.well{min-height:64px;padding:8px 8px 8px 8px}
 .dashboard-center .carousel .form-inline.well .thumbnail{margin:0;padding:2px;height:64px;max-width:64px;float:right}
 .dashboard-center .carousel .form-inline.well .thumbnail img{width:100%;height:100%}
-.dashboard-center .carousel .form-inline.well .btn-toolbar{margin:0 0 4px 0;padding:0 0 4px 0}
+.dashboard-center .carousel .form-inline.well .thumbnail a.icon i{font-size:48px;margin:6px 0 0 12px}
 .page-turn-prev{display:inline-block;width:24px;height:24px;background:transparent url(images/page-turn-prev.png) no-repeat}
 .page-turn-next{display:inline-block;width:24px;height:24px;background:transparent url(images/page-turn-next.png) no-repeat}
 .page-turn-control{position:absolute;bottom:-28px}
@@ -958,19 +967,14 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .inline-left{display:inline-block;float:left}
 .inline-right{display:inline-block;float:right}
 .item-status{position:absolute;top:10px;right:0}
-.item-status i{font-size:16pt;margin-right:12px}
-.item-status i.icon-play{color:#62c462}
-.item-status i.icon-play:hover{color:#51a351}
-.item-status i.icon-forward,.item-status i.icon-backward{color:#08c}
-.item-status i.icon-forward:hover,.item-status i.icon-backward:hover{color:#05c}
-.item-status i.icon-pause{color:#fbb450}
-.item-status i.icon-pause:hover{color:#f89406}
 .icon.drag-handle{position:absolute;top:7px;left:1px;color:transparent;cursor:n-resize;font-family:Arial;font-size:22pt}
 li:hover .icon.drag-handle{color:inherit}
 li.active:hover .icon.drag-handle{color:#fff}
 .btn-command{color:#999}
 .btn-dropdown{color:#fff;cursor:pointer}
 .btn-dropdown.open .dropdown-toggle{background-color:transparent}
+.btn.icon{width:24px;height:19px;padding:5px 0 0 0;margin:-2px 4px 0 0}
+.btn.icon .icon-backward{margin-right:2px}
 i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;background:transparent url(images/icon-azure.png) no-repeat}
 .repeat-frequency{max-width:80px;margin-right:20px}
 .repeat-interval{max-width:60px}

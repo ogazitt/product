@@ -112,10 +112,6 @@ Dashboard.ManageFolder = function Dashboard$ManageFolder(folderID, itemID) {
         Dashboard.folderManager.selectItem(item);
     }
 
-    // TODO: remove all suggestion code
-    //if (!Dashboard.resizing) {
-    //    Dashboard.getSuggestions(folder, item);     // get suggestions for currently selected user, folder, or item
-    //}
 }
 
 // event handler, do not reference 'this' to access static Dashboard
@@ -205,7 +201,7 @@ Dashboard.resize = function Dashboard$resize() {
     Dashboard.$center.height(dbHeight);
     Dashboard.$right.height(dbHeight);
 
-    //Dashboard.showManager(Dashboard.currentManager, true);
+    Dashboard.showManager(Dashboard.currentManager, true);
     //Dashboard.folderList.render(Dashboard.$left);
     //Dashboard.folderManager.render();
 

@@ -91,7 +91,7 @@ FolderManager.prototype.render = function () {
     $tabs.find('li a:first').empty().append(this.activeListName(activeList));
 
 
-    var activityIsRunning = activeList.IsActivity() && !activeList.IsPaused();
+    var activityIsRunning = activeList.IsActivity() && activeList.IsRunning();
     if (activeItem == null || activityIsRunning) {
         $tabs.find('a[href=".' + FolderManager.ItemView + '"]').hide();
     } else {
@@ -122,8 +122,8 @@ FolderManager.prototype.renderStatus = function () {
     var $status = this.$element.children('div.item-status').empty();
     var activity = this.activeList();
     if (activity != null && !activity.IsFolder() && activity.IsActivity()) {
-        if (!activity.IsPaused()) {
-            var $btnPause = $('<a><i class="icon-pause"></i></a>').appendTo($status);
+        if (activity.IsRunning()) {
+            var $btnPause = $('<a class="btn btn-warning icon"><i class="icon-pause"></i></a>').appendTo($status);
             $btnPause.attr('title', 'Pause Activity').tooltip(Control.noDelayBottom);
             $btnPause.click(function () {
                 $(this).tooltip('hide');
@@ -133,7 +133,7 @@ FolderManager.prototype.renderStatus = function () {
             if (activity.IsComplete()) {
                 var rrule = Recurrence.Extend(activity.GetFieldValue(FieldNames.Repeat));
                 if (rrule.IsEnabled()) {
-                    var $btnForward = $('<a><i class="icon-forward"></i></a>').appendTo($status);
+                    var $btnForward = $('<a class="btn btn-primary icon"><i class="icon-forward"></i></a>').appendTo($status);
                     $btnForward.attr('title', 'Repeat Activity').tooltip(Control.noDelayBottom);
                 }
             }
@@ -161,7 +161,7 @@ FolderManager.prototype.renderStatus = function () {
             var status = activity.CanResume();
             if (status.Start || status.Resume) {
                 var title = (status.Start) ? 'Start Activity' : 'Resume Activity';
-                var $btnStart = $('<a><i class="icon-play"></i></a>').appendTo($status);
+                var $btnStart = $('<a class="btn btn-success icon"><i class="icon-play"></i></a>').appendTo($status);
                 $btnStart.attr('title', title).tooltip(Control.noDelayBottom);
 
                 $btnStart.click(function () {
@@ -175,7 +175,7 @@ FolderManager.prototype.renderStatus = function () {
             }
 
             if (status.Restart) {
-                var $btnRestart = $('<a><i class="icon-backward"></i></a>').prependTo($status);
+                var $btnRestart = $('<a class="btn btn-primary icon"><i class="icon-backward"></i></a>').prependTo($status);
                 $btnRestart.attr('title', 'Restart Activity').tooltip(Control.noDelayBottom);
 
                 $btnRestart.click(function () {
@@ -186,6 +186,9 @@ FolderManager.prototype.renderStatus = function () {
                         popupDueDate(itemNeedsDueDate, activity);
                     }
                 });
+
+                if (status.Resume && activity.IsStopped()) { activity.UpdateStatus(StatusTypes.Paused); }
+                if (!status.Resume && activity.IsPaused()) { activity.UpdateStatus(StatusTypes.Stopped); }
             }
 
         }

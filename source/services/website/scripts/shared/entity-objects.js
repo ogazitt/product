@@ -198,9 +198,9 @@ Recurrence.prototype.HasDay = function (day) { return this.ByDay.indexOf(day) !=
 Recurrence.prototype.AddDay = function (day) { this.ByDay = this.ByDay.concat(day+','); };
 Recurrence.prototype.RemoveDay = function (day) { this.ByDay = this.ByDay.replace(day+',',''); };
 
-Recurrence.prototype.Summary = function (on) {
-    var summary = "Repeat?";
-    if (this.IsEnabled() || on == true) {
+Recurrence.prototype.Summary = function () {
+    var summary = "Do not repeat";
+    if (this.IsEnabled()) {
         // generate summary statement
         var txtFreq = FrequencyLabels[this.Frequency];
         if (this.Interval == 1) { txtFreq = txtFreq.substr(0, txtFreq.length - 1); }

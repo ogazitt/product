@@ -159,6 +159,7 @@ ListView.prototype.render = function ($element, list, height) {
 
 ListView.prototype.renderListItems = function (list) {
     var listItems = list.GetItems(true);
+    var totalCount = ItemMap.count(listItems);
     var itemCount = 0;
     for (var id in listItems) {
         var item = listItems[id];
@@ -179,9 +180,8 @@ ListView.prototype.renderListItems = function (list) {
             if (item.IsActive()) {      // display actions for active step
                 Control.Actions.render($wrapper, item);
             } else {                    // display action type icon
-                $icon = $('<a class="icon" style="cursor: default;" />').appendTo($li);
+                $icon = $('<a class="icon absolute-right" style="cursor: default;" />').appendTo($li);
                 Control.Icons.forActionType(item.GetActionType()).appendTo($icon);
-                $icon.addClass('absolute-right');
             }
         } else {
             if (item.IsSelected()) { $li.addClass('selected'); }
@@ -193,7 +193,13 @@ ListView.prototype.renderListItems = function (list) {
 
             var $editBtns = $('<div class="absolute-right" />').appendTo($li);
             Control.Icons.deleteBtn(item).appendTo($editBtns).addClass('pull-right');
-            Control.ActionType.renderDropdown($editBtns, item, true).addClass('pull-right');
+            var $actions = Control.ActionType.renderDropdown($editBtns, item, true).addClass('pull-right');
+            // adjust location of dropdown menu to avoid clipping
+            if (itemCount > 1 || (totalCount == 2 && itemCount == 1)) { 
+                $actions.find('.dropdown').addClass('dropup'); }
+            else {
+                $actions.find('.dropdown').addClass('dropcenter'); 
+            }
 
             this.renderNameField($item, item);
 

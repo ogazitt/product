@@ -147,10 +147,7 @@ ListView.prototype.actionButton = function (item) {
         case ActionTypes.SendEmail:
             return Control.Icons.emailBtn(item);
         case ActionTypes.Errand:
-            if (item.GetMapLink() != null) {
-                return Control.Icons.mapBtn(item);
-            }
-            break;
+            return Control.Icons.mapBtn(item);
         case ActionTypes.Find:
             return Control.Icons.findLocalBtn(item);
         case ActionTypes.Schedule:

@@ -328,50 +328,63 @@ Item.prototype.GetContact = function () {
 }
 // helper for finding a phone number of an item (via locations or contacts)
 Item.prototype.GetPhoneNumber = function () {
-    var item = this.GetLocation();
-    if (item == null) { item = this.GetContact(); }
-    if (item != null) {
-        var phone = item.GetFieldValue(FieldNames.Phone);
-        if (phone != null) phone = phone.replace(/[^0-9]+/g, '');
-        return phone;
+    if (this.HasField(FieldNames.Phone)) { return this.GetFieldValue(FieldNames.Phone); };
+    if (this.IsActivity() || this.IsStep()) {
+        var item = this.GetLocation();
+        if (item != null) { 
+            var value = item.GetFieldValue(FieldNames.Phone);
+            if (value != null) { return value; }
+        }
+        item = this.GetContact();
+        if (item != null) { return item.GetFieldValue(FieldNames.Phone) };
     }
     return null;
-}
-// helper for setting a phone number on an item's first contact
-Item.prototype.SetPhoneNumber = function (phone, item) {
-    if (item == null) { item = this.GetContact(); }
-    if (item != null) { item.SetFieldValue(FieldNames.Phone, phone); }
 }
 // helper for finding an email of an item (via locations or contacts)
 Item.prototype.GetEmail = function () {
-    var item = this.GetLocation();
-    if (item == null) { item = this.GetContact(); }
-    if (item != null) {
-        var email = item.GetFieldValue(FieldNames.Email);
-        return email;
+    if (this.HasField(FieldNames.Email)) { return this.GetFieldValue(FieldNames.Email); };
+    if (this.IsActivity() || this.IsStep()) {
+        var item = this.GetLocation();
+        if (item != null) { 
+            var value = item.GetFieldValue(FieldNames.Email);
+            if (value != null) { return value; }
+        }
+        item = this.GetContact();
+        if (item != null) { return item.GetFieldValue(FieldNames.Email) };
     }
     return null;
 }
-// helper for setting an email on an item's first contact
-Item.prototype.SetEmail = function (email, item) {
-    if (item == null) { item = this.GetContact(); }
-    if (item != null) { item.SetFieldValue(FieldNames.Email, email); }
-}
 // helper for finding a map link (via locations or contacts)
 Item.prototype.GetMapLink = function () {
-    var item = this.GetLocation();
-    if (item == null) item = this.GetContact();
-    if (item != null) {
-        var json = item.GetFieldValue(FieldNames.WebLinks);
-        if (json != null && json.length > 0) {
-            var links = new LinkArray(json).Links();
-            for (var i in links) {
-                var link = links[i];
-                if (link.Name == 'Map' && link.Url != null) {
-                    return link;
+    var getmaplink = function (item) {
+        if (item != null) {
+            var address = item.GetFieldValue(FieldNames.Address);
+            if (address != null) {
+                if (Browser.IsMobile()) { return 'maps:' + escape(address); }
+                else { return 'http://maps.google.com/?q=' + escape(address); }
+            }
+            // if address field not found, look for map link
+            var json = item.GetFieldValue(FieldNames.WebLinks);
+            if (json != null && json.length > 0) {
+                var links = new LinkArray(json).Links();
+                for (var i in links) {
+                    var link = links[i];
+                    if (link.Name == 'Map' && link.Url != null) {
+                        return link.Url;
+                    }
                 }
             }
         }
+    };
+    if (this.HasField(FieldNames.Address)) { return getmaplink(this); };
+    if (this.IsActivity() || this.IsStep()) {
+        var item = this.GetLocation();
+        if (item != null) {
+            var link = getmaplink(item);
+            if (link != null) { return link; }
+        }
+        item = this.GetContact();
+        if (item != null) { return getmaplink(item); }
     }
     return null;
 }

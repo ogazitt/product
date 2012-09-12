@@ -345,16 +345,35 @@ Control.Icons.formatPhoneNumber = function Control$Icons$formatPhoneNumber(phone
 
 // return an element that is an icon for mapping
 Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
-    var link = item.GetMapLink();
-    if (link != null) {
-        var $icon = $('<i class="icon-map-marker icon-large icon-blue"></i>');
-        $icon.attr('href', link.Url);
-        $icon.attr('title', 'Map');
-        if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    var $icon = $('<i class="icon-map-marker icon-large icon-blue"></i>');
+    $icon.data('item', item);
+    $icon.attr('title', 'Map');
+    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
 
-        $icon.click(function () { window.open($(this).attr('href')); return false; });
-        return $('<a class="icon" />').append($icon);
-    }
+    $icon.bind('click', function () {
+        var $this = $(this);
+        $this.tooltip('hide');
+        var item = $this.data('item');
+        var link = item.GetMapLink();
+        if (link != null) { window.open(link); }
+        else {
+            var $dialog = $('<div>Where is this taking place?<p/></div>');
+            var field = item.GetField(FieldNames.Locations);
+            var $field = Control.LocationList.renderInput($dialog, item, field, function (input) { return false; });
+            var header = item.Name;
+            Control.popup($dialog, header, function (inputs) {
+                Control.LocationList.update($field);
+                var place = $field.data('place');
+                if (place != null) {
+                    if (Browser.IsMobile()) { window.open('maps:' + escape(place.formatted_address)); }
+                    else { window.open('http://maps.google.com/?q=' + escape(place.formatted_address)); }
+                }
+            });
+        }
+        return false;
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
 }
 
 // return an element that is an icon for emailing

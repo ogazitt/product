@@ -58,13 +58,16 @@ Control.Text.renderEmail = function Control$Text$renderEmail($element, item, fie
     }
     return $link;
 }
-// render activity link
+// render activity link (can pass either a Step or an Activity)
 Control.Text.renderActivityLink = function Control$Text$renderActivityLink($element, item, handler) {
     var $link;
-    var parent = item.GetParent();
-    var value = parent.Name;
-    if (value != null) {
-        $link = $('<a>' + value + '</a>').appendTo($element);
+    var name = item.Name;
+    if (item.IsStep()) {
+        var parent = item.GetParent();
+        name = parent.Name;
+    }
+    if (name != null) {
+        $link = $('<a>' + name + '</a>').appendTo($element);
         $link.css('whitespace', 'nowrap');
         $link.click(function (e) { handler(parent); });
     }

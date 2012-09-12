@@ -260,9 +260,9 @@
     <Content Include="scripts\master.generated.min.js">
       <DependentUpon>master.js.chirp.config</DependentUpon>
     </Content>
-    <Content Include="scripts\nextsteps\categorylist.js" />
-    <Content Include="scripts\nextsteps\activitymanager.js" />
-    <Content Include="scripts\nextsteps\activitylist.js" />
+    <Content Include="scripts\nextsteps\mobile\categorylist.js" />
+    <Content Include="scripts\nextsteps\mobile\activitymanager.js" />
+    <Content Include="scripts\nextsteps\mobile\activitylist.js" />
     <Content Include="scripts\nextsteps\infomanager.js" />
     <Content Include="scripts\nextsteps\itemviewer.js" />
     <Content Include="scripts\nextsteps\nextsteps-mobile.generated.min.js">
@@ -310,8 +310,12 @@
     <Content Include="startup\DeployBlob.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="startup\Microsoft.WindowsAzure.StorageClient.dll" />
-    <Content Include="startup\Microsoft.WindowsAzure.StorageClient.xml" />
+    <Content Include="startup\Microsoft.WindowsAzure.StorageClient.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="startup\Microsoft.WindowsAzure.StorageClient.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="views\account\SignIn.aspx" />
     <Content Include="views\dashboard\Home.aspx" />
     <Content Include="views\dashboard\NextSteps.aspx" />

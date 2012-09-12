@@ -1,10 +1,11 @@
 ﻿{
-	"Name": "Get hair colored",
+	"Name": "Nails",
 	"Recurrence": null,
+	"Filter": { "Gender": "Female" },
 	"Steps": 
 	[ 
 		{ 
-			"Name": "Find a hair salon",
+			"Name": "Find a nail salon",
 			"Action": "Find local business"
 		},
 		{ 

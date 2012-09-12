@@ -100,7 +100,7 @@ GalleryActivity.prototype.IsGalleryActivity = function () { return true; }
 GalleryActivity.prototype.IsSelected = function () { return DataModel.UserSettings.IsActivitySelected(this.ID); };
 GalleryActivity.prototype.Install = function () {
     Service.InvokeController('Actions', 'InstallActivity',
-        { 'activity': this },
+        { 'activity': this, 'category': null },
         function (responseState) {
             var result = responseState.result;
             if (result.StatusCode != '200') {

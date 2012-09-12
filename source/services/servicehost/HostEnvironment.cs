@@ -285,12 +285,12 @@ namespace BuiltSteady.Product.ServiceHost
                         if (HttpContext.Current != null)
                         {
                             // web role
-                            galleryDirectory = HttpContext.Current.Server.MapPath(@"bin\gallery\activities");
+                            galleryDirectory = HttpContext.Current.Server.MapPath(@"bin\gallery");
                         }
                         else
                         {
                             // worker role
-                            galleryDirectory = @"gallery\activities";
+                            galleryDirectory = @"gallery";
                         }
                     }
                     else
@@ -299,12 +299,12 @@ namespace BuiltSteady.Product.ServiceHost
                         if (HttpContext.Current != null)
                         {
                             // web role - azure dev fabric OR cassini
-                            galleryDirectory = HttpContext.Current.Server.MapPath(@"bin\gallery\activities");
+                            galleryDirectory = HttpContext.Current.Server.MapPath(@"bin\gallery");
                         }
                         else
                         {
                             // azure worker role (dev fabric)
-                            galleryDirectory = @"gallery\activities";
+                            galleryDirectory = @"gallery";
                         }
                     }
                 }

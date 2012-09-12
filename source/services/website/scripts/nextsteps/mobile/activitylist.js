@@ -78,35 +78,61 @@ ActivityListView.prototype.renderListItems = function (listItems) {
 
         var $item = $('<a class="form-inline" />').appendTo($li);
         this.renderNameField($item, item);
+        this.renderFields($item, item);
+        this.renderToolbar($item, item);
 
         // click item to select
         $li.bind('click', function (e) {
-            if ($(this).hasClass('ui-sortable-helper') ||
-                $(e.srcElement).hasClass('dt-checkbox') ||
-                $(e.srcElement).hasClass('dropdown-toggle') ||
-                $(e.srcElement).parent().hasClass('dropdown-toggle') ||
-                $(e.srcElement).hasClass('dt-email')) {
-                return;
-            }
-            var item = $(this).data('item');
-            Control.get(this).parentControl.selectItem(item);
+            if ($(e.target).hasClass('btn-step') || $(e.target.parentElement).hasClass('btn-step'))
+            { return true; }
+
+            $(this).siblings('li').removeClass('selected');
+            $(this).siblings('li').find('.btn-toolbar').hide();
+            $(this).addClass('selected');
+            $(this).find('.btn-toolbar').toggle();
         });
 
-        this.renderFields($item, item);
         itemCount++;
     }
 
     return itemCount;
 }
 
+ActivityListView.prototype.renderToolbar = function ($item, item) {
+    var $toolbar = $('<div class="btn-toolbar hide" />').appendTo($item);    
+    this.mobileButton(Control.Icons.mapBtn(item)).appendTo($toolbar);
+    this.mobileButton(Control.Icons.callBtn(item)).appendTo($toolbar);
+    this.mobileButton(Control.Icons.textBtn(item)).appendTo($toolbar);
+    this.mobileButton(Control.Icons.emailBtn(item)).appendTo($toolbar);
+}
+
+// wrap an icon with a btn style appropriate for rendering on mobile devices
+ActivityListView.prototype.mobileButton = function Control$Icons$mobileButton($iconButton, propagate) {
+    var $btn = $('<a class="btn btn-step" />').append($iconButton);
+    var $icon = $iconButton.find('i');
+    $icon.addClass('icon-blue');
+    var title = $icon.attr('title');
+    $icon.attr('title', null);
+    var $title = $('<p />').appendTo($btn);
+    $title.html(title);
+    $btn.click(function (e) {
+        $icon.click();
+        return (propagate == true) ? true : false;
+    });
+    return $btn;
+}
+
 ActivityListView.prototype.renderNameField = function ($item, item) {
     var fields = item.GetFields();
     field = fields[FieldNames.Name];
     var $icon = Control.Icons.forItemType(item);
-    var $label = Control.Text.renderLabel($item, item, field);
-    var $strong = $label.find('strong');
-    $strong.html('&nbsp;' + $strong.html());
-    $label.prepend($icon).appendTo($item);
+
+    var $strong = $('<strong />').appendTo($item);
+    var $link = Control.Text.renderActivityLink($strong, item, function (activity) {
+        NextStepsPage.showManager(NextStepsPage.infoManager);
+        NextStepsPage.infoManager.selectItem(item);
+    });
+    $link.prepend($icon);
 }
 
 ActivityListView.prototype.renderFields = function ($element, item) {

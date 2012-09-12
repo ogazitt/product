@@ -37,7 +37,7 @@ namespace BuiltSteady.Product.ServiceHost
                 switch (token.Value.Type)
                 {
                     case JTokenType.Object:
-                        Properties[token.Key] = new JsonValue(new JObject(token.Value));
+                        Properties[token.Key] = new JsonValue((JObject)token.Value);
                         break;
                     case JTokenType.Array:
                         JArray list = token.Value as JArray;
@@ -73,6 +73,10 @@ namespace BuiltSteady.Product.ServiceHost
                     jlist.AddRange(query);
                     return jlist;
                 }
+
+                JObject jo = obj as JObject;
+                if (jo != null)
+                    return new JsonValue(jo);
 
                 return (string)jobject[key];
             }

@@ -74,8 +74,7 @@ ActivityGallery.prototype.renderItems = function ($category, category) {
                 }
                 return true;
             });
-            // do not support installing activities via right dropdown menu (no idea which category)
-            //$('<div class="btn-dropdown absolute-right"></div>').appendTo($item);
+            $('<div class="btn-dropdown absolute-right"></div>').appendTo($item);
 
             if (item.IsSelected(true)) { this.select($item, item); }
         }

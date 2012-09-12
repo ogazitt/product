@@ -347,6 +347,7 @@ namespace BuiltSteady.Product.ServiceHost
                     Start = new EventDateTime() { DateTime = XmlConvert.ToString(utcStartTime, XmlDateTimeSerializationMode.Utc) },
                     End = new EventDateTime() { DateTime = XmlConvert.ToString(utcEndTime, XmlDateTimeSerializationMode.Utc) },
                     Description = appt.Notes,
+                    Location = appt.Location,
                     ExtendedProperties = new Event.ExtendedPropertiesData(),
                 };
                 // add item id as private extended property for event
@@ -491,8 +492,7 @@ namespace BuiltSteady.Product.ServiceHost
             var utcOffset = tzinfo.GetUtcOffset(DateTime.UtcNow);
 
             // get the start date and adjust for the user's local timezone
-            utcStartTime = utcStartTime.HasValue ? utcStartTime.Value.Date : DateTime.UtcNow.Date;
-            utcStartTime = (utcStartTime.Value + utcOffset).Date;
+            utcStartTime = utcStartTime.HasValue ? utcStartTime.Value.Date : (DateTime.UtcNow + utcOffset).Date;
 
             DateTime utcEndTime = utcStartTime.Value + TimeSpan.FromDays(1d);
             const string nextStepsAppointmentName = @"Next Steps";

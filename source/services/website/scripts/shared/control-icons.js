@@ -474,8 +474,9 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
         $this.tooltip('hide');
         var item = $this.data('item');
         var activity = item.GetParent();
-        var $dialog = $('<div><label>Date: </label><input type="date"/><label>Start time: </label><input type="time"/><label>End time: </label><input type="time"/><label>Title: </label><input type="text" id="name"/></div>');
+        var $dialog = $('<div><label>Date: </label><input id="datepicker" type="date"/><label>Start time: </label><input type="time"/><label>End time: </label><input type="time"/><label>Title: </label><input type="text" id="name"/></div>');
         $dialog.find('#name').val(activity.Name);
+        if (!Browser.IsMobile() && Browser.IsMSIE()) { $dialog.find('#datepicker').datepicker(); }
         var header = 'When should appointment be scheduled for?';
         Control.popup($dialog, header, function (inputs) {
             if (inputs[0].length == 0) {

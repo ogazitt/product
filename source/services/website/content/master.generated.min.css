@@ -889,6 +889,9 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .navbar .active img{margin:0 12px 0 12px}
 .navbar-fixed-top .navbar-inner{padding:0 10px 0 10px}
 .navbar-fixed-bottom .pull-right{margin:12px 10px 0 0}
+.navbar .nav-pills.pull-right>li>a{padding-left:4px;padding-right:4px}
+.navbar .nav-pills.pull-right>li.divider-vertical{margin-left:0}
+.navbar .nav-pills.pull-right>li>a>i.icon-white{color:#fff}
 @media(max-width:800px){body{padding-left:0;padding-right:0}
 .navbar .container-fluid{width:100%;*zoom:1}
 .container,.container-fluid{width:800px;*zoom:1}

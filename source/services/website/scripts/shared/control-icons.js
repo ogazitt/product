@@ -327,9 +327,12 @@ Control.Icons.infoBtn = function Control$Icons$infoBtn(item) {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
-        // TODO: pass the manager in instead of hardcoding it
+
+        // HACK ALERT: use IsMobile when NextSteps are integrated into Dashboard
+        // TODO: do not access manager directly, pass in or fetch in general way
         NextStepsPage.showManager(NextStepsPage.infoManager);
         NextStepsPage.infoManager.selectItem(item);
+
         return false;   // do not propogate event 
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -801,7 +804,7 @@ Control.DeferButton.renderDropdown = function Control$DeferButton$renderDropdown
 
     var $btnGroup = $('<div class="control-group inline" />').appendTo($element);
     if (Browser.IsMobile()) { $btnGroup.addClass('btn-group'); }
-    else { $btnGroup.addClass('dropdown'); }
+    else { $btnGroup.addClass('dropdown dropcenter'); }
 
     var $icon = Control.Icons.deferBtn(item);
     var $btn = $('<a class="dropdown-toggle" data-toggle="dropdown"></a>').append($icon).appendTo($btnGroup);
@@ -919,7 +922,8 @@ Control.Actions.render = function Control$Actions$render($element, item) {
         var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
         var $skipBtn = Control.Icons.skipBtn(item).appendTo($toolbar);
         var $completeBtn = Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }).appendTo($toolbar);
-        var $infoBtn = Control.Icons.infoBtn(item).appendTo($toolbar);
+        // TODO: support info button in web when view info tab is implemented in runmode
+        //var $infoBtn = Control.Icons.infoBtn(item).appendTo($toolbar);
 
         // render the action button based on the action type
         var $actionButton = this.renderAction(item);

@@ -135,12 +135,12 @@ Control.popup = function Control$popup($dialog, header, handlerOK, handlerCancel
                 inputs.push($(this).val());
             });
             if (handlerOK != null) { handlerOK(inputs); }
-            $modalPrompt.remove();
+            $('#modalPromptOpen').remove();
         });
         $modalPrompt.find('.modal-footer .btn-cancel').unbind('click').click(function () {
             $modalPrompt.modal('hide');
             if (handlerCancel != null) { handlerCancel(); }
-            $modalPrompt.remove();
+            $('#modalPromptOpen').remove();
         });
     }
 }

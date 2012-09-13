@@ -46,12 +46,13 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-list ul { margin: 0; over-flow-x: hidden; }
 .dashboard-list li a {  cursor: pointer; } 
 .dashboard-list .itemlist span,  .dashboard-list .itemlist em { padding-left: 21px; } 
-.dashboard-right .dropdown-menu.pull-right { left: auto; right: 0; }
 
 // adjust dropdown menus to not get clipped
 .dashboard-list .itemlist .dropdown-menu { top: 0; right: 20px; }
+.dashboard-right .dropdown-menu.pull-right { left: auto; right: 0; }
 .dashboard-center .absolute-right .dropdown.dropup .dropdown-menu { bottom: -38px; right: 20px; }
 .dashboard-center .absolute-right .dropdown.dropcenter .dropdown-menu { top: -110px; right: 20px; }
+.dashboard-center .btn-toolbar .dropdown.dropcenter .dropdown-menu { top: -24px; right: 24px; }
 
 /* color status icons */
 .dashboard-list li a.st-paused, .dashboard-list li a.st-stopped { color: @navbarSearchPlaceholderColor; }
@@ -173,8 +174,10 @@ i.icon-azure { display: inline-block; width: 16px; height: 16px; cursor: pointer
     background: transparent url(images/icon-azure.png) no-repeat; }
 
 /* repeat control */
-.repeat-frequency { max-width: 80px; margin-right: 20px; }
-.repeat-interval { max-width: 60px; }
+.repeat-dialog .add-on { width: 90px; text-align: right; }
+.repeat-frequency { max-width: 80px; }
+.int-selector { max-width: 60px; }
+.month-selector { max-width: 100px; }
 .repeat-summary { margin: 24px 0 -12px 0; }
 label.checkbox { cursor: pointer; }
 label.checkbox .checkbox { margin-top: -2px; }

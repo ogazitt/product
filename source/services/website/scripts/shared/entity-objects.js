@@ -168,41 +168,70 @@ LinkArray.prototype.Parse = function (text) {
 
 // ---------------------------------------------------------
 // Recurrence object  
-// { Frequency: "DAILY", Interval: 1, ByDay: "", ByMonthDay: "", ByYearDay: "", ByMonth: "" }
+// { Frequency: "Daily", Interval: 1, ByDay: "", ByMonthDay: [], ByYearDay: [], ByMonth: [] }
 //
 function Recurrence() { 
-    this.Frequency = Frequency.Daily;
+    this.Frequency = Recurrence.Frequencys.Daily;
     this.Interval = 1;
     this.ByDay = "";
-    this.ByMonthDay = "";
-    this.ByYearDay = "";
-    this.ByMonth = "";
+    this.ByMonthDay = [];
+    this.ByYearDay = [];
+    this.ByMonth = [];
 };
 Recurrence.Extend = function Recurrence$Extend(rrule) {
     // input as either json string or json object
     if (typeof (rrule) == 'string') {
         rrule = $.parseJSON(rrule);
     }
+    // TEMPORARY: convert existing stored empty strings to []
+    rrule.ByMonthDay = (rrule.ByMonthDay == "") ? [] : rrule.ByMonthDay;
+    rrule.ByYearDay = (rrule.ByYearDay == "") ? [] : rrule.ByYearDay;
+    rrule.ByMonth = (rrule.ByMonth == "") ? [] : rrule.ByMonth;
+
     return $.extend(new Recurrence(), rrule);
 }
+Recurrence.Frequencys = { Daily: "Daily", Weekly: "Weekly", Monthly: "Monthly", Yearly: "Yearly" }
+Recurrence.FrequencyLabels = { Daily: "days", Weekly: "weeks", Monthly: "months", Yearly: "years" }
+Recurrence.Weekdays = { Sunday: "SU", Monday: "MO", Tuesday: "TU", Wednesday: "WE", Thursday: "TH", Friday: "FR", Saturday: "SA" }
+Recurrence.WeekdayLabels = { SU: "Sunday", MO: "Monday", TU: "Tuesday", WE: "Wednesday", TH: "Thursday", FR: "Friday", SA: "Saturday" }
+Recurrence.MonthLabels = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 
 Recurrence.prototype.ToJson = function () { return JSON.stringify(this); }
 Recurrence.prototype.IsEnabled = function () { return (this.On != null); }
 Recurrence.prototype.Enable = function () { this.On = 1; }
 Recurrence.prototype.Disable = function () { delete this['On']; }
-Recurrence.prototype.IsDaily = function () { return this.Frequency == Frequency.Daily; };
-Recurrence.prototype.IsWeekly = function () { return this.Frequency == Frequency.Weekly; };
-Recurrence.prototype.IsMonthly = function () { return this.Frequency == Frequency.Monthly; };
-Recurrence.prototype.IsYearly = function () { return this.Frequency == Frequency.Yearly; };
+Recurrence.prototype.IsDaily = function () { return this.Frequency == Recurrence.Frequencys.Daily; };
+Recurrence.prototype.IsWeekly = function () { return this.Frequency == Recurrence.Frequencys.Weekly; };
+Recurrence.prototype.IsMonthly = function () { return this.Frequency == Recurrence.Frequencys.Monthly; };
+Recurrence.prototype.IsYearly = function () { return this.Frequency == Recurrence.Frequencys.Yearly; };
+
 Recurrence.prototype.HasDay = function (day) { return this.ByDay.indexOf(day) != -1; };
 Recurrence.prototype.AddDay = function (day) { this.ByDay = this.ByDay.concat(day+','); };
-Recurrence.prototype.RemoveDay = function (day) { this.ByDay = this.ByDay.replace(day+',',''); };
+Recurrence.prototype.RemoveDay = function (day) { this.ByDay = this.ByDay.replace(day + ',', ''); };
+
+Recurrence.prototype.NoMonthDays = function () { this.ByMonthDay.length = 0; };
+Recurrence.prototype.FirstMonthDay = function () { return (this.ByMonthDay.length == 0) ? 0 : this.ByMonthDay[0]; };
+Recurrence.prototype.HasMonthDay = function (d) { return (this.ByMonthDay.indexOf(d) >= 0); };
+Recurrence.prototype.AddMonthDay = function (d) { this.ByMonthDay.push(d); };
+Recurrence.prototype.RemoveMonthDay = function (d) { var i = this.ByMonthDay.indexOf(d); if (i >= 0) { this.ByMonthDay.splice(i, 1) } };
+
+Recurrence.prototype.NoYearDays = function () { this.ByYearDay.length = 0; };
+Recurrence.prototype.FirstYearDay = function () { return (this.ByYearDay.length == 0) ? 0 : this.ByYearDay[0]; };
+Recurrence.prototype.HasYearDay = function (d) { return (this.ByYearDay.indexOf(d) >= 0); };
+Recurrence.prototype.AddYearDay = function (d) { this.ByYearDay.push(d); };
+Recurrence.prototype.RemoveYearDay = function (d) { var i = this.ByYearDay.indexOf(d); if (i >= 0) { this.ByYearDay.splice(i, 1) } };
+
+Recurrence.prototype.NoMonths = function () { this.ByMonth.length = 0; };
+Recurrence.prototype.FirstMonth = function () { return (this.ByMonth.length == 0) ? 0 : this.ByMonth[0]; };
+Recurrence.prototype.HasMonth = function (d) { return (this.ByMonth.indexOf(d) >= 0); };
+Recurrence.prototype.AddMonth = function (d) { this.ByMonth.push(d); };
+Recurrence.prototype.RemoveMonth = function (d) { var i = this.ByMonth.indexOf(d); if (i >= 0) { this.ByMonth.splice(i, 1) } };
 
 Recurrence.prototype.Summary = function () {
     var summary = "Do not repeat";
     if (this.IsEnabled()) {
         // generate summary statement
-        var txtFreq = FrequencyLabels[this.Frequency];
+        var txtFreq = Recurrence.FrequencyLabels[this.Frequency];
         if (this.Interval == 1) { txtFreq = txtFreq.substr(0, txtFreq.length - 1); }
         var txtIntv = this.Interval.toString();
         var txtEnd = '</strong> after completing current activity ';
@@ -220,17 +249,46 @@ Recurrence.prototype.Summary = function () {
                     txtEnd = '';
                     $.each(days, function (i, day) {
                         txtEnd += (i == 0) ? ' on ' : ((i == days.length - 1) ? ' and ' : ', ');
-                        txtEnd += WeekdayLabels[$.trim(day)];
+                        txtEnd += Recurrence.WeekdayLabels[$.trim(day)];
                     });
                 }
                 txtEnd += '</strong>';
             }
         }
+        if (this.IsMonthly()) {
+            if (this.FirstMonthDay() > 0) {
+                txtIntv = (this.Interval == 1) ? 'every' : 'every ' + txtIntv;
+                txtEnd = 'on the ' + this.AddSuffix(this.FirstMonthDay()) + '</strong> of the month';
+            }
+        }
+        if (this.IsYearly()) {
+            if (this.FirstMonth() > 0) {
+                txtIntv = (this.Interval == 1) ? 'every' : 'every ' + txtIntv;
+                if (this.FirstYearDay() == 0) {
+                    txtEnd = 'in ' + Recurrence.MonthLabels[this.FirstMonth() - 1];
+                } else {
+                    txtEnd = 'on ' + Recurrence.MonthLabels[this.FirstMonth() - 1];
+                    txtEnd += ' ' + this.AddSuffix(this.FirstYearDay());
+                }
+            }
+            txtEnd += '</strong>';
+        }
         var summary = "Repeat <strong>" + txtIntv + ' ' + txtFreq + ' ' + txtEnd;
     }
     return summary;
 };
-
+Recurrence.prototype.AddSuffix = function (n) {
+    var m = n % 10;
+    var suffix;
+    switch (m) {
+        case 1: suffix = 'st'; break;
+        case 2: suffix = 'nd'; break;
+        case 3: suffix = 'rd'; break;
+        default: suffix = 'th'; break;
+    }
+    suffix = (n > 10 && n < 14) ? 'th' : suffix;
+    return n + suffix;
+}
 // ---------------------------------------------------------
 // UserSettings object - provides prototype functions
 

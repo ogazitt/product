@@ -183,11 +183,12 @@ Recurrence.Extend = function Recurrence$Extend(rrule) {
     if (typeof (rrule) == 'string') {
         rrule = $.parseJSON(rrule);
     }
-    // TEMPORARY: convert existing stored empty strings to []
-    rrule.ByMonthDay = (rrule.ByMonthDay == "") ? [] : rrule.ByMonthDay;
-    rrule.ByYearDay = (rrule.ByYearDay == "") ? [] : rrule.ByYearDay;
-    rrule.ByMonth = (rrule.ByMonth == "") ? [] : rrule.ByMonth;
-
+    if (rrule != null) {
+        // TEMPORARY: convert existing stored empty strings to []
+        rrule.ByMonthDay = (rrule.ByMonthDay == "") ? [] : rrule.ByMonthDay;
+        rrule.ByYearDay = (rrule.ByYearDay == "") ? [] : rrule.ByYearDay;
+        rrule.ByMonth = (rrule.ByMonth == "") ? [] : rrule.ByMonth;
+    }
     return $.extend(new Recurrence(), rrule);
 }
 Recurrence.Frequencys = { Daily: "Daily", Weekly: "Weekly", Monthly: "Monthly", Yearly: "Yearly" }

@@ -901,10 +901,11 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-list ul{margin:0;over-flow-x:hidden}
 .dashboard-list li a{cursor:pointer}
 .dashboard-list .itemlist span,.dashboard-list .itemlist em{padding-left:21px}
-.dashboard-right .dropdown-menu.pull-right{left:auto;right:0}
 .dashboard-list .itemlist .dropdown-menu{top:0;right:20px}
+.dashboard-right .dropdown-menu.pull-right{left:auto;right:0}
 .dashboard-center .absolute-right .dropdown.dropup .dropdown-menu{bottom:-38px;right:20px}
 .dashboard-center .absolute-right .dropdown.dropcenter .dropdown-menu{top:-110px;right:20px}
+.dashboard-center .btn-toolbar .dropdown.dropcenter .dropdown-menu{top:-24px;right:24px}
 .dashboard-list li a.st-paused,.dashboard-list li a.st-stopped{color:#ccc}
 .dashboard-center li div.form-inline{color:#08c}
 .dashboard-center li div.form-inline:hover{color:#005580;cursor:default}
@@ -979,8 +980,10 @@ li.active:hover .icon.drag-handle{color:#fff}
 .btn.icon{width:24px;height:19px;padding:5px 0 0 0;margin:-2px 4px 0 0}
 .btn.icon .icon-backward{margin-right:2px}
 i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;background:transparent url(images/icon-azure.png) no-repeat}
-.repeat-frequency{max-width:80px;margin-right:20px}
-.repeat-interval{max-width:60px}
+.repeat-dialog .add-on{width:90px;text-align:right}
+.repeat-frequency{max-width:80px}
+.int-selector{max-width:60px}
+.month-selector{max-width:100px}
 .repeat-summary{margin:24px 0 -12px 0}
 label.checkbox{cursor:pointer}
 label.checkbox .checkbox{margin-top:-2px}

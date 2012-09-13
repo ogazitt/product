@@ -40,8 +40,8 @@ Control.Repeat.refresh = function Control$Repeat$refresh($element, item) {
     $element.parent().find('span').html(this.rrule.Summary());
 }
 Control.Repeat.dialog = function Control$Repeat$dialog($element) {
-    var $dialog = $('.repeat-dialog').children().clone();
-    Control.popup($dialog, "Repeat", 
+    var $dialog = $('#repeatDialog').children().clone();
+    Control.popup($dialog, "Repeat",
         function () {   // OK
             Control.Repeat.updateItem($element, Control.Repeat.rrule);
         });
@@ -63,15 +63,16 @@ Control.Repeat.updateItem = function Control$Repeat$update($element, rrule) {
 Control.Repeat.init = function Control$Repeat$init($element, $dialog) {
     var $frequency = $dialog.find('.repeat-frequency');
     var $interval = $dialog.find('.repeat-interval');
-    var $frequencyAddon = $dialog.find('.frequency.add-on');
     var $weekdays = $dialog.find('.repeat-weekdays');
-    var $startdate = $dialog.find('.repeat-start-date');
+    var $bymonth = $dialog.find('.repeat-bymonth');
+    var $daySelector = $bymonth.find('select');
+    var $byyear = $dialog.find('.repeat-byyear');
+    var $monthSelector = $byyear.find('select').first();
+    var $dayMonthSelector = $byyear.find('select').last();
 
     // wire-up of events and behaviors
     $frequency.change(function (e) {
         Control.Repeat.rrule.Frequency = $(this).val();
-        var label = FrequencyLabels[Control.Repeat.rrule.Frequency];
-        $frequencyAddon.html(label);
         Control.Repeat.recalc($dialog);
     });
     $interval.change(function (e) {
@@ -89,20 +90,38 @@ Control.Repeat.init = function Control$Repeat$init($element, $dialog) {
             Control.Repeat.recalc($dialog);
         });
     });
-    $startdate.datepicker({ numberOfMonths: 1 });
+    $daySelector.change(function (e) {
+        Control.Repeat.rrule.NoMonthDays();
+        if ($(this).val() > 0) { Control.Repeat.rrule.AddMonthDay($(this).val()); }
+        Control.Repeat.recalc($dialog);
+    });
+    $monthSelector.change(function (e) {
+        Control.Repeat.rrule.NoMonths();
+         if ($(this).val() > 0) { Control.Repeat.rrule.AddMonth($(this).val()); }
+        Control.Repeat.recalc($dialog);
+    });
+    $dayMonthSelector.change(function (e) {
+         Control.Repeat.rrule.NoYearDays();
+         if ($(this).val() > 0) { Control.Repeat.rrule.AddYearDay($(this).val()); }
+        Control.Repeat.recalc($dialog);
+    });
 
     // initialize frequency
     $frequency.val(this.rrule.Frequency);
-    $frequencyAddon.html(FrequencyLabels[this.rrule.Frequency]);
     // initialize interval
+    this.renderOptions($interval, 0, 30);
     $interval.val(this.rrule.IsEnabled() ? this.rrule.Interval : 0);
     // initialize days of week
     this.initWeekdays($dialog, this.rrule);
 
-    // initialize start date
-    //var startdate = $element.data('item').GetFieldValue(FieldNames.DueDate);
-    //startdate = (startdate == null) ? Date.now() : startdate;
-    $startdate.val(Control.DateFormat(Date.now(), 'shortDate'));
+    // initialize bymonth
+    this.renderOptions($daySelector, 0, 31);
+    $daySelector.val(this.rrule.FirstMonthDay());
+    // initialize byyear
+    this.renderOptions($monthSelector, 0, 12, Recurrence.MonthLabels);
+    $monthSelector.val(this.rrule.FirstMonth());
+    this.renderOptions($dayMonthSelector, 0, 31);
+    $dayMonthSelector.val(this.rrule.FirstYearDay());
 
     this.recalc($dialog);
 }
@@ -110,22 +129,23 @@ Control.Repeat.recalc = function Control$Repeat$recalc($dialog) {
     var $frequency = $dialog.find('.repeat-frequency');
     var $interval = $dialog.find('.repeat-interval');
     var $weekdays = $dialog.find('.repeat-weekdays');
-    var $startdate = $dialog.find('.repeat-start-date');
+    var $bymonth = $dialog.find('.repeat-bymonth');
+    var $byyear = $dialog.find('.repeat-byyear');
 
     $weekdays.hide();
-    $startdate.parents('.control-group').first().hide();
     if (this.rrule.IsWeekly()) { $weekdays.show(); }
-    if (this.rrule.IsMonthly() || this.rrule.IsYearly()) {
-        $startdate.parents('.control-group').first().show();
-    }
+    $bymonth.hide();
+    if (this.rrule.IsMonthly()) { $bymonth.show(); }
+    $byyear.hide();
+    if (this.rrule.IsYearly()) { $byyear.show(); }
 
     var $summary = $dialog.find('.repeat-summary');
     $summary.html(this.rrule.Summary());
     this.rrule.IsEnabled() ? $summary.addClass('alert-success') : $summary.removeClass('alert-success');
 }
 Control.Repeat.initWeekdays = function Control$Repeat$initWeekdays($dialog, rrule) {
-    for (var id in Weekdays) {
-        var day = Weekdays[id];
+    for (var id in Recurrence.Weekdays) {
+        var day = Recurrence.Weekdays[id];
         var $day = $dialog.find('input[name="' + day + '"]').attr('checked', false);
         if (rrule != null && rrule.HasDay(day)) { $day.attr('checked', true); }
     }
@@ -137,4 +157,11 @@ Control.Repeat.setWeekdays = function Control$Repeat$setWeekdays($weekdays) {
             Control.Repeat.rrule.AddDay($(this).attr('name'));
         }
     });
+}
+Control.Repeat.renderOptions = function Control$Repeat$renderOptions($select, start, end, lookup) {
+    $select.empty();
+    for (var i = start; i <= end; i++) {
+        var label = (i == 0) ? '---' : ((lookup == null) ? i : lookup[i-1]);
+        $('<option value="' + i + '">' + label + '</option>').appendTo($select);
+    }
 }

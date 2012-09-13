@@ -185,7 +185,7 @@ ListView.prototype.renderListItems = function (list) {
             }
         } else {
             if (item.IsSelected()) { $li.addClass('selected'); }
-            $li.addClass(item.StatusClass());
+            if (item.IsStep()) { $li.addClass(item.StatusClass()); }
 
             $item = $('<a class="form-inline drag-handle" />').appendTo($li);
             $item.data('control', this);
@@ -195,10 +195,11 @@ ListView.prototype.renderListItems = function (list) {
             Control.Icons.deleteBtn(item).appendTo($editBtns).addClass('pull-right');
             var $actions = Control.ActionType.renderDropdown($editBtns, item, true).addClass('pull-right');
             // adjust location of dropdown menu to avoid clipping
-            if (itemCount > 1 || (totalCount == 2 && itemCount == 1)) { 
-                $actions.find('.dropdown').addClass('dropup'); }
+            if (itemCount > 1 || (totalCount == 2 && itemCount == 1)) {
+                $actions.find('.dropdown').addClass('dropup');
+            }
             else {
-                $actions.find('.dropdown').addClass('dropcenter'); 
+                $actions.find('.dropdown').addClass('dropcenter');
             }
 
             this.renderNameField($item, item);

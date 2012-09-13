@@ -208,7 +208,15 @@ DataModel.InsertItem = function DataModel$InsertItem(newItem, containerItem, adj
         Service.InsertResource(resource, newItem,
             function (responseState) {                                  // successHandler
                 var insertedItem = responseState.result;
-                newItem.update(insertedItem, null);                     // update local DataModel (do not fire datachanged)
+
+                // TODO: change to get status from server indicating refresh is required
+                // Temporarily doing refresh for Steps (which may be modified by ItemProcessor on server)
+                if (insertedItem.ItemTypeID == ItemTypes.Step) {
+                    newItem.update(insertedItem);                       // update local DataModel and fire datachanged
+                } else {
+                    newItem.update(insertedItem, null);                 // update local DataModel (do not fire datachanged)
+                }
+
                 if (callback != null) {
                     callback(insertedItem);
                 }
@@ -238,7 +246,15 @@ DataModel.UpdateItem = function DataModel$UpdateItem(originalItem, updatedItem, 
         Service.UpdateResource(resource, originalItem.ID, data,
             function (responseState) {                                          // successHandler
                 var returnedItem = responseState.result;
-                var success = originalItem.update(returnedItem, null);          // update local DataModel (do not fire datachanged)
+
+                // TODO: change to get status from server indicating refresh is required
+                // Temporarily doing refresh for Steps (which may be modified by ItemProcessor on server)
+                if (returnedItem.ItemTypeID == ItemTypes.Step) {
+                    var success = originalItem.update(returnedItem);            // update local DataModel and fire datachanged
+                } else {
+                    var success = originalItem.update(returnedItem, null);      // update local DataModel (do not fire datachanged)
+                }
+
                 // TODO: report failure to update
             });
         return true;

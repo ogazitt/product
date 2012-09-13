@@ -9,23 +9,27 @@
     <div class="carousel-inner">
         <div class="item active">
             <span><img alt="Step 1" src="<%: Url.Content("~/content/images/twostep-logo.png") %>" /></span>
-            <p>Wouldn’t life be easier if you always knew the next step to take?</p>
+            <p>Wouldn’t life be easier if you always knew the next step?</p>
         </div>
         <div class="item">
-            <span><img alt="Step 2" src="<%: Url.Content("~/content/images/twostep-logo.png") %>" /></span>
-            <p>TwoStep keeps you two steps ahead.  You tell it what you already do in your life and what you want to do more of, and it will help you select and organize the steps to get it done.</p>
+            <span><img alt="Step 2" src="<%: Url.Content("~/content/images/landing/activities-and-steps.png") %>" /></span>
+            <p><b>TwoStep</b> keeps you two steps ahead.  Tell it about the <b>activities</b> in your life, and <b>TwoStep</b> will help you select and organize the steps to get them done.</p>
         </div>
         <div class="item">
             <span><img alt="Step 3" src="<%: Url.Content("~/content/images/twostep-logo.png") %>" /></span>
-            <p>TwoStep keeps track of all your next steps and helps you carry them out.</p>
+            <p><b>TwoStep</b> keeps track of all your next steps in one place, and helps you carry them out.</p>
         </div>
         <div class="item">
             <span><img alt="Step 4" src="<%: Url.Content("~/content/images/twostep-logo.png") %>" /></span>
-            <p>TwoStep remembers what you did last time and makes it easier to do it this time.</p>
+            <p><b>TwoStep</b> remembers what you did last time and makes it easier to do it this time.</p>
         </div>
         <div class="item">
             <span><img alt="Step 5" src="<%: Url.Content("~/content/images/twostep-logo.png") %>" /></span>
-            <p>Procrastinate less, get more done.<br />Dance through life with TwoStep!</p>
+            <p><b>TwoStep</b> connects to and works alongside the digital tools you use - your calendar, mobile phone, Facebook.</p>
+        </div>
+        <div class="item">
+            <span><img alt="Step 6" src="<%: Url.Content("~/content/images/twostep-logo.png") %>" /></span>
+            <p>Procrastinate less, get more done.<br />Dance through life with <b>TwoStep</b>!</p>
         </div>
     </div>
     <a class="carousel-control left" href="#intro_carousel" data-slide="prev">&lsaquo;</a>

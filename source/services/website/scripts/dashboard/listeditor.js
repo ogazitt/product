@@ -41,7 +41,7 @@ ListEditor.prototype.renderActivity = function ($element, activity) {
     var steps = activity.GetItems(true);
     var hasSteps = ItemMap.count(steps) > 0;
 
-    if (hasSteps || !activity.IsPaused()) {
+    if (hasSteps || activity.IsRunning()) {
         var $li = $('<li />').appendTo(this.$activity);
         var $form = $('<div class="form-inline icon"/>').appendTo($li);
 
@@ -50,7 +50,7 @@ ListEditor.prototype.renderActivity = function ($element, activity) {
             $li.attr('style', 'margin-bottom: 12px; border-top-color: transparent;');
             var field = activity.GetField(FieldNames.Repeat);
             Control.Repeat.render($form, activity, field);
-        } else if (!activity.IsPaused()) {
+        } else if (activity.IsRunning()) {
             // running activity without steps, display properties
             $li.addClass(activity.StatusClass());
             var field = activity.GetField(FieldNames.Complete);
@@ -88,7 +88,7 @@ NewItemEditor.prototype.render = function ($element, list) {
         }
         this.$element.empty();
         // render input for new item if not a running activity
-        if (!list.IsActivity() || list.IsPaused()) {
+        if (!list.IsRunning()) {
             this.list = list;
             this.newItem = Item.Extend({ Name: '', ItemTypeID: (list.IsActivity() ? ItemTypes.Step : list.ItemTypeID) });
             var $field = this.renderNameField(this.$element);
@@ -159,31 +159,53 @@ ListView.prototype.render = function ($element, list, height) {
 
 ListView.prototype.renderListItems = function (list) {
     var listItems = list.GetItems(true);
-    var runMode = list.IsActivity() && !list.IsPaused();
+    var totalCount = ItemMap.count(listItems);
     var itemCount = 0;
     for (var id in listItems) {
         var item = listItems[id];
         var $li = $('<li class="position-relative" />').appendTo(this.$element);
-        $li.data('control', this);
-        $li.data('item', item);
+        //$li.data('control', this);
+        //$li.data('item', item);
 
         var $item;
-        if (runMode) {
+        if (list.IsRunning()) {
+            var $wrapper = $('<div class="inline" />').appendTo($li);
+            $wrapper.css('width', '100%');
+
             if (item.IsActive()) { $li.addClass('selected'); }
             $li.addClass(item.StatusClass());
-            $item = $('<a class="form-inline" />').appendTo($li);
+            $item = $('<div class="form-inline pull-left" />').appendTo($wrapper);
             this.renderNameField($item, item);
+
+            if (item.IsActive()) {      // display actions for active step
+                Control.Actions.render($wrapper, item);
+            } else {                    // display action type icon
+                $icon = $('<a class="icon absolute-right" style="cursor: default;" />').appendTo($li);
+                Control.Icons.forActionType(item.GetActionType()).appendTo($icon);
+            }
         } else {
             if (item.IsSelected()) { $li.addClass('selected'); }
-            if (item.IsPaused()) { $li.addClass(item.StatusClass()); }
+            $li.addClass(item.StatusClass());
 
             $item = $('<a class="form-inline drag-handle" />').appendTo($li);
-            var $deleteBtn = Control.Icons.deleteBtn(item).appendTo($li);
-            $deleteBtn.addClass('absolute-right');
+            $item.data('control', this);
+            $item.data('item', item);
+
+            var $editBtns = $('<div class="absolute-right" />').appendTo($li);
+            Control.Icons.deleteBtn(item).appendTo($editBtns).addClass('pull-right');
+            var $actions = Control.ActionType.renderDropdown($editBtns, item, true).addClass('pull-right');
+            // adjust location of dropdown menu to avoid clipping
+            if (itemCount > 1 || (totalCount == 2 && itemCount == 1)) { 
+                $actions.find('.dropdown').addClass('dropup'); }
+            else {
+                $actions.find('.dropdown').addClass('dropcenter'); 
+            }
+
             this.renderNameField($item, item);
 
             // click item to select
-            $li.bind('click', function (e) {
+            //$li.bind('click', function (e) {
+            $item.bind('click', function (e) {
                 if ($(this).hasClass('ui-sortable-helper') ||
                 $(e.srcElement).hasClass('dt-checkbox') ||
                 $(e.srcElement).hasClass('dt-email')) {
@@ -201,18 +223,22 @@ ListView.prototype.renderListItems = function (list) {
 
 ListView.prototype.renderNameField = function ($item, item) {
     var fields = item.GetFields();
-    // render complete field if exists 
-    var field = fields[FieldNames.Complete];
-    if (field != null) {
-        Control.Checkbox.render($item, item, field);
-    }
-    // render map icon if weblinks exists 
-    var field = fields[FieldNames.WebLinks];
-    if (field != null) {
-        $item.append(Control.Icons.forMap(item));
+    if (!item.IsStep()) {
+        // render complete field if exists 
+        var field = fields[FieldNames.Complete];
+        if (field != null) {
+            Control.Checkbox.render($item, item, field);
+        }
+        // render map icon if weblinks exists 
+        var field = fields[FieldNames.WebLinks];
+        if (field != null) {
+            $item.append(Control.Icons.forMap(item));
+        }
+        $item.append(Control.Icons.forSources(item));
+    } else {
+        $item.append(Control.Icons.forStatusType(item));
     }
     // render name field
-    $item.append(Control.Icons.forSources(item));
     field = fields[FieldNames.Name];
     Control.Text.renderLabel($item, item, field);
 }

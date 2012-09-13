@@ -12,6 +12,7 @@
                 </div>
                 <div class="input-prepend input-append">
                     <span class='add-on'>every</span><select class="repeat-interval">
+                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -95,8 +96,7 @@
                 </div>
             </div>
 
-            <div class='alert alert-success repeat-summary'>
-            </div>
+            <div class='alert alert-success repeat-summary'></div>
         </div>
     </div>
 

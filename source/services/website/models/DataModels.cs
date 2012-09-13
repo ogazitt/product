@@ -153,6 +153,7 @@
                     List<Folder> folders;
                     if (HttpHeaderHelper.IsPhoneDevice())
                     {   // exclude $WebClient folder
+                        /*
                         folders = this.StorageContext.Folders.
                             Include("FolderUsers").
                             Include("Items.ItemTags").
@@ -162,9 +163,31 @@
                                 f.Name != SystemEntities.WebClient).
                             OrderBy(f => f.SortOrder).
                             ToList();
+                        */
+                        var query =
+                            from folder in this.StorageContext.Folders
+                            where (folder.UserID == userData.ID &&
+                                folder.ItemTypeID != SystemItemTypes.System &&
+                                folder.Name != SystemEntities.WebClient)
+                            orderby folder.SortOrder
+                            select new
+                            {
+                                folder,
+                                fus = from fu in folder.FolderUsers select fu,
+                                items = from item in folder.Items
+                                        where (item.Group == null || item.Group == "Last")
+                                        orderby item.SortOrder
+                                        select new
+                                        {
+                                            item,
+                                            fvs = from fv in item.FieldValues select fv
+                                        }
+                            };
+                        folders = query.AsEnumerable().Select(q => q.folder).ToList();
                     }
                     else
                     {   // exclude $PhoneClient folder
+                        /*
                         folders = this.StorageContext.Folders.
                             Include("FolderUsers").
                             Include("Items.ItemTags").
@@ -174,18 +197,37 @@
                                 f.Name != SystemEntities.PhoneClient).
                             OrderBy(f => f.SortOrder).
                             ToList();
+                        */
+
+                        var query = 
+                            from folder in this.StorageContext.Folders
+                            where (folder.UserID == userData.ID &&
+                                folder.ItemTypeID != SystemItemTypes.System &&
+                                folder.Name != SystemEntities.PhoneClient)
+                            orderby folder.SortOrder
+                            select new { 
+                                folder,
+                                fus = from fu in folder.FolderUsers select fu,
+                                items = from item in folder.Items
+                                        where (item.Group == null || item.Group == "Last")
+                                        orderby item.SortOrder
+                                        select new {
+                                            item,
+                                            fvs = from fv in item.FieldValues select fv
+                                        }
+                            };
+                        folders = query.AsEnumerable().Select(q => q.folder).ToList();
                     }
 
                     if (folders != null && folders.Count > 0)
                     {
                         userData.Folders = folders;
-
                         // Include does not support filtering or sorting
                         // post-process ordering of Items in memory by SortOrder field
-                        for (var i = 0; i < userData.Folders.Count; i++)
-                        {   // sort items by SortOrder field
-                            userData.Folders[i].Items = userData.Folders[i].Items.OrderBy(item => item.SortOrder).ToList();
-                        }
+                        //for (var i = 0; i < userData.Folders.Count; i++)
+                        //{   // sort items by SortOrder field
+                        //    userData.Folders[i].Items = userData.Folders[i].Items.OrderBy(item => item.SortOrder).ToList();
+                        //}
                     }
                     else
                     {

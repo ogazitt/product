@@ -46,10 +46,10 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
                     };
                     
                     // make this the last subcategory in the category
-                    float sortOrder = (userContext.Items.Any(i => i.UserID == category.UserID && i.FolderID == category.ID && 
-                                                                  i.ParentID == parentID && i.ItemTypeID == SystemItemTypes.Category) ?
-                        userContext.Items.Where(i => i.UserID == category.UserID && i.FolderID == category.ID && 
-                                                     i.ParentID == parentID && i.ItemTypeID == SystemItemTypes.Category).
+                    float sortOrder = (userContext.Items.Any(i => i.UserID == category.UserID && i.FolderID == category.ID &&
+                                                                  i.ItemTypeID == SystemItemTypes.Category && (parentID.HasValue ? i.ParentID == parentID : i.ParentID == null)) ?
+                        userContext.Items.Where(i => i.UserID == category.UserID && i.FolderID == category.ID &&
+                                                     i.ItemTypeID == SystemItemTypes.Category && (parentID.HasValue ? i.ParentID == parentID : i.ParentID == null)).
                         Select(i => i.SortOrder).
                         Max() :
                         0f) + 1000f;
@@ -114,16 +114,16 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
                     UserID = category.UserID,
                     ItemTypeID = SystemItemTypes.Activity, 
                     IsList = true, 
-                    Status = StatusTypes.Paused,
+                    Status = null,
                     Created = now,
                     LastModified = now,
                 };
                 
                 // make this the last activity in the (sub)category
                 float sortOrder = (userContext.Items.Any(i => i.UserID == category.UserID && i.FolderID == category.ID && 
-                                                              i.ParentID == subCategory && i.ItemTypeID == SystemItemTypes.Activity) ? 
+                                                              i.ItemTypeID == SystemItemTypes.Activity && (subCategory.HasValue ? i.ParentID == subCategory : i.ParentID == null)) ? 
                     userContext.Items.Where(i => i.UserID == category.UserID && i.FolderID == category.ID && 
-                                                 i.ParentID == subCategory && i.ItemTypeID == SystemItemTypes.Activity).
+                                                 i.ItemTypeID == SystemItemTypes.Activity && (subCategory.HasValue ? i.ParentID == subCategory : i.ParentID == null)).
                     Select(i => i.SortOrder).
                     Max() : 
                     0f) + 1000f;

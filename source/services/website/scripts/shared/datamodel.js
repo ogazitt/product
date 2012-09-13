@@ -128,7 +128,7 @@ DataModel.FindContact = function DataModel$FindContact(name, facebookID) {
 }
 
 // generic helper for getting local items associated with folder or list item
-DataModel.GetItems = function DataModel$GetItems(folderID, parentID, excludeListItems) {
+DataModel.GetItems = function DataModel$GetItems(folderID, parentID, excludeListItems, group) {
     var items = {};
     var folder = (typeof (folderID) == 'object') ? folderID : DataModel.Folders[folderID];
     if (folder != undefined) {
@@ -141,11 +141,20 @@ DataModel.GetItems = function DataModel$GetItems(folderID, parentID, excludeList
                 }
             }
         }
-        for (var id in folder.Items) {
-            var item = folder.Items[id];
-            if (item.ParentID == parentID && !item.IsList) {
-                items[id] = folder.Items[id];
+        if (group === undefined) {
+            for (var id in folder.Items) {
+                var item = folder.Items[id];
+                if (item.ParentID == parentID && !item.IsList) {
+                    items[id] = folder.Items[id];
+                }
             }
+        } else {
+            for (var id in folder.Items) {
+                var item = folder.Items[id];
+                if (item.ParentID == parentID && !item.IsList && group == item.Group) {
+                    items[id] = folder.Items[id];
+                }
+            } 
         }
     }
     return items;

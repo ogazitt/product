@@ -66,8 +66,10 @@ FolderList.prototype.render = function ($element, folders) {
             return true;
         });
         $('<div class="btn-dropdown absolute-right"></div>').appendTo($folder);
-        $('<div class="icon drag-handle"><span>⁞&nbsp;</span></div>').appendTo($folder);
-
+        if (folder.IsCategory()) {  
+            // TODO: condition is temporary to prevent dragging of People and Places folders
+            $('<div class="icon drag-handle"><span>⁞&nbsp;</span></div>').appendTo($folder);
+        }
         if (folder.IsSelected()) { this.select($folder, folder); }
         this.renderItems($folder, folder);
     }
@@ -83,9 +85,7 @@ FolderList.prototype.renderItems = function ($folder, folder) {
         if (item.IsList) {
             $item = $('<li class="position-relative"><a class="selector"><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
             $item.find('span').prepend(Control.Icons.forItemType(item));
-            if (item.IsActivity() && item.IsPaused()) {
-                 $item.find('a').addClass(StatusTypes.Paused.toLowerCase());
-            }  
+            $item.find('a').addClass(item.StatusClass());
             $item.data('control', this);
             $item.data('item', item);
             $item.click(function (e) {
@@ -189,7 +189,7 @@ FolderList.prototype.renderAddBtn = function ($element) {
         var thisControl = Control.get(this);
         var $item = $(this);
         var item = (category != null) ?
-            Item.Extend({ Name: 'New Activity', ItemTypeID: ItemTypes.Activity, IsList: true, Status: StatusTypes.Paused }) :
+            Item.Extend({ Name: 'New Activity', ItemTypeID: ItemTypes.Activity, IsList: true, Status: StatusTypes.Stopped }) :
             Folder.Extend({ Name: 'New Category', ItemTypeID: ItemTypes.Category });
         var $input = $('<input type="text" class="popup-text" />').appendTo($item);
         $input.val(item.Name).focus().select();

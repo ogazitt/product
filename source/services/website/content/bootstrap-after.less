@@ -45,10 +45,28 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-list { padding: 6px; overflow-y: auto; over-flow-x: hidden; }
 .dashboard-list ul { margin: 0; over-flow-x: hidden; }
 .dashboard-list li a {  cursor: pointer; } 
-.dashboard-list li a.paused { color: @navbarSearchPlaceholderColor; }
-.dashboard-list .itemlist .dropdown-menu { top: 0; right: 20px; }
 .dashboard-list .itemlist span,  .dashboard-list .itemlist em { padding-left: 21px; } 
 .dashboard-right .dropdown-menu.pull-right { left: auto; right: 0; }
+
+// adjust dropdown menus to not get clipped
+.dashboard-list .itemlist .dropdown-menu { top: 0; right: 20px; }
+.dashboard-center .absolute-right .dropdown.dropup .dropdown-menu { bottom: -38px; right: 20px; }
+.dashboard-center .absolute-right .dropdown.dropcenter .dropdown-menu { top: -110px; right: 20px; }
+
+/* color status icons */
+.dashboard-list li a.st-paused, .dashboard-list li a.st-stopped { color: @navbarSearchPlaceholderColor; }
+.dashboard-center li div.form-inline { color: @linkColor; }
+.dashboard-center li div.form-inline:hover { color: @linkColorHover; cursor: default; }
+.dashboard-center li.st-paused { background-color: @warningBackground; }
+.dashboard-list li a.st-paused i, .dashboard-center li.st-paused .form-inline i { color: @btnWarningBackground; }
+.dashboard-list li a.st-paused i:hover, .dashboard-center li.st-paused .form-inline i:hover { color: @btnWarningBackgroundHighlight; }
+.dashboard-list li a.st-stopped i, .dashboard-center li.st-stopped .form-inline i { color: @grayLight; }
+.dashboard-list li a.st-stopped i:hover, .dashboard-center li.st-stopped .form-inline i:hover { color: @gray; }
+.dashboard-list li a.st-skipped i, .dashboard-center li.st-skipped .form-inline i { color: @btnDangerBackground; }
+.dashboard-list li a.st-skipped i:hover, .dashboard-center li.st-skipped .form-inline i:hover { color: @btnDangerBackgroundHighlight; }
+.dashboard-list li a.st-active i, .dashboard-center li.st-active .form-inline i { color: @btnSuccessBackground; }
+.dashboard-list li a.st-active i:hover, .dashboard-center li.st-active .form-inline i:hover { color: @btnSuccessBackgroundHighlight; }
+
 
 /* busy animation for suggestions pane */
 .dashboard-right .working { text-align: center; width: 100%; }
@@ -78,22 +96,20 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .tab-content { min-height: 200px; }
 .dashboard-center .tab-content .form-vertical .control-group { margin: 0 10px 0 0; padding: 0; }
 .dashboard-center .tab-content .form-vertical .control-label, .modal-body .control-label { font-size: 8pt; margin: 0 0 -4px 8px; }
-/* .dashboard-center .tab-content .form-vertical .btn-group > .btn:first-child { min-width: 60px; text-align: left; } */
+.dashboard-center .manager-folders div.form-inline { padding: 4px 0 0 0; }
 .dashboard-center .manager-folders .form-inline .checkbox { margin-right: 6px; margin-top: -2px; }
 .dashboard-center .manager-folders small { font-size: 90%; margin-right: 12px; }
 .dashboard-center .manager-folders { position: relative; }
 .dashboard-center .manager-folders .tab-content textarea { height: 60px; }
 .dashboard-center .manager-folders .tab-content .input-inline-max { display:inline-block; width: 90%; }
 .dashboard-center .manager-folders .tab-content .nav-list { padding: 0; }
-.dashboard-center .manager-folders .tab-content .nav-list li { border-top: 1px solid @btnBorder; padding: 0 8px 0 8px; }
-.dashboard-center .manager-folders .tab-content .nav-list li.selected { background-color: @btnBackgroundHighlight; }  
-.dashboard-center .manager-folders .tab-content .nav-list li.st-complete { background-color: @infoBackground; }  
-.dashboard-center .manager-folders .tab-content .nav-list li.st-skipped { background-color: @errorBackground; }  
-.dashboard-center .manager-folders .tab-content .nav-list li.st-active { background-color: @successBackground; }  
-.dashboard-center .manager-folders .tab-content .nav-list li.st-paused { background-color: @successBackground; }  
+.dashboard-center .manager-folders .tab-content .nav-list > li { border-top: 1px solid @btnBorder; padding: 0 8px 0 8px; }
+.dashboard-center .manager-folders .tab-content .nav-list > li.selected { background-color: @grayLighter; }  
+.dashboard-center .manager-folders .tab-content .nav-list > li.st-paused { background-color: @warningBackground; }  
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar { margin: 8px 2px 2px 2px; }
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar.pull-right { float: right; }
-.btn-toolbar .icon-large { text-align:left; padding: 4px 0 0 8px; }
+.btn-toolbar .icon-large { text-align:left; padding: 4px 0 0 4px;  margin-left: 4px; }
+.btn-toolbar .btn .icon-large { text-align:left; padding: 4px 0 0 8px;  }
 
 .dashboard-center .carousel .input-block-level {
     border-left-color: transparent; border-bottom-color: transparent; border-right-color: transparent; 
@@ -103,10 +119,10 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .carousel .fn-name { color: black; font-weight: bold; background-color: transparent; border-style: none; }
 .dashboard-center .carousel .fn-name:focus { color: black; font-weight: normal; background-color: @white; }
 .dashboard-center .carousel .form-inline .checkbox { margin-right: 6px; margin-top: 5px; }
-.dashboard-center .carousel .form-inline.well { height: 64px; padding: 8px 8px 8px 8px;}
+.dashboard-center .carousel .form-inline.well { min-height: 64px; padding: 8px 8px 8px 8px;}
 .dashboard-center .carousel .form-inline.well .thumbnail { margin: 0; padding: 2px; height: 64px; max-width: 64px; float: right; }
 .dashboard-center .carousel .form-inline.well .thumbnail img { width: 100%; height: 100%; }
-.dashboard-center .carousel .form-inline.well .btn-toolbar { margin: 0 0 4px 0; padding: 0 0 4px 0; }
+.dashboard-center .carousel .form-inline.well .thumbnail a.icon i { font-size: 48px; margin: 6px 0 0 12px; }
 
 
 /* styles for paging */
@@ -139,13 +155,6 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 
 /* item status icon */
 .item-status { position: absolute; top: 10px; right: 0; }
-.item-status i { font-size: 16pt; margin-right: 12px; }
-.item-status i.icon-play { color: @btnSuccessBackground }
-.item-status i.icon-play:hover { color: @btnSuccessBackgroundHighlight }
-.item-status i.icon-forward, .item-status i.icon-backward { color: @btnPrimaryBackground }
-.item-status i.icon-forward:hover, .item-status i.icon-backward:hover { color: @btnPrimaryBackgroundHighlight }
-.item-status i.icon-pause { color: @btnWarningBackground }
-.item-status i.icon-pause:hover { color: @btnWarningBackgroundHighlight }
 
 /* drag handle icon */
 .icon.drag-handle { position: absolute; top: 7px; left: 1px; color: transparent; cursor: n-resize; font-family: Arial; font-size: 22pt; }
@@ -156,6 +165,8 @@ li.active:hover .icon.drag-handle { color: @white; }
 .btn-command { color: @grayLight; }
 .btn-dropdown { color: @white; cursor: pointer; }
 .btn-dropdown.open .dropdown-toggle { background-color: transparent; }
+.btn.icon { width: 24px; height: 19px; padding: 5px 0 0 0; margin: -2px 4px 0 0; }
+.btn.icon .icon-backward { margin-right: 2px; }
 
 /* custom icons */
 i.icon-azure { display: inline-block; width: 16px; height: 16px; cursor: pointer; 

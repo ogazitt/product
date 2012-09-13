@@ -76,20 +76,13 @@ ItemEditor.prototype.renderFields = function ($element) {
 }
 
 ItemEditor.prototype.renderNameField = function ($element) {
-    var inputClass = 'span12';
-    var fields = this.item.GetFields();
-    var field = fields[FieldNames.Complete];
     var $form = $('<form class="form-inline well"/>').appendTo($element);
-    $controls = $('<div class="span10" />').appendTo($form);
-    if (field != null) {
-        var $checkbox = Control.Checkbox.render($controls, this.item, field);
-        $checkbox.addClass('inline-left');
-        inputClass = 'span11';
-    }
+    var $controls = $('<div class="span10" />').appendTo($form);
 
     // render name field
     var $field;
-    field = fields[FieldNames.Name];
+    var fields = this.item.GetFields();
+    var field = fields[FieldNames.Name];
     if (this.item.ItemTypeID == ItemTypes.Location) {
         $field = Control.Text.renderInputAddress($controls, this.item, field);
     } else if (this.item.ItemTypeID == ItemTypes.Grocery) {
@@ -97,28 +90,25 @@ ItemEditor.prototype.renderNameField = function ($element) {
     } else {
         $field = Control.Text.renderInput($controls, this.item, field);
     }
-    $field.addClass(inputClass);
-
-    // render toolbar
-    var $toolbar = $('<div class="btn-toolbar span12" />').prependTo($controls);
-    Control.Icons.deleteBtn(this.item).appendTo($toolbar);
-    //var $itemTypePicker = Control.ItemType.renderDropdown($toolbar, this.item, true);
-    //$itemTypePicker.addClass('pull-right');
-    //$itemTypePicker.find('.btn').addClass('btn-mini').css('border-style', 'none');
-
-    // render the action type picker 
-    var $actionTypePicker = Control.ActionType.renderDropdown($toolbar, this.item, true);
-    if ($actionTypePicker != null) {
-        $actionTypePicker.addClass('pull-right');
-        $actionTypePicker.find('.btn').addClass('btn-mini').css('border-style', 'none');
-    }
+    $field.addClass('span12');
 
     // render thumbnail
     var $thumbnail = $('<div class="span2 thumbnail" />').appendTo($form);
-    var imageUrl = this.item.GetFieldValue(FieldNames.Picture);
-    if (imageUrl != null) {
-        $image = $('<img />').appendTo($thumbnail);
-        $image.attr('src', imageUrl);
+    var isActivity = (this.item.IsStep() || this.item.IsActivity());
+    if (isActivity) {
+        // render the action type picker 
+        var $wrapper = $('<div class="span2" />').appendTo($form);
+        var $action = Control.ActionType.renderDropdown($thumbnail, this.item, true).addClass('pull-right');
+        $action.find('i').attr('title', 'Change Action').tooltip(Control.noDelay);
+    } else {
+        var imageUrl = this.item.GetFieldValue(FieldNames.Picture);
+        if (imageUrl != null) {
+            $image = $('<img />').appendTo($thumbnail);
+            $image.attr('src', imageUrl);
+        } else {
+            var $icon = $('<a class="icon" />').appendTo($thumbnail);
+            Control.Icons.forItemType(this.item).appendTo($icon);
+        }
     }
 
     return $field;

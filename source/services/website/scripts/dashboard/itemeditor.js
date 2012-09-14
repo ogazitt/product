@@ -94,8 +94,7 @@ ItemEditor.prototype.renderNameField = function ($element) {
 
     // render thumbnail
     var $thumbnail = $('<div class="span2 thumbnail" />').appendTo($form);
-    var isActivity = (this.item.IsStep() || this.item.IsActivity());
-    if (isActivity) {
+    if (this.item.IsStep()) {
         // render the action type picker 
         var $wrapper = $('<div class="span2" />').appendTo($form);
         var $action = Control.ActionType.renderDropdown($thumbnail, this.item, true).addClass('pull-right');

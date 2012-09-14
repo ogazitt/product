@@ -33,7 +33,7 @@ ActionTypeList.prototype.fireSelectionChanged = function (actionType, userAction
     }
 }
 
-ActionTypeList.prototype.render = function ($element, actionTypes) {
+ActionTypeList.prototype.render = function ($element, actionTypes, userAction) {
     if (actionTypes != null) {
         $element.empty();
         this.init(actionTypes);
@@ -48,7 +48,7 @@ ActionTypeList.prototype.render = function ($element, actionTypes) {
     this.show();
     // select current ActionType
     this.select(this.$currentActionType, this.currentActionType);
-    this.fireSelectionChanged(this.currentActionType, true);
+    this.fireSelectionChanged(this.currentActionType, (userAction == null) ? true : userAction);
 }
 
 ActionTypeList.prototype.renderActionTypeList = function ($element, actionTypes) {

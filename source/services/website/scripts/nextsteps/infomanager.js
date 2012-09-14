@@ -83,10 +83,12 @@ InfoManager.prototype.render = function () {
     var maxContentHeight = this.$parentElement.outerHeight() - $tabs.outerHeight();
 
     if (activeView == InfoManager.StepView) {
-        this.itemViewer.render($view, this.activeItem(), maxContentHeight);
+        this.itemViewer.render($view, activeItem, maxContentHeight);
+        $view.show();
     }
     if (activeView == InfoManager.ActivityView) {
-        this.itemViewer.render($view, this.activeItem().parent(), maxContentHeight);
+        this.itemViewer.render($view, activeItem.parent(), maxContentHeight);
+        $view.show();
     }
     $tabs.find('a[href=".' + activeView + '"]').tab('show');
 }
@@ -101,6 +103,8 @@ InfoManager.prototype.selectItem = function (item) {
 InfoManager.prototype.activeItem = function () {
     var parent = null;
     if (this.currentItem != null) {
+        // rebind to current version in DataModel in case changed
+        this.currentItem = this.currentItem.GetFolder().GetItem(this.currentItem.ID);
         return this.currentItem;
     }
     return null;

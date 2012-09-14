@@ -79,7 +79,7 @@ NextStepsPage.Close = function NextStepsPage$Close(event) {
 // event handler, do not reference 'this' to access static NextStepsPage
 NextStepsPage.ManageDataChange = function NextStepsPage$ManageDataChange(folderID, itemID) {
     //NextStepsPage.actionTypeList.render(NextStepsPage.$left, NextStepsPage.dataModel.ActionTypes);
-    NextStepsPage.currentList.render(NextStepsPage.$left);
+    NextStepsPage.currentList.render(NextStepsPage.$left, null, false);
     //NextStepsPage.render(NextStepsPage.currentList);
 }
 
@@ -87,7 +87,7 @@ NextStepsPage.ManageDataChange = function NextStepsPage$ManageDataChange(folderI
 NextStepsPage.ManageActionType = function NextStepsPage$ManageActionType(actionType, userAction) {
     // reset manager to Step Manager only if this was a user action
     var manager = (userAction == true) ? NextStepsPage.stepManager : NextStepsPage.currentManager;
-    NextStepsPage.showManager(manager);
+    NextStepsPage.showManager(manager, (userAction != true));
     NextStepsPage.stepManager.selectActionType(actionType);
 }
 
@@ -116,7 +116,6 @@ NextStepsPage.render = function NextStepsPage$render(list) {
 NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
     var $navbar = $('.navbar-fixed-top .pull-right');
     var $navbtn = $navbar.find('.option-nextsteps a i').addClass('icon-white');
-    //var $navbtn = $navbar.find('.option-categories a i').removeClass('icon-white');
 
     // refresh
     var $dropdown = $('.navbar-fixed-top .pull-right .dropdown-menu');

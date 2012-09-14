@@ -146,9 +146,14 @@ Dashboard.render = function Dashboard$render(folderID, itemID) {
 
 // show options in header dropdown (refresh, settings, etc.)
 Dashboard.showHeaderOptions = function Dashboard$showHeaderOptions() {
-    $dropdown = $('.navbar-fixed-top .pull-right .dropdown-menu');
+    var $navbar = $('.navbar-fixed-top .pull-right');
+    var $navbtn = $navbar.find('.option-categories a i').addClass('icon-white');
+    $navbtn.attr('title', 'Activity Dashboard').tooltip(Control.ttDelayBottom);
+    $navbar.find('.option-nextsteps a i').attr('title', 'Next Steps').tooltip(Control.ttDelayBottom);
+
+    var $dropdown = $('.navbar-fixed-top .pull-right .dropdown-menu');
     // refresh
-    $menuitem = $dropdown.find('.option-refresh');
+    var $menuitem = $dropdown.find('.option-refresh');
     $menuitem.show();
     $menuitem.click(function (e) {
         Dashboard.dataModel.Refresh();

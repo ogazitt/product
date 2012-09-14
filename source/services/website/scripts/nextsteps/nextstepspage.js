@@ -114,37 +114,63 @@ NextStepsPage.render = function NextStepsPage$render(list) {
 
 // show options in header dropdown (refresh, settings, etc.)
 NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
-    $dropdown = $('.navbar-fixed-top .pull-right');
+    var $navbar = $('.navbar-fixed-top .pull-right');
+    var $navbtn = $navbar.find('.option-nextsteps a i').addClass('icon-white');
+    //var $navbtn = $navbar.find('.option-categories a i').removeClass('icon-white');
+
     // refresh
-    $menuitem = $dropdown.find('.option-refresh');
+    var $dropdown = $('.navbar-fixed-top .pull-right .dropdown-menu');
+    var $menuitem = $navbar.find('.option-refresh');
     $menuitem.show();
     $menuitem.click(function (e) {
         NextStepsPage.dataModel.Refresh();
         e.preventDefault();
     });
 
-    if (Browser.IsMobile()) {
-        // next steps
-        $menuitem = $dropdown.find('.option-nextsteps');
+    if (!Browser.IsMobile()) {
+        $navbar.find('.option-categories a i').attr('title', 'Activity Dashboard').tooltip(Control.ttDelayBottom);
+        $navbar.find('.option-nextsteps a i').attr('title', 'Next Steps').tooltip(Control.ttDelayBottom);
+
+        // user settings
+        $menuitem = $dropdown.find('.option-settings');
         $menuitem.show();
         $menuitem.click(function (e) {
+            Dashboard.showManager(Dashboard.settingsManager);
+            e.preventDefault();
+        });
+        // help
+        $menuitem = $dropdown.find('.option-help');
+        $menuitem.show();
+        $menuitem.click(function (e) {
+            Dashboard.showManager(Dashboard.helpManager);
+            e.preventDefault();
+        });
+    } else {
+        // next steps
+        var $navbtn = $navbar.find('.option-nextsteps');
+        $navbtn.show();
+        $navbtn.click(function (e) {
             NextStepsPage.render(NextStepsPage.actionTypeList);
+            $navbar.find('.option-nextsteps a i').addClass('icon-white');
+            $navbar.find('.option-categories a i').removeClass('icon-white');
             e.preventDefault();
         });
         // categories
-        $menuitem = $dropdown.find('.option-categories');
-        $menuitem.show();
-        $menuitem.click(function (e) {
+        $navbtn = $navbar.find('.option-categories');
+        $navbtn.show();
+        $navbtn.click(function (e) {
             NextStepsPage.render(NextStepsPage.categoryList);
+            $navbar.find('.option-nextsteps a i').removeClass('icon-white');
+            $navbar.find('.option-categories a i').addClass('icon-white');
             e.preventDefault();
         });
         // add
-        $menuitem = $dropdown.find('.option-add');
-        $menuitem.show();
+        $navbtn = $navbar.find('.option-add');
+        $navbtn.show();
         var $dialog = $('<div><label>Activity name: </label><input type="text" /></div>');
         //$dialog.find('#name').val(activity.Name);
         var header = 'Add a new activity';
-        $menuitem.click(function (e) {
+        $navbtn.click(function (e) {
             Control.popup($dialog, header, function (inputs) {
                 if (inputs[0].length == 0) {
                     Control.alert('Please provide a name for the activity', 'Add activity');

@@ -289,6 +289,7 @@ table .span24{float:none;width:1884px;margin-left:0}
 .nav-pills li.active .dropdown-menu li:hover i{background-image:url("images/awesome-sprites-white.png")}
 .dropdown-menu li .icon-large{background-image:url("images/awesome-sprites-large.png")}
 .dropdown-menu li:hover .icon-large{background-image:url("images/awesome-sprites-white-large.png")}
+.navbar .nav-pills li a:hover [class^="icon-"],.nav-bar .nav-pills li a:hover [class*=" icon-"]{background-image:url("images/awesome-sprites-white.png")}
 .icon-glass{background-position:0 0}
 .icon-music{background-position:-24px 0}
 .icon-search{background-position:-48px 0}
@@ -1104,6 +1105,9 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .navbar .active img{margin:0 12px 0 12px}
 .navbar-fixed-top .navbar-inner{padding:0 10px 0 10px}
 .navbar-fixed-bottom .pull-right{margin:12px 10px 0 0}
+.navbar .nav-pills.pull-right>li>a{padding-left:4px;padding-right:4px}
+.navbar .nav-pills.pull-right>li.divider-vertical{margin-left:0}
+.navbar .nav-pills.pull-right>li>a>i.icon-white{color:#fff}
 @media(max-width:800px){body{padding-left:0;padding-right:0}
 .navbar .container-fluid{width:100%;*zoom:1}
 .container,.container-fluid{width:800px;*zoom:1}
@@ -1115,9 +1119,12 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-list{padding:6px;overflow-y:auto;over-flow-x:hidden}
 .dashboard-list ul{margin:0;over-flow-x:hidden}
 .dashboard-list li a{cursor:pointer}
-.dashboard-list .itemlist .dropdown-menu{top:0;right:20px}
 .dashboard-list .itemlist span,.dashboard-list .itemlist em{padding-left:21px}
+.dashboard-list .itemlist .dropdown-menu{top:0;right:20px}
 .dashboard-right .dropdown-menu.pull-right{left:auto;right:0}
+.dashboard-center .absolute-right .dropdown.dropup .dropdown-menu{bottom:-38px;right:20px}
+.dashboard-center .absolute-right .dropdown.dropcenter .dropdown-menu{top:-110px;right:20px}
+.dashboard-center .btn-toolbar .dropdown.dropcenter .dropdown-menu{top:-24px;right:24px}
 .dashboard-list li a.st-paused,.dashboard-list li a.st-stopped{color:#ccc}
 .dashboard-center li div.form-inline{color:#08c}
 .dashboard-center li div.form-inline:hover{color:#005580;cursor:default}
@@ -1148,12 +1155,13 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-center .manager-folders .tab-content textarea{height:60px}
 .dashboard-center .manager-folders .tab-content .input-inline-max{display:inline-block;width:90%}
 .dashboard-center .manager-folders .tab-content .nav-list{padding:0}
-.dashboard-center .manager-folders .tab-content .nav-list li{border-top:1px solid #ccc;padding:0 8px 0 8px}
-.dashboard-center .manager-folders .tab-content .nav-list li.selected{background-color:#eee}
-.dashboard-center .manager-folders .tab-content .nav-list li.st-paused{background-color:#fcf8e3}
+.dashboard-center .manager-folders .tab-content .nav-list>li{border-top:1px solid #ccc;padding:0 8px 0 8px}
+.dashboard-center .manager-folders .tab-content .nav-list>li.selected{background-color:#eee}
+.dashboard-center .manager-folders .tab-content .nav-list>li.st-paused{background-color:#fcf8e3}
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar{margin:8px 2px 2px 2px}
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar.pull-right{float:right}
-.btn-toolbar .icon-large{text-align:left;padding:4px 0 0 8px}
+.btn-toolbar .icon-large{text-align:left;padding:4px 0 0 4px;margin-left:4px}
+.btn-toolbar .btn .icon-large{text-align:left;padding:4px 0 0 8px}
 .dashboard-center .carousel .input-block-level{border-left-color:transparent;border-bottom-color:transparent;border-right-color:transparent;background-color:transparent;overflow-y:hidden}
 .dashboard-center .carousel .input-block-level:focus{overflow-y:auto}
 .dashboard-center .carousel .fn-name{color:black;font-weight:bold;background-color:transparent;border-style:none}
@@ -1191,8 +1199,10 @@ li.active:hover .icon.drag-handle{color:#fff}
 .btn.icon{width:24px;height:19px;padding:5px 0 0 0;margin:-2px 4px 0 0}
 .btn.icon .icon-backward{margin-right:2px}
 i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;background:transparent url(images/icon-azure.png) no-repeat}
-.repeat-frequency{max-width:80px;margin-right:20px}
-.repeat-interval{max-width:60px}
+.repeat-dialog .add-on{width:90px;text-align:right}
+.repeat-frequency{max-width:80px}
+.int-selector{max-width:60px}
+.month-selector{max-width:100px}
 .repeat-summary{margin:24px 0 -12px 0}
 label.checkbox{cursor:pointer}
 label.checkbox .checkbox{margin-top:-2px}
@@ -1215,7 +1225,7 @@ body{padding-bottom:0}
 .navbar .nav li a#brand{padding-left:0;padding-right:0}
 .navbar .nav li.divider-vertical{margin-left:0;margin-right:0}
 .navbar ul.nav.pull-right{margin-left:0}
-.navbar .nav-pills li a{padding-left:4px;padding-right:4px}
+.navbar .nav-pills>li>a{padding-left:4px;padding-right:4px}
 .navbar .nav-pills li.dropdown a{padding-left:4px;padding-right:10px}
 .container-fluid{padding-left:0;padding-right:0}
 @media(max-width:768px){body{padding-left:4;padding-right:4}

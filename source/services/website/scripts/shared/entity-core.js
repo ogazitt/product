@@ -378,7 +378,7 @@ Item.prototype.GetMapLink = function () {
         }
     };
     if (this.HasField(FieldNames.Address)) { return getmaplink(this); };
-    if (this.IsActivity() || this.IsStep()) {
+    if (this.HasField(FieldNames.Locations)) {
         var item = this.GetLocation();
         if (item != null) {
             var link = getmaplink(item);
@@ -389,6 +389,10 @@ Item.prototype.GetMapLink = function () {
     }
     return null;
 }
+
+// Location and Contact Item helpers
+Item.prototype.IsLocation = function () { return (this.ItemTypeID == ItemTypes.Location); };
+Item.prototype.IsContact = function () { return (this.ItemTypeID == ItemTypes.Contact); };
 
 // Item.Status helpers
 Item.prototype.UpdateStatus = function (status, activeItem) { var copy = this.Copy(); copy.Status = status; return this.Update(copy, activeItem); };

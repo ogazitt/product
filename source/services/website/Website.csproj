@@ -204,9 +204,13 @@
     <Content Include="content\images\awesome-sprites.png" />
     <Content Include="content\images\font-images-test.htm" />
     <Content Include="content\images\font-images.htm" />
-    <Content Include="content\images\landing\organizer.PNG" />
+    <Content Include="content\images\landing\activities-and-steps.png" />
+    <Content Include="content\images\landing\iphone-activity-list-map.png" />
+    <Content Include="content\images\landing\iphone-next-steps-schedule.png" />
+    <Content Include="content\images\landing\next-steps-web-small.png" />
     <Content Include="content\images\steps-white.png" />
     <Content Include="content\images\steps.png" />
+    <Content Include="content\images\twostep-large-no-feet.png" />
     <Content Include="content\master.generated.min.css">
       <DependentUpon>master.css.chirp.config</DependentUpon>
     </Content>

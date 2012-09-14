@@ -390,18 +390,38 @@ Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
         var link = item.GetMapLink();
         if (link != null) { window.open(link); }
         else {
-            var $dialog = $('<div>Where is this taking place?<p/></div>');
-            var field = item.GetField(FieldNames.Locations);
-            var $field = Control.LocationList.renderInput($dialog, item, field, function (input) { return false; });
             var header = item.Name;
-            Control.popup($dialog, header, function (inputs) {
-                Control.LocationList.update($field);
-                var place = $field.data('place');
-                if (place != null) {
-                    if (Browser.IsMobile()) { window.open('maps:' + escape(place.formatted_address)); }
-                    else { window.open('http://maps.google.com/?q=' + escape(place.formatted_address)); }
-                }
-            });
+            // if this is a location, bind the Address field and autocomplete a location
+            if (item.IsLocation()) {
+                var $dialog = $('<div>Please select a location or address<p/></div>');
+                var field = item.GetField(FieldNames.Address);
+                var $field = Control.Text.renderInputAddress($dialog, item, field, function (input) { return false; });
+                Control.popup($dialog, header, function (inputs) {
+                    Control.Text.updateAddress($field);
+                    var place = $field.data('place');
+                    if (place != null) {
+                        if (Browser.IsMobile()) { window.open('maps:' + escape(place.formatted_address)); }
+                        else { window.open('http://maps.google.com/?q=' + escape(place.formatted_address)); }
+                    }
+                });
+            }
+            else {
+                // this is an Activity, Step, or Contact - bind the Locations field and autocomplete a location
+                var dialogText;
+                if (item.IsActivity() || item.IsStep()) { dialogText = 'Where is this taking place?'; }
+                else if (item.IsContact() || item.IsLocation()) { dialogText = 'Please select the location or address'; }
+                var $dialog = $('<div>' + dialogText + '<p/></div>');
+                var field = item.GetField(FieldNames.Locations);
+                var $field = Control.LocationList.renderInput($dialog, item, field, function (input) { return false; });
+                Control.popup($dialog, header, function (inputs) {
+                    Control.LocationList.update($field);
+                    var place = $field.data('place');
+                    if (place != null) {
+                        if (Browser.IsMobile()) { window.open('maps:' + escape(place.formatted_address)); }
+                        else { window.open('http://maps.google.com/?q=' + escape(place.formatted_address)); }
+                    }
+                });
+            }
         }
         return false;
     });
@@ -612,7 +632,37 @@ Control.Icons.findLocalBtn = function Control$Icons$findLocalBtn(item) {
     return $('<a class="icon" />').append($icon);
 }
 
+Control.Icons.infoDialogForContactOrLocation = function Control$Icons$infoDialogForContactOrLocation(item, fieldName, labelName, inputType, handler) {
+    // set up defaults
+    fieldName = (fieldName == null) ? FieldNames.Phone : fieldName;
+    labelName = (labelName == null) ? "Phone" : labelName;
+    inputType = (inputType == null) ? "tel" : inputType;
+    // set up dialog
+    var header = 'Please enter ' + (item.IsLocation() ? 'location' : 'contact') + ' information';
+    var $dialog = $('<div><label>' + labelName + '</label><input type="' + inputType + '" id="dataField"/></div>');
+    var $dataField = $dialog.find('#dataField');
+
+    Control.popup($dialog, header, function (inputs) {
+        if (inputs[0].length == 0) {
+            Control.alert('Please provide a ' + labelName.toLocaleLowerCase() + ' for the location or contact', 'Call');
+        }
+        else {
+            // update the field with the data value 
+            var dataValue = inputs[0];
+            var updatedItem = Item.Extend(item);
+            updatedItem.SetFieldValue(fieldName, dataValue);
+            item.Update(updatedItem);
+
+            // invoke handler
+            if (handler != null) { handler(dataValue); }
+        }
+    });
+}
+
 Control.Icons.infoDialog = function Control$Icons$infoDialog(item, fieldName, labelName, inputType, handler) {
+    // handle locations and contacts using a different dialog
+    if (item.IsLocation() || item.IsContact()) { return Control.Icons.infoDialogForContactOrLocation(item, fieldName, labelName, inputType, handler); }
+
     // set up defaults
     fieldName = (fieldName == null) ? FieldNames.Phone : fieldName;
     labelName = (labelName == null) ? "Phone" : labelName;

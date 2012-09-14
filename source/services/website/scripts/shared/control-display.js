@@ -111,12 +111,13 @@ Control.Text.renderTextArea = function Control$Text$renderTextArea($element, ite
     return $text;
 }
 // render input with update on keypress and autocomplete
-Control.Text.renderInputAddress = function Control$Text$renderInputAddress($element, item, field) {
+Control.Text.renderInputAddress = function Control$Text$renderInputAddress($element, item, field, handler) {
+    hander = (handler != null) ? handler : Control.Text.updateAddress;
     $text = $('<input type="text" />').appendTo($element);
     $text = Control.Text.base($text, item, field);
-    $text.keypress(function (e) { if (e.which == 13) { Control.Text.updateAddress($(e.srcElement)); return false; } });
+    $text.keypress(function (e) { if (e.which == 13) { handler($(e.srcElement)); return false; } });
     //$text = Control.Text.autoCompleteAddress($text, Control.Text.updateAddress);
-    $text = Control.Text.autoCompletePlace($text, Control.Text.updateAddress);
+    $text = Control.Text.autoCompletePlace($text, handler);
     return $text;
 }
 // render input with update on keypress and autocomplete

@@ -18,8 +18,8 @@
     <div class="container-fluid main-content">
     <div class="row-fluid">
         <div class="span12">
-            <h1>Dance through life with <span style="">TwoStep</span></h1>
-            <h2>The Personal Assistant for Life's Activities</h2>
+            <h1 style="font-style: italic">Dance through life with &nbsp;<img alt="TwoStep" src="<%: Url.Content("~/content/images/twostep-large-no-feet.png") %>" /></h1>
+            <h2 style="margin-top: -20px">The Personal Assistant for Life's Activities</h2>
         </div>
     </div>
     <div class="row-fluid">

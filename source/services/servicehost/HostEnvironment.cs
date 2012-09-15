@@ -43,6 +43,7 @@ namespace BuiltSteady.Product.ServiceHost
         static string suggestionsConnection;
         static string lexiconFileName;
         static string galleryDirectory;
+        static string workflowDirectory;
         static string traceDirectoryName;
         static string splunkServerEndpoint;
 
@@ -279,36 +280,39 @@ namespace BuiltSteady.Product.ServiceHost
             {
                 if (galleryDirectory == null)
                 {
-                    if (IsAzure && !IsAzureDevFabric)
+                    if (HttpContext.Current != null)
                     {
-                        // Azure (deployed)
-                        if (HttpContext.Current != null)
-                        {
-                            // web role
-                            galleryDirectory = HttpContext.Current.Server.MapPath(@"bin\gallery");
-                        }
-                        else
-                        {
-                            // worker role
-                            galleryDirectory = @"gallery";
-                        }
+                        // web role
+                        galleryDirectory = HttpContext.Current.Server.MapPath(@"bin\gallery");
                     }
                     else
                     {
-                        // local (either dev fabric or cassini)
-                        if (HttpContext.Current != null)
-                        {
-                            // web role - azure dev fabric OR cassini
-                            galleryDirectory = HttpContext.Current.Server.MapPath(@"bin\gallery");
-                        }
-                        else
-                        {
-                            // azure worker role (dev fabric)
-                            galleryDirectory = @"gallery";
-                        }
+                        // worker role
+                        galleryDirectory = @"gallery";
                     }
                 }
                 return galleryDirectory;
+            }
+        }
+
+        public static string WorkflowDirectory
+        {
+            get
+            {
+                if (workflowDirectory == null)
+                {
+                    if (HttpContext.Current != null)
+                    {
+                        // web role
+                        workflowDirectory = HttpContext.Current.Server.MapPath(@"bin\workflows");
+                    }
+                    else
+                    {
+                        // worker role
+                        workflowDirectory = @"workflows";
+                    }
+                }
+                return workflowDirectory;
             }
         }
 

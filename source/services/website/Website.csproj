@@ -204,6 +204,17 @@
     <Content Include="content\images\awesome-sprites.png" />
     <Content Include="content\images\font-images-test.htm" />
     <Content Include="content\images\font-images.htm" />
+    <Content Include="content\images\help\activity-editor.png" />
+    <Content Include="content\images\help\gallery-install.png" />
+    <Content Include="content\images\help\gallery.png" />
+    <Content Include="content\images\help\help.png" />
+    <Content Include="content\images\help\location-picker.png" />
+    <Content Include="content\images\help\next-steps-new.png" />
+    <Content Include="content\images\help\next-steps.png" />
+    <Content Include="content\images\help\organizer-color.png" />
+    <Content Include="content\images\help\run-mode.png" />
+    <Content Include="content\images\help\twostep-iphone-small.png" />
+    <Content Include="content\images\help\twostep-iphone.png" />
     <Content Include="content\images\landing\activities-and-steps.png" />
     <Content Include="content\images\landing\iphone-activity-list-map.png" />
     <Content Include="content\images\landing\iphone-next-steps-schedule.png" />
@@ -326,6 +337,7 @@
     <Content Include="views\dashboard\NextSteps.aspx" />
     <Content Include="views\mobile\Home.aspx" />
     <Content Include="views\account\MobileSignIn.aspx" />
+    <Content Include="views\shared\HelpCarouselControl.ascx" />
     <Content Include="views\shared\RepeatControl.ascx" />
     <Content Include="views\shared\ModalPrompt.ascx" />
     <Content Include="views\shared\ModalMessage.ascx" />

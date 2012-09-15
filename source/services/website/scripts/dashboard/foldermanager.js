@@ -293,6 +293,7 @@ function HelpManager(parentControl, $parentElement) {
 HelpManager.prototype.hide = function () {
     if (this.$element != null) {
         this.$element.hide();
+        $('#help_carousel').hide();
     }
 }
 
@@ -307,7 +308,9 @@ HelpManager.prototype.show = function () {
 // render is only called internally by show method
 HelpManager.prototype.render = function () {
     this.$element.empty();
-    var $help = $('<div class="hero-unit" />').appendTo(this.$element);
+    $('#help_carousel').show();
+/*
+    var $help = $('<div class="hero-unit"></div>').appendTo(this.$element);
     $help.append('<img src="/content/images/twostep-large.png" alt="TwoStep" />');
     $help.append(HelpManager.tagline);
     $connect = $('<p style="margin: 64px 0 -32px 0"></p>').appendTo($help);
@@ -321,6 +324,7 @@ HelpManager.prototype.render = function () {
     } else {
         this.renderConnect($connect, this.connectSuggestions);
     }
+    */
 }
 
 HelpManager.prototype.renderConnect = function ($element, suggestions) {
@@ -345,12 +349,14 @@ HelpManager.prototype.renderConnect = function ($element, suggestions) {
     }
 }
 
-HelpManager.tagline =
+HelpManager.tagline = 
+"<p>Here's a short introduction to the product.</p>"
+/*
 '<p>The ideal tool for managing your life activities. ' +
 'Organize the activities in your life into actionable steps and get a categorized list of next steps for getting things done. ' +
 'Get connected and have relevant information just one click away. ' +
 'Stay two steps ahead of life with TwoStep!</p>';
-
+*/
 // ---------------------------------------------------------
 // SettingsManager control
 function SettingsManager(parentControl, $parentElement) {

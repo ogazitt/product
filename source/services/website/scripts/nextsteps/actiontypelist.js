@@ -69,6 +69,7 @@ ActionTypeList.prototype.renderActionTypeList = function ($element, actionTypes)
             $icon.addClass('icon-large icon-blue');
             //$('<p>' + actionType.Name + '</p>').appendTo($actionType);
         } else {
+            if (actionType.Name != ActionTypes.All) { $li.addClass('itemlist'); }
             $('<span>&nbsp;' + actionType.Name + '</span>').appendTo($actionType);
         }
         $actionType.prepend($icon);

@@ -13,8 +13,8 @@
 var Control = function Control$() {};
 Control.noDelay = { delay: { show: 0, hide: 0} };           // tooltip with no delay
 Control.noDelayBottom = { delay: { show: 0, hide: 0 }, placement: 'bottom' };
-Control.ttDelay = { delay: { show: 500, hide: 200} };       // default tooltip delay
-Control.ttDelayBottom = { delay: { show: 500, hide: 200 }, placement: 'bottom' };
+Control.ttDelay = { delay: { show: 0 /*500*/, hide: 0 /*200*/} };       // default tooltip delay
+Control.ttDelayBottom = { delay: { show: 0 /*500*/, hide: 0 /*200*/ }, placement: 'bottom' };
 // helper function for preventing event bubbling
 Control.preventDefault = function Control$preventDefault(e) { e.preventDefault(); }
 
@@ -230,7 +230,7 @@ Control.DateFormat = function Control$DateFormat() {
 // common format strings
 Control.DateFormat.masks = {
     "default": "ddd, mmm dd, yyyy h:MM TT",
-    shortDate: "m/d/yy",
+    shortDate: "mm/dd/yyyy",
     mediumDate: "ddd, mmm dd, yyyy",
     longDate: "mmmm d, yyyy",
     fullDate: "dddd, mmmm d, yyyy",

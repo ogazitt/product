@@ -290,6 +290,15 @@ Recurrence.prototype.AddSuffix = function (n) {
     suffix = (n > 10 && n < 14) ? 'th' : suffix;
     return n + suffix;
 }
+Recurrence.prototype.NextDueDate = function (lastDate) {
+    if (typeof (lastDate) == 'String') {
+        lastDate = new Date(lastDate);
+    }
+    // TODO: calculate next due date
+    lastDate.setMonth((lastDate.getMonth() == 11) ? 0 : lastDate.getMonth() + 1);
+    return lastDate.format('shortDate');
+}
+
 // ---------------------------------------------------------
 // UserSettings object - provides prototype functions
 

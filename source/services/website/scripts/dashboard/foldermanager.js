@@ -135,6 +135,10 @@ FolderManager.prototype.renderStatus = function () {
                 if (rrule.IsEnabled()) {
                     var $btnForward = $('<a class="btn btn-primary icon"><i class="icon-forward"></i></a>').appendTo($status);
                     $btnForward.attr('title', 'Repeat Activity').tooltip(Control.noDelayBottom);
+                    $btnForward.click(function () {
+                        $(this).tooltip('hide');
+                        activity.Repeat();
+                    });
                 }
             }
 

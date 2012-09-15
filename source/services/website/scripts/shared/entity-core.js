@@ -63,6 +63,8 @@ Folder.prototype.GetSelectedItem = function () {
 Folder.prototype.InsertItem = function (newItem, adjacentItem, insertBefore, activeItem) { return DataModel.InsertItem(newItem, this, adjacentItem, insertBefore, activeItem); };
 Folder.prototype.Update = function (updatedFolder) { return DataModel.UpdateItem(this, updatedFolder); };
 Folder.prototype.Delete = function () { return DataModel.DeleteItem(this); };
+
+// ---------------------------------------------------------
 // Folder private functions
 Folder.prototype.addItem = function (newItem, activeItem) {
     newItem = Item.Extend(newItem);                    // extend with Item functions
@@ -95,7 +97,6 @@ Folder.prototype.update = function (updatedFolder) {
 
 // ---------------------------------------------------------
 // Item object - provides prototype functions for Item
-
 function Item() { };
 Item.Extend = function Item$Extend(item) { return $.extend(new Item(), item); }         // extend with Item prototypes
 
@@ -137,7 +138,6 @@ Item.prototype.Refresh = function () {
             }
         });
 }
-
 Item.prototype.GetFieldValue = function (field, handler) {
     // field parameter can be either field name or field object
     if (typeof (field) == 'string') {
@@ -273,12 +273,11 @@ Item.prototype.RemoveReferences = function (field) {
     return false;       // failed to remove references
 };
 
-Item.prototype.GetActionType = function () {
-    var actionTypeName = this.GetFieldValue(FieldNames.ActionType);
-    if (actionTypeName == null) actionTypeName = ActionTypes.Reminder;
-    var actionType = DataModel.FindActionType(actionTypeName);
-    return actionType;
-}
+// ---------------------------------------------------------
+// Location and Contact Item helpers
+Item.prototype.IsLocation = function () { return (this.ItemTypeID == ItemTypes.Location); };
+Item.prototype.IsContact = function () { return (this.ItemTypeID == ItemTypes.Contact); };
+
 // helper for getting the first location associated with the item
 Item.prototype.GetLocation = function () {
     var listItem = this.GetFieldValue(FieldNames.Locations);
@@ -303,7 +302,7 @@ Item.prototype.GetLocation = function () {
     }
     return null;
 }
-// helper for getting the first location associated with the item
+// helper for getting the first contact associated with the item
 Item.prototype.GetContact = function () {
     var listItem = this.GetFieldValue(FieldNames.Contacts);
     if (listItem != null) {
@@ -390,24 +389,33 @@ Item.prototype.GetMapLink = function () {
     return null;
 }
 
-// Location and Contact Item helpers
-Item.prototype.IsLocation = function () { return (this.ItemTypeID == ItemTypes.Location); };
-Item.prototype.IsContact = function () { return (this.ItemTypeID == ItemTypes.Contact); };
-
+// ---------------------------------------------------------
 // Item.Status helpers
 Item.prototype.UpdateStatus = function (status, activeItem) { var copy = this.Copy(); copy.Status = status; return this.Update(copy, activeItem); };
 Item.prototype.IsStopped = function () { return (this.Status == StatusTypes.Stopped); };
 Item.prototype.IsActive = function () { return (this.Status == StatusTypes.Active); };
 Item.prototype.IsComplete = function () { return (this.Status == StatusTypes.Complete); };
+Item.prototype.IsCompleted = function () { return (this.Group != null); };
 Item.prototype.IsPaused = function () { return (this.Status == StatusTypes.Paused); };
 Item.prototype.IsSkipped = function () { return (this.Status == StatusTypes.Skipped); };
 Item.prototype.IsRunning = function () { return !(this.IsStopped() || this.IsPaused()); };
-Item.prototype.StatusClass = function () { return (this.IsStopped()) ? 'st-stopped' : ('st-' + this.Status.toLowerCase()); };
+Item.prototype.StatusClass = function () {
+    return ((this.IsCompleted()) ? 'st-completed' :
+            (this.IsStopped()) ? 'st-stopped' : ('st-' + this.Status.toLowerCase())); 
+};
 
+// ---------------------------------------------------------
 // Activity and Step Item helpers
 Item.prototype.IsCategory = function () { return (this.ItemTypeID == ItemTypes.Category); };
 Item.prototype.IsActivity = function () { return (this.ItemTypeID == ItemTypes.Activity); };
 Item.prototype.IsStep = function () { return (this.ItemTypeID == ItemTypes.Step); };
+
+Item.prototype.GetActionType = function () {
+    var actionTypeName = this.GetFieldValue(FieldNames.ActionType);
+    if (actionTypeName == null) actionTypeName = ActionTypes.Reminder;
+    var actionType = DataModel.FindActionType(actionTypeName);
+    return actionType;
+}
 
 // helper for determining options for starting activity
 // returns object { Start: bool, Resume: bool, Restart: bool }
@@ -445,10 +453,11 @@ Item.prototype.CanResume = function () {
 
 // helper for marking item complete and marking next step active
 Item.prototype.Complete = function () {
+    var today = new Date().format();
     var copy = this.Copy();
     copy.Status = StatusTypes.Complete;
     if (copy.HasField(FieldNames.CompletedOn)) {
-        copy.SetFieldValue(FieldNames.CompletedOn, new Date().format());
+        copy.SetFieldValue(FieldNames.CompletedOn, today);
     }
 
     // make next step active and set due date
@@ -460,7 +469,10 @@ Item.prototype.Complete = function () {
         if (this.IsStep()) {
             var parent = this.GetParent();
             if (parent != null && parent.IsActivity()) {
-                parent.UpdateStatus(StatusTypes.Complete, null);
+                var pCopy = parent.Copy();
+                pCopy.Status = StatusTypes.Complete;
+                pCopy.SetFieldValue(FieldNames.CompletedOn, today);
+                parent.Update(pCopy, null);
             }
         }
         this.Update(copy);
@@ -468,10 +480,11 @@ Item.prototype.Complete = function () {
 }
 // helper for marking item skipped and marking next step active
 Item.prototype.Skip = function () {
+    var today = new Date().format();
     var copy = this.Copy();
     copy.Status = StatusTypes.Skipped;
     if (copy.HasField(FieldNames.CompletedOn)) {
-        copy.SetFieldValue(FieldNames.CompletedOn, new Date().format());
+        copy.SetFieldValue(FieldNames.CompletedOn, today);
     }
 
     // find the next step in the Activity and make it Active
@@ -483,7 +496,10 @@ Item.prototype.Skip = function () {
         if (this.IsStep()) {
             var parent = this.GetParent();
             if (parent != null && parent.IsActivity()) {
-                parent.UpdateStatus(StatusTypes.Complete, null);
+                var pCopy = parent.Copy();
+                pCopy.Status = StatusTypes.Complete;
+                pCopy.SetFieldValue(FieldNames.CompletedOn, today);
+                parent.Update(pCopy, null);
             }
         }
         this.Update(copy);
@@ -583,6 +599,49 @@ Item.prototype.Restart = function () {
     return this.Active();
 }
 
+// helper for repeating an activity (clone steps and mark previous steps)
+Item.prototype.Repeat = function () {
+    var rrule = Recurrence.Extend(this.GetFieldValue(FieldNames.Repeat));
+    var lastCompleted = new Date();
+    if (this.IsComplete()) {
+        lastCompleted = new Date(this.GetFieldValue(FieldNames.CompletedOn));
+    }
+    var nextDueDate = rrule.NextDueDate(lastCompleted);
+    if (!this.IsComplete()) {
+        // TODO: popup dialog warning and verify next due date to skip forward to
+    }
+
+    // get current steps (excludeLists and group == null)
+    var steps = this.GetItems(true, null);
+    var nextsteps = [];
+    // create copy of current steps as next steps
+    for (var id in steps) {
+        var nextstep = steps[id].Copy();
+        nextstep.ID = null;
+        nextstep.Status = StatusTypes.Stopped;
+        nextstep.SetFieldValue(FieldNames.DueDate, null);
+        nextsteps.push(nextstep);
+    }
+    // mark group timestamp on current steps and update
+    var timeStamp = new Date().toUTCString();
+    for (var id in steps) {
+        var copy = steps[id].Copy();
+        copy.Group = timeStamp;
+        steps[id].Update(copy, null);                       // update, no refresh
+    }
+    // mark first step active with next duedate
+    nextsteps[0].Status = StatusTypes.Active;
+    nextsteps[0].SetFieldValue(FieldNames.DueDate, nextDueDate);
+    var nextSortOrder = nextsteps[nextsteps.length - 1].SortOrder + 1;
+    // insert copied next steps
+    for (var i in nextsteps) {
+        nextsteps[i].SortOrder = nextSortOrder++;
+        this.InsertItem(nextsteps[i], null, null, null);    // insert, no refresh
+    }
+    this.UpdateStatus(StatusTypes.Active)                   // update status and refresh
+}
+
+// ---------------------------------------------------------
 // Item private functions
 Item.prototype.addItem = function (newItem, activeItem) { this.GetFolder().addItem(newItem, activeItem); };
 Item.prototype.update = function (updatedItem, activeItem) {
@@ -770,7 +829,6 @@ ItemMap.prototype.remove = function (item) {
 
 // ---------------------------------------------------------
 // static members
-
 ItemMap.count = function (map) {
     var i = 0, key;
     for (key in map) {

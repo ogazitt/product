@@ -106,10 +106,6 @@ NewItemEditor.prototype.renderNameField = function ($element) {
 
     var $nameField = Control.Text.renderInputNew($form, this.newItem, nameField, this.list);
 
-    // TODO: figure out how to append button but keep on one line 100% wide
-    //var $append = $('<div class="input-append" />').appendTo($form);
-    //var $addButton = $('<span class="add-on"><i class="icon-plus-sign"></i></span>').appendTo($append);
-
     $nameField.addClass('input-block-level');
     return $nameField;
 }
@@ -184,6 +180,7 @@ ListView.prototype.renderListItems = function (list) {
                 Control.Icons.forActionType(item.GetActionType()).appendTo($icon);
             }
         } else {
+            if (item.IsCompleted()) { itemCount++; break; }
             if (item.IsSelected()) { $li.addClass('selected'); }
             if (item.IsStep()) { $li.addClass(item.StatusClass()); }
 

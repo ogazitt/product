@@ -90,45 +90,50 @@ ItemViewer.prototype.renderField = function ($element, field) {
     // handled by renderNameField
     if (field.Name == FieldNames.Name || field.Name == FieldNames.Complete)
         return;
-
     var $field;
     var $wrapper = $('<div class="control-group"><label class="control-label">' + field.DisplayName + '</label></div>');
-    switch (field.DisplayType) {
-        case DisplayTypes.Hidden:
-        case DisplayTypes.Priority:
-        case DisplayTypes.Reference:
-        case DisplayTypes.TagList:
-            break;
-        case DisplayTypes.ContactList:
-            $field = Control.ContactList.renderInput($wrapper, this.item, field);
-            break;
-        case DisplayTypes.LocationList:
-            $field = Control.LocationList.renderInput($wrapper, this.item, field);
-            break;
-        case DisplayTypes.Address:
-            $field = Control.Text.renderInputAddress($wrapper, this.item, field);
-            break;
-        case DisplayTypes.LinkArray:
-            $field = Control.LinkArray.render($wrapper, this.item, field);
-            break;
-        case DisplayTypes.DateTimePicker:
-            $field = Control.DateTime.renderDateTimePicker($wrapper, this.item, field);
-            break;
-        case DisplayTypes.DatePicker:
-            $field = Control.DateTime.renderDatePicker($wrapper, this.item, field);
-            break;
-        case DisplayTypes.TextArea:
-            $field = Control.Text.renderTextArea($wrapper, this.item, field);
-            break;
-        case DisplayTypes.Checkbox:
-            $field = Control.Checkbox.render($wrapper, this.item, field);
-            break;
-        case DisplayTypes.Text:
-        default:
-            if (field.Name != FieldNames.Repeat) {
+
+    if (field.Name == FieldNames.Repeat) {
+        // Control.Repeat not available in mobile, just render summary
+        var rrule = Recurrence.Extend(this.item.GetFieldValue(field.Name));
+        $field = $('<span class="uneditable-input" />').appendTo($wrapper);
+        $field.html(rrule.Summary());
+    } else {
+        switch (field.DisplayType) {
+            case DisplayTypes.Hidden:
+            case DisplayTypes.Priority:
+            case DisplayTypes.Reference:
+            case DisplayTypes.TagList:
+                break;
+            case DisplayTypes.ContactList:
+                $field = Control.ContactList.renderInput($wrapper, this.item, field);
+                break;
+            case DisplayTypes.LocationList:
+                $field = Control.LocationList.renderInput($wrapper, this.item, field);
+                break;
+            case DisplayTypes.Address:
+                $field = Control.Text.renderInputAddress($wrapper, this.item, field);
+                break;
+            case DisplayTypes.LinkArray:
+                $field = Control.LinkArray.render($wrapper, this.item, field);
+                break;
+            case DisplayTypes.DateTimePicker:
+                $field = Control.DateTime.renderDateTimePicker($wrapper, this.item, field);
+                break;
+            case DisplayTypes.DatePicker:
+                $field = Control.DateTime.renderDatePicker($wrapper, this.item, field);
+                break;
+            case DisplayTypes.TextArea:
+                $field = Control.Text.renderTextArea($wrapper, this.item, field);
+                break;
+            case DisplayTypes.Checkbox:
+                $field = Control.Checkbox.render($wrapper, this.item, field);
+                break;
+            case DisplayTypes.Text:
+            default:
                 $field = Control.Text.renderInput($wrapper, this.item, field);
-            }
-            break;
+                break;
+        }
     }
     if ($field != null) {
         $field.addClass('input-block-level');

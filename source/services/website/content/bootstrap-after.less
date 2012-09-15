@@ -48,7 +48,7 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-list { padding: 6px; overflow-y: auto; over-flow-x: hidden; }
 .dashboard-list ul { margin: 0; over-flow-x: hidden; }
 .dashboard-list li a {  cursor: pointer; } 
-.dashboard-list .itemlist span,  .dashboard-list .itemlist em { padding-left: 21px; } 
+.dashboard-list .itemlist > span,  .dashboard-list .itemlist > em,  .dashboard-list .itemlist > a { padding-left: 21px; } 
 
 // adjust dropdown menus to not get clipped
 .dashboard-list .itemlist .dropdown-menu { top: 0; right: 20px; }
@@ -110,6 +110,8 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .manager-folders .tab-content .nav-list > li { border-top: 1px solid @btnBorder; padding: 0 8px 0 8px; }
 .dashboard-center .manager-folders .tab-content .nav-list > li.selected { background-color: @grayLighter; }  
 .dashboard-center .manager-folders .tab-content .nav-list > li.st-paused { background-color: @warningBackground; }  
+.dashboard-center .manager-folders .tab-content .nav-list > li.st-completed { background-color: @grayLight; }  
+li.st-completed a, li.st-completed span, li.st-completed small, li.st-completed i { color:@grayDarker; }  
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar { margin: 8px 2px 2px 2px; }
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar.pull-right { float: right; }
 .btn-toolbar .icon-large { text-align:left; padding: 4px 0 0 4px;  margin-left: 4px; }

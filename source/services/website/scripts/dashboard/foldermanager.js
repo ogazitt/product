@@ -434,6 +434,7 @@ SettingsManager.prototype.renderConnect = function ($element, suggestions) {
     // connect to facebook
     var fbConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetFBConsent);
     if (fbConsent != null) {
+        $element.append('<p><strong>Not connected to Facebook.</strong></p>');
         var $btn = $('<a><img src="/content/images/connect-to-facebook.png" alt="Facebook" /></a>').appendTo($element);
         $btn.css('margin-right', '32px');
         $btn.click(function () { suggestionManager.select(fbConsent); thisControl.connectSuggestions = null; });
@@ -446,20 +447,22 @@ SettingsManager.prototype.renderConnect = function ($element, suggestions) {
         $btn.click(function () { suggestionManager.select({ SuggestionType: SuggestionTypes.GetFBConsent }); thisControl.connectSuggestions = null; });
         $element.append('<p>Click to reconnect.</p>');
     }
-    $element.append('<br/><br/>')
+    $element.append('<br /><br />');
+
     // connect to google calendar
     var gcConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetGoogleConsent);
     if (gcConsent != null) {
-        $btn = $('<a class="btn"><img src="/content/images/google-calendar.png" alt="Google" /></a>').appendTo($element);
+        $element.append('<p><strong>Not connected to Google Calendar.</strong></p>');
+        var $btn = $('<a class="btn"><img src="/content/images/google-calendar.png" alt="Google" /></a>').appendTo($element);
         $btn.css('margin-right', '32px');
         $btn.click(function () { suggestionManager.select(gcConsent); thisControl.connectSuggestions = null; });
         $element.append('<p>Click to connect.</p>');
-     }
+    }
     else {
         $element.append('<p><strong>Connected to Google Calendar.</strong></p>');
-        $btn = $('<a class="btn"><img src="/content/images/google-calendar.png" alt="Google" /></a>').appendTo($element);
+        var $btn = $('<a class="btn"><img src="/content/images/google-calendar.png" alt="Google" /></a>').appendTo($element);
         $btn.css('margin-right', '32px');
-        $btn.click(function () { suggestionManager.select({ SuggestionType: SuggestionTypes.GetGoogleConsent }); thisControl.connectSuggestions = null; });        
+        $btn.click(function () { suggestionManager.select({ SuggestionType: SuggestionTypes.GetGoogleConsent }); thisControl.connectSuggestions = null; });
         $element.append('<p>Click to reconnect.</p>');
     }
 }

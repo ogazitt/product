@@ -216,9 +216,16 @@
     <Content Include="content\images\help\twostep-iphone-small.png" />
     <Content Include="content\images\help\twostep-iphone.png" />
     <Content Include="content\images\landing\activities-and-steps.png" />
+    <Content Include="content\images\landing\ask-facebook-friends-small.png" />
+    <Content Include="content\images\landing\gallery-install.png" />
+    <Content Include="content\images\landing\gutter-cleaning.png" />
     <Content Include="content\images\landing\iphone-activity-list-map.png" />
     <Content Include="content\images\landing\iphone-next-steps-schedule.png" />
     <Content Include="content\images\landing\next-steps-web-small.png" />
+    <Content Include="content\images\landing\organizer-color.png" />
+    <Content Include="content\images\landing\plan-party.png" />
+    <Content Include="content\images\landing\twostep-dance-through-life.png" />
+    <Content Include="content\images\landing\twostep-iphone-small.png" />
     <Content Include="content\images\steps-white.png" />
     <Content Include="content\images\steps.png" />
     <Content Include="content\images\twostep-large-no-feet.png" />
@@ -337,6 +344,7 @@
     <Content Include="views\dashboard\NextSteps.aspx" />
     <Content Include="views\mobile\Home.aspx" />
     <Content Include="views\account\MobileSignIn.aspx" />
+    <Content Include="views\shared\ProductInfoControl.ascx" />
     <Content Include="views\shared\HelpCarouselControl.ascx" />
     <Content Include="views\shared\RepeatControl.ascx" />
     <Content Include="views\shared\ModalPrompt.ascx" />

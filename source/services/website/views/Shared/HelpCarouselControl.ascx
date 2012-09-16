@@ -3,10 +3,10 @@
 <style type="text/css">
     .carousel-inner { margin-top: -16px; }
     .carousel-inner .item { height: 550px; text-align: left; }
-    .carousel-inner .item span { font-size: 14pt; color: #06A; font-family:'Segoe UI Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-    .carousel-inner .item p { font-size: 14pt; color: #06A; font-family:'Segoe UI Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-    .carousel-inner .item h1 { color: #06A; font-family:'Segoe UI Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-    .carousel-inner .item h3 { color: #06A; font-family:'Segoe UI Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .carousel-inner .item span { font-size: 12pt; color: #06A; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .carousel-inner .item p { font-size: 12pt; color: #06A; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .carousel-inner .item h1 { color: #06A; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .carousel-inner .item h3 { color: #06A; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; }
     .carousel-inner .item .left-pic { margin-right: 20px; }
     .carousel-inner .item .right-pic { margin-left: 20px; }
     .carousel-inner .item .carousel-body { margin: 10px 45px 0 45px; }
@@ -24,19 +24,23 @@
                 <p>
                 TwoStep helps you organize and manage your life's Activities.  Activities are can be anything - 
                 from things you do once, like planning a wedding, to things that you do on a regular basis, 
-                like getting your oil changed.  TwoStep helps you break Activities down into actionable Steps (
+                like getting your oil changed.  TwoStep helps you break Activities down into actionable Steps 
+                <span>
+                (
                 <i class="icon-search"></i>, <i class="icon-phone"></i>, <i class="icon-calendar"></i>
-                ), and keeps track of the next steps to take across all of your Activities.  
+                ),
+                </span>
+                and keeps track of the next steps to take across all of your Activities.  
                 </p>
                 <p>
                 TwoStep has already picked a set of Activities that match what you told us about yourself when 
                 you filled out your profile.  To get things rolling, you need to configure and run these Activities using
-                the Activity Dashboard ( <i class="icon-dashboard"></i> ), the current view.  The next few help panels 
+                the <span>&nbsp;<i class="icon-dashboard"></i> Activity Dashboard, </span> the current view.  The next few help panels 
                 explain how to do this. 
                 </p>
                 <span class="right-pic pull-right"><img alt="Help" src="<%: Url.Content("~/content/images/help/help.png") %>" /></span>
                 <p>
-                To get back to this introduction, simply select Help ( <i class="icon-question-sign"></i> ) from the 
+                To get back to this introduction, simply select <span>&nbsp;<i class="icon-question-sign"></i> Help</span> from the 
                 menu at the top right corner.
                 </p>
             </div>
@@ -48,7 +52,7 @@
                 <span class="left-pic pull-left"><img alt="Activity Organizer" src="<%: Url.Content("~/content/images/help/organizer-color.png") %>" /></span>
                 <span>
                 In the Dashboard, the pane on the left is called the Activity Organizer.  The Organizer 
-                contains Categories (e.g. <i class="icon-user"></i> Personal, <i class="icon-home"></i> Home), and 
+                contains Categories (e.g. <span>&nbsp;<i class="icon-user"></i> Personal,</span> <span>&nbsp;<i class="icon-home"></i> Home), </span> and 
                 each Category contains Activities.  Click a Category to view and select the Activities inside.
                 </span>
             </div>
@@ -76,12 +80,16 @@
                 <img alt="Run Mode" src="<%: Url.Content("~/content/images/help/run-mode.png") %>" />
                 <br />
                 <p>
-                In Run mode, the current Step is shown, and you can Defer ( <i class="icon-time"></i> ), Skip 
-                ( <i class="icon-share"></i> ), or Complete ( <i class="icon-check"></i> ) the Step. <br /><br />
+                In Run mode, the current Step is shown, and you can <span>&nbsp;<i class="icon-time"></i> Defer, </span>
+                <span>&nbsp;<i class="icon-share"></i> Skip, </span> or <span>&nbsp;<i class="icon-check"></i> Complete </span>
+                the Step. <br /><br />
                 </p>
                 <p>
-                Each Step has an Action Type - Find ( <i class="icon-search"></i> ), Call ( <i class="icon-phone"></i> ), 
-                Add to Calendar ( <i class="icon-calendar"></i> ), etc.  TwoStep usually does a good job 
+                Each Step has an Action Type - 
+                <span>&nbsp;<i class="icon-search"></i> Find, </span>
+                <span>&nbsp;<i class="icon-phone"></i> Call, </span>
+                <span>&nbsp;<i class="icon-calendar"></i> Add to Calendar, </span>
+                etc.  TwoStep usually does a good job 
                 guessing the Action Type, but you can also set it explicitly.  In addition to the common operations 
                 (Defer, Skip, Complete), each Step also has Action icon that can help you carry out the Action Type 
                 associated with the Step.
@@ -119,7 +127,7 @@
                 <span>
                 Actions work better when TwoStep is connected to Facebook and Google: Contacts are auto-completed from 
                 Facebook, and the “Add to Calendar” Action Type only works if you connected to the Google calendar.  
-                To do this, select User Settings ( <i class="icon-cogs"></i> ) from the menu at the top-right corner.
+                To do this, select <span>&nbsp;<i class="icon-cogs"></i> User Settngs, </span> from the menu at the top-right corner.
                 </span>
             </div>
         </div>
@@ -131,7 +139,7 @@
                 <br />
                 <br />
                 <p>
-                TwoStep’s other main view is the Next Steps view ( <i class="icon-play"></i> ) - you can find it 
+                TwoStep’s other main view is the <span>&nbsp;<i class="icon-play"></i> Next Steps </span> view - you can find it 
                 on the toolbar at the top of the window.  This view presents all your immediate next steps across 
                 all Activities, sorted by due date.  It also allows filtering the Steps by Action Type (e.g. all phone calls), 
                 and carrying out the Step by clicking its Action icon.
@@ -147,8 +155,9 @@
                 Finally, TwoStep’s Mobile app is accessible on the go from any mobile device (iPhone, iPad, Android, 
                 Windows Phone and any other device with a browser) by navigating to the TwoStep website.
                 The Mobile app allows you to complete Steps on the go (Call, Schedule, Map, etc) as well as viewing 
-                your running Activities ( <i class="icon-folder-open"></i> ), and adding new Activities to your Inbox 
-                ( <i class="icon-plus"></i> ).
+                your running <span>&nbsp;<i class="icon-folder-open"></i> Activities, </span> and 
+                <span>&nbsp;<i class="icon-plus"></i> Adding </span> new Activities to your 
+                <span>&nbsp;<i class="icon-envelope"></i> Inbox.</span> 
                 </span>
             </div>
         </div>

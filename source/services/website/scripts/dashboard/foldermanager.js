@@ -308,7 +308,7 @@ HelpManager.prototype.show = function () {
 // render is only called internally by show method
 HelpManager.prototype.render = function () {
     this.$element.empty();
-    $('#help_carousel').show();
+    $('#help_carousel').show().carousel('pause');
 /*
     var $help = $('<div class="hero-unit"></div>').appendTo(this.$element);
     $help.append('<img src="/content/images/twostep-large.png" alt="TwoStep" />');

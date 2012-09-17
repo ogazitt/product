@@ -9,6 +9,7 @@
 //      Control.ActionType
 //      Control.DeferButton
 //      Control.ThemePicker
+//      Control.Actions
 
 // ---------------------------------------------------------
 // Control.Icons static object
@@ -510,8 +511,8 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
                     return;
                 }
                 var end = new Date(start);
-                var startTime = Utilities.parseTime(inputs[1]);
-                var endTime = Utilities.parseTime(inputs[2]);
+                var startTime = start.parseTime(inputs[1]);
+                var endTime = end.parseTime(inputs[2]);
                 if (startTime != null) {
                     start.setHours(startTime.getHours());
                     start.setMinutes(startTime.getMinutes());
@@ -850,8 +851,13 @@ Control.ActionType.update = function Control$ActionType$update($menuitem) {
 //
 Control.DeferButton = {};
 Control.DeferButton.renderDropdown = function Control$DeferButton$renderDropdown($element, item) {
-    // only render if the item type has an DueDate field
-    if (!item.HasField(FieldNames.DueDate)) return;
+    // only render if the item type has an DueDate field within 30 days of today
+    if (!item.HasField(FieldNames.DueDate)) { return; }
+    // get the current due date
+    var field = item.GetField(FieldNames.DueDate);
+    var currentDueDate = item.GetFieldValue(field);
+    var dueDate = new Date(currentDueDate);
+    if (dueDate.compareTo(Date.today().add(30).days()) == 1) { return; }
 
     var $btnGroup = $('<div class="control-group inline" />').appendTo($element);
     if (Browser.IsMobile()) { $btnGroup.addClass('btn-group'); }
@@ -868,26 +874,20 @@ Control.DeferButton.renderDropdown = function Control$DeferButton$renderDropdown
     var $title = $('<p />').appendTo($btn);
     $title.html(title);
 
-    // get the current due date
-    var field = item.GetField(FieldNames.DueDate);
-    var currentDueDate = item.GetFieldValue(field);
-    var date = new Date(currentDueDate);
-    var today = new Date();
     var $menuitem;
-
     // defer to tomorrow
-    if (date <= today.setDate(today.getDate() + 1)) {
+    if (dueDate.compareTo(Date.today().add(1).days()) == -1) {
         var $menuitem = $('<li><a></a></li>').css('border-top', '0px').appendTo($dropdown);
         $menuitem.find('a').append('<span>&nbsp;Tomorrow</span>');
         $menuitem.click(function (e) { Control.DeferButton.update(item, 1); e.preventDefault(); });
     }
     // defer to next week
-    if (date <= today.setDate(today.getDate() + 6)) {
+    if (dueDate.compareTo(Date.today().add(6).days()) == -1) {
         $menuitem = $('<li><a></a></li>').css('border-top', '0px').appendTo($dropdown);
         $menuitem.find('a').append('<span>&nbsp;Next week</span>');
         $menuitem.click(function (e) { Control.DeferButton.update(item, 7); e.preventDefault(); });
     }
-    if (date <= today.setDate(today.getDate() + 23)) {
+    if (dueDate.compareTo(Date.today().add(30).days()) == -1) {
         // defer to next month
         $menuitem = $('<li><a></a></li>').css('border-top', '0px').appendTo($dropdown);
         $menuitem.find('a').append('<span>&nbsp;Next month</span>');
@@ -899,23 +899,19 @@ Control.DeferButton.renderDropdown = function Control$DeferButton$renderDropdown
 Control.DeferButton.update = function Control$DeferButton$update(item, days) {
     var updatedItem = item.Copy();
     var field = item.GetField(FieldNames.DueDate);
-    var currentDueDate = item.GetFieldValue(field);
-    var date = new Date(currentDueDate);
-    date = new Date();
+    var date = Date.today();
     switch (days) {
         case 7:  // if deferring by a week, defer to the next Sunday
-            days = 7 - date.getDay();
-            date.setDate(date.getDate() + days);
+            date = date.next().sunday();
             break;
         case 30:  // if deferring by a month, defer to the first of the next month
-            date.setDate(1);
-            date.setMonth(date.getMonth() + 1);
+            date = date.next().month().moveToFirstDayOfMonth();
             break;
         default:
-            date.setDate(date.getDate() + days);
+            date = date.add(days).days();
             break;
     }
-    updatedItem.SetFieldValue(field, date.toUTCString());
+    updatedItem.SetFieldValue(field, date.format('shortDate'));
     item.Update(updatedItem);
 }
 
@@ -956,7 +952,7 @@ Control.Actions = {};
 Control.Actions.render = function Control$Actions$render($element, item) {
     if (Browser.IsMobile()) {
         var $toolbar = $('<div class="btn-toolbar hide" />').appendTo($element);
-        // render defer, skipe, complete and info buttons
+        // render defer, skip, complete and info buttons
         var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
         this.mobileButton(Control.Icons.skipBtn(item), true).appendTo($toolbar);
         this.mobileButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }), true).appendTo($toolbar);

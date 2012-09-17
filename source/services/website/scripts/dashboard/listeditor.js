@@ -180,7 +180,7 @@ ListView.prototype.renderListItems = function (list) {
                 Control.Icons.forActionType(item.GetActionType()).appendTo($icon);
             }
         } else {
-            if (item.IsCompleted()) { itemCount++; break; }
+            if (item.IsCompleted()) { itemCount++; continue; }
             if (item.IsSelected()) { $li.addClass('selected'); }
             if (item.IsStep()) { $li.addClass(item.StatusClass()); }
 

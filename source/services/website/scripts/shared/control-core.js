@@ -291,3 +291,25 @@ Date.prototype.parseRFC3339 = function (text) {
     }
     return this;
 };
+
+Date.prototype.parseTime = function (timeString) {
+    if (timeString == '') return null;
+
+    var time = timeString.match(/^(\d+)(:(\d\d))?\s*((a|(p))m?)?$/i);
+    if (time == null) return null;
+
+    var hours = parseInt(time[1], 10);
+    var pm = time[6];
+    if (hours == 12 && !pm) {
+        hours = 0;
+    }
+    else {
+        hours += (hours < 12 && pm) ? 12 : 0;
+    }
+
+    var d = new Date();
+    d.setHours(hours);
+    d.setMinutes(parseInt(time[3], 10) || 0);
+    d.setSeconds(0, 0);
+    return d;
+};

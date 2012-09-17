@@ -80,7 +80,7 @@ Control.Repeat.init = function Control$Repeat$init($element, $dialog) {
             Control.Repeat.rrule.Disable();
         } else {
             Control.Repeat.rrule.Enable();
-            Control.Repeat.rrule.Interval = $(this).val();
+            Control.Repeat.rrule.Interval = parseInt($(this).val());
         }
         Control.Repeat.recalc($dialog);
     });
@@ -92,17 +92,20 @@ Control.Repeat.init = function Control$Repeat$init($element, $dialog) {
     });
     $daySelector.change(function (e) {
         Control.Repeat.rrule.NoMonthDays();
-        if ($(this).val() > 0) { Control.Repeat.rrule.AddMonthDay($(this).val()); }
+        var day = parseInt($(this).val());
+        if (day > 0) { Control.Repeat.rrule.AddMonthDay(day); }
         Control.Repeat.recalc($dialog);
     });
     $monthSelector.change(function (e) {
         Control.Repeat.rrule.NoMonths();
-         if ($(this).val() > 0) { Control.Repeat.rrule.AddMonth($(this).val()); }
+        var month = parseInt($(this).val());
+        if (month > 0) { Control.Repeat.rrule.AddMonth(month); }
         Control.Repeat.recalc($dialog);
     });
     $dayMonthSelector.change(function (e) {
-         Control.Repeat.rrule.NoYearDays();
-         if ($(this).val() > 0) { Control.Repeat.rrule.AddYearDay($(this).val()); }
+        Control.Repeat.rrule.NoYearDays();
+        var day = parseInt($(this).val());
+        if (day > 0) { Control.Repeat.rrule.AddYearDay(day); }
         Control.Repeat.recalc($dialog);
     });
 
@@ -144,17 +147,16 @@ Control.Repeat.recalc = function Control$Repeat$recalc($dialog) {
     this.rrule.IsEnabled() ? $summary.addClass('alert-success') : $summary.removeClass('alert-success');
 }
 Control.Repeat.initWeekdays = function Control$Repeat$initWeekdays($dialog, rrule) {
-    for (var id in Recurrence.Weekdays) {
-        var day = Recurrence.Weekdays[id];
+    for (var day in Recurrence.WeekdayLabels) {
         var $day = $dialog.find('input[name="' + day + '"]').attr('checked', false);
-        if (rrule != null && rrule.HasDay(day)) { $day.attr('checked', true); }
+        if (rrule != null && rrule.HasWeekday(parseInt(day))) { $day.attr('checked', true); }
     }
 }
 Control.Repeat.setWeekdays = function Control$Repeat$setWeekdays($weekdays) {
-    this.rrule.ByDay = '';
+    this.rrule.ByDay = [];
     $weekdays.find('input[type="checkbox"]').each(function () {
         if ($(this).attr('checked') == 'checked') {
-            Control.Repeat.rrule.AddDay($(this).attr('name'));
+            Control.Repeat.rrule.AddWeekday(parseInt($(this).attr('name')));
         }
     });
 }

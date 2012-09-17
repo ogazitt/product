@@ -39,31 +39,31 @@
             <div class='repeat-weekdays control-group form-inline'>
                 <div class="controls">
                     <label class="checkbox inline" title="Sunday">
-                        <input name="SU" type="checkbox" aria-label="Repeat on Sunday" />
+                        <input name="0" type="checkbox" aria-label="Repeat on Sunday" />
                         <span>S</span>
                     </label>
                     <label class="checkbox inline" title="Monday">
-                        <input name="MO" type="checkbox" aria-label="Repeat on Monday" />
+                        <input name="1" type="checkbox" aria-label="Repeat on Monday" />
                         <span>M</span>
                     </label>
                     <label class="checkbox inline" title="Tuesday">
-                        <input name="TU" type="checkbox" aria-label="Repeat on Tuesday" />
+                        <input name="2" type="checkbox" aria-label="Repeat on Tuesday" />
                         <span>T</span>
                     </label>
                     <label class="checkbox inline" title="Wednesday">
-                        <input name="WE" type="checkbox" aria-label="Repeat on Wednesday" />
+                        <input name="3" type="checkbox" aria-label="Repeat on Wednesday" />
                         <span>W</span>
                     </label>
                     <label class="checkbox inline" title="Thursday">
-                        <input name="TH" type="checkbox" aria-label="Repeat on Thursday" />
+                        <input name="4" type="checkbox" aria-label="Repeat on Thursday" />
                         <span>T</span>
                     </label>
                     <label class="checkbox inline" title="Friday">
-                        <input name="FR" type="checkbox" aria-label="Repeat on Friday" />
+                        <input name="5" type="checkbox" aria-label="Repeat on Friday" />
                         <span>F</span>
                     </label>
                     <label class="checkbox inline" title="Saturday">
-                        <input name="SA" type="checkbox" aria-label="Repeat on Saturday" />
+                        <input name="6" type="checkbox" aria-label="Repeat on Saturday" />
                         <span>S</span>
                     </label>
                 </div>

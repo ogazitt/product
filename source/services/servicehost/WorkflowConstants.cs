@@ -8,7 +8,7 @@ namespace BuiltSteady.Product.ServiceHost
 {
     public class WorkflowConstants
     {
-        private const string IntentsFileName = @"workflows\Intents.txt";
+        private const string IntentsFileName = @"Intents.txt";
 
         public static string SchemaVersion { get { return "1.0.2012.0911"; } }
         public static string ConstantsVersion { get { return "2012-09-11c"; } }
@@ -51,11 +51,18 @@ namespace BuiltSteady.Product.ServiceHost
 
         public static List<Intent> DefaultIntents()
         {
+            bool cdBack = false;
+            var currDir = Directory.GetCurrentDirectory();
             try
             {
+                Directory.SetCurrentDirectory(HostEnvironment.WorkflowDirectory);
+                cdBack = true;
+
                 if (!File.Exists(IntentsFileName))
                 {
                     TraceLog.TraceError("Intents file not found");
+                    cdBack = false;
+                    Directory.SetCurrentDirectory(currDir);
                     return null;
                 }
 
@@ -79,11 +86,15 @@ namespace BuiltSteady.Product.ServiceHost
                         intentDef = reader.ReadLine();
                     }
                 }
+                cdBack = false;
+                Directory.SetCurrentDirectory(currDir);
                 return intents;
             }
             catch (Exception ex)
             {
                 TraceLog.TraceException("Reading intents failed", ex);
+                if (cdBack)
+                    Directory.SetCurrentDirectory(currDir);
                 return null;
             }
         }
@@ -92,10 +103,12 @@ namespace BuiltSteady.Product.ServiceHost
         {
             // load workflow types from files
             bool cdBack = false;
+            var currDir = Directory.GetCurrentDirectory();
             try
             {
-                Directory.SetCurrentDirectory(@"workflows");
+                Directory.SetCurrentDirectory(HostEnvironment.WorkflowDirectory);
                 cdBack = true;
+
                 var workflowTypes = new List<WorkflowType>();
                 foreach (var filename in Directory.EnumerateFiles(@".", @"*.json"))
                 {
@@ -114,14 +127,14 @@ namespace BuiltSteady.Product.ServiceHost
                     }
                 }
                 cdBack = false;
-                Directory.SetCurrentDirectory(@"..");
+                Directory.SetCurrentDirectory(currDir);
                 return workflowTypes;
             }
             catch (Exception ex)
             {
                 TraceLog.TraceException("Reading workflows failed", ex);
                 if (cdBack)
-                    Directory.SetCurrentDirectory(@"..");
+                    Directory.SetCurrentDirectory(currDir);
                 return null;
             }
         }

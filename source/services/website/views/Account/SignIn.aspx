@@ -7,10 +7,11 @@
       .field-validation-valid { display: none; }
       h1 { margin:24px 0 24px 0; font-family:'Segoe UI Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:32pt; }
       .main-content { margin: 0 24px 0 48px; }
-      fieldset { margin-left: 32px; }
+      fieldset { margin-left: 32px; margin-top: 50px;}
       .control-group { margin: 0 10px 0 0; padding: 0; }
       .control-group .control-label { font-size: 8pt; margin: 0 0 -4px 8px; }
       .control-group button { margin: 12px 0 12px 0; }
+      .span5 .more-button { margin-left: 32px; margin-top: 90px; }
     </style>
 </asp:Content>
 
@@ -18,8 +19,7 @@
     <div class="container-fluid main-content">
     <div class="row-fluid">
         <div class="span12">
-            <h1 style="font-style: italic">Dance through life with &nbsp;<img alt="TwoStep" src="<%: Url.Content("~/content/images/twostep-large-no-feet.png") %>" /></h1>
-            <h2 style="margin-top: -20px">The Personal Assistant for Life's Activities</h2>
+            <h2>&nbsp;</h2>
         </div>
     </div>
     <div class="row-fluid">
@@ -27,7 +27,7 @@
             <% Html.RenderPartial("IntroCarouselControl"); %>  
         </div>
         <div class="span5">
-    <% using (Html.BeginForm("signin", "account", FormMethod.Post, new { @class = "form-vertical" })) { %>
+        <% using (Html.BeginForm("signin", "account", FormMethod.Post, new { @class = "form-vertical" })) { %>
             <fieldset>
                     <div class="control-group">
                         <div class="controls"><h2>Sign In</h2></div>
@@ -66,9 +66,15 @@
                 <%: Html.ValidationSummary(true, "Invalid or unrecognized email or password. Please try again.", new { @class = "alert alert-error" })%>
 
             </fieldset>
+        <% } %>
+            <br />
+            <button class="btn more-button" onclick="window.location='<%: Url.Content("#product_info") %>'">Learn More</button>
         </div>
         </div>
         </div>
-    <% } %>
-
+    <div class="row-fluid">
+        <div class="span12">
+            <% Html.RenderPartial("ProductInfoControl"); %>  
+        </div>
+    </div>
 </asp:Content>

@@ -12,7 +12,9 @@
     <div class="dashboard-region container-fluid">
         <div class="row-fluid">
             <div class="dashboard-left dashboard-list span3 well">&nbsp </div>        
-            <div class="dashboard-center span6">&nbsp;</div>
+            <div class="dashboard-center span6">&nbsp;
+                <% Html.RenderPartial("HelpCarouselControl"); %>  
+            </div>
             <div class="dashboard-right dashboard-list span3 well">&nbsp;</div>
         </div>
     </div>

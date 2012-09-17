@@ -297,6 +297,7 @@ function HelpManager(parentControl, $parentElement) {
 HelpManager.prototype.hide = function () {
     if (this.$element != null) {
         this.$element.hide();
+        $('#help_carousel').hide();
     }
 }
 
@@ -311,7 +312,9 @@ HelpManager.prototype.show = function () {
 // render is only called internally by show method
 HelpManager.prototype.render = function () {
     this.$element.empty();
-    var $help = $('<div class="hero-unit" />').appendTo(this.$element);
+    $('#help_carousel').show().carousel('pause');
+/*
+    var $help = $('<div class="hero-unit"></div>').appendTo(this.$element);
     $help.append('<img src="/content/images/twostep-large.png" alt="TwoStep" />');
     $help.append(HelpManager.tagline);
     $connect = $('<p style="margin: 64px 0 -32px 0"></p>').appendTo($help);
@@ -325,6 +328,7 @@ HelpManager.prototype.render = function () {
     } else {
         this.renderConnect($connect, this.connectSuggestions);
     }
+    */
 }
 
 HelpManager.prototype.renderConnect = function ($element, suggestions) {
@@ -349,12 +353,14 @@ HelpManager.prototype.renderConnect = function ($element, suggestions) {
     }
 }
 
-HelpManager.tagline =
+HelpManager.tagline = 
+"<p>Here's a short introduction to the product.</p>"
+/*
 '<p>The ideal tool for managing your life activities. ' +
 'Organize the activities in your life into actionable steps and get a categorized list of next steps for getting things done. ' +
 'Get connected and have relevant information just one click away. ' +
 'Stay two steps ahead of life with TwoStep!</p>';
-
+*/
 // ---------------------------------------------------------
 // SettingsManager control
 function SettingsManager(parentControl, $parentElement) {
@@ -409,4 +415,59 @@ SettingsManager.prototype.render = function () {
 
     var $form = $('<form class="row-fluid form-vertical" />').appendTo($view);
     //Control.ThemePicker.render($form);
+
+    var $connect = $('<p style="margin: 64px 0 -32px 0"></p>').appendTo($form);
+
+    if (this.connectSuggestions == null) {
+        var thisControl = this;
+        var dashboard = this.parentControl;
+        dashboard.dataModel.GetSuggestions(function (suggestions) {
+            thisControl.renderConnect($connect, suggestions);
+        });
+    } else {
+        this.renderConnect($connect, this.connectSuggestions);
+    }
 }
+
+SettingsManager.prototype.renderConnect = function ($element, suggestions) {
+    $element.empty();
+    this.connectSuggestions = suggestions;
+    var thisControl = this;
+    var suggestionManager = this.parentControl.suggestionManager;
+
+    // connect to facebook
+    var fbConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetFBConsent);
+    if (fbConsent != null) {
+        $element.append('<p><strong>Not connected to Facebook.</strong></p>');
+        var $btn = $('<a><img src="/content/images/connect-to-facebook.png" alt="Facebook" /></a>').appendTo($element);
+        $btn.css('margin-right', '32px');
+        $btn.click(function () { suggestionManager.select(fbConsent); thisControl.connectSuggestions = null; });
+        $element.append('<p>Click to connect.</p>');
+    }
+    else {
+        $element.append('<p><strong>Connected to Facebook.</strong></p>');
+        var $btn = $('<a><img src="/content/images/connect-to-facebook.png" alt="Facebook" /></a>').appendTo($element);
+        $btn.css('margin-right', '32px');
+        $btn.click(function () { suggestionManager.select({ SuggestionType: SuggestionTypes.GetFBConsent }); thisControl.connectSuggestions = null; });
+        $element.append('<p>Click to reconnect.</p>');
+    }
+    $element.append('<br /><br />');
+
+    // connect to google calendar
+    var gcConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetGoogleConsent);
+    if (gcConsent != null) {
+        $element.append('<p><strong>Not connected to Google Calendar.</strong></p>');
+        var $btn = $('<a class="btn"><img src="/content/images/google-calendar.png" alt="Google" /></a>').appendTo($element);
+        $btn.css('margin-right', '32px');
+        $btn.click(function () { suggestionManager.select(gcConsent); thisControl.connectSuggestions = null; });
+        $element.append('<p>Click to connect.</p>');
+    }
+    else {
+        $element.append('<p><strong>Connected to Google Calendar.</strong></p>');
+        var $btn = $('<a class="btn"><img src="/content/images/google-calendar.png" alt="Google" /></a>').appendTo($element);
+        $btn.css('margin-right', '32px');
+        $btn.click(function () { suggestionManager.select({ SuggestionType: SuggestionTypes.GetGoogleConsent }); thisControl.connectSuggestions = null; });
+        $element.append('<p>Click to reconnect.</p>');
+    }
+}
+

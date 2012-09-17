@@ -129,7 +129,7 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
     if (!Browser.IsMobile()) {
         $navbar.find('.option-categories a i').attr('title', 'Activity Dashboard').tooltip(Control.ttDelayBottom);
         $navbar.find('.option-nextsteps a i').attr('title', 'Next Steps').tooltip(Control.ttDelayBottom);
-
+        /*
         // user settings
         $menuitem = $dropdown.find('.option-settings');
         $menuitem.show();
@@ -144,6 +144,7 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
             Dashboard.showManager(Dashboard.helpManager);
             e.preventDefault();
         });
+*/
     } else {
         // next steps
         var $navbtn = $navbar.find('.option-nextsteps');

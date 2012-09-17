@@ -903,7 +903,8 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-list{padding:6px;overflow-y:auto;over-flow-x:hidden}
 .dashboard-list ul{margin:0;over-flow-x:hidden}
 .dashboard-list li a{cursor:pointer}
-.dashboard-list .itemlist>span,.dashboard-list .itemlist>em,.dashboard-list .itemlist>a{padding-left:21px}
+.dashboard-list ul.itemlist span,.dashboard-list ul.itemlist em{padding-left:20px}
+.dashboard-list li.itemlist>a{padding-left:24px}
 .dashboard-list .itemlist .dropdown-menu{top:0;right:20px}
 .dashboard-right .dropdown-menu.pull-right{left:auto;right:0}
 .dashboard-center .absolute-right .dropdown.dropup .dropdown-menu{bottom:-38px;right:20px}

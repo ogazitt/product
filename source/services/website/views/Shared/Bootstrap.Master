@@ -36,7 +36,7 @@
             Service.Init("<%=siteUrl %>", "<%=resourceUrl %>", "<%=domainUrl %>", "<%=fbAppID %>")
         });
     </script>
-    <!--
+
     <script type="text/javascript">
         // uservoice feedback plugin
         var uvOptions = {};
@@ -46,7 +46,7 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
         })();
     </script>
-    -->
+
     <asp:ContentPlaceHolder ID="MasterHead" runat="server"> </asp:ContentPlaceHolder>
 </head>
 <body>

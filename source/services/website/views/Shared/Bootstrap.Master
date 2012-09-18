@@ -36,6 +36,17 @@
             Service.Init("<%=siteUrl %>", "<%=resourceUrl %>", "<%=domainUrl %>", "<%=fbAppID %>")
         });
     </script>
+    <!--
+    <script type="text/javascript">
+        // uservoice feedback plugin
+        var uvOptions = {};
+        (function () {
+            var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+            uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/84TZMaazqpvy5JyiUCjPw.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+        })();
+    </script>
+    -->
     <asp:ContentPlaceHolder ID="MasterHead" runat="server"> </asp:ContentPlaceHolder>
 </head>
 <body>

@@ -230,7 +230,7 @@ Control.DateFormat = function Control$DateFormat() {
 // common format strings
 Control.DateFormat.masks = {
     "default": "ddd, mmm dd, yyyy h:MM TT",
-    shortDate: "m/d/yy",
+    shortDate: "m/d/yyyy",
     mediumDate: "ddd, mmm dd, yyyy",
     longDate: "mmmm d, yyyy",
     fullDate: "dddd, mmmm d, yyyy",

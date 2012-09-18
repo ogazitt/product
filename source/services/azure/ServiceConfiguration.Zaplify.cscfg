@@ -3,25 +3,25 @@
   <Role name="WorkerRole">
     <Instances count="2" />
     <ConfigurationSettings>
-      <Setting name="AzureStorageAccount" value="DefaultEndpointsProtocol=https;AccountName=twostep;AccountKey=a/Q4YNubOWOMk3QJlXjreh24x0xWlgrGhPJMa5PgtMyUkhLUytkr6kao0jugKUTWoO+gJVvkOscnD3hpV9c9fA==" />
+      <Setting name="AzureStorageAccount" value="DefaultEndpointsProtocol=https;AccountName=zaplify;AccountKey=ySbvuVLszzHW2f/9WzdsvgcXinBZKBhlKUT9tJWauO+udsY27x85AdSVhqrIrX3vh1cjVru9Kms+OPBsvcKFZQ==" />
       <!-- SQL Azure databases for Production deployment -->
       <Setting name="UsersConnection" value="SQLUsers" />
       <Setting name="SuggestionsConnection" value="SQLSuggestions" />
-      <Setting name="SQLUsers" value="data source=vdi9lff8pu.database.windows.net;Initial Catalog=Users;User Id=builtsteady;Password=zrc022.." />
-      <Setting name="SQLSuggestions" value="data source=vdi9lff8pu.database.windows.net;Initial Catalog=Suggestions;User Id=builtsteady;Password=zrc022.." />
+      <Setting name="SQLUsers" value="data source=qs07tzqe2v.database.windows.net;Initial Catalog=ZapUsers;User Id=builtsteady;Password=zrc022.." />
+      <Setting name="SQLSuggestions" value="data source=qs07tzqe2v.database.windows.net;Initial Catalog=ZapSuggestions;User Id=builtsteady;Password=zrc022.." />
       <Setting name="WorkflowWorkerCount" value="1" />
       <Setting name="WorkflowWorkerTimeout" value="15" />
       <!-- Google Client 'Zaplify' -->
-      <Setting name="GoogleClientID" value="944381664180-mvemvjs9mtust2jrevhc6eon4kjhad7f.apps.googleusercontent.com" />
-      <Setting name="GoogleClientSecret" value="pWc2xQo5YLI8D5Cz9B5WdPIN" />
+      <Setting name="GoogleClientID" value="944381664180-jm6ekhg10tu2vam4pnuknekr8hg3k0s2.apps.googleusercontent.com" />
+      <Setting name="GoogleClientSecret" value="JzoT-C-U9Nb8ehzthQI6ALSB" />
       <!-- Logging configuration -->
       <Setting name="DeploymentName" value="Production" />
-      <Setting name="PublicUrl" value="http://www.trytwostep.com" />
+      <Setting name="PublicUrl" value="https://www.zaplify.com" />
       <Setting name="AzureLoggingEnabled" value="1" />
       <Setting name="SplunkLoggingEnabled" value="1" />
       <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />
       <Setting name="SplunkLocalPort" value="9237" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=twostep;AccountKey=a/Q4YNubOWOMk3QJlXjreh24x0xWlgrGhPJMa5PgtMyUkhLUytkr6kao0jugKUTWoO+gJVvkOscnD3hpV9c9fA==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=zaplify;AccountKey=ySbvuVLszzHW2f/9WzdsvgcXinBZKBhlKUT9tJWauO+udsY27x85AdSVhqrIrX3vh1cjVru9Kms+OPBsvcKFZQ==" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="Omri" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEB2cloKeNwahRAgHEvMvVcYwDQYJKoZIhvcNAQEBBQAEggEAb3lmrVBd8+FjvkDDme1TTg8xxExsXPqeqqNbElJSexyFk5n0IvVukkYn6WTCOxvokHj5+gbQ0zjUaNy/xA8ZDSuLcxe6VldIRQWesk8xVc8MACjIgaNd0u8EC0+/xxdg01tw54fy5vyFH5UDPNK+vMPWI51kElRSSUwjDpAuPCOlI+tp/9HcXE3xdttsfoMJgQLCeTBKp1g/Dn6POhJsMp5Ct66ZZmB3y6mpA4l7gIN5O/tB1MpyTyDZBn/pLJ9JOY++aytP4FwzlPXso5UtSpz+MOUJ1Djpx2DL3700YkPpS7KEEpfRoInRgEB008As3i+wXDSRFUsAWMVh2g7zEjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECIUHpMuoYQkZgBABe+diBIi2nVF6UMe8A3Jf" />
@@ -35,26 +35,26 @@
   <Role name="Website">
     <Instances count="2" />
     <ConfigurationSettings>
-      <Setting name="AzureStorageAccount" value="DefaultEndpointsProtocol=https;AccountName=twostep;AccountKey=a/Q4YNubOWOMk3QJlXjreh24x0xWlgrGhPJMa5PgtMyUkhLUytkr6kao0jugKUTWoO+gJVvkOscnD3hpV9c9fA==" />
+      <Setting name="AzureStorageAccount" value="DefaultEndpointsProtocol=https;AccountName=zaplify;AccountKey=ySbvuVLszzHW2f/9WzdsvgcXinBZKBhlKUT9tJWauO+udsY27x85AdSVhqrIrX3vh1cjVru9Kms+OPBsvcKFZQ==" />
       <!-- SQL Azure databases for Production deployment -->
       <Setting name="UsersConnection" value="SQLUsers" />
       <Setting name="SuggestionsConnection" value="SQLSuggestions" />
-      <Setting name="SQLUsers" value="data source=vdi9lff8pu.database.windows.net;Initial Catalog=Users;User Id=builtsteady;Password=zrc022.." />
-      <Setting name="SQLSuggestions" value="data source=vdi9lff8pu.database.windows.net;Initial Catalog=Suggestions;User Id=builtsteady;Password=zrc022.." />
+      <Setting name="SQLUsers" value="data source=qs07tzqe2v.database.windows.net;Initial Catalog=ZapUsers;User Id=builtsteady;Password=zrc022.." />
+      <Setting name="SQLSuggestions" value="data source=qs07tzqe2v.database.windows.net;Initial Catalog=ZapSuggestions;User Id=builtsteady;Password=zrc022.." />
       <!-- Facebook Application 'Zaplify' -->
-      <Setting name="FBAppID" value="358635997554397" />
-      <Setting name="FBAppSecret" value="f1e505d41b79380fe9da309f8ce3b984" />
+      <Setting name="FBAppID" value="411772288837103" />
+      <Setting name="FBAppSecret" value="88a4f4d70a8c4060aa15c593a36062ff" />
       <!-- Google Client 'Zaplify' -->
-      <Setting name="GoogleClientID" value="944381664180-mvemvjs9mtust2jrevhc6eon4kjhad7f.apps.googleusercontent.com" />
-      <Setting name="GoogleClientSecret" value="pWc2xQo5YLI8D5Cz9B5WdPIN" />
+      <Setting name="GoogleClientID" value="944381664180-jm6ekhg10tu2vam4pnuknekr8hg3k0s2.apps.googleusercontent.com" />
+      <Setting name="GoogleClientSecret" value="JzoT-C-U9Nb8ehzthQI6ALSB" />
       <!-- Logging configuration -->
       <Setting name="DeploymentName" value="Production" />
-      <Setting name="PublicUrl" value="http://www.trytwostep.com" />
+      <Setting name="PublicUrl" value="https://www.zaplify.com" />
       <Setting name="AzureLoggingEnabled" value="1" />
       <Setting name="SplunkLoggingEnabled" value="0" />
       <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />
       <Setting name="SplunkLocalPort" value="9237" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=twostep;AccountKey=a/Q4YNubOWOMk3QJlXjreh24x0xWlgrGhPJMa5PgtMyUkhLUytkr6kao0jugKUTWoO+gJVvkOscnD3hpV9c9fA==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=zaplify;AccountKey=ySbvuVLszzHW2f/9WzdsvgcXinBZKBhlKUT9tJWauO+udsY27x85AdSVhqrIrX3vh1cjVru9Kms+OPBsvcKFZQ==" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="Omri" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEB2cloKeNwahRAgHEvMvVcYwDQYJKoZIhvcNAQEBBQAEggEAb3lmrVBd8+FjvkDDme1TTg8xxExsXPqeqqNbElJSexyFk5n0IvVukkYn6WTCOxvokHj5+gbQ0zjUaNy/xA8ZDSuLcxe6VldIRQWesk8xVc8MACjIgaNd0u8EC0+/xxdg01tw54fy5vyFH5UDPNK+vMPWI51kElRSSUwjDpAuPCOlI+tp/9HcXE3xdttsfoMJgQLCeTBKp1g/Dn6POhJsMp5Ct66ZZmB3y6mpA4l7gIN5O/tB1MpyTyDZBn/pLJ9JOY++aytP4FwzlPXso5UtSpz+MOUJ1Djpx2DL3700YkPpS7KEEpfRoInRgEB008As3i+wXDSRFUsAWMVh2g7zEjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECIUHpMuoYQkZgBABe+diBIi2nVF6UMe8A3Jf" />

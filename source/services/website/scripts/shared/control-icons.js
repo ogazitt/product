@@ -496,6 +496,7 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
         var activity = item.GetParent();
         var $dialog = $('<div><label>Date: </label><input id="datepicker" type="date"/><label>Start time: </label><input type="time"/><label>End time: </label><input type="time"/><label>Title: </label><input type="text" id="name"/></div>');
         $dialog.find('#name').val(activity.Name);
+        $dialog.find('#datepicker').val((new Date()).format('shortDate'));
         if (!Browser.IsMobile() && Browser.IsMSIE()) { $dialog.find('#datepicker').datepicker(); }
         var header = 'When should appointment be scheduled for?';
         Control.popup($dialog, header, function (inputs) {
@@ -504,6 +505,7 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
             }
             else {
                 var now = new Date();
+                now.setHours(0, 0, 0, 0);
                 var start = new Date(inputs[0]);
                 if (start < now) {
                     Control.alert('The date you provided is in the past', 'Schedule appointment');

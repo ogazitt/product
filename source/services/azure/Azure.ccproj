@@ -35,6 +35,7 @@
   </PropertyGroup>
   <!-- Items for the project -->
   <ItemGroup>
+    <ServiceConfiguration Include="ServiceConfiguration.Zaplify.cscfg" />
     <ServiceDefinition Include="ServiceDefinition.csdef" />
     <ServiceConfiguration Include="ServiceConfiguration.Dev1.DF.cscfg" />
     <ServiceConfiguration Include="ServiceConfiguration.Local.cscfg" />
@@ -67,6 +68,7 @@
     <PublishProfile Include="Profiles\Dev2.azurePubxml" />
     <PublishProfile Include="Profiles\Dev1.azurePubxml" />
     <PublishProfile Include="Profiles\Production.azurePubxml" />
+    <PublishProfile Include="Profiles\Zaplify.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>

@@ -34,14 +34,15 @@
                 </p>
                 <p>
                 TwoStep has already picked a set of Activities that match what you told us about yourself when 
-                you filled out your profile.  To get things rolling, you need to configure and run these Activities using
-                the <span>&nbsp;<i class="icon-dashboard"></i> Activity Dashboard, </span> the current view.  The next few help panels 
-                explain how to do this. 
+                you filled out your profile.  To get things rolling, you need to configure and run these Activities using the 
+                <span>&nbsp;<i class="icon-dashboard"></i> <strong>Activity Dashboard</strong>, </span> 
+                the current view.  The next few help panels explain how to do this. 
                 </p>
                 <span class="right-pic pull-right"><img alt="Help" src="<%: Url.Content("~/content/images/help/help.png") %>" /></span>
                 <p>
-                To get back to this introduction, simply select <span>&nbsp;<i class="icon-question-sign"></i> Help</span> from the 
-                menu at the top right corner.
+                To get back to this introduction, simply select 
+                <span>&nbsp;<i class="icon-question-sign"></i> <strong>Help</strong></span> 
+                from the menu at the top right corner.
                 </p>
             </div>
         </div>
@@ -52,8 +53,10 @@
                 <span class="left-pic pull-left"><img alt="Activity Organizer" src="<%: Url.Content("~/content/images/help/organizer-color.png") %>" /></span>
                 <span>
                 In the Dashboard, the pane on the left is called the Activity Organizer.  The Organizer 
-                contains Categories (e.g. <span>&nbsp;<i class="icon-user"></i> Personal,</span> <span>&nbsp;<i class="icon-home"></i> Home), </span> and 
-                each Category contains Activities.  Click a Category to view and select the Activities inside.
+                contains Categories (e.g. 
+                <span>&nbsp;<i class="icon-user"></i> <strong>Personal</strong>,</span> 
+                <span>&nbsp;<i class="icon-home"></i> <strong>Home</strong>), </span> 
+                and each Category contains Activities.  Click a Category to view and select the Activities inside.
                 </span>
             </div>
         </div>
@@ -65,7 +68,8 @@
                 <br />
                 <p>
                 The middle pane of the Dashboard allows you to edit the selected Activity.  You can add, 
-                remove, or reorder Steps, and control how the Activity repeats.  <br /><br />
+                remove, or reorder Steps, and control how the Activity repeats.  
+                <br /><br />
                 </p>
                 <p>
                 When you are satisfied with the Activity, click the green Run icon on the top-right 
@@ -80,15 +84,17 @@
                 <img alt="Run Mode" src="<%: Url.Content("~/content/images/help/run-mode.png") %>" />
                 <br />
                 <p>
-                In Run mode, the current Step is shown, and you can <span>&nbsp;<i class="icon-time"></i> Defer, </span>
-                <span>&nbsp;<i class="icon-share"></i> Skip, </span> or <span>&nbsp;<i class="icon-check"></i> Complete </span>
+                In Run mode, the current Step is shown, and you can 
+                <span>&nbsp;<i class="icon-time"></i> <strong>Defer</strong>, </span>
+                <span>&nbsp;<i class="icon-share"></i> <strong>Skip</strong>, </span> or 
+                <span>&nbsp;<i class="icon-check"></i> <strong>Complete</strong> </span>
                 the Step. <br /><br />
                 </p>
                 <p>
                 Each Step has an Action Type - 
-                <span>&nbsp;<i class="icon-search"></i> Find, </span>
-                <span>&nbsp;<i class="icon-phone"></i> Call, </span>
-                <span>&nbsp;<i class="icon-calendar"></i> Add to Calendar, </span>
+                <span>&nbsp;<i class="icon-search"></i> <strong>Find</strong>, </span>
+                <span>&nbsp;<i class="icon-phone"></i> <strong>Call</strong>, </span>
+                <span>&nbsp;<i class="icon-calendar"></i> <strong>Add to Calendar</strong>, </span>
                 etc.  TwoStep usually does a good job 
                 guessing the Action Type, but you can also set it explicitly.  In addition to the common operations 
                 (Defer, Skip, Complete), each Step also has Action icon that can help you carry out the Action Type 
@@ -118,16 +124,21 @@
                 <br />
                 <span class="left-pic pull-left"><img alt="Location Picker" src="<%: Url.Content("~/content/images/help/location-picker.png") %>" /></span>
                 <span>
-                If an Action requires more information (for example, a Call Step needs a phone number), a dialog box 
-                will prompt for a location or contact and try to obtain the phone number automatically.
+                If an Action requires more information (for example, a 
+                <span>&nbsp;<i class="icon-phone"></i> <strong>Call</strong></span> 
+                Step needs a phone number), a dialog box will prompt for a location or contact and try to obtain 
+                the phone number automatically.
                 </span>
             </div>
             <div class="carousel-body">
                 <span class="right-pic pull-right"><img alt="Help" src="<%: Url.Content("~/content/images/help/help.png") %>" /></span>
                 <span>
                 Actions work better when TwoStep is connected to Facebook and Google: Contacts are auto-completed from 
-                Facebook, and the “Add to Calendar” Action Type only works if you connected to the Google calendar.  
-                To do this, select <span>&nbsp;<i class="icon-cogs"></i> User Settngs, </span> from the menu at the top-right corner.
+                Facebook, and the 
+                <span>&nbsp;<i class="icon-calendar"></i> <strong>Add to Calendar</strong></span> 
+                Action Type only works if you connected to the Google calendar.  To do this, select 
+                <span>&nbsp;<i class="icon-cogs"></i> <strong>User Settings</strong>, </span> 
+                from the menu at the top-right corner.
                 </span>
             </div>
         </div>
@@ -139,7 +150,9 @@
                 <br />
                 <br />
                 <p>
-                TwoStep’s other main view is the <span>&nbsp;<i class="icon-play"></i> Next Steps </span> view - you can find it 
+                TwoStep’s other main view is the 
+                <span>&nbsp;<i class="icon-play"></i> <strong>Next Steps</strong> </span> 
+                view - you can find it 
                 on the toolbar at the top of the window.  This view presents all your immediate next steps across 
                 all Activities, sorted by due date.  It also allows filtering the Steps by Action Type (e.g. all phone calls), 
                 and carrying out the Step by clicking its Action icon.
@@ -153,11 +166,13 @@
                 <span class="left-pic pull-left"><img alt="Activity Organizer" src="<%: Url.Content("~/content/images/help/twostep-iphone-small.png") %>" /></span>
                 <span>
                 Finally, TwoStep’s Mobile app is accessible on the go from any mobile device (iPhone, iPad, Android, 
-                Windows Phone and any other device with a browser) by navigating to the TwoStep website.
-                The Mobile app allows you to complete Steps on the go (Call, Schedule, Map, etc) as well as viewing 
-                your running <span>&nbsp;<i class="icon-folder-open"></i> Activities, </span> and 
-                <span>&nbsp;<i class="icon-plus"></i> Adding </span> new Activities to your 
-                <span>&nbsp;<i class="icon-envelope"></i> Inbox.</span> 
+                Windows Phone and any other device with a browser) by navigating to the TwoStep website.  The Mobile 
+                app allows you to complete Steps on the go (Call, Schedule, Map, etc) as well as viewing your running 
+                <span>&nbsp;<i class="icon-folder-open"></i> <strong>Activities</strong>, </span> 
+                and 
+                <span>&nbsp;<i class="icon-plus"></i> <strong>Add</strong> </span> 
+                new Activities to your 
+                <span>&nbsp;<i class="icon-envelope"></i> <strong>Inbox</strong>.</span> 
                 </span>
             </div>
         </div>

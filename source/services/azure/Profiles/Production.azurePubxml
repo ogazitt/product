@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <AzureCredentials>BizSpark - Omri</AzureCredentials>
-    <AzureHostedServiceName>zaplify</AzureHostedServiceName>
-    <AzureHostedServiceLabel>zaplify</AzureHostedServiceLabel>
+    <AzureCredentials>BizSpark - Production</AzureCredentials>
+    <AzureHostedServiceName>twostep</AzureHostedServiceName>
+    <AzureHostedServiceLabel>TwoStep</AzureHostedServiceLabel>
     <AzureSlot>Production</AzureSlot>
     <AzureEnableIntelliTrace>False</AzureEnableIntelliTrace>
     <AzureEnableProfiling>False</AzureEnableProfiling>
     <AzureEnableWebDeploy>False</AzureEnableWebDeploy>
-    <AzureStorageAccountName>zaplify</AzureStorageAccountName>
-    <AzureStorageAccountLabel>zaplify</AzureStorageAccountLabel>
-    <AzureDeploymentLabel>ZaplifyProduction</AzureDeploymentLabel>
+    <AzureStorageAccountName>twostep</AzureStorageAccountName>
+    <AzureStorageAccountLabel>twostep</AzureStorageAccountLabel>
+    <AzureDeploymentLabel>TwoStepProduction</AzureDeploymentLabel>
     <AzureSolutionConfiguration>Release</AzureSolutionConfiguration>
     <AzureServiceConfiguration>Production</AzureServiceConfiguration>
     <AzureAppendTimestampToDeploymentLabel>True</AzureAppendTimestampToDeploymentLabel>

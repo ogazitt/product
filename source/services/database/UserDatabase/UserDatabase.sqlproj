@@ -172,6 +172,7 @@
     <None Include="UserDatabase.Dev2.publish.xml" />
     <None Include="UserDatabase.Production.publish.xml" />
     <None Include="UserDatabase.Local.publish.xml" />
+    <None Include="UserDatabase.Zaplify.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="UserDatabase.refactorlog" />

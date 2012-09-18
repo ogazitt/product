@@ -687,7 +687,9 @@ ItemType.prototype.HasField = function (name) { return (this.Fields.hasOwnProper
 // Items property is associative array with ID access
 //
 function ItemMap(array) {
-    this.array = array;
+    // 2012-09-17 OG: it appears that a null array will cause exceptions down the line in ItemMap.updateMap.  
+    // Fixing this by substituting an empty array for a null parameter.
+    this.array = (array == null) ? [] : array;
     this.updateMap();
 }
 

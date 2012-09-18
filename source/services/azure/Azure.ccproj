@@ -35,7 +35,6 @@
   </PropertyGroup>
   <!-- Items for the project -->
   <ItemGroup>
-    <ServiceConfiguration Include="ServiceConfiguration.Zaplify.cscfg" />
     <ServiceDefinition Include="ServiceDefinition.csdef" />
     <ServiceConfiguration Include="ServiceConfiguration.Dev1.DF.cscfg" />
     <ServiceConfiguration Include="ServiceConfiguration.Local.cscfg" />

@@ -145,7 +145,6 @@
     <None Include="SuggestionDatabase.Production.publish.xml" />
     <None Include="SuggestionDatabase.Dev2.publish.xml" />
     <None Include="SuggestionDatabase.Local.publish.xml" />
-    <None Include="SuggestionDatabase.Zaplify.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="SuggestionDatabase.refactorlog" />

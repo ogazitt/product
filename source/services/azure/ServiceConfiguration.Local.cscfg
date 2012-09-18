@@ -66,9 +66,8 @@
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="D19C2E1BBFDB2C6CCDF76EC64A34739610255066" thumbprintAlgorithm="sha1" />
-      <Certificate name="ZaplifySSLCert" thumbprint="52543CB496FC7F0D19FB7921C113BC2071F71CD0" thumbprintAlgorithm="sha1" />
-      <Certificate name="ZaplfiySSLIntermediateCert" thumbprint="3CA958F3E7D6837E1C1ACF8B0F6A2E6D487D6762" thumbprintAlgorithm="sha1" />
-      <Certificate name="ZaplifySSLRootCert" thumbprint="91C6D6EE3E8AC86384E548C299295C756C817B81" thumbprintAlgorithm="sha1" />
+      <Certificate name="TwoStepSSLCert" thumbprint="19CB09EF60E3640401B2999073F5DE5B2FC559E9" thumbprintAlgorithm="sha1" />
+      <Certificate name="TwoStepSSLIntermediateCert2" thumbprint="1A3D74CB989DA34F3ABC3957E6A4CE9DFF4714B9" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
 </ServiceConfiguration>

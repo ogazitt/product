@@ -145,7 +145,7 @@
 
                     userData = storageContext.Users.
                         Include("ItemTypes.Fields").
-                        Include("Tags").
+                        //Include("Tags").
                         Single<User>(u => u.Name == currentUser.Name);
 
                     // retrieve non-system folders for this user 
@@ -221,7 +221,13 @@
 
                     if (folders != null && folders.Count > 0)
                     {
+                        foreach (var folder in folders)
+                        {   // return empty lists instead of null
+                            folder.Items = (folder.Items == null) ? new List<Item>() : folder.Items;
+                        }
                         userData.Folders = folders;
+                        userData.Items = null;
+
                         // Include does not support filtering or sorting
                         // post-process ordering of Items in memory by SortOrder field
                         //for (var i = 0; i < userData.Folders.Count; i++)

@@ -168,15 +168,15 @@ LinkArray.prototype.Parse = function (text) {
 
 // ---------------------------------------------------------
 // Recurrence object  
-// { Frequency: "Daily", Interval: 1, ByDay: "", ByMonthDay: [], ByYearDay: [], ByMonth: [] }
+// { Frequency: "Daily", Interval: 1, ByDay: [], ByMonthDay: [], ByYearDay: [], ByMonth: [] }
 //
 function Recurrence() { 
     this.Frequency = Recurrence.Frequencys.Daily;
     this.Interval = 1;
-    this.ByDay = "";
-    this.ByMonthDay = [];
-    this.ByYearDay = [];
-    this.ByMonth = [];
+    this.ByDay = [];            // integers for days of week, 0-6
+    this.ByMonthDay = [];       // integers for days of month, 1-31
+    this.ByYearDay = [];        // integers for day of year, 1-31
+    this.ByMonth = [];          // integers for month, 1-12
 };
 Recurrence.Extend = function Recurrence$Extend(rrule) {
     // input as either json string or json object
@@ -184,17 +184,18 @@ Recurrence.Extend = function Recurrence$Extend(rrule) {
         rrule = $.parseJSON(rrule);
     }
     if (rrule != null) {
-        // TEMPORARY: convert existing stored empty strings to []
+        // TEMPORARY: convert previously stored strings to proper types
+        if (typeof (rrule.Interval) == 'string') { rrule.Interval = parseInt(rrule.Interval); }
+        rrule.ByDay = (typeof(rrule.ByDay) == 'string') ? [] : rrule.ByDay;
         rrule.ByMonthDay = (rrule.ByMonthDay == "") ? [] : rrule.ByMonthDay;
         rrule.ByYearDay = (rrule.ByYearDay == "") ? [] : rrule.ByYearDay;
         rrule.ByMonth = (rrule.ByMonth == "") ? [] : rrule.ByMonth;
     }
     return $.extend(new Recurrence(), rrule);
 }
-Recurrence.Frequencys = { Daily: "Daily", Weekly: "Weekly", Monthly: "Monthly", Yearly: "Yearly" }
-Recurrence.FrequencyLabels = { Daily: "days", Weekly: "weeks", Monthly: "months", Yearly: "years" }
-Recurrence.Weekdays = { Sunday: "SU", Monday: "MO", Tuesday: "TU", Wednesday: "WE", Thursday: "TH", Friday: "FR", Saturday: "SA" }
-Recurrence.WeekdayLabels = { SU: "Sunday", MO: "Monday", TU: "Tuesday", WE: "Wednesday", TH: "Thursday", FR: "Friday", SA: "Saturday" }
+Recurrence.Frequencys = { Daily: "Daily", Weekly: "Weekly", Monthly: "Monthly", Yearly: "Yearly" };
+Recurrence.FrequencyLabels = { Daily: "days", Weekly: "weeks", Monthly: "months", Yearly: "years" };
+Recurrence.WeekdayLabels = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ];
 Recurrence.MonthLabels = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 
 Recurrence.prototype.ToJson = function () { return JSON.stringify(this); }
@@ -206,9 +207,10 @@ Recurrence.prototype.IsWeekly = function () { return this.Frequency == Recurrenc
 Recurrence.prototype.IsMonthly = function () { return this.Frequency == Recurrence.Frequencys.Monthly; };
 Recurrence.prototype.IsYearly = function () { return this.Frequency == Recurrence.Frequencys.Yearly; };
 
-Recurrence.prototype.HasDay = function (day) { return this.ByDay.indexOf(day) != -1; };
-Recurrence.prototype.AddDay = function (day) { this.ByDay = this.ByDay.concat(day+','); };
-Recurrence.prototype.RemoveDay = function (day) { this.ByDay = this.ByDay.replace(day + ',', ''); };
+Recurrence.prototype.HasWeekdays = function () { return this.ByDay.length > 0; };
+Recurrence.prototype.HasWeekday = function (day) { return this.ByDay.indexOf(day) != -1; };
+Recurrence.prototype.AddWeekday = function (day) { this.ByDay.push(day); };
+Recurrence.prototype.RemoveWeekday = function (day) { var i = this.ByDay.indexOf(d); if (i >= 0) { this.ByDay.splice(i, 1) } };
 
 Recurrence.prototype.NoMonthDays = function () { this.ByMonthDay.length = 0; };
 Recurrence.prototype.FirstMonthDay = function () { return (this.ByMonthDay.length == 0) ? 0 : this.ByMonthDay[0]; };
@@ -238,10 +240,7 @@ Recurrence.prototype.Summary = function () {
         var txtEnd = '</strong> after completing current activity ';
 
         if (this.IsWeekly()) {
-            var days = this.ByDay.split(',');
-            if (days[days.length - 1].length == 0) {
-                days = days.slice(0, -1);      // remove last empty entry
-            }
+            var days = this.ByDay;
             if (days.length > 0) {
                 txtIntv = (this.Interval == 1) ? 'every' : 'every ' + txtIntv;
                 if (days.length == 7) {
@@ -250,7 +249,7 @@ Recurrence.prototype.Summary = function () {
                     txtEnd = '';
                     $.each(days, function (i, day) {
                         txtEnd += (i == 0) ? ' on ' : ((i == days.length - 1) ? ' and ' : ', ');
-                        txtEnd += Recurrence.WeekdayLabels[$.trim(day)];
+                        txtEnd += Recurrence.WeekdayLabels[day];
                     });
                 }
                 txtEnd += '</strong>';
@@ -290,6 +289,49 @@ Recurrence.prototype.AddSuffix = function (n) {
     suffix = (n > 10 && n < 14) ? 'th' : suffix;
     return n + suffix;
 }
+Recurrence.prototype.NextDueDate = function (lastDate) {
+    if (typeof (lastDate) == 'string') {
+        lastDate = new Date(lastDate);
+    }
+    if (this.IsDaily()) {
+        lastDate.add(this.Interval).days();
+    }
+    if (this.IsWeekly()) {
+        lastDate.add(this.Interval).weeks();
+        if (this.ByDay.length > 0) {
+            // TODO: support multiple weekdays
+            if (this.ByDay[0] != lastDate.getDay()) {
+                lastDate.moveToDayOfWeek(this.ByDay[0]);
+            }
+        }
+    }
+    if (this.IsMonthly()) {
+        lastDate.add(this.Interval).months();
+        if (this.ByMonthDay.length > 0) {
+            // TODO: support multiple month dates
+            var daysInMonth = Date.getDaysInMonth(lastDate.getFullYear(), lastDate.getMonth());
+            var date = (this.ByMonthDay[0] > daysInMonth) ? daysInMonth : this.ByMonthDay[0];
+            lastDate.setDate(date);
+        }
+    }
+    if (this.IsYearly()) {
+        lastDate.add(this.Interval).years();
+        if (this.ByMonth.length > 0) {
+            // TODO: support multiple months and year dates
+            lastDate.setMonth(this.ByMonth[0] - 1);
+            if (this.ByYearDay.length > 0) {
+                var daysInMonth = Date.getDaysInMonth(lastDate.getFullYear(), lastDate.getMonth());
+                var date = (this.ByYearDay[0] > daysInMonth) ? daysInMonth : this.ByYearDay[0];
+                lastDate.setDate(date);
+            } else {
+                lastDate.setDate(1);
+            }
+        }
+    }
+
+    return lastDate.format('shortDate');
+}
+
 // ---------------------------------------------------------
 // UserSettings object - provides prototype functions
 

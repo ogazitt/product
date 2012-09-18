@@ -279,6 +279,7 @@
     </Content>
     <Content Include="scripts\dashboard\itemeditor.js" />
     <Content Include="scripts\dashboard\listeditor.js" />
+    <Content Include="scripts\shared\date.js" />
     <Content Include="scripts\json2.js" />
     <Content Include="scripts\master.generated.min.js">
       <DependentUpon>master.js.chirp.config</DependentUpon>
@@ -320,7 +321,6 @@
     <Content Include="scripts\less.min.js" />
     <Content Include="scripts\modernizr-2.0.6-development-only.js" />
     <Content Include="scripts\shared\service.js" />
-    <Content Include="scripts\shared\utilities.js" />
     <Content Include="startup\7z.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

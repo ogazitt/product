@@ -13,8 +13,8 @@
 var Control = function Control$() {};
 Control.noDelay = { delay: { show: 0, hide: 0} };           // tooltip with no delay
 Control.noDelayBottom = { delay: { show: 0, hide: 0 }, placement: 'bottom' };
-Control.ttDelay = { delay: { show: 500, hide: 200} };       // default tooltip delay
-Control.ttDelayBottom = { delay: { show: 500, hide: 200 }, placement: 'bottom' };
+Control.ttDelay = { delay: { show: 0 /*500*/, hide: 0 /*200*/} };       // default tooltip delay
+Control.ttDelayBottom = { delay: { show: 0 /*500*/, hide: 0 /*200*/ }, placement: 'bottom' };
 // helper function for preventing event bubbling
 Control.preventDefault = function Control$preventDefault(e) { e.preventDefault(); }
 
@@ -230,7 +230,7 @@ Control.DateFormat = function Control$DateFormat() {
 // common format strings
 Control.DateFormat.masks = {
     "default": "ddd, mmm dd, yyyy h:MM TT",
-    shortDate: "m/d/yyyy",
+    shortDate: "mm/dd/yyyy",
     mediumDate: "ddd, mmm dd, yyyy",
     longDate: "mmmm d, yyyy",
     fullDate: "dddd, mmmm d, yyyy",
@@ -290,4 +290,26 @@ Date.prototype.parseRFC3339 = function (text) {
         this.setTime(Date.parse(text));
     }
     return this;
+};
+
+Date.prototype.parseTime = function (timeString) {
+    if (timeString == '') return null;
+
+    var time = timeString.match(/^(\d+)(:(\d\d))?\s*((a|(p))m?)?$/i);
+    if (time == null) return null;
+
+    var hours = parseInt(time[1], 10);
+    var pm = time[6];
+    if (hours == 12 && !pm) {
+        hours = 0;
+    }
+    else {
+        hours += (hours < 12 && pm) ? 12 : 0;
+    }
+
+    var d = new Date();
+    d.setHours(hours);
+    d.setMinutes(parseInt(time[3], 10) || 0);
+    d.setSeconds(0, 0);
+    return d;
 };

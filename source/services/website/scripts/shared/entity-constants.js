@@ -201,7 +201,7 @@ var SystemUsers = {
 // ActionTypes constants
 
 var ActionTypes = {
-    All: "All",
+    All: "Next Steps",
     Reminder: "Reminder",
     Call: "Call",
     Schedule: "Add to calendar",

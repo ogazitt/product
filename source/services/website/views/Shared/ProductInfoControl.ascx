@@ -26,6 +26,7 @@
     <div id="intro_section" style="min-height: 470px">
         <div class="item">
             <div class="title-text">
+                <button class="btn btn-success pull-right signup" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button>
                 <h2>The personal assistant for life's activities.</h2>
             </div>
             <span class="left-pic pull-left"><img alt="Organizer" src="<%: Url.Content("~/content/images/landing/organizer-color.png") %>" /></span>
@@ -47,6 +48,7 @@
         <div class="item">
             <span class="right-pic pull-right"><img alt="Gallery" src="<%: Url.Content("~/content/images/landing/gallery-install.png") %>" /></span>
             <div class="title-text">
+                <button class="btn btn-success pull-right signup" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button>
                 <h2>Get started in under a minute.</h2>
             </div>
             <p>
@@ -59,6 +61,7 @@
     <div id="cadence_section" style="min-height: 440px">
         <div class="item">
             <div class="title-text">
+                <button class="btn btn-success pull-right signup" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button>
                 <h2>Stay on top of repeating activities.</h2>
             </div>
             <span class="left-pic pull-left"><img alt="Gutter Cleaning" src="<%: Url.Content("~/content/images/landing/gutter-cleaning.png") %>" /></span>
@@ -80,6 +83,7 @@
     <div id="find_section" style="min-height: 500px">
         <div class="item">
             <div class="title-text">
+                <button class="btn btn-success pull-right signup" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button>
                 <h2>Find out how others get activities done.</h2>
             </div>
             <span class="full-pic"><img alt="Gutter Cleaning" src="<%: Url.Content("~/content/images/landing/ask-facebook-friends-small.png") %>" /></span>
@@ -94,6 +98,7 @@
     <div id="steps_section" style="min-height: 500px">
         <div class="item">
             <div class="title-text">
+                <button class="btn btn-success pull-right signup" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button>
                 <h2>Break complex tasks into actionable steps.</h2>
             </div>
             <span class="full-pic"><img alt="Plan Party" src="<%: Url.Content("~/content/images/landing/plan-party.png") %>" /></span>

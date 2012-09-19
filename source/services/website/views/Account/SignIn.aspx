@@ -61,7 +61,7 @@
                               
                 <div class="control-group">
                     <div class="controls">
-                    <button class="btn btn-success" type="submit">Sign In</button>
+                    <button class="btn btn-primary" type="submit">Sign In</button>
                     </div>
                 </div>
 

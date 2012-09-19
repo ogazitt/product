@@ -167,7 +167,7 @@ namespace BuiltSteady.Product.Shared.Entities
 
     public class ActionTypes 
     {
-        public const string All = "All";
+        public const string All = "Next Steps";
         public const string Reminder = "Reminder";
         public const string Call = "Call";
         public const string Schedule = "Add to calendar";
@@ -313,7 +313,7 @@ namespace BuiltSteady.Product.Shared.Entities
         {
             // initialize actions
             var actionTypes = new List<ActionType>();
-            actionTypes.Add(new ActionType() { ActionTypeID = 1, FieldName = FieldNames.Name, DisplayName = "All", ActionName = ActionTypes.All, SortOrder = 1 });
+            actionTypes.Add(new ActionType() { ActionTypeID = 1, FieldName = FieldNames.Name, DisplayName = "Next Steps", ActionName = ActionTypes.All, SortOrder = 1 });
             actionTypes.Add(new ActionType() { ActionTypeID = 2, FieldName = FieldNames.DueDate, DisplayName = "Reminder", ActionName = ActionTypes.Reminder, SortOrder = 2 });
             actionTypes.Add(new ActionType() { ActionTypeID = 3, FieldName = FieldNames.Phone, DisplayName = "Call", ActionName = ActionTypes.Call, SortOrder = 3 });
             actionTypes.Add(new ActionType() { ActionTypeID = 4, FieldName = FieldNames.DueDate, DisplayName = "Add to calendar", ActionName = ActionTypes.Schedule, SortOrder = 4 });

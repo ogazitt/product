@@ -25,13 +25,15 @@ ActionType.prototype.GetSteps = function (sort, status) {
         for (var j in folder.Items) {
             var item = folder.Items[j];
             if (item.IsStep()) {
-                if (this.Name == ActionTypes.All || item.GetActionType() === this) {
+                if (this.Name == ActionTypes.All || this.Name == item.GetActionType().Name) {
                     if (item.Status == status) steps[index++] = item;
                 }
             }
         }
     }
     steps.sort(function (a, b) {
+        // TODO: use resilient parse function for downlevel browsers (iPhone)
+        // TODO: isolate date conversions in Item.GetFieldValue and Item.SetFieldValue
         var dueA = a.GetFieldValue(FieldNames.DueDate);
         var dueB = b.GetFieldValue(FieldNames.DueDate);
         if (dueA == dueB) return 0;
@@ -291,6 +293,7 @@ Recurrence.prototype.AddSuffix = function (n) {
 }
 Recurrence.prototype.NextDueDate = function (lastDate) {
     if (typeof (lastDate) == 'string') {
+        // TODO: use resilient parse function for downlevel browsers (iPhone)
         lastDate = new Date(lastDate);
     }
     if (this.IsDaily()) {

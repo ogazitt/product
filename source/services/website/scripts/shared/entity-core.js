@@ -414,6 +414,7 @@ Item.prototype.GetActionType = function () {
     var actionTypeName = this.GetFieldValue(FieldNames.ActionType);
     if (actionTypeName == null) actionTypeName = ActionTypes.Reminder;
     var actionType = DataModel.FindActionType(actionTypeName);
+    if (actionType == null) actionType = DataModel.FindActionType(ActionTypes.Reminder);
     return actionType;
 }
 
@@ -453,7 +454,7 @@ Item.prototype.CanResume = function () {
 
 // helper for marking item complete and marking next step active
 Item.prototype.Complete = function () {
-    var today = new Date().format();
+    var today = new Date().format();    // TODO: review format for stored dates
     var copy = this.Copy();
     copy.Status = StatusTypes.Complete;
     if (copy.HasField(FieldNames.CompletedOn)) {
@@ -480,7 +481,7 @@ Item.prototype.Complete = function () {
 }
 // helper for marking item skipped and marking next step active
 Item.prototype.Skip = function () {
-    var today = new Date().format();
+    var today = new Date().format();    // TODO: review format for stored dates
     var copy = this.Copy();
     copy.Status = StatusTypes.Skipped;
     if (copy.HasField(FieldNames.CompletedOn)) {
@@ -548,7 +549,7 @@ Item.prototype.Active = function (newDueDate) {
             return null;
         }
         if (step.IsStopped()) {
-            // mark first stoppeed step active
+            // mark first stopped step active
             var dueDate = (newDueDate != null) ? newDueDate : step.GetFieldValue(FieldNames.DueDate);
             if (dueDate == null || dueDate.length == 0) {
                 if (prevStep != null) {         // try using due date of previous step
@@ -587,7 +588,6 @@ Item.prototype.Restart = function () {
         this.Update(copy, null);
         return copy.Active();
     } else {
-        // TODO: this should only iterate 'current' steps
         for (var id in steps) {
             var step = steps[id];
             var copy = step.Copy();
@@ -604,6 +604,8 @@ Item.prototype.Repeat = function () {
     var rrule = Recurrence.Extend(this.GetFieldValue(FieldNames.Repeat));
     var lastCompleted = new Date();
     if (this.IsComplete()) {
+        // TODO: use resilient parse function for downlevel browsers (iPhone)
+        // TODO: isolate date conversions in Item.GetFieldValue and Item.SetFieldValue
         lastCompleted = new Date(this.GetFieldValue(FieldNames.CompletedOn));
     }
     var nextDueDate = rrule.NextDueDate(lastCompleted);

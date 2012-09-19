@@ -3,7 +3,7 @@
   <Role name="WorkerRole">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="AzureStorageAccount" value="DefaultEndpointsProtocol=https;AccountName=zaplifydev1;AccountKey=6oFmJVk2uq0c0Pf1+0PlHM70f6rnw465KwFpYyLM/neOZ2YIMpkWC888dZWTRQDHEr82qm2SH8T3znZxIfeOiw==" />
+      <Setting name="AzureStorageAccount" value="DefaultEndpointsProtocol=https;AccountName=twostepdev1;AccountKey=Q+Wxvcl6zXCvI0g8jjbP9PpEcGnJBMDtes01gW4NVSZXCdJL/tfNSm1GzrQyfyyLN1ZCCbGogKyuydF8OHgyKw==" />
       <!-- SQL Azure databases for Dev1 deployment -->
       <Setting name="UsersConnection" value="SQLUsers" />
       <Setting name="SuggestionsConnection" value="SQLSuggestions" />
@@ -21,7 +21,7 @@
       <Setting name="SplunkLoggingEnabled" value="1" />
       <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />
       <Setting name="SplunkLocalPort" value="9237" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=zaplifydev1;AccountKey=6oFmJVk2uq0c0Pf1+0PlHM70f6rnw465KwFpYyLM/neOZ2YIMpkWC888dZWTRQDHEr82qm2SH8T3znZxIfeOiw==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=twostepdev1;AccountKey=Q+Wxvcl6zXCvI0g8jjbP9PpEcGnJBMDtes01gW4NVSZXCdJL/tfNSm1GzrQyfyyLN1ZCCbGogKyuydF8OHgyKw==" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="Omri" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEB2cloKeNwahRAgHEvMvVcYwDQYJKoZIhvcNAQEBBQAEggEAb3lmrVBd8+FjvkDDme1TTg8xxExsXPqeqqNbElJSexyFk5n0IvVukkYn6WTCOxvokHj5+gbQ0zjUaNy/xA8ZDSuLcxe6VldIRQWesk8xVc8MACjIgaNd0u8EC0+/xxdg01tw54fy5vyFH5UDPNK+vMPWI51kElRSSUwjDpAuPCOlI+tp/9HcXE3xdttsfoMJgQLCeTBKp1g/Dn6POhJsMp5Ct66ZZmB3y6mpA4l7gIN5O/tB1MpyTyDZBn/pLJ9JOY++aytP4FwzlPXso5UtSpz+MOUJ1Djpx2DL3700YkPpS7KEEpfRoInRgEB008As3i+wXDSRFUsAWMVh2g7zEjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECIUHpMuoYQkZgBABe+diBIi2nVF6UMe8A3Jf" />
@@ -35,7 +35,7 @@
   <Role name="Website">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="AzureStorageAccount" value="DefaultEndpointsProtocol=https;AccountName=zaplifydev1;AccountKey=6oFmJVk2uq0c0Pf1+0PlHM70f6rnw465KwFpYyLM/neOZ2YIMpkWC888dZWTRQDHEr82qm2SH8T3znZxIfeOiw==" />
+      <Setting name="AzureStorageAccount" value="DefaultEndpointsProtocol=https;AccountName=twostepdev1;AccountKey=Q+Wxvcl6zXCvI0g8jjbP9PpEcGnJBMDtes01gW4NVSZXCdJL/tfNSm1GzrQyfyyLN1ZCCbGogKyuydF8OHgyKw==" />
       <!-- SQL Azure databases for Dev1 deployment -->
       <Setting name="UsersConnection" value="SQLUsers" />
       <Setting name="SuggestionsConnection" value="SQLSuggestions" />
@@ -54,7 +54,7 @@
       <Setting name="SplunkLoggingEnabled" value="1" />
       <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />
       <Setting name="SplunkLocalPort" value="9237" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=zaplifydev1;AccountKey=6oFmJVk2uq0c0Pf1+0PlHM70f6rnw465KwFpYyLM/neOZ2YIMpkWC888dZWTRQDHEr82qm2SH8T3znZxIfeOiw==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=twostepdev1;AccountKey=Q+Wxvcl6zXCvI0g8jjbP9PpEcGnJBMDtes01gW4NVSZXCdJL/tfNSm1GzrQyfyyLN1ZCCbGogKyuydF8OHgyKw==" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="Omri" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEB2cloKeNwahRAgHEvMvVcYwDQYJKoZIhvcNAQEBBQAEggEAb3lmrVBd8+FjvkDDme1TTg8xxExsXPqeqqNbElJSexyFk5n0IvVukkYn6WTCOxvokHj5+gbQ0zjUaNy/xA8ZDSuLcxe6VldIRQWesk8xVc8MACjIgaNd0u8EC0+/xxdg01tw54fy5vyFH5UDPNK+vMPWI51kElRSSUwjDpAuPCOlI+tp/9HcXE3xdttsfoMJgQLCeTBKp1g/Dn6POhJsMp5Ct66ZZmB3y6mpA4l7gIN5O/tB1MpyTyDZBn/pLJ9JOY++aytP4FwzlPXso5UtSpz+MOUJ1Djpx2DL3700YkPpS7KEEpfRoInRgEB008As3i+wXDSRFUsAWMVh2g7zEjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECIUHpMuoYQkZgBABe+diBIi2nVF6UMe8A3Jf" />
@@ -62,9 +62,8 @@
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="D19C2E1BBFDB2C6CCDF76EC64A34739610255066" thumbprintAlgorithm="sha1" />
-      <Certificate name="ZaplifySSLCert" thumbprint="52543CB496FC7F0D19FB7921C113BC2071F71CD0" thumbprintAlgorithm="sha1" />
-      <Certificate name="ZaplfiySSLIntermediateCert" thumbprint="3CA958F3E7D6837E1C1ACF8B0F6A2E6D487D6762" thumbprintAlgorithm="sha1" />
-      <Certificate name="ZaplifySSLRootCert" thumbprint="91C6D6EE3E8AC86384E548C299295C756C817B81" thumbprintAlgorithm="sha1" />
+      <Certificate name="TwoStepSSLCert" thumbprint="19CB09EF60E3640401B2999073F5DE5B2FC559E9" thumbprintAlgorithm="sha1" />
+      <Certificate name="TwoStepSSLIntermediateCert2" thumbprint="1A3D74CB989DA34F3ABC3957E6A4CE9DFF4714B9" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
 </ServiceConfiguration>

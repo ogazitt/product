@@ -201,12 +201,12 @@
 
 #region // Private Methods
         private bool renewFBToken = false;
-        private void SetAuthCookie(string username, bool persistent)
+        private void SetAuthCookie(string username, bool persistent, bool isMobile = false)
         {
             if (Membership.Provider is UserMembershipProvider)
             {
                 User user = new User { Name = username };
-                HttpCookie authCookie = UserMembershipProvider.CreateAuthCookie(user, out this.renewFBToken);
+                HttpCookie authCookie = UserMembershipProvider.CreateAuthCookie(user, out this.renewFBToken, isMobile);
                 this.Response.Cookies.Add(authCookie);
             }
             else

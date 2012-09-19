@@ -11,10 +11,12 @@
 
     using BuiltSteady.Product.ServerEntities;
     using BuiltSteady.Product.ServiceHost;
+    using BuiltSteady.Product.Website.Helpers;
 
     public class UserMembershipProvider : MembershipProvider
     {
         const int authTicketLifetime = 48;      // hours
+        const int mobileAuthTicketLifetime = 7200;    // hours (1 month)
 
         public override string ApplicationName
         {
@@ -286,7 +288,7 @@
             return CreateAuthCookie(user, out renewFBToken);
         }
 
-        public static HttpCookie CreateAuthCookie(User user, out bool renewFBToken)
+        public static HttpCookie CreateAuthCookie(User user, out bool renewFBToken, bool isMobile = false)
         {
             renewFBToken = false;
             if (user.ID == Guid.Empty)
@@ -311,7 +313,7 @@
                 DateTime.Now, DateTime.Now.AddHours(authTicketLifetime), true, userData);
 
             HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(authTicket));
-            authCookie.Expires = DateTime.Now.AddHours(authTicketLifetime);
+            authCookie.Expires = DateTime.Now.AddHours(isMobile ? mobileAuthTicketLifetime : authTicketLifetime);
             return authCookie;
         }
 

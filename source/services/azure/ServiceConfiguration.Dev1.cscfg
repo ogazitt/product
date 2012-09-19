@@ -3,7 +3,7 @@
   <Role name="WorkerRole">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="AzureStorageAccount" value="DefaultEndpointsProtocol=https;AccountName=twostepdev1;AccountKey=6oFmJVk2uq0c0Pf1+0PlHM70f6rnw465KwFpYyLM/neOZ2YIMpkWC888dZWTRQDHEr82qm2SH8T3znZxIfeOiw==" />
+      <Setting name="AzureStorageAccount" value="DefaultEndpointsProtocol=https;AccountName=twostepdev1;AccountKey=Q+Wxvcl6zXCvI0g8jjbP9PpEcGnJBMDtes01gW4NVSZXCdJL/tfNSm1GzrQyfyyLN1ZCCbGogKyuydF8OHgyKw==" />
       <!-- SQL Azure databases for Dev1 deployment -->
       <Setting name="UsersConnection" value="SQLUsers" />
       <Setting name="SuggestionsConnection" value="SQLSuggestions" />

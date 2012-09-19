@@ -11,7 +11,6 @@
       .control-group .control-label { font-size: 8pt; margin: 0 0 -4px 8px; }
       .control-group button { margin: 12px 0 12px 0; }
       .span5 p { margin-left: 32px; }
-      .span5 .more-button { margin-left: 32px; }
     </style>
 </asp:Content>
 
@@ -25,6 +24,9 @@
     <div class="row-fluid">
         <div class="span7 intro-carousel">
             <% Html.RenderPartial("IntroCarouselControl"); %>  
+             <div class="pull-right">
+                <button class="btn btn-info" onclick="window.location='<%: Url.Content("#product_info") %>'">Learn More...</button>
+            </div>          
         </div>
         <div class="span5">
         <% using (Html.BeginForm("register", "account", FormMethod.Post, new { @class = "form-vertical" })) { %>
@@ -77,9 +79,6 @@
             This product is under development and user registration is currently restricted.
             To request an access code, register an email address at <a href="http://www.builtsteady.com">www.builtsteady.com</a>.
             </p>
-            <br />
-            <button class="btn more-button" onclick="window.location='<%: Url.Content("#product_info") %>'">Learn More</button>
-
         </div>
 
     </div>

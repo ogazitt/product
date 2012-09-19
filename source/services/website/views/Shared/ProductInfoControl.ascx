@@ -1,37 +1,31 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 
 <style type="text/css">
+    .product-info { margin-top: 300px; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; }
     .product-info .item { padding: 50px; }
-    .product-info .item span { font-size: 14pt; color: #06A; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; }
-    .product-info .item p  
-    {
-        font-size: 12pt; 
-        color: #06A; 
-        font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; 
-        max-width: 750px; 
-        padding-left: 100px; padding-right: 100px; padding-top: 20px; 
+    .product-info .item p {
+        max-width: 750px; padding-left: 100px; padding-right: 100px; padding-top: 20px; 
+        font-size: 12pt; color: #333; font-style: italic;
     }
-    .product-info .item h1 { color: #06A; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; }
-    .product-info .item h3 { color: #06A; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .product-info .item h2 { color: #08C; }
     .product-info .item .left-pic { margin-right: 20px; }
     .product-info .item .right-pic { margin-left: 20px; margin-top: -30px; }
     .product-info .item .full-pic { margin-left: 100px; }
-    #intro_section { background-color: #f0fff0; }
-    #gallery_section { background-color: #f0f0f0; }
-    #cadence_section { background-color: #fffff0; }
-    #find_section { background-color: #f0f0ff; }
-    #steps_section { background-color: #fff0f0; }
-    img { margin: 20px; }
-    #nextsteps_section img { margin-top: 0px; margin-bottom: 0px; }
-    #nextsteps_section .item { padding-bottom: 0px; }
-    .title-text { max-width: 850px; margin-right: 100px; }
+    .product-info .item img { margin: 20px; }
+    .product-info .item .title-text { max-width: 850px; margin-right: 100px; }
+    #intro_section      { background-color: #eee; /*#f0fff0;*/ }
+    #gallery_section    { background-color: #fff; /*#f0f0f0;*/ }
+    #cadence_section    { background-color: #eee; /*#fffff0;*/ }
+    #find_section       { background-color: #fff; /*#f0f0ff;*/ }
+    #steps_section      { background-color: #eee; /*#fff0f0;*/ }
+    #nextsteps_section  { background-color: #fff; /*#ffffff;*/ }
+    #nextsteps_section img { margin-top: 0px; margin-bottom: 0px; max-width: 330px; }
 </style>
 
 <div id="product_info" class="product-info">
     <div id="intro_section" style="min-height: 470px">
         <div class="item">
             <div class="title-text">
-                <button class="btn btn-primary pull-right signup" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button>
                 <h2>The personal assistant for life's activities.</h2>
             </div>
             <span class="left-pic pull-left"><img alt="Organizer" src="<%: Url.Content("~/content/images/landing/organizer-color.png") %>" /></span>
@@ -53,7 +47,6 @@
         <div class="item">
             <span class="right-pic pull-right"><img alt="Gallery" src="<%: Url.Content("~/content/images/landing/gallery-install.png") %>" /></span>
             <div class="title-text">
-                <button class="btn btn-primary pull-right signup" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button>
                 <h2>Get started in under a minute.</h2>
             </div>
             <p>
@@ -66,7 +59,6 @@
     <div id="cadence_section" style="min-height: 440px">
         <div class="item">
             <div class="title-text">
-                <button class="btn btn-primary pull-right signup" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button>
                 <h2>Stay on top of repeating activities.</h2>
             </div>
             <span class="left-pic pull-left"><img alt="Gutter Cleaning" src="<%: Url.Content("~/content/images/landing/gutter-cleaning.png") %>" /></span>
@@ -88,7 +80,6 @@
     <div id="find_section" style="min-height: 500px">
         <div class="item">
             <div class="title-text">
-                <button class="btn btn-primary pull-right signup" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button>
                 <h2>Find out how others get activities done.</h2>
             </div>
             <span class="full-pic"><img alt="Gutter Cleaning" src="<%: Url.Content("~/content/images/landing/ask-facebook-friends-small.png") %>" /></span>
@@ -103,7 +94,6 @@
     <div id="steps_section" style="min-height: 500px">
         <div class="item">
             <div class="title-text">
-                <button class="btn btn-primary pull-right signup" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button>
                 <h2>Break complex tasks into actionable steps.</h2>
             </div>
             <span class="full-pic"><img alt="Plan Party" src="<%: Url.Content("~/content/images/landing/plan-party.png") %>" /></span>
@@ -119,7 +109,7 @@
     <div id="nextsteps_section" style="min-height: 450px">
         <div class="item">
             <div class="title-text">
-                <button class="btn btn-primary pull-right signup" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button>
+                <button class="btn btn-success pull-right signup" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button>
                 <h2>Stay two steps ahead.</h2>
             </div>
             <br />
@@ -134,7 +124,7 @@
             easily accessible from any mobile device. So when you have that free half hour riding the bus, you 
             can complete those steps that require a phone call.
             </p>
-            <img alt="Dance through life" src="<%: Url.Content("~/content/images/landing/twostep-dance-through-life.png") %>" />
+            <img xstyle="width:330px" alt="Dance through life" src="<%: Url.Content("~/content/images/landing/twostep-dance-through-life.png") %>" />
         </div>
     </div>
 </div>

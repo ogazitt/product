@@ -11,7 +11,6 @@
       .control-group { margin: 0 10px 0 0; padding: 0; }
       .control-group .control-label { font-size: 8pt; margin: 0 0 -4px 8px; }
       .control-group button { margin: 12px 0 12px 0; }
-      .span5 .more-button { margin-left: 32px; margin-top: 90px; }
     </style>
 </asp:Content>
 
@@ -25,6 +24,9 @@
     <div class="row-fluid">
         <div class="span7">
             <% Html.RenderPartial("IntroCarouselControl"); %>  
+             <div class="pull-right">
+                <button class="btn btn-info" onclick="window.location='<%: Url.Content("#product_info") %>'">Learn More...</button>
+            </div>          
         </div>
         <div class="span5">
         <% using (Html.BeginForm("signin", "account", FormMethod.Post, new { @class = "form-vertical" })) { %>
@@ -67,14 +69,12 @@
 
             </fieldset>
         <% } %>
-            <br />
-            <button class="btn more-button" onclick="window.location='<%: Url.Content("#product_info") %>'">Learn More</button>
         </div>
-        </div>
-        </div>
+    </div>
+    </div>
     <div class="row-fluid">
         <div class="span12">
-            <% Html.RenderPartial("ProductInfoControl"); %>  
+            <% Html.RenderPartial("ProductInfoControl"); %>       
         </div>
     </div>
 </asp:Content>

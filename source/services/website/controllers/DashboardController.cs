@@ -72,6 +72,12 @@
             return RedirectToAction("Home", "Dashboard");
         }
 
+        // partial html response - help carousel
+        public ActionResult Help()
+        {
+            return View("HelpCarouselControl");
+        }
+
         void CreateDefaultFolders(UserDataModel model)
         {
             try

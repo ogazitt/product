@@ -297,38 +297,23 @@ function HelpManager(parentControl, $parentElement) {
 HelpManager.prototype.hide = function () {
     if (this.$element != null) {
         this.$element.hide();
-        $('#help_carousel').hide();
     }
 }
 
 HelpManager.prototype.show = function () {
     if (this.$element == null) {
         this.$element = $('<div class="manager-help" />').appendTo(this.$parentControl);
-    }
-    this.render();
-    this.$element.show();
-}
-
-// render is only called internally by show method
-HelpManager.prototype.render = function () {
-    this.$element.empty();
-    $('#help_carousel').show().carousel('pause');
-/*
-    var $help = $('<div class="hero-unit"></div>').appendTo(this.$element);
-    $help.append('<img src="/content/images/twostep-large.png" alt="TwoStep" />');
-    $help.append(HelpManager.tagline);
-    $connect = $('<p style="margin: 64px 0 -32px 0"></p>').appendTo($help);
-
-    if (this.connectSuggestions == null) {
-        var thisControl = this;
-        var dashboard = this.parentControl;
-        dashboard.dataModel.GetSuggestions(function (suggestions) {
-            thisControl.renderConnect($connect, suggestions);
-        });
+        Service.InvokeControllerView('Dashboard', 'Help', null,
+                function (responseState) {
+                    var helpHtml = responseState.result;
+                    $help = $('.manager-help');
+                    $help.html(helpHtml);
+                    $('#help_carousel').show().carousel('pause');
+                    $help.show();
+                });
     } else {
-        this.renderConnect($connect, this.connectSuggestions);
+        this.$element.show();
     }
-    */
 }
 
 HelpManager.prototype.renderConnect = function ($element, suggestions) {
@@ -353,14 +338,8 @@ HelpManager.prototype.renderConnect = function ($element, suggestions) {
     }
 }
 
-HelpManager.tagline = 
-"<p>Here's a short introduction to the product.</p>"
-/*
-'<p>The ideal tool for managing your life activities. ' +
-'Organize the activities in your life into actionable steps and get a categorized list of next steps for getting things done. ' +
-'Get connected and have relevant information just one click away. ' +
-'Stay two steps ahead of life with TwoStep!</p>';
-*/
+HelpManager.tagline = "<p>Here's a short introduction to the product.</p>"
+
 // ---------------------------------------------------------
 // SettingsManager control
 function SettingsManager(parentControl, $parentElement) {

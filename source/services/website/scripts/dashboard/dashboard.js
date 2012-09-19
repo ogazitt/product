@@ -89,8 +89,8 @@ Dashboard.Close = function Dashboard$Close(event) {
 // event handler, do not reference 'this' to access static Dashboard
 Dashboard.ManageDataChange = function Dashboard$ManageDataChange(folderID, itemID) {
     // cleanup dangling tooltips
-    $('a').tooltip('hide');
-    $('i').tooltip('hide');
+    $('.dashboard-region a').tooltip('hide');
+    $('.dashboard-region i').tooltip('hide');
 
     Dashboard.ManageFolder(folderID, itemID);
     Dashboard.folderList.render(Dashboard.$left, Dashboard.dataModel.Folders);

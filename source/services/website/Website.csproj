@@ -321,6 +321,7 @@
     <Content Include="scripts\less.min.js" />
     <Content Include="scripts\modernizr-2.0.6-development-only.js" />
     <Content Include="scripts\shared\service.js" />
+    <Content Include="scripts\shared\spin.js" />
     <Content Include="startup\7z.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

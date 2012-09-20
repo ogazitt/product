@@ -554,10 +554,12 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
 
                             // report success to the user
                             var formattedDate = (startTime != null) ? start.format('shortDateTime') : start.format('shortDate');
-                            Control.alert('An appointment for ' + formattedDate + ' was created on your calendar', name);
+                            //Control.alert('An appointment for ' + formattedDate + ' was created on your calendar', name);
                         }
                     }
                 );
+                // put up an indication that event is being created
+                Control.working('Adding appointment to calendar', 1000);
             }
         });
         return false;   // do not propogate event
@@ -602,10 +604,12 @@ Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
                             }
 
                             // report success to the user
-                            Control.alert('Question posted on Facebook!', 'Ask Facebook friends');
+                            //Control.alert('Question posted on Facebook!', 'Ask Facebook friends');
                         }
                     }
                 );
+                // put up an indication that event is being created
+                Control.working('Posting question to Facebook', 1500);
             }
         });
         return false;   // do not propogate event

@@ -144,6 +144,31 @@ Control.popup = function Control$popup($dialog, header, handlerOK, handlerCancel
         });
     }
 }
+// "working" dialog with spinning animation
+Control.working = function Control$working(message, delay, handlerClose) {
+    var $modalMessage = $('#modalMessage');
+    if ($modalMessage.length == 0) {
+        message.replace('<br/>', '\r');
+        alert(message);
+        if (handlerClose != null) { handlerClose(); }
+    } else {
+        var handler = function () {
+            $modalMessage.modal('hide');
+            window.clearTimeout(timeoutID);
+            if (handlerClose != null) { handlerClose(); }
+        };
+        $modalMessage = $modalMessage.clone();
+        var spinner = new Spinner().spin();
+        $modalMessage.find('.modal-header h3').html(message);
+        var $p = $modalMessage.find('.modal-body p').html('&nbsp;');
+        var $center = $('<center></center>').appendTo($p);
+        $center.append(spinner.el).css('height', '15');
+        $modalMessage.find('.modal-header .close').unbind('click').click(handler);
+        $modalMessage.find('.modal-footer .btn-primary').unbind('click').click(handler);
+        $modalMessage.modal('show');
+        var timeoutID = window.setTimeout(handler, delay);
+    }
+}
 
 // ---------------------------------------------------------
 // Control.DateFormat function for formatting dates and times

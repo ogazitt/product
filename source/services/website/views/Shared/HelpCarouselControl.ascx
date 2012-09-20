@@ -125,7 +125,7 @@
                 Contacts are auto-completed from your Facebook friends, while the 
                 <span> <i class="icon-calendar"></i> <strong>Add to Calendar</strong></span> 
                 Action can add appointments to your Google calendar if you are connected.  
-                To get connected, select <span> <i class="icon-cogs"></i> <strong>User Settings</strong>, </span> 
+                To get connected, select <span> <i class="icon-cogs"></i> <strong>User Settings</strong></span> 
                 from the menu in the top-right corner.
                 </p>
             </div>

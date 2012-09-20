@@ -26,12 +26,13 @@
 <% } else if (Request.Path.EndsWith("SignIn", StringComparison.OrdinalIgnoreCase)) { %>
     <ul class="nav pull-right">
         <li class="divider-vertical"></li>    
-        <li><button class="btn btn-primary" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button></li>
+        <li><button class="btn btn-success" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button></li>
     </ul>
 <% } else { %> 
     <ul class="nav pull-right">
         <li class="divider-vertical"></li>    
         <li><button class="btn btn-primary" onclick="window.location='<%: Url.Content("~/account/signin") %>'">Sign In</button></li>
+        <li><button class="btn btn-success" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button></li>
     </ul>
 <% } %>
 

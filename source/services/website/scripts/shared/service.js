@@ -10,6 +10,7 @@ var Service = function Service$() { }
 // public members
 
 Service.ControllerResource = 'Controller';
+Service.ControllerView = 'ControllerView';
 Service.UsersResource = 'users';
 Service.ConstantsResource = 'contants';
 Service.FoldersResource = 'folders';
@@ -30,6 +31,7 @@ Service.fbRedirectPath = 'oauthconsent/facebook';
 Service.fbScopes = 'user_birthday,friends_likes,friends_birthday,publish_stream';
 Service.googleConsentUri = 'oauthconsent/google';
 Service.cloudADConsentUri = 'oauthconsent/cloudAD';
+Service.userVoiceScriptUri = 'widget.uservoice.com/84TZMaazqpvy5JyiUCjPw.js';
 
 Service.invokeAsync = true;
 Service.signOutUri = 'account/signout';
@@ -57,8 +59,21 @@ Service.Close = function Service$Close() {
     Service.invokeAsync = false;
 }
 
+Service.FeedbackPlugin = function Service$Feedback() {
+    // enable uservoice feedback plugin
+    var $plugin = $('<script type="text/javascript" async="true"> </script>');
+    $plugin.attr('src', document.location.protocol + '//' + Service.userVoiceScriptUri);
+    $('script').first().parent().prepend($plugin);
+}
+
 Service.InvokeController = function Service$InvokeController(controller, action, data, successHandler, errorHandler) {
+    // invokes controller action that returns json data
     Service.invokeResource(Service.ControllerResource, controller, action, data, successHandler, errorHandler);
+}
+
+Service.InvokeControllerView = function Service$InvokeControllerView(controller, action, data, successHandler, errorHandler) {
+    // invokes controller action that returns partial html view
+    Service.invokeResource(Service.ControllerView, controller, action, data, successHandler, errorHandler);
 }
 
 Service.GetResource = function Service$GetResource(resource, id, successHandler, errorHandler) {
@@ -122,15 +137,21 @@ Service.Geocoder = function Service$Geocoder() {
 Service.invokeResource = function Service$invokeResource(resource, id, httpMethod, data,
     successHandler, errorHandler) {
 
-    // wrap success handler to check for json errors
+    // wrap success handler to check for errors
     var jsonSuccessHandler = function (response, status, jqXHR) {
-        if (response == null || HttpStatusCode.IsError(status) ||
-            response.StatusCode == null || HttpStatusCode.IsError(response.StatusCode)) {
-            jsonErrorHandler(jqXHR);
-            return;
+        var error = (response == null) || HttpStatusCode.IsError(status);
+        if (!error) {
+            if (resource == Service.ControllerView) {       // expecting partial html view
+                var contentType = jqXHR.getResponseHeader('Content-Type');
+                error = (contentType.indexOf('text/html') == -1);
+            } else {                                        // expecting json response
+                error = (response.StatusCode == null || HttpStatusCode.IsError(response.StatusCode));
+            }
         }
+        if (error) { jsonErrorHandler(jqXHR); return; }
+
         var responseState = new ResponseState(response.StatusCode);
-        if (resource == Service.ControllerResource) {
+        if (resource == Service.ControllerResource || resource == Service.ControllerView) {
             responseState.result = response;
         } else {
             responseState.result = response.Value;
@@ -159,10 +180,10 @@ Service.invokeResource = function Service$invokeResource(resource, id, httpMetho
 
     var invokeUrl;
     var jsonData = (data == null) ? '' : JSON.stringify(data);
-    if (resource == Service.ControllerResource) {
+    if (resource == Service.ControllerResource || resource == Service.ControllerView) {
         var controllerAction = id + '/' + httpMethod;
-        httpMethod = 'POST';
         invokeUrl = Service.siteUrl + controllerAction;
+        httpMethod = 'POST';
     } else {
         id = (id == null) ? '' : ('/' + id);
         invokeUrl = Service.resourceUrl + resource + id;
@@ -171,11 +192,18 @@ Service.invokeResource = function Service$invokeResource(resource, id, httpMetho
     request = {
         url: invokeUrl,
         type: httpMethod,
-        contentType: "application/json",
-        dataType: "json",
+        contentType: 'application/json',
+        dataType: 'json',
         data: jsonData,
         async: Service.invokeAsync
     };
+
+    if (resource == Service.ControllerView) {
+        // configure request to fetch partial html view
+        request.contentType = 'application/x-www-form-urlencoded';
+        request.dataType = "text";
+        request.processData = false;
+    }
 
     if (!Service.signingOut) {
         Service.beginRequest(request, jsonSuccessHandler, jsonErrorHandler);

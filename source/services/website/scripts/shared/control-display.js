@@ -283,8 +283,8 @@ Control.Text.update = function Control$Text$update($input, activeItem) {
     var value = $input.val();
     var currentValue = item.GetFieldValue(field);
     if (field.FieldType == FieldTypes.DateTime) {
-        // store DateTime fields in UTC format
-        value = Control.DateTime.formatUTC(value);
+        // TODO: review format for stored dates 
+        value = Control.DateTime.format(value);
     }
     if (value != currentValue) {
         var updatedItem = item.Copy();

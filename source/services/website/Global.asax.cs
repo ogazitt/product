@@ -80,28 +80,35 @@ namespace BuiltSteady.Product.Website
 
             RegisterOAuthHandler();
 
-            // check the database schema versions to make sure there is no version mismatch
-            if (!Storage.NewUserContext.CheckSchemaVersion())
+            // this code will check schema versions and upgrade constants
+            // only do this if running a local / development cassini
+            // if we're in azure, constants should be upgraded at worker role startup (we don't want 
+            // the deployed Azure instance and the devfabric instance fighting over version numbers)
+            if (!HostEnvironment.IsAzure)
             {
-                TraceLog.TraceFatal("User database schema is out of sync, unrecoverable error");
-                return;
-            }
-            if (!Storage.NewSuggestionsContext.CheckSchemaVersion())
-            {
-                TraceLog.TraceFatal("Suggestions database schema is out of sync, unrecoverable error");
-                return;
-            }
+                // check the database schema versions to make sure there is no version mismatch
+                if (!Storage.NewUserContext.CheckSchemaVersion())
+                {
+                    TraceLog.TraceFatal("User database schema is out of sync, unrecoverable error");
+                    return;
+                }
+                if (!Storage.NewSuggestionsContext.CheckSchemaVersion())
+                {
+                    TraceLog.TraceFatal("Suggestions database schema is out of sync, unrecoverable error");
+                    return;
+                }
 
-            // (re)create the database constants if the code contains a newer version
-            if (!Storage.NewUserContext.VersionConstants(Me))
-            {
-                TraceLog.TraceFatal("Cannot check and/or update the User database constants, unrecoverable error");
-                return;
-            }
-            if (!Storage.NewSuggestionsContext.VersionConstants(Me))
-            {
-                TraceLog.TraceFatal("Cannot check and/or update the Suggestions database constants, unrecoverable error");
-                return;
+                // (re)create the database constants if the code contains a newer version
+                if (!Storage.NewUserContext.VersionConstants(Me))
+                {
+                    TraceLog.TraceFatal("Cannot check and/or update the User database constants, unrecoverable error");
+                    return;
+                }
+                if (!Storage.NewSuggestionsContext.VersionConstants(Me))
+                {
+                    TraceLog.TraceFatal("Cannot check and/or update the Suggestions database constants, unrecoverable error");
+                    return;
+                }
             }
         }
 

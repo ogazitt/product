@@ -51,7 +51,7 @@
       <Setting name="DeploymentName" value="Production" />
       <Setting name="PublicUrl" value="https://www.trytwostep.com" />
       <Setting name="AzureLoggingEnabled" value="1" />
-      <Setting name="SplunkLoggingEnabled" value="0" />
+      <Setting name="SplunkLoggingEnabled" value="1" />
       <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />
       <Setting name="SplunkLocalPort" value="9237" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=twostep;AccountKey=a/Q4YNubOWOMk3QJlXjreh24x0xWlgrGhPJMa5PgtMyUkhLUytkr6kao0jugKUTWoO+gJVvkOscnD3hpV9c9fA==" />

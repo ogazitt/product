@@ -36,6 +36,17 @@
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult UpdateNextSteps()
+        {
+            var jsResult = new JsResult();
+            GoogleClient client = new GoogleClient(CurrentUser, StorageContext);
+            if (!client.UpdateNextStepsEvent(null))
+                jsResult.StatusCode = HttpStatusCode.NotFound;
+            JsonResult result = new JsonResult();
+            result.Data = jsResult;
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public ActionResult CreateAppointment(Appointment appointment)
         {

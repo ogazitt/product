@@ -488,8 +488,13 @@ namespace BuiltSteady.Product.ServiceHost
             }
 
             // get offset of user's timezone from UTC
-            var tzinfo = TimeZoneInfo.FindSystemTimeZoneById(userProfile.Timezone);
-            var utcOffset = tzinfo.GetUtcOffset(DateTime.UtcNow);
+            var utcOffset = TimeSpan.FromSeconds(0);
+            var timezone = userProfile.Timezone;
+            if (!String.IsNullOrEmpty(timezone))
+            {
+                var tzinfo = TimeZoneInfo.FindSystemTimeZoneById(userProfile.Timezone);
+                utcOffset = tzinfo.GetUtcOffset(DateTime.UtcNow);
+            }
 
             // get the start date and adjust for the user's local timezone
             utcStartTime = utcStartTime.HasValue ? utcStartTime.Value.Date : (DateTime.UtcNow + utcOffset).Date;

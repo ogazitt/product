@@ -2,17 +2,6 @@
 	"States": 
 	[ 
 		{ "Name": "ConnectToGoogle", "Activity": "ConnectToGoogle", "NextState": "ImportFromGoogle" },
-		{ "Name": "ImportFromGoogle", "Activity": "ImportFromGoogle", "NextState": "CreateNextStepsAppointment" },
-		{ "Name": "CreateNextStepsAppointment", "Activity": "CreateNextStepsAppointment", "NextState": "InvokeRefreshWorkflow" },
-		{ 
-			"Name": "InvokeRefreshWorkflow",
-			"ActivityDefinition": 
-			{
-				"Name": "StartWorkflow",
-				"WorkflowType": "RefreshNextStepsAppointment"
-			}, 
-			"NextState": null 
-		},
-
+		{ "Name": "ImportFromGoogle", "Activity": "ImportFromGoogle", "NextState": null }
 	] 
 }

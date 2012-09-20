@@ -132,6 +132,9 @@
     <Content Include="workflows\RefreshNextStepsAppointment.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="workflows\ConnectToGoogle-Old.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="workflows\Intents.txt">

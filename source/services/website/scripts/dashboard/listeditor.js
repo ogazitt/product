@@ -29,7 +29,7 @@ ListEditor.prototype.render = function ($element, list, maxHeight) {
 
     // render child items
     this.listView.render(this.$element, list, maxHeight - activityHeight - newItemHeight - 28);   // exclude top & bottom padding
-    if ($newItem != null) { $newItem.find('.fn-name').focus(); }
+    //if ($newItem != null) { $newItem.find('.fn-name').focus(); }
 }
 
 ListEditor.prototype.renderActivity = function ($element, activity) {

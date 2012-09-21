@@ -994,7 +994,7 @@ i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;backgrou
 label.checkbox{cursor:pointer}
 label.checkbox .checkbox{margin-top:-2px}
 .ui-datepicker[style]{z-index:2000!important}
-.pac-container[style]{z-index:2000!important}
+.pac-container[style]{z-index:3000!important}
 .ui-timepicker-div .ui-widget-header{margin-bottom:8px}
 .ui-timepicker-div dl{text-align:left}
 .ui-timepicker-div dl dt{height:25px;margin-bottom:-25px;margin-left:8px}

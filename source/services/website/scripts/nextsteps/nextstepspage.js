@@ -134,17 +134,17 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
         $menuitem = $dropdown.find('.option-settings');
         $menuitem.show();
         $menuitem.click(function (e) {
-            Dashboard.showManager(Dashboard.settingsManager);
-            e.preventDefault();
+        Dashboard.showManager(Dashboard.settingsManager);
+        e.preventDefault();
         });
         // help
         $menuitem = $dropdown.find('.option-help');
         $menuitem.show();
         $menuitem.click(function (e) {
-            Dashboard.showManager(Dashboard.helpManager);
-            e.preventDefault();
+        Dashboard.showManager(Dashboard.helpManager);
+        e.preventDefault();
         });
-*/
+        */
     } else {
         // next steps
         var $navbtn = $navbar.find('.option-nextsteps');
@@ -168,7 +168,6 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
         $navbtn = $navbar.find('.option-add');
         $navbtn.show();
         var $dialog = $('<div><label>Activity name: </label><input type="text" /></div>');
-        //$dialog.find('#name').val(activity.Name);
         var header = 'Add a new activity';
         $navbtn.click(function (e) {
             Control.popup($dialog, header, function (inputs) {
@@ -177,10 +176,17 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
                 }
                 else {
                     var name = inputs[0];
-                    // create appointment object
-                    var activity = Item.Extend({ Name: name, ItemTypeID: ItemTypes.Activity, IsList: true, Status: StatusTypes.Paused });
+                    // create the activity
+                    var activity = Item.Extend({ Name: name, ItemTypeID: ItemTypes.Activity, IsList: true, Status: StatusTypes.Active });
                     var inbox = DataModel.UserSettings.GetDefaultList(ItemTypes.Activity);
-                    inbox.InsertItem(activity);
+                    // insert into the default folder for activities (inbox)
+                    DataModel.InsertItem(activity, inbox, null, null, null, function (insertedActivity) {
+                        // success handler: insert a reminder step into the new activity
+                        insertedActivity = Item.Extend(insertedActivity);
+                        var reminder = Item.Extend({ Name: name, ItemTypeID: ItemTypes.Step, IsList: false, Status: StatusTypes.Active });
+                        reminder.SetFieldValue(FieldNames.DueDate, Date.today().format('shortDate'));
+                        insertedActivity.InsertItem(reminder);
+                    });
                 }
             });
             e.preventDefault();

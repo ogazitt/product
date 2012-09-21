@@ -160,8 +160,6 @@ ListView.prototype.renderListItems = function (list) {
     for (var id in listItems) {
         var item = listItems[id];
         var $li = $('<li class="position-relative" />').appendTo(this.$element);
-        //$li.data('control', this);
-        //$li.data('item', item);
 
         var $item;
         if (list.IsRunning()) {
@@ -183,6 +181,10 @@ ListView.prototype.renderListItems = function (list) {
             if (item.IsCompleted()) { itemCount++; continue; }
             if (item.IsSelected()) { $li.addClass('selected'); }
             if (item.IsStep()) { $li.addClass(item.StatusClass()); }
+
+            // 2012-09-20 OG: associate the item with the $li so that the Control.List.sortable code finds the item
+            $li.data('control', this);
+            $li.data('item', item);
 
             $item = $('<a class="form-inline drag-handle" />').appendTo($li);
             $item.data('control', this);

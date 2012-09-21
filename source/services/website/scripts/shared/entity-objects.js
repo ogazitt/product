@@ -83,7 +83,7 @@ GalleryCategory.prototype.Install = function () {
                 Control.alert('Server was unable to install the category', 'Install Category');
             }
             else {
-                Dashboard.dataModel.Refresh();
+                if (typeof(Dashboard) !== "undefined" && Dashboard.dataModel != null) { Dashboard.dataModel.Refresh(); }
             }
         }
     );
@@ -109,7 +109,7 @@ GalleryActivity.prototype.Install = function () {
                 Control.alert('Server was unable to install the category', 'Install Activity');
             }
             else {
-                Dashboard.dataModel.Refresh();
+                if (typeof (Dashboard) !== "undefined" && Dashboard.dataModel != null) { Dashboard.dataModel.Refresh(); }
             }
         }
     );

@@ -47,7 +47,10 @@ ProfileWizard.Init = function ProfileWizard$Init(dataModel, consentStatus) {
     });
 
     // bind events
-    this.$element.find('.btn-success').click(function () { ProfileWizard.showNextPanel(); });
+    this.$element.find('.btn-success').click(function () {
+        ProfileWizard.storeUserInfo();
+        ProfileWizard.showNextPanel();
+    });
     $(window).bind('load', ProfileWizard.resize);
     $(window).bind('resize', ProfileWizard.resize);
 
@@ -63,6 +66,32 @@ ProfileWizard.showNextPanel = function ProfileWizard$showNextPanel() {
     this.$activePanel = this.$element.find('.info-pane.active').next('.info-pane');
     if (this.$activePanel.length > 0) { this.showActivePanel(); }
     else { Service.NavigateToDashboard(); }
+}
+
+ProfileWizard.storeUserInfo = function ProfileWizard$storeUserInfo() {
+    var $activePanel = this.$element.find('.info-pane.active');
+    var id = $activePanel.attr('id');
+
+    switch (id) {
+        case 'user_info':
+            break;
+        case 'home_info':
+            var $homeCheckbox = $activePanel.find('input[name=homeowner]');
+            if ($homeCheckbox.attr('checked') == 'checked') {
+                // install home category
+                var homeCategory = GalleryCategory.Extend({ Name: UserEntities.Home });
+                homeCategory.Install();
+            }
+            break;
+        case 'auto_info':
+            var $autoMakeModel = $activePanel.find('input[name=make_model]');
+            if ($autoMakeModel.val() != "") {
+                // install auto category
+                var autoCategory = GalleryCategory.Extend({ Name: UserEntities.Auto });
+                autoCategory.Install();
+            }
+            break;
+    }
 }
 
 ProfileWizard.resize = function ProfileWizard$resize() {

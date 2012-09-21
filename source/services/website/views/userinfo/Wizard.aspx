@@ -42,8 +42,9 @@
                 <div id="user_info" class="info-pane">
                     <h3>TwoStep works best if you tell it a few things about yourself.</h3>
                     <p>
-                    By connecting to Facebook – TwoStep can do a much better job for you.  Your contacts will be imported,
-                    along with your location and your family information. 
+                    The easiest way to get started is to connect TwoStep to Facebook, and allow it to do 
+                    a much better job for you.  Your contacts will be imported,
+                    along with your name, gender, birthday, location, and your family information. 
                     TwoStep will <strong>never</strong> post to Facebook unless you explicitly tell it to.
                     </p>
 
@@ -88,7 +89,7 @@
                 <div id="home_info" class="info-pane">
                     <h3>Next, provide information about where you live.</h3>
                     <p>
-                    By connecting to your Google calendar – TwoStep can manage your schedule for you.  
+                    By connecting to your Google calendar, TwoStep can manage your schedule for you.  
                     Activities which require a scheduled appointment can be added to your calendar. 
                     </p>                      
                     <div class="control-group">
@@ -117,14 +118,14 @@
                 <div id="auto_info" class="info-pane">
                     <h3>Next, provide information about what you drive.</h3>
                     <p>
-                    By connecting to your Google calendar – TwoStep can provide easy access from your mobile devices.  
+                    By connecting to your Google calendar, TwoStep can provide easy access from your mobile devices.  
                     Your calendar will contain an event and link to your Next Steps each and every day.
                     Manage your schedule and the things you need to get done while you are on the go!
                     </p>  
                     <div class="control-group">
                         <div class="controls">
                             <label class="control-label">Make & Model</label>
-                            <input type="text" placeholder="Make & Model" />
+                            <input type="text" name="make_model" placeholder="Make & Model" />
                             <span class="help-inline">Used to select Activities relevant to car owners</span>
                         </div>
                     </div> 
@@ -135,6 +136,21 @@
                             <span class="help-inline">Used to select Activities relevant to your car</span>
                         </div>
                     </div>                 
+                </div>
+
+                <div id="connect_info" class="info-pane">
+                    <h3>Finally, if you haven't yet, please consider connecting TwoStep to Facebook and Google.</h3>
+                    <p>
+                    When you connect to Facebook, your contacts will be imported, allowing you to easily select 
+                    contacts for your activities.
+                    TwoStep will <strong>never</strong> post to Facebook unless you explicitly tell it to.
+                    </p>  
+                    <p>
+                    When you connect to your Google calendar, TwoStep can manage your schedule for you.  
+                    Activities which require a scheduled appointment can be added to your calendar.                     
+                    Your calendar will also contain an event and link to your Next Steps each and every day, 
+                    making it easy to stay on top of what you need to get done while you are on the go.
+                    </p>  
                 </div>
 
                 <div class="control-group">

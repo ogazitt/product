@@ -14,8 +14,10 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
         {
             try
             {
-                // find the gallery category in the database
-                GalleryCategory galleryCategory = suggestionsContext.GalleryCategories.FirstOrDefault(gc => gc.ID == newCategory.ID);
+                // find the gallery category in the database (by ID if present, otherwise by name)
+                GalleryCategory galleryCategory = newCategory.ID > 0 ? 
+                    suggestionsContext.GalleryCategories.FirstOrDefault(gc => gc.ID == newCategory.ID) :
+                    suggestionsContext.GalleryCategories.FirstOrDefault(gc => gc.Name == newCategory.Name);
                 if (galleryCategory == null)
                 {
                     TraceLog.TraceError("InstallCategory could not find Category ID " + newCategory.ID);

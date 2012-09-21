@@ -134,25 +134,29 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
         $menuitem = $dropdown.find('.option-settings');
         $menuitem.show();
         $menuitem.click(function (e) {
-            Dashboard.showManager(Dashboard.settingsManager);
-            e.preventDefault();
+        Dashboard.showManager(Dashboard.settingsManager);
+        e.preventDefault();
         });
         // help
         $menuitem = $dropdown.find('.option-help');
         $menuitem.show();
         $menuitem.click(function (e) {
-            Dashboard.showManager(Dashboard.helpManager);
-            e.preventDefault();
+        Dashboard.showManager(Dashboard.helpManager);
+        e.preventDefault();
         });
-*/
+        */
     } else {
+        // 2012-09-20 OG: temporary fix - make both "mode" buttons white, to make them legible
+        $navbar.find('.option-nextsteps a i').addClass('icon-white');//.addClass('icon-large');
+        $navbar.find('.option-categories a i').addClass('icon-white');//.addClass('icon-large');
+
         // next steps
         var $navbtn = $navbar.find('.option-nextsteps');
         $navbtn.show();
         $navbtn.click(function (e) {
             NextStepsPage.render(NextStepsPage.actionTypeList);
-            $navbar.find('.option-nextsteps a i').addClass('icon-white');
-            $navbar.find('.option-categories a i').removeClass('icon-white');
+            //$navbar.find('.option-nextsteps a i').addClass('icon-white');
+            //$navbar.find('.option-categories a i').removeClass('icon-white');
             e.preventDefault();
         });
         // categories
@@ -160,15 +164,14 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
         $navbtn.show();
         $navbtn.click(function (e) {
             NextStepsPage.render(NextStepsPage.categoryList);
-            $navbar.find('.option-nextsteps a i').removeClass('icon-white');
-            $navbar.find('.option-categories a i').addClass('icon-white');
+            //$navbar.find('.option-nextsteps a i').removeClass('icon-white');
+            //$navbar.find('.option-categories a i').addClass('icon-white');
             e.preventDefault();
         });
         // add
         $navbtn = $navbar.find('.option-add');
         $navbtn.show();
         var $dialog = $('<div><label>Activity name: </label><input type="text" /></div>');
-        //$dialog.find('#name').val(activity.Name);
         var header = 'Add a new activity';
         $navbtn.click(function (e) {
             Control.popup($dialog, header, function (inputs) {
@@ -177,10 +180,17 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
                 }
                 else {
                     var name = inputs[0];
-                    // create appointment object
-                    var activity = Item.Extend({ Name: name, ItemTypeID: ItemTypes.Activity, IsList: true, Status: StatusTypes.Paused });
+                    // create the activity
+                    var activity = Item.Extend({ Name: name, ItemTypeID: ItemTypes.Activity, IsList: true, Status: StatusTypes.Active });
                     var inbox = DataModel.UserSettings.GetDefaultList(ItemTypes.Activity);
-                    inbox.InsertItem(activity);
+                    // insert into the default folder for activities (inbox)
+                    DataModel.InsertItem(activity, inbox, null, null, null, function (insertedActivity) {
+                        // success handler: insert a reminder step into the new activity
+                        insertedActivity = Item.Extend(insertedActivity);
+                        var reminder = Item.Extend({ Name: name, ItemTypeID: ItemTypes.Step, IsList: false, Status: StatusTypes.Active });
+                        reminder.SetFieldValue(FieldNames.DueDate, Date.today().format('shortDate'));
+                        insertedActivity.InsertItem(reminder);
+                    });
                 }
             });
             e.preventDefault();

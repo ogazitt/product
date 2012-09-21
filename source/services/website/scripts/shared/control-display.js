@@ -131,7 +131,24 @@ Control.Text.renderInputGrocery = function Control$Text$renderInputGrocery($elem
 // attach place autocomplete behavior to input element
 Control.Text.autoCompletePlace = function Control$Text$autoCompletePlace($input, selectHandler) {
     $input.unbind('keypress');
-    $input.keypress(function (e) { if (e.which == 13) { return false; } });
+    $input.keypress(function (e) {
+        // attempts at getting dropdown to accept click events in WP7 browser
+        //$('.pac-container').css('z-index', 1000000000);
+        //$('.pac-container div').css('z-index', 2000000000);
+        if (e.which == 13) { return false; }
+    });
+    /*
+    // more failed attempts 
+    $input.click(function (e) {
+        var $modalPrompt = $('#modalPromptOpen');
+        $modalPrompt.unbind('click').click(function (e) {
+            var $pac = $('.pac-container');
+            // $pac.click(function (e) { alert($(e.target).attr('class')); return true; });
+            $pac.trigger(e);
+            return true;
+        });
+    });
+    */
     var autoComplete = new google.maps.places.Autocomplete($input[0]);
 
     // TODO: temporary bound to Seattle area (calculate bounds from UserProfile GeoLocation)
@@ -146,6 +163,7 @@ Control.Text.autoCompletePlace = function Control$Text$autoCompletePlace($input,
         $input.data('place', autoComplete.getPlace());
         selectHandler($input);
     });
+
     return $input;
 }
 // attach address autocomplete behavior to input element

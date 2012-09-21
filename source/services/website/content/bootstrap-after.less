@@ -192,7 +192,9 @@ label.checkbox .checkbox { margin-top: -2px; }
 override z-index for use in bootstrap modal dialogs
 ----------------------------------------------------------*/
 .ui-datepicker[style] { z-index: 2000 !important; }   // jquery-ui datepicker
-.pac-container[style] { z-index: 2000 !important; }   // google-places autocomplete
+.pac-container[style] { z-index: 3000 !important; }   // google-places autocomplete
+//.pac-container[style] div { z-index: 4000000 !important; }   // google-places autocomplete
+//.pac-container[style]:after { display: none; }  // this disables the "powered by google" footer for the autocomplete
 
 
 /*----------------------------------------------------------

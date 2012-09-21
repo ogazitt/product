@@ -29,8 +29,9 @@ Service.requestQueue = [];
 Service.fbConsentUri = 'https://www.facebook.com/dialog/oauth';
 Service.fbRedirectPath = 'oauthconsent/facebook';
 Service.fbScopes = 'user_birthday,friends_likes,friends_birthday,publish_stream';
-Service.googleConsentUri = 'oauthconsent/google';
-Service.cloudADConsentUri = 'oauthconsent/cloudAD';
+Service.googleConsentUri = '/oauthconsent/google';
+Service.cloudADConsentUri = '/oauthconsent/cloudAD';
+Service.profileWizardUri = 'userinfo/wizard';
 Service.userVoiceScriptUri = 'widget.uservoice.com/84TZMaazqpvy5JyiUCjPw.js';
 
 Service.invokeAsync = true;
@@ -96,6 +97,10 @@ Service.NavigateToDashboard = function Service$NavigateToDashboard() {
     window.location = Service.siteUrl;
 }
 
+Service.NavigateToProfileWizard = function Service$NavigateToProfileWizard() {
+    window.location = Service.siteUrl + Service.profileWizardUri;
+}
+
 Service.ChangeTheme = function Service$ChangeTheme(theme) {
     var cssThemeUri = Service.siteUrl.concat(Service.cssPath, theme, '/', Service.cssThemeFile);
     $(Service.cssTheme).attr('href', cssThemeUri);
@@ -105,13 +110,14 @@ Service.SignOut = function Service$SignOut() {
     Service.signingOut = true;
 }
 
-Service.GetFacebookConsent = function Service$GetFacebookConsent() {
-    var uri = Service.fbConsentUri + "?client_id=" + Service.fbAppID + "&redirect_uri=" + encodeURI(Service.domainUrl + Service.fbRedirectPath) + "&scope=" + Service.fbScopes;
+Service.GetFacebookConsent = function Service$GetFacebookConsent(id) {
+    var redirectPath = (id == null) ? Service.fbRedirectPath : Service.fbRedirectPath + '/' + id;
+    var uri = Service.fbConsentUri + "?client_id=" + Service.fbAppID + "&redirect_uri=" + encodeURI(Service.domainUrl + redirectPath) + "&scope=" + Service.fbScopes;
     window.location = uri;
 }
 
-Service.GetGoogleConsent = function Service$GetGoogleConsent() {
-    var uri = Service.googleConsentUri;
+Service.GetGoogleConsent = function Service$GetGoogleConsent(id) {
+    var uri = (id == null) ? Service.googleConsentUri : Service.googleConsentUri + '/' + id;
     window.location = uri;
 }
 

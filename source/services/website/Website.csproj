@@ -226,9 +226,11 @@
     <Content Include="content\images\landing\plan-party.png" />
     <Content Include="content\images\landing\twostep-dance-through-life.png" />
     <Content Include="content\images\landing\twostep-iphone-small.png" />
+    <Content Include="content\images\steps-blue.png" />
     <Content Include="content\images\steps-white.png" />
     <Content Include="content\images\steps.png" />
     <Content Include="content\images\twostep-large-no-feet.png" />
+    <Content Include="content\images\twostep-watermark.png" />
     <Content Include="content\master.generated.min.css">
       <DependentUpon>master.css.chirp.config</DependentUpon>
     </Content>
@@ -322,6 +324,10 @@
     <Content Include="scripts\modernizr-2.0.6-development-only.js" />
     <Content Include="scripts\shared\service.js" />
     <Content Include="scripts\shared\spin.js" />
+    <Content Include="scripts\wizard\profile-wizard.js" />
+    <Content Include="scripts\wizard\wizard.generated.min.js">
+      <DependentUpon>wizard.js.chirp.config</DependentUpon>
+    </Content>
     <Content Include="startup\7z.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -352,6 +358,7 @@
     <Content Include="views\shared\ModalMessage.ascx" />
     <Content Include="views\shared\IntroCarouselControl.ascx" />
     <Content Include="views\shared\SignInControl.ascx" />
+    <Content Include="views\userinfo\Wizard.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -452,6 +459,9 @@
     </Content>
     <Content Include="scripts\nextsteps\nextsteps.js.chirp.config" />
     <Content Include="scripts\nextsteps\nextsteps-mobile.js.chirp.config" />
+    <Content Include="scripts\wizard\wizard.js.chirp.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="startup\Install.cmd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -25,7 +25,7 @@ SuggestionManager.findSuggestion = function SuggestionManager$findSuggestion(sug
     return null;
 }
 
-SuggestionManager.prototype.select = function (suggestion) {
+SuggestionManager.prototype.select = function (suggestion, id) {
     var refresh = false;        // return true to indicate additional suggestions should be retrieved
     switch (suggestion.SuggestionType) {
         case SuggestionTypes.ChooseOne: { refresh = this.chooseSuggestion(suggestion); break; }
@@ -33,8 +33,8 @@ SuggestionManager.prototype.select = function (suggestion) {
         case SuggestionTypes.ChooseMany: { refresh = this.chooseMany(suggestion); break; }
         case SuggestionTypes.NavigateLink: { refresh = this.navigateLink(suggestion); break; }
 
-        case SuggestionTypes.GetFBConsent: { refresh = this.getFacebookConsent(suggestion); break; }
-        case SuggestionTypes.GetGoogleConsent: { refresh = this.getGoogleConsent(suggestion); break; }
+        case SuggestionTypes.GetFBConsent: { refresh = this.getFacebookConsent(suggestion, id); break; }
+        case SuggestionTypes.GetGoogleConsent: { refresh = this.getGoogleConsent(suggestion, id); break; }
         case SuggestionTypes.GetADConsent: { refresh = this.getCloudADConsent(suggestion); break; }
 
         default: { refresh = this.chooseSuggestion(suggestion); break; }
@@ -100,14 +100,14 @@ SuggestionManager.prototype.chooseMany = function (suggestion) {
     });
 }
 
-SuggestionManager.prototype.getFacebookConsent = function (suggestion) {
+SuggestionManager.prototype.getFacebookConsent = function (suggestion, id) {
     var dataModel = this.dataModel;
     var msg = 'You will be redirected to Facebook to allow this application to access your Facebook information. ' +
     'This application will use information about yourself to help setup your user profile. ' +
     'This application will use information about your friends to help manage your Contacts. ' +
     '<br\><br\>Do you want to continue?';
     Control.confirm(msg, "Facebook Consent?", 
-        function () { Service.GetFacebookConsent(); });
+        function () { Service.GetFacebookConsent(id); });
     return false;
 }
 
@@ -122,12 +122,12 @@ SuggestionManager.prototype.getCloudADConsent = function (suggestion) {
     return false;
 }
 
-SuggestionManager.prototype.getGoogleConsent = function (suggestion) {
+SuggestionManager.prototype.getGoogleConsent = function (suggestion, id) {
     var dataModel = this.dataModel;
     var msg = 'You will be redirected to Google to allow this application to manage your Google Calendar. ' +
     'This application will interact with your calendar to keep your tasks and appointments synchronized. ' +
     '<br\><br\>Do you want to continue?';
     Control.confirm(msg, "Google Calendar Consent?", 
-        function () { Service.GetGoogleConsent(); });
+        function () { Service.GetGoogleConsent(id); });
     return false;
 }

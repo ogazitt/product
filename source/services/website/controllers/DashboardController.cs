@@ -69,7 +69,8 @@
                     return RedirectToAction("Initialize", "Dashboard", new { id = id });
                 }
             } 
-            return RedirectToAction("Home", "Dashboard");
+            // redirect to profile wizard after registration
+            return RedirectToAction("Wizard", "UserInfo");
         }
 
         // partial html response - help carousel

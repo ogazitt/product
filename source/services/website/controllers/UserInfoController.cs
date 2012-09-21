@@ -9,9 +9,27 @@
     using BuiltSteady.Product.ServerEntities;
     using BuiltSteady.Product.ServiceHost;
     using BuiltSteady.Product.Shared.Entities;
+    using BuiltSteady.Product.Website.Models;
 
     public class UserInfoController : BaseController
     {
+
+        public ActionResult Wizard(string consentStatus = null)
+        {
+            UserDataModel model = new UserDataModel(this);
+            try
+            {
+                // force access to validate current user
+                var userData = model.UserData;
+                model.ConsentStatus = consentStatus;
+            }
+            catch
+            {
+                return RedirectToAction("SignOut", "Account");
+            }
+            return View(model);
+        }
+        
         class JsContactsResult
         {
             public HttpStatusCode StatusCode = HttpStatusCode.OK;

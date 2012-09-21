@@ -16,9 +16,10 @@
     public class OAuthConsentController : BaseController
     {
 
-        public ActionResult Facebook(string code)
+        public ActionResult Facebook(string code, string id)
         {
-            const string fbRedirectPath = "oauthconsent/facebook";
+            string fbRedirectPath = "oauthconsent/facebook";
+            if (id != null) fbRedirectPath += "/" + id;
             string uriTemplate = "https://graph.facebook.com/oauth/access_token?client_id={0}&redirect_uri={1}&client_secret={2}&code={3}";
 
             var requestUrl = this.HttpContext.Request.Url;
@@ -49,6 +50,7 @@
             }
 
             var renewed = false;
+            var consentStatus = UserDataModel.FBConsentSuccess;
             try
             {   // store token
                 renewed = UserMembershipProvider.SaveCredential(this.CurrentUser.Name, UserCredential.FacebookConsent, token, expires);
@@ -56,16 +58,17 @@
             catch (Exception ex)
             {
                 TraceLog.TraceException("Failed to store Facebook consent token for User", ex);
-                return RedirectToAction("Home", "Dashboard", new { consentStatus = UserDataModel.FBConsentFail });
+                consentStatus = UserDataModel.FBConsentFail;
             }
-            //if (renewed) 
-            //{ return RedirectToAction("Home", "Dashboard"); }
-            //else 
-            { return RedirectToAction("Home", "Dashboard", new { consentStatus = UserDataModel.FBConsentSuccess }); }
+
+            if (id == null)
+                return RedirectToAction("Home", "Dashboard", new { consentStatus = consentStatus });
+            else
+                return RedirectToAction("Wizard", "UserInfo", new { consentStatus = consentStatus });
         }
 
         static GoogleClient googleClient;
-        public ActionResult Google()
+        public ActionResult Google(string id)
         {
             if (googleClient == null)
             {   // access Google Calendar API to force initial authentication
@@ -80,7 +83,10 @@
             try
             {   // force authentication by accessing calendar settings
                 googleClient.ForceAuthentication();
-                return RedirectToAction("Home", "Dashboard", new { consentStatus = UserDataModel.GoogleConsentSuccess });
+                if (id == null)
+                    return RedirectToAction("Home", "Dashboard", new { consentStatus = UserDataModel.GoogleConsentSuccess });
+                else
+                    return RedirectToAction("Wizard", "UserInfo", new { consentStatus = UserDataModel.GoogleConsentSuccess });
             }
             catch (ThreadAbortException)
             {
@@ -88,11 +94,14 @@
             }
             catch (Exception)
             {
-                return RedirectToAction("Home", "Dashboard", new { consentStatus = UserDataModel.GoogleConsentFail });
+                if (id == null)
+                    return RedirectToAction("Home", "Dashboard", new { consentStatus = UserDataModel.GoogleConsentFail });
+                else 
+                    return RedirectToAction("Wizard", "UserInfo", new { consentStatus = UserDataModel.GoogleConsentFail });
             }
         }
 
-        // entry point to verify Google consent it working
+        // entry point to verify Google consent is working
         public ActionResult AccessGoogle()
         {
             GoogleClient client = new GoogleClient(this.CurrentUser, this.StorageContext);

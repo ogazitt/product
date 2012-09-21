@@ -15,7 +15,6 @@ var Dashboard = function Dashboard$() {
     this.helpManager = null;
     this.settingsManager = null;
     this.folderManager = null;
-    this.suggestionList = null;
     this.suggestionManager = null;
 }
 
@@ -42,10 +41,6 @@ Dashboard.Init = function Dashboard$Init(dataModel, renewFBToken, consentStatus)
     // folders list
     Dashboard.folderList = new FolderList(this.dataModel.Folders);
     Dashboard.folderList.addSelectionChangedHandler('dashboard', Dashboard.ManageFolder);
-
-    // suggestions list
-    Dashboard.suggestionList = new SuggestionList();
-    Dashboard.suggestionList.addSelectionChangedHandler('dashboard', Dashboard.ManageChoice);
 
     // activity gallery 
     Dashboard.activityGallery = new ActivityGallery();
@@ -116,28 +111,6 @@ Dashboard.ManageFolder = function Dashboard$ManageFolder(folderID, itemID) {
         Dashboard.folderManager.selectItem(item);
     }
 
-}
-
-// event handler, do not reference 'this' to access static Dashboard
-Dashboard.ManageChoice = function Dashboard$ManageChoice(suggestion) {
-    var refresh = Dashboard.suggestionManager.select(suggestion);
-    if (refresh) {      // refresh more suggestions
-        // check for more suggestions every 5 seconds for 20 seconds
-        Dashboard.suggestionList.hideGroup(suggestion.GroupID);
-        Dashboard.suggestionList.working(true);
-        var nTries = 0;
-        var checkPoint = new Date();
-
-        var checkForSuggestions = function () {
-            if (checkPoint > Dashboard.dataModel.SuggestionsRetrieved && nTries++ < 5) {
-                Dashboard.getSuggestions(Dashboard.folderManager.currentFolder, Dashboard.folderManager.currentItem);
-                setTimeout(checkForSuggestions, 5000);
-            } else {
-                Dashboard.suggestionList.working(false);
-            }
-        }
-        checkForSuggestions();
-    }
 }
 
 // ---------------------------------------------------------
@@ -283,47 +256,7 @@ Dashboard.completeConsent = function Dashboard$completeConsent(suggestions) {
     }
 }
 
-Dashboard.getSuggestions = function Dashboard$getSuggestions(folder, item) {
-    if (item != null) {
-        if (item.hasOwnProperty('Created')) {
-            this.dataModel.GetSuggestions(Dashboard.renderSuggestions, item);
-        } else {    // clear existing suggestions
-            Dashboard.renderSuggestions({});
-        }
-    } else if (folder != null) {
-        if (folder.hasOwnProperty('Items')) {
-            Dashboard.dataModel.GetSuggestions(Dashboard.renderSuggestions, folder);
-        } else {    // clear existing suggestions
-            Dashboard.renderSuggestions({});
-        }
-    } else {
-        return Dashboard.dataModel.GetSuggestions(Dashboard.renderSuggestions);
-    }   
-}
-
 Dashboard.renderGallery = function Dashboard$renderGallery(categories) {
     Dashboard.activityGallery.render(Dashboard.$right, categories);
 }
 
-Dashboard.renderSuggestions = function Dashboard$renderSuggestions(suggestions) {
-    // process RefreshEntity suggestions
-    var group = suggestions[SuggestionTypes.RefreshEntity];
-    if (group != null) {
-        // full user data refresh, select last item
-        var itemID;
-        for (var id in group.Suggestions) {
-            var suggestion = group.Suggestions[id];
-            Dashboard.dataModel.SelectSuggestion(suggestion, Reasons.Ignore);
-            if (suggestion.EntityType == 'Item') {
-                itemID = suggestion.EntityID;
-            }
-        }
-        delete suggestions[SuggestionTypes.RefreshEntity];
-        Dashboard.dataModel.Refresh(itemID);
-    }
-
-    Dashboard.suggestionList.render(Dashboard.$right, suggestions);
-    if (suggestions['Group_0'] != null) {
-        Dashboard.suggestionList.working(false);
-    }
-}

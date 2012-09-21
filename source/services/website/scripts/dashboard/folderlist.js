@@ -210,7 +210,15 @@ FolderList.prototype.renderAddBtn = function ($element) {
                 item.Name = name;
                 if (category != null) {
                     category.Expand(true);
-                    category.InsertItem(item);
+                    // 2012-09-20 OG: instead of just inserting the activity into the category, insert the activity and also
+                    // create a reminder step inside of it.
+                    //category.InsertItem(item);
+                    DataModel.InsertItem(item, category, null, null, null, function (insertedActivity) {
+                        // success handler: insert a reminder step into the new activity
+                        insertedActivity = Item.Extend(insertedActivity);
+                        var reminder = Item.Extend({ Name: name, ItemTypeID: ItemTypes.Step });
+                        insertedActivity.InsertItem(reminder);
+                    });
                 } else {
                     DataModel.InsertFolder(item);
                     var $folder = thisControl.$element.find('li.active');

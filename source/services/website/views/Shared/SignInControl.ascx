@@ -6,7 +6,7 @@
    { %>
     <li class="option-nextsteps hide"><a><i class="icon-play"></i>&nbsp;</a></li>
     <li class="option-categories hide"><a><i class="icon-folder-open"></i>&nbsp;</a></li>
-    <li class="option-add hide"><a><i class="icon-plus icon-white"></i>&nbsp;</a></li>
+    <li class="option-add button hide"><a><i class="icon-plus icon-white"></i>&nbsp;</a></li>
 <% }
    else
    { %>

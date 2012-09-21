@@ -146,13 +146,17 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
         });
         */
     } else {
+        // 2012-09-20 OG: temporary fix - make both "mode" buttons white, to make them legible
+        $navbar.find('.option-nextsteps a i').addClass('icon-white');//.addClass('icon-large');
+        $navbar.find('.option-categories a i').addClass('icon-white');//.addClass('icon-large');
+
         // next steps
         var $navbtn = $navbar.find('.option-nextsteps');
         $navbtn.show();
         $navbtn.click(function (e) {
             NextStepsPage.render(NextStepsPage.actionTypeList);
-            $navbar.find('.option-nextsteps a i').addClass('icon-white');
-            $navbar.find('.option-categories a i').removeClass('icon-white');
+            //$navbar.find('.option-nextsteps a i').addClass('icon-white');
+            //$navbar.find('.option-categories a i').removeClass('icon-white');
             e.preventDefault();
         });
         // categories
@@ -160,8 +164,8 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
         $navbtn.show();
         $navbtn.click(function (e) {
             NextStepsPage.render(NextStepsPage.categoryList);
-            $navbar.find('.option-nextsteps a i').removeClass('icon-white');
-            $navbar.find('.option-categories a i').addClass('icon-white');
+            //$navbar.find('.option-nextsteps a i').removeClass('icon-white');
+            //$navbar.find('.option-categories a i').addClass('icon-white');
             e.preventDefault();
         });
         // add

@@ -74,6 +74,7 @@
         User currentUser;
         User userData;
         string jsonUserData;
+        string jsonUserProfileData;
 
         public UserDataModel(User user, UserStorageContext storage)
         {
@@ -95,6 +96,7 @@
 
         public bool RenewFBToken { get; set; }
         public string ConsentStatus { get; set; }
+        public UserProfileData UserProfileData { get; set; }
 
         public string UserTheme
         {   // TODO: replace this by using WebDisplaySettings
@@ -253,6 +255,18 @@
                     jsonUserData = JsonSerializer.Serialize(UserData);
                 }
                 return jsonUserData;
+            }
+        }
+
+        public string JsonUserProfileData
+        {
+            get
+            {
+                if (jsonUserProfileData == null)
+                {   // serialize UserData
+                    jsonUserProfileData = JsonSerializer.Serialize(UserProfileData);
+                }
+                return jsonUserProfileData;
             }
         }
 

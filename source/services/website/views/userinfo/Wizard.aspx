@@ -51,11 +51,11 @@
                     <div class="control-group">
                         <div class="controls inline">
                             <label class="control-label">First Name</label>
-                            <input type="text" placeholder="First Name" />
+                            <input type="text" name="firstName" placeholder="First Name" />
                         </div>
                         <div class="controls inline">
                             <label class="control-label">Last Name</label>
-                            <input type="text" placeholder="Last Name" />
+                            <input type="text" name="lastName" placeholder="Last Name" />
                         </div>
                     </div>
                     <div class="control-group">
@@ -70,14 +70,14 @@
                     <div class="control-group">
                         <div class="controls">
                             <label class="control-label">Birthday</label>
-                            <input type="text" placeholder="Birthday" />
+                            <input type="text" name="birthday" placeholder="Birthday (mm/dd/yyyy)" />
                             <span class="help-inline">Age is used to select relevant Activities for you</span>
                         </div>
                     </div>                    
                     <div class="control-group">
                         <div class="controls">
                             <label class="control-label">Mobile</label>
-                            <input type="text" placeholder="Mobile" />
+                            <input type="text" name="mobile" placeholder="Mobile" />
                             <span class="help-inline">Send reminders via text message, if you like</span>
                         </div>
                     </div>
@@ -190,12 +190,13 @@
     string jsonConstants = Ajax.JavaScriptStringEncode(ConstantsModel.JsonConstants);
     string jsonUserData = Ajax.JavaScriptStringEncode(Model.JsonUserData);
     string consentStatus = (Model.ConsentStatus == null) ? "" : Model.ConsentStatus;
+    string jsonUserProfile = Ajax.JavaScriptStringEncode(Model.JsonUserProfileData);
 %>    
     <script type="text/javascript">
         // document ready handler
         $(function () {
             DataModel.Init('<%= jsonConstants %>', '<%= jsonUserData %>');
-            ProfileWizard.Init(DataModel, '<%= consentStatus %>');
+            ProfileWizard.Init(DataModel, '<%= jsonUserProfile %>', '<%= consentStatus %>');
         });
     </script>
 </asp:Content>

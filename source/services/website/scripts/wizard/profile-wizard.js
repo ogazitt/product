@@ -11,20 +11,24 @@ var ProfileWizard = function ProfileWizard$() {
     // data members used
     this.dataModel = null;
     this.suggestionManager = null;
+    this.userProfileData = null;
 }
 
 // ---------------------------------------------------------
 // public methods
 
-ProfileWizard.Init = function ProfileWizard$Init(dataModel, consentStatus) {
+ProfileWizard.Init = function ProfileWizard$Init(dataModel, userProfileData, consentStatus) {
     this.dataModel = dataModel;
+    this.userProfileData = UserProfileData.Extend($.parseJSON(userProfileData));
 
     this.checkBrowser();
     this.checkConsent(consentStatus);
 
     // wizard region
     this.$element = $('.wizard-region');
-    this.$activePanel = this.$element.find('#user_info');
+    var wizardPage = (this.userProfileData.WizardPage == null || this.userProfileData.WizardPage == '') ?
+        '#user_info' : '#' + this.userProfileData.WizardPage;
+    this.$activePanel = this.$element.find(wizardPage);
 
     // suggestions manager for handling connect
     this.suggestionManager = new SuggestionManager(this.dataModel);
@@ -60,6 +64,7 @@ ProfileWizard.Init = function ProfileWizard$Init(dataModel, consentStatus) {
 ProfileWizard.showActivePanel = function ProfileWizard$showActivePanel() {
     this.$element.find('.info-pane').removeClass('active');
     this.$activePanel.addClass('active');
+    this.getUserInfo();
 }
 
 ProfileWizard.showNextPanel = function ProfileWizard$showNextPanel() {
@@ -68,12 +73,36 @@ ProfileWizard.showNextPanel = function ProfileWizard$showNextPanel() {
     else { Service.NavigateToDashboard(); }
 }
 
-ProfileWizard.storeUserInfo = function ProfileWizard$storeUserInfo() {
-    var $activePanel = this.$element.find('.info-pane.active');
+ProfileWizard.getUserInfo = function ProfileWizard$getUserInfo() {
+    var $activePanel = this.$activePanel;
     var id = $activePanel.attr('id');
 
     switch (id) {
         case 'user_info':
+            var $firstName = $activePanel.find('input[name=firstName]');
+            var $lastName = $activePanel.find('input[name=lastName]');
+            $firstName.val(this.userProfileData.FirstName);
+            $lastName.val(this.userProfileData.LastName);
+            break;
+        case 'home_info':
+            var $homeCheckbox = $activePanel.find('input[name=homeowner]');
+            break;
+        case 'auto_info':
+            var $autoMakeModel = $activePanel.find('input[name=make_model]');
+            break;
+    }
+}
+
+ProfileWizard.storeUserInfo = function ProfileWizard$storeUserInfo() {
+    var $activePanel = this.$activePanel;
+    var id = $activePanel.attr('id');
+
+    switch (id) {
+        case 'user_info':
+            var $firstName = $activePanel.find('input[name=firstName]');
+            var $lastName = $activePanel.find('input[name=lastName]');
+            this.userProfileData.FirstName = $firstName.val();
+            this.userProfileData.LastName = $lastName.val();
             break;
         case 'home_info':
             var $homeCheckbox = $activePanel.find('input[name=homeowner]');
@@ -92,6 +121,15 @@ ProfileWizard.storeUserInfo = function ProfileWizard$storeUserInfo() {
             }
             break;
     }
+
+    // store the id of the next wizard page
+    var $nextPanel = this.$element.find('.info-pane.active').next('.info-pane');
+    id = $nextPanel.attr('id');
+    if (typeof (id) === 'undefined') { id = 'user_info'; }
+    this.userProfileData.WizardPage = id;
+
+    // call the server to save the user profile data     
+    this.userProfileData.Save();
 }
 
 ProfileWizard.resize = function ProfileWizard$resize() {

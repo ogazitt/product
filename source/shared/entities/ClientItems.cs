@@ -84,6 +84,12 @@ namespace BuiltSteady.Product.Shared.Entities
             set { metadata.Set("FacebookID", value); }
         }
 
+        public string WizardPage
+        {
+            get { return metadata.Get("WizardPage"); }
+            set { metadata.Set("WizardPage", value); }
+        }
+
 #endif
 
     }

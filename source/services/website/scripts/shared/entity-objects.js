@@ -469,3 +469,23 @@ UserSettings.prototype.update = function (name, itemKey) {
         this[itemName].Update(updatedItem);
     }
 }
+
+// ---------------------------------------------------------
+// UserProfileData object - provides prototype functions for UserProfileData
+
+function UserProfileData() { };
+UserProfileData.Extend = function UserProfileData$Extend(userProfileData) { return $.extend(new UserProfileData(), userProfileData); }   // extend with GalleryCategory prototypes
+
+// UserProfileData public functions
+UserProfileData.prototype.Copy = function () { var copy = $.extend(new UserProfileData(), this); return copy; };
+UserProfileData.prototype.Save = function () {
+    // save the wizard page in the user information
+    Service.InvokeController('UserInfo', 'StoreUserProfileData',
+        { 'profileData': this },
+        function (responseState) {
+            var result = responseState.result;
+            if (result.StatusCode != '200') {
+                Control.alert('Server was unable to store user profile data', 'Store User Profile Data');
+            }
+        });
+}

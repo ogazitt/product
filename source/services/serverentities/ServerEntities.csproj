@@ -8,8 +8,8 @@
     <ProjectGuid>{FC6908F4-5BA4-4AE0-BB87-E110EB76EDF7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BuiltSteady.Zaplify.ServerEntities</RootNamespace>
-    <AssemblyName>BuiltSteady.Zaplify.ServerEntities</AssemblyName>
+    <RootNamespace>BuiltSteady.Product.ServerEntities</RootNamespace>
+    <AssemblyName>BuiltSteady.Product.ServerEntities</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -67,6 +67,7 @@
     <Compile Include="GalleryCategory.cs" />
     <Compile Include="GalleryActivity.cs" />
     <Compile Include="DatabaseVersion.cs" />
+    <Compile Include="UserProfileData.cs" />
     <Compile Include="WorkflowType.cs" />
     <Compile Include="Intent.cs" />
     <Compile Include="ServerEntity.cs" />

@@ -580,7 +580,7 @@ Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
         var activity = item.GetParent();
         var $dialog = $('<div><label>Question: </label><textarea /></div>');
         var location = 'Redmond'; // hardcode for now
-        var text = 'Do you know a good ' + item.GetExtendedFieldValue(ExtendedFieldNames.Article) + ' in ' + location + '?';
+        var text = 'Do you know a good ' + item.GetFieldValue(ExtendedFieldNames.Article) + ' in ' + location + '?';
         $dialog.find('textarea').val(text).css('height', '75');
         var header = 'Ask Facebook friends';
         Control.popup($dialog, header, function (inputs) {

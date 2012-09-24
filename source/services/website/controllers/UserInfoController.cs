@@ -20,43 +20,14 @@
             try
             {
                 // force access to validate current user
-                var userData = model.UserData;
+                var userData = model.ClientFolders;
                 model.ConsentStatus = consentStatus;
-
-                // retrieve current wizard page from user information
-                UserProfile userProfile = StorageContext.ClientFolder.GetUserProfile(CurrentUser);
-                if (userProfile == null)
-                {
-                    TraceLog.TraceError("Could not access UserProfile to retrieve Wizard page");
-                    model.UserProfileData = null;
-                }
-                else
-                {
-                    model.UserProfileData = new UserProfileData(userProfile);
-                }                
             }
             catch
             {
                 return RedirectToAction("SignOut", "Account");
             }
             return View(model);
-        }
-
-        class JsResult
-        {
-            public HttpStatusCode StatusCode = HttpStatusCode.OK;
-        }
-
-        [HttpPost]
-        public ActionResult StoreUserProfileData(UserProfileData profileData)
-        {
-            var jsResult = new JsResult();
-            if (!StorageContext.ClientFolder.StoreUserProfile(CurrentUser, profileData))
-                jsResult.StatusCode = HttpStatusCode.InternalServerError;
-
-            JsonResult result = new JsonResult();
-            result.Data = jsResult;
-            return result;
         }
 
         class JsContactsResult

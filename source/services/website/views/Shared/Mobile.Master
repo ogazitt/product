@@ -12,7 +12,6 @@
         var siteUrl = ResolveUrl("~/");
         var resourceUrl = siteUrl;
         var fbAppID = BuiltSteady.Product.Website.Controllers.BaseController.FBAppID;
-        var cssTheme = BuiltSteady.Product.Website.Models.UserDataModel.CurrentTheme + "/jquery-ui-1.8.18.css";
     %>
     <link href="<%: Url.Content("~/content/mobile.generated.min.css") %>" rel="stylesheet" type="text/css" />
 

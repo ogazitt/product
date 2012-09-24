@@ -21,7 +21,6 @@
             {   
                 // force access to validate current user
                 var userData = model.UserData;
-                UserDataModel.CurrentTheme = model.UserTheme;
                 model.RenewFBToken = renewFBToken;
                 model.ConsentStatus = consentStatus;
                 // TODO: if consent fails, un-Choose the Suggestion

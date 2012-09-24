@@ -51,18 +51,18 @@
                     <div class="control-group">
                         <div class="controls inline">
                             <label class="control-label">First Name</label>
-                            <input type="text" name="firstName" placeholder="First Name" />
+                            <input type="text" class="fn-firstname" />
                         </div>
                         <div class="controls inline">
                             <label class="control-label">Last Name</label>
-                            <input type="text" name="lastName" placeholder="Last Name" />
+                            <input type="text" class="fn-lastname" />
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="controls">
-                            <input type="radio" name="gender" value="Male" checked />
+                            <input type="radio" name="fn-gender" value="Male" checked />
                             <label class="inline">Male</label>
-                            <input type="radio" name="gender" value="Female" />
+                            <input type="radio" name="fn-gender" value="Female" />
                             <label class="inline">Female</label>
                             <span class="help-inline" style="margin-left:76px;">Gender is used to select relevant Activities for you</span>
                         </div>
@@ -70,14 +70,14 @@
                     <div class="control-group">
                         <div class="controls">
                             <label class="control-label">Birthday</label>
-                            <input type="text" name="birthday" placeholder="Birthday (mm/dd/yyyy)" />
+                            <input type="text" class="fn-birthday" />
                             <span class="help-inline">Age is used to select relevant Activities for you</span>
                         </div>
                     </div>                    
                     <div class="control-group">
                         <div class="controls">
                             <label class="control-label">Mobile</label>
-                            <input type="text" name="mobile" placeholder="Mobile" />
+                            <input type="text" class="fn-mobile" />
                             <span class="help-inline">Send reminders via text message, if you like</span>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                 <!--div id="spouse_info" class="info-pane"></div-->
                 <!--div id="family_info" class="info-pane"></div-->
 
-                <div id="home_info" class="info-pane">
+                <!--div id="home_info" class="info-pane">
                     <h3>Next, provide information about where you live.</h3>
                     <p>
                     By connecting to your Google calendar, TwoStep can manage your schedule for you.  
@@ -95,27 +95,27 @@
                     <div class="control-group">
                         <div class="controls">
                             <label class="control-label">Address</label>
-                            <input type="text" placeholder="Address" />
+                            <input type="text" class="fn-address" />
                             <span class="help-inline">Your location is used to find relevant businesses and places</span>
                         </div>
                     </div>    
                     <div class="control-group">
                         <div class="controls">
-                            <input type="checkbox" name="homeowner" />
+                            <input type="checkbox" class="fn-homeowner" />
                             <label class="inline">Do you own your house?</label>
                             <span class="help-inline" style="margin-left:50px;">Used to select relevant Activities for home owners</span>
                         </div>
                     </div> 
                     <div class="control-group">
                         <div class="controls">
-                            <input type="checkbox" name="yardwork" />
+                            <input type="checkbox" class="fn-yardwork" />
                             <label class="inline">Do you have a yard?</label>
-                            <span class="help-inline" style="margin-left:74px;">Used to select appropriate Activities for yard maintentance</span>
+                            <span class="help-inline" style="margin-left:74px;">Used to select appropriate Activities for yard maintenance</span>
                         </div>
                     </div>           
-                </div>
+                </div-->
 
-                <div id="auto_info" class="info-pane">
+                <!--div id="auto_info" class="info-pane">
                     <h3>Next, provide information about what you drive.</h3>
                     <p>
                     By connecting to your Google calendar, TwoStep can provide easy access from your mobile devices.  
@@ -125,21 +125,21 @@
                     <div class="control-group">
                         <div class="controls">
                             <label class="control-label">Make & Model</label>
-                            <input type="text" name="make_model" placeholder="Make & Model" />
+                            <input type="text" class="fn-automake" />
                             <span class="help-inline">Used to select Activities relevant to car owners</span>
                         </div>
                     </div> 
                     <div class="control-group">
                         <div class="controls">
                             <label class="control-label">Year</label>
-                            <input type="text" placeholder="Year" />
+                            <input type="text" class="fn-autoyear" />
                             <span class="help-inline">Used to select Activities relevant to your car</span>
                         </div>
                     </div>                 
-                </div>
+                </div-->
 
-                <div id="connect_info" class="info-pane">
-                    <h3>Finally, if you haven't yet, please consider connecting TwoStep to Facebook and Google.</h3>
+                <div id="last_info" class="info-pane">
+                    <h3>If you haven't yet, please consider connecting TwoStep to Facebook and Google Calendar.</h3>
                     <p>
                     When you connect to Facebook, your contacts will be imported, allowing you to easily select 
                     contacts for your activities.
@@ -175,7 +175,6 @@
     <!-- use merged and minified scripts when deployed to Azure -->
     <script type="text/javascript" src="<%: Url.Content("~/scripts/wizard/wizard.generated.min.js") %>"></script>
 <%  } else { %>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/wizard/profile-wizard.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/control-core.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/control-display.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/control-icons.js") %>"></script>
@@ -184,19 +183,20 @@
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entity-constants.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entity-objects.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/suggestionmanager.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/wizard/profile-wizard.js") %>"></script>
 <%  } %>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
 
 <%
     string jsonConstants = Ajax.JavaScriptStringEncode(ConstantsModel.JsonConstants);
     string jsonUserData = Ajax.JavaScriptStringEncode(Model.JsonUserData);
     string consentStatus = (Model.ConsentStatus == null) ? "" : Model.ConsentStatus;
-    string jsonUserProfile = Ajax.JavaScriptStringEncode(Model.JsonUserProfileData);
 %>    
     <script type="text/javascript">
         // document ready handler
         $(function () {
             DataModel.Init('<%= jsonConstants %>', '<%= jsonUserData %>');
-            ProfileWizard.Init(DataModel, '<%= jsonUserProfile %>', '<%= consentStatus %>');
+            ProfileWizard.Init(DataModel, '<%= consentStatus %>');
         });
     </script>
 </asp:Content>

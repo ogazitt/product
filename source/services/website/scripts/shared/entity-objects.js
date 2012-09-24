@@ -83,6 +83,7 @@ GalleryCategory.prototype.Install = function () {
                 Control.alert('Server was unable to install the category', 'Install Category');
             }
             else {
+                // TODO: should not be referencing Dashboard from Entity, instead fire event that Dashboard handles
                 if (typeof(Dashboard) !== "undefined" && Dashboard.dataModel != null) { Dashboard.dataModel.Refresh(); }
             }
         }
@@ -109,6 +110,7 @@ GalleryActivity.prototype.Install = function () {
                 Control.alert('Server was unable to install the category', 'Install Activity');
             }
             else {
+                // TODO: should not be referencing Dashboard from Entity, instead fire event that Dashboard handles
                 if (typeof (Dashboard) !== "undefined" && Dashboard.dataModel != null) { Dashboard.dataModel.Refresh(); }
             }
         }
@@ -347,6 +349,7 @@ function UserSettings(clientFolder, webClientFolder) {
 }
 
 UserSettings.defaultListsKey = 'DefaultLists';
+UserSettings.userProfileKey = 'UserProfile';
 UserSettings.viewStateName = 'ViewState';
 UserSettings.viewStateKey = 'WebViewState';
 UserSettings.preferencesName = 'Preferences';
@@ -356,6 +359,14 @@ UserSettings.prototype.GetFolder = function (folderID) {
     if (this.clientFolder.ID == folderID) { return this.clientFolder; }
     if (this.webClientFolder.ID == folderID) { return this.webClientFolder; }
     return null;
+}
+
+UserSettings.prototype.GetUserProfileItem = function () {
+    var item = this.clientFolder.GetItemByName(UserSettings.userProfileKey);
+    if (item == null) {
+        this.clientFolder.InsertItem(Item.Extend({ Name: UserSettings.userProfileKey, ItemTypeID: ItemTypes.NameValue }), null, null, null);
+    }
+    return this.clientFolder.GetItemByName(UserSettings.userProfileKey);
 }
 
 UserSettings.prototype.GetDefaultList = function (itemType) {
@@ -424,6 +435,12 @@ UserSettings.prototype.IsCategoryExpanded = function (categoryID) {
     return (this.ViewState.ExpandedCategories != null && this.ViewState.ExpandedCategories[categoryID] == true);
 }
 
+UserSettings.prototype.ActiveWizardPanel = function (panel) {
+    // set or get active panel for profile wizard
+    if (panel != null) { this.ViewState.ActiveWizardPanel = panel; }
+    return this.ViewState.ActiveWizardPanel;
+}
+
 UserSettings.prototype.Save = function () {
     // remove deleted folders from expanded folders list
     var expanded = {};
@@ -468,24 +485,4 @@ UserSettings.prototype.update = function (name, itemKey) {
         updatedItem.SetFieldValue(FieldNames.Value, JSON.stringify(this[name]));
         this[itemName].Update(updatedItem);
     }
-}
-
-// ---------------------------------------------------------
-// UserProfileData object - provides prototype functions for UserProfileData
-
-function UserProfileData() { };
-UserProfileData.Extend = function UserProfileData$Extend(userProfileData) { return $.extend(new UserProfileData(), userProfileData); }   // extend with GalleryCategory prototypes
-
-// UserProfileData public functions
-UserProfileData.prototype.Copy = function () { var copy = $.extend(new UserProfileData(), this); return copy; };
-UserProfileData.prototype.Save = function () {
-    // save the wizard page in the user information
-    Service.InvokeController('UserInfo', 'StoreUserProfileData',
-        { 'profileData': this },
-        function (responseState) {
-            var result = responseState.result;
-            if (result.StatusCode != '200') {
-                Control.alert('Server was unable to store user profile data', 'Store User Profile Data');
-            }
-        });
 }

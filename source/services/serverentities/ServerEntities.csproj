@@ -67,7 +67,6 @@
     <Compile Include="GalleryCategory.cs" />
     <Compile Include="GalleryActivity.cs" />
     <Compile Include="DatabaseVersion.cs" />
-    <Compile Include="UserProfileData.cs" />
     <Compile Include="WorkflowType.cs" />
     <Compile Include="Intent.cs" />
     <Compile Include="ServerEntity.cs" />

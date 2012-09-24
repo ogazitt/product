@@ -577,37 +577,6 @@
                 return null;
             }
 
-            // store profile data in the $Client folder
-            public bool StoreUserProfile(User user, UserProfileData profileData)
-            {
-                try
-                {
-                    var userProfile = GetUserProfile(user);
-                    if (userProfile == null)
-                    {
-                        TraceLog.TraceError("Could not retrieve User Profile");
-                        return false;
-                    }
-                    foreach (var prop in profileData.GetType().GetProperties())
-                    {
-                        var value = (string) prop.GetValue(profileData, null);
-                        if (!String.IsNullOrEmpty(value))
-                        {
-                            var userProfileProp = userProfile.GetType().GetProperty(prop.Name);
-                            if (userProfileProp != null)
-                                userProfileProp.SetValue(userProfile, value, null);
-                        }
-                    }
-                    storage.SaveChanges();
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    TraceLog.TraceException("StoreUserProfile failed", ex);
-                    return false;
-                }
-            }
-
             // get or create the CalendarSettings item in the $Client folder for given user
             public CalendarSettings GetCalendarSettings(User user)
             {

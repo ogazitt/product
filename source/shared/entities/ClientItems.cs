@@ -55,6 +55,18 @@ namespace BuiltSteady.Product.Shared.Entities
             set { accessor.Set("Birthday", value); }
         }
 
+        public string Mobile
+        {
+            get { return accessor.Get("Mobile"); }
+            set { accessor.Set("Mobile", value); }
+        }
+
+        public string Address
+        {
+            get { return accessor.Get("Address"); }
+            set { accessor.Set("Address", value); }
+        }
+
         public string GeoLocation
         {
             get { return accessor.Get("GeoLocation"); }
@@ -65,6 +77,18 @@ namespace BuiltSteady.Product.Shared.Entities
         {
             get { return accessor.Get("Timezone"); }
             set { accessor.Set("Timezone", value); }
+        }
+
+        public bool HomeOwner
+        {
+            get { return accessor.GetBool("HomeOwner"); }
+            set { accessor.SetBool("HomeOwner", value); }
+        }
+
+        public bool YardWork
+        {
+            get { return accessor.GetBool("Yardwork"); }
+            set { accessor.SetBool("Yardwork", value); }
         }
 
 #if !CLIENT
@@ -82,12 +106,6 @@ namespace BuiltSteady.Product.Shared.Entities
         {
             get { return metadata.Get("FacebookID"); }
             set { metadata.Set("FacebookID", value); }
-        }
-
-        public string WizardPage
-        {
-            get { return metadata.Get("WizardPage"); }
-            set { metadata.Set("WizardPage", value); }
         }
 
 #endif

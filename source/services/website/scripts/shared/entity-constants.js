@@ -119,7 +119,9 @@ var DisplayTypes = {
     Contact: "Contact",
     ContactList: "ContactList",
     LocationList: "LocationList",
-    LinkArray: "LinkArray"
+    LinkArray: "LinkArray",
+
+    Gender: "Gender"
 }
 
 // ---------------------------------------------------------

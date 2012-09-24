@@ -75,7 +75,8 @@ Control.Text.renderActivityLink = function Control$Text$renderActivityLink($elem
 }
 // render input with update onchange and onkeypress
 Control.Text.renderInput = function Control$Text$renderInput($element, item, field) {
-    $text = $('<input type="text" />').appendTo($element);
+    if ($element.attr('type') == 'text') { $text = $element; }
+    else { $text = $('<input type="text" />').appendTo($element); }
     $text = Control.Text.base($text, item, field);
     Control.Text.placeholder($text, field);
     $text.change(function (e) { Control.Text.update($(e.srcElement)); });
@@ -112,8 +113,9 @@ Control.Text.renderTextArea = function Control$Text$renderTextArea($element, ite
 }
 // render input with update on keypress and autocomplete
 Control.Text.renderInputAddress = function Control$Text$renderInputAddress($element, item, field, handler) {
-    hander = (handler != null) ? handler : Control.Text.updateAddress;
-    $text = $('<input type="text" />').appendTo($element);
+    handler = (handler != null) ? handler : Control.Text.updateAddress;
+    if ($element.attr('type') == 'text') { $text = $element; }
+    else { $text = $('<input type="text" />').appendTo($element); }
     $text = Control.Text.base($text, item, field);
     $text.keypress(function (e) { if (e.which == 13) { handler($(e.srcElement)); return false; } });
     //$text = Control.Text.autoCompleteAddress($text, Control.Text.updateAddress);
@@ -137,20 +139,7 @@ Control.Text.autoCompletePlace = function Control$Text$autoCompletePlace($input,
         //$('.pac-container div').css('z-index', 2000000000);
         if (e.which == 13) { return false; }
     });
-    /*
-    // more failed attempts 
-    $input.click(function (e) {
-        var $modalPrompt = $('#modalPromptOpen');
-        $modalPrompt.unbind('click').click(function (e) {
-            var $pac = $('.pac-container');
-            // $pac.click(function (e) { alert($(e.target).attr('class')); return true; });
-            $pac.trigger(e);
-            return true;
-        });
-    });
-    */
     var autoComplete = new google.maps.places.Autocomplete($input[0]);
-
     // TODO: temporary bound to Seattle area (calculate bounds from UserProfile GeoLocation)
     var getBounds = function (lat, lng) {
         var x = 0.5;
@@ -418,7 +407,8 @@ Control.Text.placeholder = function Control$Text$placeholder($input, placeholder
 //
 Control.Checkbox = {};
 Control.Checkbox.render = function Control$Checkbox$render($element, item, field) {
-    $checkbox = $('<input type="checkbox" class="checkbox" />').appendTo($element);
+    if ($element.attr('type') == 'checkbox') { $checkbox = $element; }
+    else { $checkbox = $('<input type="checkbox" class="checkbox" />').appendTo($element); }
     $checkbox.addClass(field.Class);
     $checkbox.attr('title', field.DisplayName).tooltip(Control.ttDelay);
     if (item.GetFieldValue(field) == true) {
@@ -524,7 +514,8 @@ Control.LinkArray.deleteBtn = function Control$Icons$deleteBtn(index) {
 //
 Control.DateTime = {};
 Control.DateTime.renderDatePicker = function Control$DateTime$renderDatePicker($element, item, field) {
-    $date = $('<input type="text" />').appendTo($element);
+    if ($element.attr('type') == 'text') { $date = $element; }
+    else { $date = $('<input type="text" />').appendTo($element); }
     $date.addClass(field.Class);
     $date.data('item', item);
     $date.data('field', field);

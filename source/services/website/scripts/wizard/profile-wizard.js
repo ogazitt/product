@@ -11,24 +11,22 @@ var ProfileWizard = function ProfileWizard$() {
     // data members used
     this.dataModel = null;
     this.suggestionManager = null;
-    this.userProfileData = null;
 }
 
 // ---------------------------------------------------------
 // public methods
 
-ProfileWizard.Init = function ProfileWizard$Init(dataModel, userProfileData, consentStatus) {
+ProfileWizard.Init = function ProfileWizard$Init(dataModel, consentStatus) {
     this.dataModel = dataModel;
-    this.userProfileData = UserProfileData.Extend($.parseJSON(userProfileData));
 
     this.checkBrowser();
     this.checkConsent(consentStatus);
 
     // wizard region
     this.$element = $('.wizard-region');
-    var wizardPage = (this.userProfileData.WizardPage == null || this.userProfileData.WizardPage == '') ?
-        '#user_info' : '#' + this.userProfileData.WizardPage;
-    this.$activePanel = this.$element.find(wizardPage);
+    var activePanel = this.dataModel.UserSettings.ActiveWizardPanel();
+    activePanel = (activePanel == null || activePanel == 'last_info') ? 'user_info' : activePanel;
+    this.$activePanel = this.$element.find('#' + activePanel);
 
     // suggestions manager for handling connect
     this.suggestionManager = new SuggestionManager(this.dataModel);
@@ -50,9 +48,11 @@ ProfileWizard.Init = function ProfileWizard$Init(dataModel, userProfileData, con
         }
     });
 
+    // bind input elements to UserProfile item fields
+    this.bindFields();
+
     // bind events
     this.$element.find('.btn-success').click(function () {
-        ProfileWizard.storeUserInfo();
         ProfileWizard.showNextPanel();
     });
     $(window).bind('load', ProfileWizard.resize);
@@ -64,73 +64,81 @@ ProfileWizard.Init = function ProfileWizard$Init(dataModel, userProfileData, con
 ProfileWizard.showActivePanel = function ProfileWizard$showActivePanel() {
     this.$element.find('.info-pane').removeClass('active');
     this.$activePanel.addClass('active');
-    this.getUserInfo();
+    //this.getUserInfo();
 }
 
 ProfileWizard.showNextPanel = function ProfileWizard$showNextPanel() {
+    //this.installActivities(this.$activePanel);
     this.$activePanel = this.$element.find('.info-pane.active').next('.info-pane');
-    if (this.$activePanel.length > 0) { this.showActivePanel(); }
-    else { Service.NavigateToDashboard(); }
-}
-
-ProfileWizard.getUserInfo = function ProfileWizard$getUserInfo() {
-    var $activePanel = this.$activePanel;
-    var id = $activePanel.attr('id');
-
-    switch (id) {
-        case 'user_info':
-            var $firstName = $activePanel.find('input[name=firstName]');
-            var $lastName = $activePanel.find('input[name=lastName]');
-            $firstName.val(this.userProfileData.FirstName);
-            $lastName.val(this.userProfileData.LastName);
-            break;
-        case 'home_info':
-            var $homeCheckbox = $activePanel.find('input[name=homeowner]');
-            break;
-        case 'auto_info':
-            var $autoMakeModel = $activePanel.find('input[name=make_model]');
-            break;
+    if (this.$activePanel.length > 0) {
+        this.showActivePanel();
+        this.dataModel.UserSettings.ActiveWizardPanel(this.$activePanel.attr('id'));
+        this.dataModel.UserSettings.Save();
+    } else {
+        Service.NavigateToDashboard();
     }
 }
 
-ProfileWizard.storeUserInfo = function ProfileWizard$storeUserInfo() {
-    var $activePanel = this.$activePanel;
-    var id = $activePanel.attr('id');
-
-    switch (id) {
-        case 'user_info':
-            var $firstName = $activePanel.find('input[name=firstName]');
-            var $lastName = $activePanel.find('input[name=lastName]');
-            this.userProfileData.FirstName = $firstName.val();
-            this.userProfileData.LastName = $lastName.val();
-            break;
-        case 'home_info':
-            var $homeCheckbox = $activePanel.find('input[name=homeowner]');
-            if ($homeCheckbox.attr('checked') == 'checked') {
-                // install home category
-                var homeCategory = GalleryCategory.Extend({ Name: UserEntities.Home });
-                homeCategory.Install();
+ProfileWizard.bindFields = function ProfileWizard$bindFields() {
+    var item = this.dataModel.UserSettings.GetUserProfileItem();
+    for (var fn in UserProfileFields) {
+        var field = UserProfileFields[fn];
+        var fieldClass = '.fn-' + field.Name.toLowerCase();
+        var $field = this.$element.find(fieldClass);
+        if ($field.length == 1) {
+            switch (field.DisplayType) {
+                case DisplayTypes.Hidden:
+                    break;
+                case DisplayTypes.Gender:
+                    break;
+                case DisplayTypes.Checkbox:
+                    Control.Checkbox.render(this.$element.find(fieldClass), item, field);
+                    break;
+                case DisplayTypes.DatePicker:
+                    Control.DateTime.renderDatePicker(this.$element.find(fieldClass), item, field);
+                    break;
+                case DisplayTypes.Address:
+                    Control.Text.renderInputAddress(this.$element.find(fieldClass), item, field, ProfileWizard.updateAddress);
+                    break;
+                default:
+                    Control.Text.renderInput(this.$element.find(fieldClass), item, field);
+                    break;
             }
-            break;
-        case 'auto_info':
-            var $autoMakeModel = $activePanel.find('input[name=make_model]');
-            if ($autoMakeModel.val() != "") {
-                // install auto category
-                var autoCategory = GalleryCategory.Extend({ Name: UserEntities.Auto });
-                autoCategory.Install();
-            }
-            break;
+        }
     }
-
-    // store the id of the next wizard page
-    var $nextPanel = this.$element.find('.info-pane.active').next('.info-pane');
-    id = $nextPanel.attr('id');
-    if (typeof (id) === 'undefined') { id = 'user_info'; }
-    this.userProfileData.WizardPage = id;
-
-    // call the server to save the user profile data     
-    this.userProfileData.Save();
 }
+
+ProfileWizard.updateAddress = function ProfileWizard$updateAddress($input) {
+    var item = $input.data('item');
+    var field = $input.data('field');
+    var value = $input.val();
+    var currentValue = item.GetFieldValue(field);
+    var updatedItem = item.Copy();
+    var place = $input.data('place');
+    if (place != null && place.geometry != null) {
+        updatedItem.SetFieldValue(UserProfileFields.GeoLocation, place.geometry.location.toUrlValue());
+        updatedItem.SetFieldValue(UserProfileFields.Address, place.formatted_address);
+    } else if (value != currentValue) {
+        updatedItem.SetFieldValue(field, value);
+    }
+    item.Update(updatedItem);
+}
+
+ProfileWizard.installActivities = function ProfileWizard$installActivities($panel) {
+    var panel = $panel.attr('id');
+    if (panel == 'home_info') {
+        if ($panel.find('.fn-homeowner').attr('checked') == 'checked') {
+            var category = GalleryCategory.Extend({ Name: UserEntities.Home });
+            category.Install();
+        }
+    } else if (panel == 'auto_info') {
+        var automake = $panel.find('.fn-automake').val();
+        if (automake != null && automake.length > 0) {
+            var category = GalleryCategory.Extend({ Name: UserEntities.Auto });
+            category.Install();
+        }
+    }
+} 
 
 ProfileWizard.resize = function ProfileWizard$resize() {
     if (ProfileWizard.resizing) { return; }
@@ -214,3 +222,16 @@ ProfileWizard.completeConsent = function ProfileWizard$completeConsent(suggestio
     }
 }
 
+// ---------------------------------------------------------
+// UserProfile constants
+var UserProfileFields = {
+    FirstName:  { Name: "FirstName",   DisplayName: "First Name",  FieldType: FieldTypes.String,   DisplayType: DisplayTypes.Text },
+    LastName:   { Name: "LastName", DisplayName: "Last Name", FieldType: FieldTypes.String, DisplayType: DisplayTypes.Text },
+    Gender:     { Name: "Gender", DisplayName: "Gender", FieldType: FieldTypes.String, DisplayType: DisplayTypes.Gender },
+    Birthday:   { Name: "Birthday", DisplayName: "Birthday", FieldType: FieldTypes.DateTime, DisplayType: DisplayTypes.DatePicker },
+    Mobile:     { Name: "Mobile", DisplayName: "Mobile", FieldType: FieldTypes.Phone, DisplayType: DisplayTypes.Phone },
+    Address:    { Name: "Address", DisplayName: "Address", FieldType: FieldTypes.Address, DisplayType: DisplayTypes.Address },
+    GeoLocation:{ Name: "GeoLocation", DisplayName: "LatLong", FieldType: FieldTypes.String, DisplayType: DisplayTypes.Hidden },
+    HomeOwner:  { Name: "HomeOwner", DisplayName: "Home Owner", FieldType: FieldTypes.Boolean, DisplayType: DisplayTypes.Checkbox },
+    Yardwork:   { Name: "Yardwork", DisplayName: "Yardwork", FieldType: FieldTypes.Boolean, DisplayType: DisplayTypes.Checkbox }
+};

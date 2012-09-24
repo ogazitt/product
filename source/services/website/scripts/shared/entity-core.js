@@ -124,6 +124,12 @@ Item.prototype.InsertItem = function (newItem, adjacentItem, insertBefore, activ
 Item.prototype.Update = function (updatedItem, activeItem) { return DataModel.UpdateItem(this, updatedItem, activeItem); };
 Item.prototype.Delete = function (activeItem) { return DataModel.DeleteItem(this, activeItem); };
 Item.prototype.HasField = function (name) { return this.GetItemType().HasField(name); };
+Item.prototype.HasExtendedField = function (name) {
+    for (var i in this.FieldValues) {
+        if (this.FieldValues[i].FieldName == name) { return true; }
+    } 
+    return false;
+};
 Item.prototype.GetField = function (name) { return this.GetItemType().Fields[name]; };
 Item.prototype.GetFields = function () { return this.GetItemType().Fields; };
 
@@ -141,9 +147,11 @@ Item.prototype.Refresh = function () {
 Item.prototype.GetFieldValue = function (field, handler) {
     // field parameter can be either field name or field object
     if (typeof (field) == 'string') {
-        field = this.GetField(field);
+        var f = this.GetField(field);
+        if (f == null ) { f = { Name: field, FieldType: FieldTypes.String }; } 
+        field = f;
     }
-    if (field != null && this.HasField(field.Name)) {
+    if (field != null && (this.HasField(field.Name) || this.HasExtendedField(field.Name))) {
         if (field.Name == FieldNames.Name) {
             return this.Name;
         }
@@ -173,22 +181,16 @@ Item.prototype.GetFieldValue = function (field, handler) {
     }
     return undefined;       // item does not have the field
 };
-Item.prototype.GetExtendedFieldValue = function (fieldName) {
-    // field parameter can be either field name or field object
-    for (var i in this.FieldValues) {
-        var fv = this.FieldValues[i];
-        if (fv.FieldName == fieldName) {
-            return fv.Value;
-        }
-    }
-    return undefined;       // item does not have the field name
-};
 Item.prototype.SetFieldValue = function (field, value) {
     // field parameter can be either field name or field object
     if (typeof (field) == 'string') {
-        field = this.GetField(field);
+        var f = this.GetField(field);
+        if (f == null) { f = { Name: field, FieldType: FieldTypes.String }; }
+        field = f;
     }
-    if (field != null && this.HasField(field.Name)) {
+    // allow extended fields to be added
+    //if (field != null && (extended || this.HasField(field.Name) || this.HasExtendedField(field.Name))) {
+    if (field != null) {
         if (field.Name == FieldNames.Name) {
             this.Name = value;
             return true;

@@ -30,21 +30,31 @@ ItemEditor.prototype.render = function ($element, item) {
 
         this.item = item;
         // get sibling items (excluding list items)
-        this.siblings = this.item.GetParentContainer().GetItems(true); 
+        this.siblings = this.item.GetParentContainer().GetItems(true);
         // render all fields of item
         this.renderFields(this.$element);
 
+        /* TODO: may enable paging of items in future, save this code
         if (ItemMap.count(this.siblings) > 1) {      // render navigator if more than one item in list
-            $('<a class="page-turn-control left"><div class="page-turn-prev" /></a>').appendTo(this.$element);
-            $('<a class="page-turn-control right"><div class="page-turn-next" /></a>').appendTo(this.$element);
-            this.$element.find('.page-turn-control').click(function (e) {
-                var $element = $(e.target);
-                var control = Control.get($element.parents('.carousel').first());
-                control.renderNextItem($element);
-                e.preventDefault();
-            });
-            this.$element.find('.carousel-control').dblclick(function (e) { e.preventDefault(); });
+        $('<a class="page-turn-control left"><div class="page-turn-prev" /></a>').appendTo(this.$element);
+        $('<a class="page-turn-control right"><div class="page-turn-next" /></a>').appendTo(this.$element);
+        this.$element.find('.page-turn-control').click(function (e) {
+        var $element = $(e.target);
+        var control = Control.get($element.parents('.carousel').first());
+        control.renderNextItem($element);
+        e.preventDefault();
+        });
+        this.$element.find('.carousel-control').dblclick(function (e) { e.preventDefault(); });
         }
+        */
+
+        // render exit button
+        var $wrapper = $('<div class="control-group pull-right"></div>').css('margin-bottom', '-16px').appendTo(this.$element);
+        var $closeBtn = $('<button class="btn btn-primary">Close</button>').appendTo($wrapper);
+        $closeBtn.data('control', this.parentControl);
+        $closeBtn.click(function () {
+            Control.get(this).activeView(FolderManager.ListView); return false;
+        });
 
         // TODO: handle focus and default text selection properly
     }

@@ -23,12 +23,12 @@ ListEditor.prototype.render = function ($element, list, maxHeight) {
     $activity = this.renderActivity(this.$element, list);
     activityHeight = ($activity != null) ? $activity.outerHeight() : 0;
 
+    // render child items
+    this.listView.render(this.$element, list, maxHeight - activityHeight - newItemHeight - 28);   // exclude top & bottom padding 
+    
     // render new item input
     $newItem = this.newItemEditor.render(this.$element, list);
     newItemHeight = ($newItem != null) ? $newItem.outerHeight() : 0;
-
-    // render child items
-    this.listView.render(this.$element, list, maxHeight - activityHeight - newItemHeight - 28);   // exclude top & bottom padding
     //if ($newItem != null) { $newItem.find('.fn-name').focus(); }
 }
 
@@ -38,19 +38,21 @@ ListEditor.prototype.renderActivity = function ($element, activity) {
     }
     this.$activity.empty();
     if (!activity.IsActivity()) { return this.$activity; }
+
     var steps = activity.GetItems(true);
     var hasSteps = ItemMap.count(steps) > 0;
-
     if (hasSteps || activity.IsRunning()) {
         var $li = $('<li />').appendTo(this.$activity);
-        var $form = $('<div class="form-inline icon"/>').appendTo($li);
+        var $form = $('<div class="form-inline"/>').appendTo($li);
 
         if (hasSteps) {
             // activity with steps, display repeat
             $li.attr('style', 'margin-bottom: 12px; border-top-color: transparent;');
+            this.renderActivityController($form, activity);
             var field = activity.GetField(FieldNames.Repeat);
             Control.Repeat.render($form, activity, field);
         } else if (activity.IsRunning()) {
+            // TODO: remove support for Activity without steps?
             // running activity without steps, display properties
             $li.addClass(activity.StatusClass());
             var field = activity.GetField(FieldNames.Complete);
@@ -66,6 +68,94 @@ ListEditor.prototype.renderActivity = function ($element, activity) {
         }
     }
     return this.$activity;
+}
+
+ListEditor.prototype.renderActivityController = function ($element, activity) {
+    $element = $('<div class="inline vcr-controls"></div>').appendTo($element);
+
+    // render disabled restart button
+    var $btnRestart = $('<a class="btn btn-primary icon disabled"><i class="icon-backward"></i></a>').prependTo($element);
+    
+    if (activity.IsRunning()) {     
+        // render enabled pause button
+        var $btnPause = $('<a class="btn btn-warning icon"><i class="icon-pause"></i></a>').appendTo($element);
+        $btnPause.attr('title', 'Pause').tooltip(Control.noDelay);
+        $btnPause.click(function () {
+            $(this).tooltip('hide');
+            activity.Pause();
+        });
+    } else {                        
+        // render disabled start button
+        var $btnStart = $('<a class="btn btn-success icon disabled"><i class="icon-play"></i></a>').appendTo($element);
+    }
+
+    // render disabled forward button
+    var $btnForward = $('<a class="btn btn-primary icon disabled"><i class="icon-forward"></i></a>').appendTo($element);
+    
+    if (activity.IsRunning()) {
+        // enable forward button if activity complete and recurrence enabled
+        if (activity.IsComplete()) {
+            var rrule = Recurrence.Extend(activity.GetFieldValue(FieldNames.Repeat));
+            if (rrule.IsEnabled()) {
+                $btnForward.removeClass('disabled');
+                $btnForward.attr('title', 'Repeat').tooltip(Control.noDelay);
+                $btnForward.click(function () {
+                    $(this).tooltip('hide');
+                    activity.Repeat();
+                });
+            }
+        }
+    } else {       
+        var status = activity.CanResume();
+        if (status.Start || status.Resume) {
+            // enable start or resume button
+            var title = (status.Start) ? 'Start' : 'Resume';
+            $btnStart.attr('title', title).tooltip(Control.noDelay);
+            $btnStart.click(function () {
+                $(this).tooltip('hide');
+                var itemNeedsDueDate = activity.Start();
+                if (itemNeedsDueDate != null) {
+                    // item needs a due date
+                    popupDueDate(itemNeedsDueDate, activity);
+                }
+            });
+            $btnStart.removeClass('disabled');
+        }
+    
+        if (status.Restart) {
+            // enable restart button
+            $btnRestart.removeClass('disabled');
+            $btnRestart.attr('title', 'Restart').tooltip(Control.noDelay);
+            $btnRestart.click(function () {
+                $(this).tooltip('hide');
+                var itemNeedsDueDate = activity.Restart();
+                if (itemNeedsDueDate != null) {
+                    popupDueDate(itemNeedsDueDate, activity);       // item needs a due date
+                }
+            });
+
+            if (status.Resume && activity.IsStopped()) { activity.UpdateStatus(StatusTypes.Paused); }
+            if (!status.Resume && activity.IsPaused()) { activity.UpdateStatus(StatusTypes.Stopped); }
+        }
+    }
+
+    // helper function for displaying popup dialog to input due date
+    var popupDueDate = function (item, activity) {
+        var header = 'Select date';
+        header += (item.IsActivity()) ? ' for activity' : ' for first step';
+        var field = item.GetField(FieldNames.DueDate);
+        var $dialog = $('<div class="control-group"><label class="control-label">Due Date</label></div>');
+        Control.DateTime.renderDatePicker($dialog, item, field);
+        Control.popup($dialog, header, function (inputs) {
+            if (inputs.length == 1 && inputs[0].length > 0) {
+                var itemNeedsDueDate = activity.Start(inputs[0]);
+                if (itemNeedsDueDate != null) {
+                    // unable to set valid due date on activity or next step
+                    Control.alert('Activity is not running.', 'Could not set valid due date on activity or next step. Try setting due date first.');
+                }
+            }
+        });
+    }
 }
 
 ListEditor.prototype.selectItem = function (item) {
@@ -102,8 +192,10 @@ NewItemEditor.prototype.renderNameField = function ($element) {
     // render name field
     var fields = this.newItem.GetFields();
     var nameField = fields[FieldNames.Name];
-    var $form = $('<form class="form-inline"/>').appendTo($element);
-
+    var $form = $('<form class="new-item form-vertical well"/>').appendTo($element);
+    if (this.newItem.IsStep()) {
+        $('<label class="control-label">Add next step</label>').appendTo($form);
+    }
     var $nameField = Control.Text.renderInputNew($form, this.newItem, nameField, this.list);
 
     $nameField.addClass('input-block-level');
@@ -173,16 +265,12 @@ ListView.prototype.renderListItems = function (list) {
 
             if (item.IsActive()) {      // display actions for active step
                 Control.Actions.render($wrapper, item);
-            } else {                    // display action type icon
-                $icon = $('<a class="icon absolute-right" style="cursor: default;" />').appendTo($li);
-                Control.Icons.forActionType(item.GetActionType()).appendTo($icon);
             }
         } else {
             if (item.IsCompleted()) { itemCount++; continue; }
             if (item.IsSelected()) { $li.addClass('selected'); }
             if (item.IsStep()) { $li.addClass(item.StatusClass()); }
 
-            // 2012-09-20 OG: associate the item with the $li so that the Control.List.sortable code finds the item
             $li.data('control', this);
             $li.data('item', item);
 
@@ -192,19 +280,22 @@ ListView.prototype.renderListItems = function (list) {
 
             var $editBtns = $('<div class="absolute-right" />').appendTo($li);
             Control.Icons.deleteBtn(item).appendTo($editBtns).addClass('pull-right');
-            var $actions = Control.ActionType.renderDropdown($editBtns, item, true).addClass('pull-right');
+            this.editBtn(item).appendTo($editBtns).addClass('pull-right');
+
+            // TODO: may enable inline edit of action, save this code
+            //var $actions = Control.ActionType.renderDropdown($editBtns, item, true).addClass('pull-right');
             // adjust location of dropdown menu to avoid clipping
-            if (itemCount > 1 || (totalCount == 2 && itemCount == 1)) {
-                $actions.find('.dropdown').addClass('dropup');
-            }
-            else {
-                $actions.find('.dropdown').addClass('dropcenter');
-            }
+            //if (itemCount > 1 || (totalCount == 2 && itemCount == 1)) {
+            //    $actions.find('.dropdown').addClass('dropup');
+            //}
+            //else {
+            //    $actions.find('.dropdown').addClass('dropcenter');
+            //}
 
             this.renderNameField($item, item);
 
+            /* TODO: using edit icon, remove this code
             // click item to select
-            //$li.bind('click', function (e) {
             $item.bind('click', function (e) {
                 if ($(this).hasClass('ui-sortable-helper') ||
                 $(e.srcElement).hasClass('dt-checkbox') ||
@@ -214,11 +305,27 @@ ListView.prototype.renderListItems = function (list) {
                 var item = $(this).data('item');
                 Control.get(this).parentControl.selectItem(item);
             });
+            */
         }
         this.renderFields($item, item);
         itemCount++;
     }
     return itemCount;
+}
+
+ListView.prototype.editBtn = function (item) {
+    var $icon = $('<i class="icon-pencil"></i>');
+    $icon.data('control', this);
+    $icon.data('item', item);
+    $icon.attr('title', 'Edit').tooltip(Control.noDelay);
+    $icon.bind('click', function () {
+        $(this).tooltip('hide');
+        var item = $(this).data('item');
+        Control.get(this).parentControl.selectItem(item);
+        return false;   // do not propogate event
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
 }
 
 ListView.prototype.renderNameField = function ($item, item) {
@@ -236,7 +343,11 @@ ListView.prototype.renderNameField = function ($item, item) {
         }
         $item.append(Control.Icons.forSources(item));
     } else {
-        $item.append(Control.Icons.forStatusType(item));
+        if (item.IsStopped()) {
+            $item.append(Control.Icons.forActionType(item.GetActionType()));
+        } else {
+            $item.append(Control.Icons.forStatusType(item));
+        }
     }
     // render name field
     field = fields[FieldNames.Name];

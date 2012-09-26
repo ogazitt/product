@@ -34,6 +34,7 @@ ActivityGallery.prototype.fireSelectionChanged = function (categoryID, itemID) {
 }
 
 ActivityGallery.prototype.render = function ($element, categories) {
+    this.delay = 1;         // suppress animation during render (Chrome)
     if (categories != null) {
         this.init(categories);
     }
@@ -57,6 +58,7 @@ ActivityGallery.prototype.render = function ($element, categories) {
         if (category.IsSelected()) { this.select($category, category); }
         this.renderItems($category, category);
     }
+    this.delay = 400;        // enable animation after render
 }
 
 ActivityGallery.prototype.renderItems = function ($category, category) {
@@ -125,7 +127,7 @@ ActivityGallery.prototype.expand = function ($category) {
     $category.addClass('expanded');
     category.Expand(true);
     $itemlist = $category.next('.itemlist');
-    Control.expand($itemlist, 400);
+    Control.expand($itemlist, this.delay);
     // must remove .collapse class for dropdown menu to not get clipped
     $itemlist.removeClass('collapse');
 }
@@ -161,8 +163,7 @@ ActivityGallery.prototype.showCommands = function ($item, item) {
         var $installBtn = $('<li><a href="#"><i class="icon-download"></i>&nbsp;Install</a></li>').appendTo($menu);
         $installBtn.click(function () { $(this).parents('li').first().data('item').Install(); });
 
-        /* TODO: add support for sub-categories
-        */
+        // TODO: add support for sub-categories
     }
 }
 

@@ -41,6 +41,7 @@ FolderList.prototype.fireSelectionChanged = function (folderID, itemID) {
 }
 
 FolderList.prototype.render = function ($element, folders) {
+    this.delay = 1;         // suppress animation during render (Chrome)
     if (folders != null) {
         this.init(folders);
     }
@@ -51,12 +52,11 @@ FolderList.prototype.render = function ($element, folders) {
     for (var id in this.folders) {
         var folder = this.folders[id];
         $folder = $('<li class="position-relative"></li>').appendTo(this.$element);
-        this.renderItem($folder, folder);
-        //if (folder.IsSelected()) { this.select($folder, folder); }
-
+        this.renderItem($folder, folder);     
         this.renderItems($folder, folder);
     }
     this.renderAddBtn($element);
+    this.delay = 400;        // enable animation after render
 }
 
 FolderList.prototype.refreshItem = function (item) {
@@ -80,7 +80,6 @@ FolderList.prototype.renderItems = function ($folder, folder) {
         if (item.IsList) {
             $item = $('<li class="position-relative"></li>').appendTo($itemList);
             this.renderItem($item, item);
-            //if (item.IsSelected(true)) { this.select($item, item); }
         }
     }
     this.renderAddBtn($folder);
@@ -152,7 +151,7 @@ FolderList.prototype.expand = function ($folder) {
     $folder.addClass('expanded');
     folder.Expand(true);
     $itemlist = $folder.next('.itemlist');
-    Control.expand($itemlist, 400);
+    Control.expand($itemlist, this.delay);
     // must remove .collapse class for dropdown menu to not get clipped
     $itemlist.removeClass('collapse');
 }

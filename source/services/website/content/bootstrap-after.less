@@ -46,32 +46,43 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 /* dashboard styles */
 /* TODO: move into dashboard.less file */
 .dashboard-list { padding: 6px; overflow-y: auto; over-flow-x: hidden; }
+.dashboard-list .nav-header { 
+    margin: -6px -6px 2px -6px; padding: 6px; 
+    background-color: darken(@white, 10%);
+    #gradient > .vertical(darken(@white, 15%), @white); 
+    border-bottom: 1px solid darken(@white, 15%); 
+    color: @linkColor; font-size: 11pt; xfont-weight: bold; text-shadow: -1px -1px darken(@white, 5%);  
+}
 .dashboard-list ul { margin: 0; over-flow-x: hidden; }
-.dashboard-list li a {  cursor: pointer; } 
+.dashboard-list .li a {  cursor: pointer; } 
 // itemlist indent
 .dashboard-list ul.itemlist span,  .dashboard-list ul.itemlist em { padding-left: 20px; } 
 .dashboard-list li.itemlist > a { padding-left: 24px; } 
 
 // adjust dropdown menus to not get clipped
 .dashboard-list .itemlist .dropdown-menu { top: 0; right: 20px; }
+.dashboard-right .nav-header { color: @textColor; }
+.dashboard-right .nav-pills > li > a { color: @textColor; }
+.dashboard-right .nav-pills > li > a:hover { color: lighten(@textColor, 25%); }
+.dashboard-right .nav-pills > li.active > a { color: @white; background-color: lighten(@textColor, 25%); }
 .dashboard-right .dropdown-menu.pull-right { left: auto; right: 0; }
 .dashboard-center .absolute-right .dropdown.dropup .dropdown-menu { bottom: -38px; right: 20px; }
 .dashboard-center .absolute-right .dropdown.dropcenter .dropdown-menu { top: -110px; right: 20px; }
 .dashboard-center .btn-toolbar .dropdown.dropcenter .dropdown-menu { top: -24px; right: 24px; }
 
 /* color status icons */
-.dashboard-list li a.st-paused, .dashboard-list li a.st-stopped { color: @navbarSearchPlaceholderColor; }
+//.dashboard-list li a.st-paused, .dashboard-list li a.st-stopped { color: @navbarSearchPlaceholderColor; }
 .dashboard-center li div.form-inline { color: @linkColor; }
-.dashboard-center li div.form-inline:hover { color: @linkColorHover; cursor: default; }
+//.dashboard-center li div.form-inline:hover { color: @linkColorHover; cursor: default; }
 .dashboard-center li.st-paused { background-color: @warningBackground; }
 .dashboard-list li a.st-paused i, .dashboard-center li.st-paused .form-inline i { color: @btnWarningBackground; }
-.dashboard-list li a.st-paused i:hover, .dashboard-center li.st-paused .form-inline i:hover { color: @btnWarningBackgroundHighlight; }
-.dashboard-list li a.st-stopped i, .dashboard-center li.st-stopped .form-inline i { color: @grayLight; }
-.dashboard-list li a.st-stopped i:hover, .dashboard-center li.st-stopped .form-inline i:hover { color: @gray; }
-.dashboard-list li a.st-skipped i, .dashboard-center li.st-skipped .form-inline i { color: @btnDangerBackground; }
-.dashboard-list li a.st-skipped i:hover, .dashboard-center li.st-skipped .form-inline i:hover { color: @btnDangerBackgroundHighlight; }
+//.dashboard-list li a.st-paused i:hover, .dashboard-center li.st-paused .form-inline i:hover { color: @btnWarningBackgroundHighlight; }
+.dashboard-list li a.st-stopped i, .dashboard-center li.st-stopped .form-inline i { color: @btnDangerBackground; }
+//.dashboard-list li a.st-stopped i:hover, .dashboard-center li.st-stopped .form-inline i:hover { color: @btnDangerBackgroundHighlight; }
+.dashboard-list li a.st-skipped i, .dashboard-center li.st-skipped .form-inline i { color: @linkColor; }
+//.dashboard-list li a.st-skipped i:hover, .dashboard-center li.st-skipped .form-inline i:hover { color: @linkColorHover; }
 .dashboard-list li a.st-active i, .dashboard-center li.st-active .form-inline i { color: @btnSuccessBackground; }
-.dashboard-list li a.st-active i:hover, .dashboard-center li.st-active .form-inline i:hover { color: @btnSuccessBackgroundHighlight; }
+//.dashboard-list li a.st-active i:hover, .dashboard-center li.st-active .form-inline i:hover { color: @btnSuccessBackgroundHighlight; }
 
 
 /* busy animation for suggestions pane */

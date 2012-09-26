@@ -38,6 +38,7 @@ ActivityGallery.prototype.render = function ($element, categories) {
         this.init(categories);
     }
     $element.empty();
+    $('<div class="nav-header">Gallery</div>').appendTo($element);
     this.$element = $('<ul class="nav nav-pills nav-stacked" />').appendTo($element);
     for (var id in this.categories) {
         var category = this.categories[id];

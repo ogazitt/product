@@ -76,9 +76,9 @@ Folder.prototype.addItem = function (newItem, activeItem) {
     }
     if (activeItem === undefined) {                             // default, fire event with new List or parent List
         var itemID = (newItem.IsList) ? newItem.ID : newItem.ID; //.ParentID;
-        DataModel.fireDataChanged(this.ID, itemID);
+        DataModel.fireDataChanged(this.ID, itemID, DataChangeTypes.Insert);
     } else if (activeItem != null) {                            // fire event with activeItem
-        DataModel.fireDataChanged(activeItem.FolderID, activeItem.ID);
+        DataModel.fireDataChanged(activeItem.FolderID, activeItem.ID, DataChangeTypes.Insert);
     }                                                           // null, do not fire event
 };
 Folder.prototype.update = function (updatedFolder) {
@@ -89,7 +89,7 @@ Folder.prototype.update = function (updatedFolder) {
         updatedFolder.FolderUsers = this.FolderUsers;
         DataModel.FoldersMap.update(updatedFolder);
         DataModel.Folders = DataModel.FoldersMap.Items;
-        DataModel.fireDataChanged(this.ID);
+        DataModel.fireDataChanged(this.ID, null, DataChangeTypes.Insert);
         return true;
     }
     return false;
@@ -475,10 +475,12 @@ Item.prototype.Complete = function () {
                 var pCopy = parent.Copy();
                 pCopy.Status = StatusTypes.Complete;
                 pCopy.SetFieldValue(FieldNames.CompletedOn, today);
-                parent.Update(pCopy, null);
+                this.Update(copy, null);
+                parent.Update(pCopy);
             }
+        } else {
+            this.Update(copy);
         }
-        this.Update(copy);
     }
 }
 // helper for marking item skipped and marking next step active
@@ -502,10 +504,12 @@ Item.prototype.Skip = function () {
                 var pCopy = parent.Copy();
                 pCopy.Status = StatusTypes.Complete;
                 pCopy.SetFieldValue(FieldNames.CompletedOn, today);
-                parent.Update(pCopy, null);
+                this.Update(copy, null);
+                parent.Update(pCopy);
             }
+        } else {
+            this.Update(copy);
         }
-        this.Update(copy);
     }
 }
 // helper for marking item paused and marking first active child item paused
@@ -660,9 +664,9 @@ Item.prototype.update = function (updatedItem, activeItem) {
             updatedItem.GetFolder().ItemsMap.append(updatedItem);
         }
         if (activeItem === undefined) {
-            DataModel.fireDataChanged(this.FolderID, this.ID);
+            DataModel.fireDataChanged(this.FolderID, this.ID, DataChangeTypes.Update);
         } else if (activeItem != null) {
-            DataModel.fireDataChanged(this.FolderID, activeItem.ID);
+            DataModel.fireDataChanged(this.FolderID, activeItem.ID, DataChangeTypes.Update);
         }
         return true;
     }

@@ -15,7 +15,9 @@ DataModel.Folders = {};
 DataModel.Suggestions = {};
 DataModel.GalleryCategories = {};
 DataModel.ActionTypes = {};
-DataModel.UserSettings;        
+DataModel.UserSettings;  
+      
+DataChangeTypes = { Insert: "Insert", Update: "Update", Delete: "Delete" };
 
 // ---------------------------------------------------------
 // private members
@@ -268,7 +270,7 @@ DataModel.DeleteItem = function DataModel$DeleteItem(item, activeItem) {
         // delete item from local DataModel (fire datachanged)
         if (item.IsFolder()) {                                      // remove Folder
             DataModel.FoldersMap.remove(item);
-            DataModel.fireDataChanged();
+            DataModel.fireDataChanged(null, null, DataChangeTypes.Delete);
         } else {                                                    // remove Item
             var parent = item.GetParent();
             if (parent != null && parent.ItemTypeID == ItemTypes.Reference) {
@@ -280,13 +282,13 @@ DataModel.DeleteItem = function DataModel$DeleteItem(item, activeItem) {
                 var activeItemID = activeItem.IsFolder() ? null : activeItem.ID;
                 item.GetFolder().ItemsMap.remove(item);
                 DataModel.deleteReferences(item.ID);
-                DataModel.fireDataChanged(activeFolderID, activeItemID);
+                DataModel.fireDataChanged(activeFolderID, activeItemID, DataChangeTypes.Delete);
             } else {
                 var nextItem = item.selectNextItem();
                 var nextItemID = (nextItem == null) ? null : nextItem.ID;
                 item.GetFolder().ItemsMap.remove(item);
                 DataModel.deleteReferences(item.ID);
-                DataModel.fireDataChanged(item.FolderID, nextItemID);
+                DataModel.fireDataChanged(item.FolderID, nextItemID, DataChangeTypes.Delete);
             }
         }
 
@@ -371,13 +373,13 @@ DataModel.RemoveSuggestion = function DataModel$RemoveSuggestion(suggestion) {
 // ---------------------------------------------------------
 // private methods
 
-DataModel.fireDataChanged = function (folderID, itemID) {
+DataModel.fireDataChanged = function (folderID, itemID, changeType) {
     // do not fire datachanged event for UserSetting folders
     if (DataModel.UserSettings.GetFolder(folderID) == null) {
         for (var name in DataModel.onDataChangedHandlers) {
             var handler = DataModel.onDataChangedHandlers[name];
             if (typeof (handler) == "function") {
-                handler(folderID, itemID);
+                handler(folderID, itemID, changeType);
             }
         }
     }
@@ -399,9 +401,9 @@ DataModel.addFolder = function (newFolder, activeItem) {
     }
     DataModel.FoldersMap.append(newFolder);
     if (activeItem === undefined) {                             // default, fire event with new Folder
-        DataModel.fireDataChanged(newFolder.ID);
+        DataModel.fireDataChanged(newFolder.ID, null, DataChangeTypes.Insert);
     } else if (activeItem != null) {                            // fire event with activeItem
-        DataModel.fireDataChanged(activeItem.FolderID, activeItem.ID);
+        DataModel.fireDataChanged(activeItem.FolderID, activeItem.ID, DataChangeTypes.Insert);
     }
     return newFolder;                                           // null, do not fire event
 };

@@ -124,7 +124,7 @@ FolderManager.prototype.renderStatus = function () {
     if (activity != null && !activity.IsFolder() && activity.IsActivity()) {
         if (activity.IsRunning()) {
             var $btnPause = $('<a class="btn btn-warning icon"><i class="icon-pause"></i></a>').appendTo($status);
-            $btnPause.attr('title', 'Pause Activity').tooltip(Control.noDelayBottom);
+            $btnPause.attr('title', 'Pause').tooltip(Control.noDelayBottom);
             $btnPause.click(function () {
                 $(this).tooltip('hide');
                 activity.Pause();
@@ -134,7 +134,7 @@ FolderManager.prototype.renderStatus = function () {
                 var rrule = Recurrence.Extend(activity.GetFieldValue(FieldNames.Repeat));
                 if (rrule.IsEnabled()) {
                     var $btnForward = $('<a class="btn btn-primary icon"><i class="icon-forward"></i></a>').appendTo($status);
-                    $btnForward.attr('title', 'Repeat Activity').tooltip(Control.noDelayBottom);
+                    $btnForward.attr('title', 'Repeat').tooltip(Control.noDelayBottom);
                     $btnForward.click(function () {
                         $(this).tooltip('hide');
                         activity.Repeat();
@@ -164,7 +164,7 @@ FolderManager.prototype.renderStatus = function () {
 
             var status = activity.CanResume();
             if (status.Start || status.Resume) {
-                var title = (status.Start) ? 'Start Activity' : 'Resume Activity';
+                var title = (status.Start) ? 'Start' : 'Resume';
                 var $btnStart = $('<a class="btn btn-success icon"><i class="icon-play"></i></a>').appendTo($status);
                 $btnStart.attr('title', title).tooltip(Control.noDelayBottom);
 
@@ -180,7 +180,7 @@ FolderManager.prototype.renderStatus = function () {
 
             if (status.Restart) {
                 var $btnRestart = $('<a class="btn btn-primary icon"><i class="icon-backward"></i></a>').prependTo($status);
-                $btnRestart.attr('title', 'Restart Activity').tooltip(Control.noDelayBottom);
+                $btnRestart.attr('title', 'Restart').tooltip(Control.noDelayBottom);
 
                 $btnRestart.click(function () {
                     $(this).tooltip('hide');

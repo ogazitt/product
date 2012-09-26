@@ -79,18 +79,6 @@ namespace BuiltSteady.Product.Shared.Entities
             set { accessor.Set("Timezone", value); }
         }
 
-        public bool HomeOwner
-        {
-            get { return accessor.GetBool("HomeOwner"); }
-            set { accessor.SetBool("HomeOwner", value); }
-        }
-
-        public bool YardWork
-        {
-            get { return accessor.GetBool("Yardwork"); }
-            set { accessor.SetBool("Yardwork", value); }
-        }
-
 #if !CLIENT
         // ********************************************************************
         // server can create and access metadata for UserProfile

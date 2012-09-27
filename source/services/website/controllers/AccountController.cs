@@ -113,13 +113,19 @@
             FormsAuthentication.SignOut();
 
             if (BrowserAgent.IsMobile(Request.UserAgent))
-                return RedirectToAction("Home", "Mobile");
+                return RedirectToAction("MobileSignIn", "Account");
             else
                 return RedirectToAction("Home", "Dashboard");
         }
 
         public ActionResult Register()
         {
+            // TODO: check for an auth cookie and redirect to SignIn if it exists
+
+            // for mobile, always redirect to SignIn
+            if (BrowserAgent.IsMobile(Request.UserAgent))
+                return RedirectToAction("MobileSignIn", "Account");
+
             return View();
         }
 

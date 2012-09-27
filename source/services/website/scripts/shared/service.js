@@ -32,8 +32,7 @@ Service.fbScopes = 'user_birthday,friends_likes,friends_birthday,publish_stream'
 Service.googleConsentUri = '/oauthconsent/google';
 Service.cloudADConsentUri = '/oauthconsent/cloudAD';
 Service.profileWizardUri = 'userinfo/wizard';
-Service.userVoiceScriptUri = 'widget.uservoice.com/84TZMaazqpvy5JyiUCjPw.js';
-
+Service.userVoiceScriptUri = 'widget.uservoice.com/YL0kgariXItFLR6Vdogw.js';
 Service.invokeAsync = true;
 Service.signOutUri = 'account/signout';
 Service.signingOut = false;

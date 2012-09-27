@@ -264,7 +264,7 @@ Control.Icons.completeHandler = function Control$Icons$completeHandler(item) {
     var header = null;
     switch (actionType.Name) {
         case ActionTypes.Find:
-            $dialog = $('<div>Where will this happen?<p/></div>');
+            $dialog = $('<div>' + Messages.CompleteHandler.FindText + '<p/></div>');
             var field = item.GetField(FieldNames.Locations);
             var $field = Control.LocationList.renderInput($dialog, item, field, function (input) { return false; });
             header = activity.Name;
@@ -351,7 +351,7 @@ Control.Icons.callBtn = function Control$Icons$callBtn(item) {
         phoneNumber = phoneNumber.replace(/[^0-9]+/g, '');
         if (Browser.IsMobile()) { window.open("tel:" + phoneNumber); }
         else {
-            Control.alert('<p>This action only works on a mobile device</p>', 'call ' +
+            Control.alert('<p>' + Messages.CallButton.ActionNotSupported + '</p>', 'call ' +
                 Control.Icons.formatPhoneNumber(phoneNumber));
         }
     };
@@ -394,7 +394,7 @@ Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
             var header = item.Name;
             // if this is a location, bind the Address field and autocomplete a location
             if (item.IsLocation()) {
-                var $dialog = $('<div>Please select a location or address<p/></div>');
+                var $dialog = $('<div>' + Messages.MapDialog.LocationText + '<p/></div>');
                 var field = item.GetField(FieldNames.Address);
                 var $field = Control.Text.renderInputAddress($dialog, item, field, function (input) { return false; });
                 Control.popup($dialog, header, function (inputs) {
@@ -409,8 +409,8 @@ Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
             else {
                 // this is an Activity, Step, or Contact - bind the Locations field and autocomplete a location
                 var dialogText;
-                if (item.IsActivity() || item.IsStep()) { dialogText = 'Where is this taking place?'; }
-                else if (item.IsContact() || item.IsLocation()) { dialogText = 'Please select the location or address'; }
+                if (item.IsActivity() || item.IsStep()) { dialogText = Messages.MapDialog.ActivityOrStepText; }
+                else if (item.IsContact()) { dialogText = Messages.MapDialog.ContactText; }
                 var $dialog = $('<div>' + dialogText + '<p/></div>');
                 var field = item.GetField(FieldNames.Locations);
                 var $field = Control.LocationList.renderInput($dialog, item, field, function (input) { return false; });
@@ -465,7 +465,7 @@ Control.Icons.textBtn = function Control$Icons$textBtn(item) {
         phoneNumber = phoneNumber.replace(/[^0-9]+/g, '');
         if (Browser.IsMobile()) { window.open("sms:" + phoneNumber); }
         else {
-            Control.alert('<p>This action only works on a mobile device</p>', 'text ' +
+            Control.alert('<p>' + Messages.TextButton.ActionNotSupported + '</p>', 'text ' +
                 Control.Icons.formatPhoneNumber(phoneNumber));
         }
     };
@@ -499,17 +499,17 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
         $dialog.find('#name').val(activity.Name);
         $dialog.find('#datepicker').val((new Date()).format('shortDate'));
         if (!Browser.IsMobile() && Browser.IsMSIE()) { $dialog.find('#datepicker').datepicker(); }
-        var header = 'When should appointment be scheduled for?';
+        var header = Messages.ScheduleDialog.HeaderText;
         Control.popup($dialog, header, function (inputs) {
             if (inputs[0].length == 0) {
-                Control.alert('Please provide a date for the appointment', 'Schedule appointment');
+                Control.alert(Messages.ScheduleDialog.NoDateError, Messages.ScheduleDialog.AlertHeaderText);
             }
             else {
                 var now = new Date();
                 now.setHours(0, 0, 0, 0);
                 var start = new Date(inputs[0]);
                 if (start < now) {
-                    Control.alert('The date you provided is in the past', 'Schedule appointment');
+                    Control.alert(Messages.ScheduleDialog.InvalidDateError, Messages.ScheduleDialog.AlertHeaderText);
                     return;
                 }
                 var end = new Date(start);
@@ -545,7 +545,7 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
                     function (responseState) {
                         var result = responseState.result;
                         if (result.StatusCode != '200') {
-                            Control.alert('Server was unable to add appointment', 'Schedule appointment');
+                            Control.alert(Messages.ScheduleDialog.ServerError, Messages.ScheduleDialog.AlertHeaderText);
                         }
                         else {
                             var returnedItem = result.Result;
@@ -559,7 +559,7 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
                     }
                 );
                 // put up an indication that event is being created
-                Control.working('Adding appointment to calendar', 1000);
+                Control.working(Messages.ScheduleDialog.AddingText, 1000);
             }
         });
         return false;   // do not propogate event
@@ -582,10 +582,10 @@ Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
         var location = 'Redmond'; // hardcode for now
         var text = 'Do you know a good ' + item.GetFieldValue(ExtendedFieldNames.Article) + ' in ' + location + '?';
         $dialog.find('textarea').val(text).css('height', '75');
-        var header = 'Ask Facebook friends';
+        var header = Messages.AskFriendsDialog.HeaderText;
         Control.popup($dialog, header, function (inputs) {
             if (inputs[0].length == 0) {
-                Control.alert('Please provide a question to ask on Facebook', 'Ask Facebook friends');
+                Control.alert(Messages.AskFriendsDialog.QuestionText, Messages.AskFriendsDialog.HeaderText);
             }
             else {
                 text = inputs[0];
@@ -594,7 +594,7 @@ Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
                     function (responseState) {
                         var result = responseState.result;
                         if (result.StatusCode != '200') {
-                            Control.alert('Server was unable to post on Facebook', 'Ask Facebook friends');
+                            Control.alert(Messages.AskFriendsDialog.ServerError, Messages.AskFriendsDialog.HeaderText);
                         }
                         else {
                             var returnedItem = result.Result;
@@ -609,7 +609,7 @@ Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
                     }
                 );
                 // put up an indication that event is being created
-                Control.working('Posting question to Facebook', 1500);
+                Control.working(Messages.AskFriendsDialog.PostingText, 1500);
             }
         });
         return false;   // do not propogate event
@@ -645,13 +645,15 @@ Control.Icons.infoDialogForContactOrLocation = function Control$Icons$infoDialog
     labelName = (labelName == null) ? "Phone" : labelName;
     inputType = (inputType == null) ? "tel" : inputType;
     // set up dialog
-    var header = 'Please enter ' + (item.IsLocation() ? 'location' : 'contact') + ' information';
+    var entityName = item.IsLocation() ? 'location' : 'contact';
+    var header = Messages.InfoDialogForContactOrLocation.HeaderText(entityName);
     var $dialog = $('<div><label>' + labelName + '</label><input type="' + inputType + '" id="dataField"/></div>');
     var $dataField = $dialog.find('#dataField');
 
     Control.popup($dialog, header, function (inputs) {
         if (inputs[0].length == 0) {
-            Control.alert('Please provide a ' + labelName.toLocaleLowerCase() + ' for the location or contact', 'Call');
+            Control.alert(Messages.InfoDialogForContactOrLocation.NoDataError(labelName.toLocaleLowerCase(), entityName),
+                Messages.InfoDialogForContactOrLocation.AlertHeaderText);
         }
         else {
             // update the field with the data value 
@@ -675,9 +677,9 @@ Control.Icons.infoDialog = function Control$Icons$infoDialog(item, fieldName, la
     labelName = (labelName == null) ? "Phone" : labelName;
     inputType = (inputType == null) ? "tel" : inputType;
     // set up dialog
-    var header = 'Please choose a location or a contact';
+    var header = Messages.InfoDialog.HeaderText;
     var $dialog = $('<div class="form-vertical control-group"></div>');
-    $('<label class="control-label">Choose a location</label>').appendTo($dialog);
+    $('<label class="control-label">' + Messages.InfoDialog.LocationText + '</label>').appendTo($dialog);
     var locfield = item.GetField(FieldNames.Locations);
     var $locfield = Control.LocationList.renderInput($dialog, item, locfield, function ($input) {
         if (fieldName == FieldNames.Phone) {
@@ -687,7 +689,7 @@ Control.Icons.infoDialog = function Control$Icons$infoDialog(item, fieldName, la
         }
         else { $dataField.val(''); }
     });
-    $dialog.append('<label class="control-label">Or, choose a contact</label>');
+    $dialog.append('<label class="control-label">' + Messages.InfoDialog.ContactText + '</label>');
     var confield = item.GetField(FieldNames.Contacts);
     var $confield = Control.ContactList.renderInput($dialog, item, confield, function ($input) {
         var contactJson = $input.data(FieldNames.Contacts);
@@ -713,10 +715,10 @@ Control.Icons.infoDialog = function Control$Icons$infoDialog(item, fieldName, la
 
     Control.popup($dialog, header, function (inputs) {
         if (inputs[2].length == 0) {
-            Control.alert('Please provide a phone number for the location or contact', 'Call');
+            Control.alert(Messages.InfoDialog.NoDataError(labelName.toLocaleLowerCase(), 'location or contact'), Messages.InfoDialog.AlertHeaderText);
         }
         else if ((inputs[0].length == 0 || inputs[0] == 'Enter a location') && inputs[1].length == 0) {
-            Control.alert('Please provide a location or contact', 'Call');
+            Control.alert(Messages.InfoDialog.NoContactOrLocationError, Messages.InfoDialog.AlertHeaderText);
         }
         else {
             var dataValue = inputs[2];

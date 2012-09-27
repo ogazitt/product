@@ -26,6 +26,7 @@
     <script type="text/javascript" src="<%: Url.Content("~/scripts/bootstrap.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/math.uuid.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/date.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/messages.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/service.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/spin.js") %>"></script>
 <%  } %>
@@ -37,6 +38,12 @@
             Service.FeedbackPlugin();
         });
     </script>
+
+    <meta property="og:title" content="TwoStep - Dance through life." /><meta property="og:type" content="company" />
+    <meta property="og:site_name" content="TwoStep" />
+    <meta property="og:url" content="<%=siteUrl %>" />
+    <meta property="og:image" content="https://launchrock-assets.s3.amazonaws.com/facebook-files/lAd9haUQKBhBx8F.png" />
+    <meta property="og:description" content="The personal assistant for life's activities." />
 
     <asp:ContentPlaceHolder ID="MasterHead" runat="server"> </asp:ContentPlaceHolder>
 </head>

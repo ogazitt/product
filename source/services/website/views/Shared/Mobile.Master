@@ -26,7 +26,9 @@
     <script type="text/javascript" src="<%: Url.Content("~/scripts/bootstrap.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/math.uuid.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/date.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/messages.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/service.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/spin.js") %>"></script>
 <%  } %>
 
     <script type="text/javascript">

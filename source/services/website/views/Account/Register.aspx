@@ -12,6 +12,10 @@
       .control-group button { margin: 12px 0 12px 0; }
       .span5 p { margin-left: 32px; }
       .btn-request-access { margin-left: 32px; }
+      #twostep_img { height: 330px; min-width: 495px; }
+      body { min-width: 900px; }
+      h3 { font-size: 20px; }
+      .learn-more-btn { margin-left: 380px; width: 120px; margin-top: -12px; }
     </style>
 </asp:Content>
 
@@ -25,8 +29,8 @@
     <div class="row-fluid">
         <div class="span7 intro-carousel">
             <%--<% Html.RenderPartial("IntroCarouselControl"); %>--%>  
-            <img src='<%: Url.Content("~/content/images/landing/twostep-dance-through-life.png") %>' alt='TwoStep: Dance through life.' />
-            <div class="pull-right">
+            <img id="twostep_img" src="<%: Url.Content("~/content/images/landing/twostep-dance-through-life.png") %>" alt="TwoStep: Dance through life." />
+            <div class="learn-more-btn">
                 <button class="btn btn-info" onclick="window.location='<%: Url.Content("#product_info") %>'">Learn More...</button>
             </div>          
         </div>
@@ -34,7 +38,7 @@
         <% using (Html.BeginForm("register", "account", FormMethod.Post, new { @class = "form-vertical" })) { %>
             <fieldset>
                 <div class="control-group">
-                    <div class="controls"><h2>Sign Up for a free account!</h2></div>
+                    <div class="controls"><h3>Sign Up for a free account!</h3></div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="Email">Email address</label>
@@ -77,12 +81,8 @@
             </fieldset>
         <% } %>
 
-            <p class="small">
+            <p class="small" style="max-width:290px">
             TwoStep is in private beta.  If you don't have an access code, request one now!
-
-<%--            
-            To request an access code, register an email address at <a href="http://www.builtsteady.com">www.builtsteady.com</a>.
---%>
             </p>
             <button class="btn btn-info btn-request-access" onclick="ShowLaunchRock()">Request Access</button>
         </div>

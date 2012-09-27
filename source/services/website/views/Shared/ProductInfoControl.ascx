@@ -4,7 +4,7 @@
     .product-info { margin-top: 300px; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; }
     .product-info .item { padding: 50px; }
     .product-info .item p {
-        max-width: 650px; padding-left: 100px; padding-right: 100px; padding-top: 20px; 
+        max-width: 600px; padding-left: 100px; padding-right: 100px; padding-top: 20px; 
         font-size: 12pt; color: #333; font-style: italic;
     }
     .product-info .item h2 { color: #08C; }
@@ -12,7 +12,7 @@
     .product-info .item .right-pic { margin-left: 20px; margin-top: -30px; }
     .product-info .item .full-pic { margin-left: 100px; }
     .product-info .item img { margin: 20px; }
-    .product-info .item .title-text { max-width: 850px; margin-right: 100px; }
+    .product-info .item .title-text { max-width: 700px; margin-right: 100px; }
     #intro_section      { background-color: #eee; /*#f0fff0;*/ }
     #steps_section      { background-color: #fff; /*#fff0f0;*/ }
     #cadence_section    { background-color: #eee; /*#fffff0;*/ }
@@ -36,7 +36,7 @@
             -->
         </div>
     </div>
-    <div id="steps_section" style="min-height: 500px">
+    <div id="steps_section" style="min-height: 450px">
         <div class="item">
             <div class="title-text">
                 <h2>Break complex tasks into actionable steps.</h2>
@@ -47,7 +47,7 @@
             </p>
         </div>
     </div>
-    <div id="cadence_section" style="min-height: 440px">
+    <div id="cadence_section" style="min-height: 450px">
         <div class="item">
             <div class="title-text">
                 <h2>Remember everything about repeating activities.</h2>
@@ -58,7 +58,7 @@
             </p>
         </div>
     </div>
-    <div id="find_section" style="min-height: 500px">
+    <div id="find_section" style="min-height: 450px">
         <div class="item">
             <div class="title-text">
                 <h2>Find out how others get activities done.</h2>
@@ -81,7 +81,7 @@
             </p>
         </div>
     </div>
-    <div id="nextsteps_section" style="min-height: 650px">
+    <div id="nextsteps_section" style="min-height: 550px">
         <div class="item">
             <div class="title-text">
                 <button class="btn btn-success pull-right signup" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button>

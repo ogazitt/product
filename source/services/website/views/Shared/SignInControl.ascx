@@ -7,12 +7,8 @@
     <li class="option-nextsteps hide"><a><i class="icon-play"></i>&nbsp;</a></li>
     <li class="option-categories hide"><a><i class="icon-folder-open"></i>&nbsp;</a></li>
     <li class="option-add button hide"><a><i class="icon-plus icon-white"></i>&nbsp;</a></li>
-<% }
-   else
-   { %>
-    <li class="option-categories hide"><a href="<%: Url.Content("~/dashboard/home") %>"><i class="icon-dashboard"></i>&nbsp;</a></li>
-    <li class="option-nextsteps hide"><a href="<%: Url.Content("~/dashboard/nextsteps") %>"><i class="icon-play"></i>&nbsp;</a></li>
 <% } %>
+
     <li class="divider-vertical"></li>    
     <li class="dropdown active">
         <a class="dropdown-toggle" data-toggle="dropdown">

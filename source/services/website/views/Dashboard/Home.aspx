@@ -44,7 +44,6 @@
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/foldermanager.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/listeditor.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/itemeditor.js") %>"></script>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/suggestionlist.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/dashboard/suggestionmanager.js") %>"></script>
 <%  } %>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/jquery-ui-timepicker.js") %>"></script>

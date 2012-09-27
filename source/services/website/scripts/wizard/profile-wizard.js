@@ -24,37 +24,49 @@ ProfileWizard.Init = function ProfileWizard$Init(dataModel, consentStatus) {
 
     // wizard region
     this.$element = $('.wizard-region');
+
+    this.firstPanel = 'user_info';
+    this.lastPanel = 'connect_info';
     var activePanel = this.dataModel.UserSettings.ActiveWizardPanel();
-    activePanel = (activePanel == null || activePanel == 'last_info') ? 'user_info' : activePanel;
+    activePanel = (activePanel == null) ? this.firstPanel : activePanel;
     this.$activePanel = this.$element.find('#' + activePanel);
+    if (this.$activePanel.length == 0) {
+        this.$activePanel = this.$element.find('#' + this.firstPanel);
+    }
 
     // suggestions manager for handling connect
     this.suggestionManager = new SuggestionManager(this.dataModel);
     // initialize connect buttons
     this.dataModel.GetSuggestions(function (suggestions) {
         var fbConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetFBConsent);
-        var $btn = ProfileWizard.$element.find('.connect .fb');
-        if (fbConsent != null) {
-            $btn.css('display', 'block');
-            $btn.attr('title', 'Connect to Facebook').tooltip(Control.ttDelayBottom);
-            $btn.click(function () { ProfileWizard.suggestionManager.select(fbConsent, 'wizard'); });
+        var $btn = ProfileWizard.$element.find('a.fb');
+        $btn.attr('title', 'Connect to Facebook').tooltip(Control.ttDelay);
+        $btn.click(function () { ProfileWizard.suggestionManager.select(fbConsent, 'wizard'); });
+        if (fbConsent == null) {
+            ProfileWizard.$element.find('small.fb').addClass('connected').html('Connected');
         }
+
         var gcConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetGoogleConsent);
-        $btn = ProfileWizard.$element.find('.connect .google');
-        if (gcConsent != null) {
-            $btn.css('display', 'block');
-            $btn.attr('title', 'Connect to Calendar').tooltip(Control.ttDelayBottom);
-            $btn.click(function () { ProfileWizard.suggestionManager.select(gcConsent, 'wizard'); });
+        $btn = ProfileWizard.$element.find('a.google');
+        $btn.attr('title', 'Connect to Calendar').tooltip(Control.ttDelay);
+        $btn.click(function () { ProfileWizard.suggestionManager.select(gcConsent, 'wizard'); });
+        if (gcConsent == null) {
+            ProfileWizard.$element.find('small.google').addClass('connected').html('Connected');
         }
     });
 
     // bind input elements to UserProfile item fields
     this.bindFields();
 
-    // bind events
+    // bind button events
     this.$element.find('.btn-success').click(function () {
         ProfileWizard.showNextPanel();
     });
+    this.$element.find('.btn-primary').click(function () {
+        ProfileWizard.showPrevPanel();
+    });
+
+    // bind resize events
     $(window).bind('load', ProfileWizard.resize);
     $(window).bind('resize', ProfileWizard.resize);
 
@@ -64,7 +76,12 @@ ProfileWizard.Init = function ProfileWizard$Init(dataModel, consentStatus) {
 ProfileWizard.showActivePanel = function ProfileWizard$showActivePanel() {
     this.$element.find('.info-pane').removeClass('active');
     this.$activePanel.addClass('active');
-    //this.getUserInfo();
+    var nextBtn = this.$element.find('.btn-success');
+    if (this.$activePanel.attr('id') == this.lastPanel) { nextBtn.html('Done'); }
+    else { nextBtn.html('Next'); }
+    var prevBtn = this.$element.find('.btn-primary');
+    if (this.$activePanel.attr('id') == this.firstPanel) { prevBtn.hide(); }
+    else { prevBtn.show(); }
 }
 
 ProfileWizard.showNextPanel = function ProfileWizard$showNextPanel() {
@@ -79,33 +96,66 @@ ProfileWizard.showNextPanel = function ProfileWizard$showNextPanel() {
     }
 }
 
+ProfileWizard.showPrevPanel = function ProfileWizard$showPrevPanel() {
+    //this.installActivities(this.$activePanel);
+    this.$activePanel = this.$element.find('.info-pane.active').prev('.info-pane');
+    if (this.$activePanel.length > 0) {
+        this.showActivePanel();
+        this.dataModel.UserSettings.ActiveWizardPanel(this.$activePanel.attr('id'));
+        this.dataModel.UserSettings.Save();
+    }
+}
+
+
 ProfileWizard.bindFields = function ProfileWizard$bindFields() {
     var item = this.dataModel.UserSettings.GetUserProfileItem();
     for (var fn in UserProfileFields) {
         var field = UserProfileFields[fn];
         var fieldClass = '.fn-' + field.Name.toLowerCase();
         var $field = this.$element.find(fieldClass);
-        if ($field.length == 1) {
+        if ($field.length > 0) {
             switch (field.DisplayType) {
                 case DisplayTypes.Hidden:
                     break;
                 case DisplayTypes.Gender:
+                    this.renderGender($field, item, field);
                     break;
                 case DisplayTypes.Checkbox:
-                    Control.Checkbox.render(this.$element.find(fieldClass), item, field);
+                    Control.Checkbox.render($field, item, field);
                     break;
                 case DisplayTypes.DatePicker:
-                    Control.DateTime.renderDatePicker(this.$element.find(fieldClass), item, field);
+                    Control.DateTime.renderDatePicker($field, item, field);
                     break;
                 case DisplayTypes.Address:
-                    Control.Text.renderInputAddress(this.$element.find(fieldClass), item, field, ProfileWizard.updateAddress);
+                    Control.Text.renderInputAddress($field, item, field, ProfileWizard.updateAddress);
                     break;
                 default:
-                    Control.Text.renderInput(this.$element.find(fieldClass), item, field);
+                    Control.Text.renderInput($field, item, field);
                     break;
+            }
+
+            if (field.Name == UserProfileFields.Birthday.Name) {
+                var bday = item.GetFieldValue(UserProfileFields.Birthday);
+                if (bday == null || bday.length == 0) {
+                    $field.val('mm/dd/yyyy');
+                }
             }
         }
     }
+}
+
+ProfileWizard.renderGender = function ProfileWizard$renderGender($field, item, field) {
+    var val = item.GetFieldValue(field);
+    if (val != null) { $field.parent().find('input[value="' + val + '"]').attr('checked', true); }
+    $field.data('item', item);
+    $field.data('field', field);
+    $field.change(function() { 
+        var item = $(this).data('item');
+        var field = $(this).data('field');
+        var copy = item.Copy();
+        copy.SetFieldValue(field, $(this).val());
+        item.Update(copy);
+    });
 }
 
 ProfileWizard.updateAddress = function ProfileWizard$updateAddress($input) {
@@ -228,10 +278,8 @@ var UserProfileFields = {
     FirstName:  { Name: "FirstName",   DisplayName: "First Name",  FieldType: FieldTypes.String,   DisplayType: DisplayTypes.Text },
     LastName:   { Name: "LastName", DisplayName: "Last Name", FieldType: FieldTypes.String, DisplayType: DisplayTypes.Text },
     Gender:     { Name: "Gender", DisplayName: "Gender", FieldType: FieldTypes.String, DisplayType: DisplayTypes.Gender },
-    Birthday:   { Name: "Birthday", DisplayName: "Birthday", FieldType: FieldTypes.DateTime, DisplayType: DisplayTypes.DatePicker },
+    Birthday:   { Name: "Birthday", DisplayName: "Birthday", FieldType: FieldTypes.String, DisplayType: DisplayTypes.Text },
     Mobile:     { Name: "Mobile", DisplayName: "Mobile", FieldType: FieldTypes.Phone, DisplayType: DisplayTypes.Phone },
     Address:    { Name: "Address", DisplayName: "Address", FieldType: FieldTypes.Address, DisplayType: DisplayTypes.Address },
     GeoLocation:{ Name: "GeoLocation", DisplayName: "LatLong", FieldType: FieldTypes.String, DisplayType: DisplayTypes.Hidden },
-    HomeOwner:  { Name: "HomeOwner", DisplayName: "Home Owner", FieldType: FieldTypes.Boolean, DisplayType: DisplayTypes.Checkbox },
-    Yardwork:   { Name: "Yardwork", DisplayName: "Yardwork", FieldType: FieldTypes.Boolean, DisplayType: DisplayTypes.Checkbox }
 };

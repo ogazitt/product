@@ -4,7 +4,7 @@
         <div class='repeat-dialog control-group'>
             <div class='control-group form-inline'>
                 <div class="input-prepend">
-                    <span class='add-on'>Repeat after</span><select class="repeat-interval int-selector">
+                    <span class='add-on'>Repeat every</span><select class="repeat-interval int-selector">
                     </select>
                 </div>
                 <div class="input-prepend">

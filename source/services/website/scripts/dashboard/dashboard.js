@@ -82,13 +82,19 @@ Dashboard.Close = function Dashboard$Close(event) {
 }
 
 // event handler, do not reference 'this' to access static Dashboard
-Dashboard.ManageDataChange = function Dashboard$ManageDataChange(folderID, itemID) {
+Dashboard.ManageDataChange = function Dashboard$ManageDataChange(folderID, itemID, changeType) {
     // cleanup dangling tooltips
     $('.dashboard-region a').tooltip('hide');
     $('.dashboard-region i').tooltip('hide');
 
-    Dashboard.ManageFolder(folderID, itemID);
-    Dashboard.folderList.render(Dashboard.$left, Dashboard.dataModel.Folders);
+    var item = Dashboard.ManageFolder(folderID, itemID);
+
+    if (changeType == DataChangeTypes.Update || 
+        (changeType == DataChangeTypes.Insert && item.IsActivity())) {
+        Dashboard.folderList.refreshItem(item);         // only refresh changed item
+    } else {                                            // refresh entire list
+        Dashboard.folderList.render(Dashboard.$left, Dashboard.dataModel.Folders);
+    }
 }
 
 // event handler, do not reference 'this' to access static Dashboard
@@ -98,19 +104,19 @@ Dashboard.ManageFolder = function Dashboard$ManageFolder(folderID, itemID) {
     if (itemID == null) {
         Dashboard.dataModel.UserSettings.Selection(folderID, itemID);
         if (folder != null && folder.ItemTypeID != ItemTypes.Category) {
-        //if (folder != null) {
             Dashboard.showManager(Dashboard.folderManager);
             Dashboard.folderManager.selectFolder(folder);
         } else {
             Dashboard.showManager(Dashboard.helpManager);
         }
+        return folder;
     } else {
         item = (folder != null && itemID != null) ? folder.Items[itemID] : null;
         Dashboard.dataModel.UserSettings.Selection(folderID, itemID);
         Dashboard.showManager(Dashboard.folderManager);
         Dashboard.folderManager.selectItem(item);
+        return item;
     }
-
 }
 
 // ---------------------------------------------------------

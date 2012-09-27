@@ -106,8 +106,8 @@ Control.Icons.forStatusType = function Control$Icons$forStatusType(item) {
             $icon.addClass('icon-share');
             break;
         default:
-            //$icon.addClass('icon-stop');
-            $icon.addClass('icon-sign-blank');
+            $icon.addClass('icon-stop');
+            //$icon.addClass('icon-sign-blank');
             break;
     }
     return $icon;

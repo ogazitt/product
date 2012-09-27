@@ -5,27 +5,21 @@
 
 // ---------------------------------------------------------
 // FolderList control
-function FolderList(folders) {
+function FolderList(folders, folderTypes) {
     // fires notification when selected folder changes
     this.onSelectionChangedHandlers = {};
+    this.folderTypes = (folderTypes == null) ? [ItemTypes.Category] : folderTypes;
     this.init(folders);
 }
 
 FolderList.prototype.init = function (folders) {
-    // only display Category folders
+    // display folders of folderTypes
     this.folders = {};
     for (var id in folders) {
-        if (folders[id].IsCategory()) {
+        if (this.folderTypes.indexOf(folders[id].ItemTypeID) != -1) {
             this.folders[id] = folders[id];
         }
     }
-    // TODO: temporarily display People & Places until moved
-    for (var id in folders) {
-        if (!folders[id].IsCategory()) {
-            this.folders[id] = folders[id];
-        }
-    }
-
     this.$element = null;
 }
 
@@ -47,33 +41,34 @@ FolderList.prototype.fireSelectionChanged = function (folderID, itemID) {
 }
 
 FolderList.prototype.render = function ($element, folders) {
+    this.delay = 1;         // suppress animation during render (Chrome)
     if (folders != null) {
         this.init(folders);
     }
     $element.empty();
+    $('<div class="nav-header">Organizer</div>').appendTo($element);
     this.$element = $('<ul class="nav nav-pills nav-stacked" />').appendTo($element);
     Control.List.sortable(this.$element);
     for (var id in this.folders) {
         var folder = this.folders[id];
-        $folder = $('<li class="position-relative"><a class="selector"><strong>&nbsp;' + folder.Name + '</strong></a></li>').appendTo(this.$element);
-        $folder.find('strong').prepend(Control.Icons.forItemType(folder));
-        $folder.data('control', this);
-        $folder.data('item', folder);
-        $folder.click(function (e) {
-            if ($(e.target).hasClass('selector') || $(e.target).parents('a').first().hasClass('selector')) {
-                Control.get(this).folderClicked($(this));
-            }
-            return true;
-        });
-        $('<div class="btn-dropdown absolute-right"></div>').appendTo($folder);
-        if (folder.IsCategory()) {  
-            // TODO: condition is temporary to prevent dragging of People and Places folders
-            $('<div class="icon drag-handle"><span>⁞&nbsp;</span></div>').appendTo($folder);
-        }
-        if (folder.IsSelected()) { this.select($folder, folder); }
+        $folder = $('<li class="position-relative"></li>').appendTo(this.$element);
+        this.renderItem($folder, folder);     
         this.renderItems($folder, folder);
     }
     this.renderAddBtn($element);
+    this.delay = 400;        // enable animation after render
+}
+
+FolderList.prototype.refreshItem = function (item) {
+    if (this.$element != null) {
+        // check active item 
+        var $item = this.$element.find('li.active');
+        if ($item.length > 0 && $item.data('item') != null && (item.ID == $item.data('item').ID)) {
+            this.renderItem($item, item);
+        }
+
+        // TODO: handle case where change item is not active
+    }
 }
 
 FolderList.prototype.renderItems = function ($folder, folder) {
@@ -83,21 +78,8 @@ FolderList.prototype.renderItems = function ($folder, folder) {
     for (var id in items) {
         var item = items[id];
         if (item.IsList) {
-            $item = $('<li class="position-relative"><a class="selector"><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
-            $item.find('span').prepend(Control.Icons.forItemType(item));
-            $item.find('a').addClass(item.StatusClass());
-            $item.data('control', this);
-            $item.data('item', item);
-            $item.click(function (e) {
-                if ($(e.target).hasClass('selector') || $(e.target).parents('a').first().hasClass('selector')) {
-                    Control.get(this).itemClicked($(this));
-                }
-                return true;
-            });
-            $('<div class="btn-dropdown absolute-right"></div>').appendTo($item);
-            $('<div class="icon drag-handle">⁞&nbsp;</div>').appendTo($item);
-
-            if (item.IsSelected(true)) { this.select($item, item); }
+            $item = $('<li class="position-relative"></li>').appendTo($itemList);
+            this.renderItem($item, item);
         }
     }
     this.renderAddBtn($folder);
@@ -105,17 +87,40 @@ FolderList.prototype.renderItems = function ($folder, folder) {
     else { this.collapse($folder); }
 }
 
-FolderList.prototype.folderClicked = function ($folder) {
-    var folder = $folder.data('item');
-    this.toggle($folder);
-    this.select($folder, folder);
-    this.fireSelectionChanged(folder.ID);
+FolderList.prototype.renderItem = function ($item, item) {
+    $item.empty();
+    if (item.IsFolder()) {
+        $('<a class="selector"><strong>&nbsp;' + item.Name + '</strong></a>').appendTo($item);
+        $item.find('strong').prepend(Control.Icons.forItemType(item));
+    } else {
+        $('<a class="selector"><span>&nbsp;' + item.Name + '</span></a>').appendTo($item);
+        $item.find('span').prepend(Control.Icons.forItemType(item));
+        $item.find('a').addClass(item.StatusClass());
+    }
+    $item.data('control', this);
+    $item.data('item', item);
+    $item.click(function (e) {
+        if ($(e.target).hasClass('selector') || $(e.target).parents('a').first().hasClass('selector')) {
+            Control.get(this).itemClicked($(this));
+        }
+        return true;
+    });
+    $('<div class="btn-dropdown absolute-right"></div>').appendTo($item);
+    $('<div class="icon drag-handle">⁞&nbsp;</div>').appendTo($item);
+
+    if (item.IsSelected(true)) { this.select($item, item); }
 }
 
 FolderList.prototype.itemClicked = function ($item) {
     var item = $item.data('item');
-    this.select($item, item);
-    this.fireSelectionChanged(item.FolderID, item.ID);
+    if (item.IsFolder()) {
+        this.toggle($item);
+        this.select($item, item);
+        this.fireSelectionChanged(item.ID);
+    } else {
+        this.select($item, item);
+        this.fireSelectionChanged(item.FolderID, item.ID);
+    }
 }
 
 FolderList.prototype.select = function ($item, item) {
@@ -146,7 +151,7 @@ FolderList.prototype.expand = function ($folder) {
     $folder.addClass('expanded');
     folder.Expand(true);
     $itemlist = $folder.next('.itemlist');
-    Control.expand($itemlist, 400);
+    Control.expand($itemlist, this.delay);
     // must remove .collapse class for dropdown menu to not get clipped
     $itemlist.removeClass('collapse');
 }

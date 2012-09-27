@@ -88,17 +88,32 @@ FolderManager.prototype.render = function () {
 
     var $tabs = this.$element.find('.nav-tabs');
     var $tabContent = this.$element.find('.tab-content');
-    $tabs.find('li a:first').empty().append(this.activeListName(activeList));
-
+    var $listTab = $tabs.find('li a:first');
+    $listTab.empty().append(this.activeListName(activeList));
 
     var activityIsRunning = activeList.IsActivity() && activeList.IsRunning();
-    if (activeItem == null || activityIsRunning) {
-        $tabs.find('a[href=".' + FolderManager.ItemView + '"]').hide();
+    var $itemTab = $tabs.find('a[href=".' + FolderManager.ItemView + '"]');
+    if (activeItem == null || activeList.IsActivity()) {
+        $itemTab.empty().append('Edit Step Details');
+        var $closeBtn = $('<a><i class="icon-remove"></i></a>').prependTo($itemTab);
+        $closeBtn.data('control', this);
+        //$closeBtn.attr('title', 'Close').tooltip(Control.ttDelay);
+        $closeBtn.click(function () {
+            Control.get(this).activeView(FolderManager.ListView); return false;
+        });
     } else {
-        $itemTab = $tabs.find('a[href=".' + FolderManager.ItemView + '"]');
         $itemTab.empty().append(this.activeItemName(activeItem));
-        $itemTab.show();
     }
+    /*
+    var activityIsRunning = activeList.IsActivity() && activeList.IsRunning();
+    if (activeItem == null || activityIsRunning) {
+    $tabs.find('a[href=".' + FolderManager.ItemView + '"]').hide();
+    } else {
+    $itemTab = $tabs.find('a[href=".' + FolderManager.ItemView + '"]');
+    $itemTab.empty().append(this.activeItemName(activeItem));
+    $itemTab.show();
+    }
+    */
 
     var $view = this.views[activeView];
     var maxContentHeight = this.$parentElement.outerHeight() - $tabs.outerHeight();
@@ -109,93 +124,30 @@ FolderManager.prototype.render = function () {
             this.activeView(activeView);
         } else {
             this.itemEditor.render($view, activeItem, maxContentHeight);
+            $itemTab.show();
+            $listTab.hide();
         }
     }
     if (activeView == FolderManager.ListView) {
         this.listEditor.render($view, activeList, maxContentHeight);
+        $listTab.show();
+        $itemTab.hide();
     }
     $tabs.find('a[href=".' + activeView + '"]').tab('show');
-    this.renderStatus();
+    this.renderStatus(activeList);
 }
 
-FolderManager.prototype.renderStatus = function () {
-    var $status = this.$element.children('div.item-status').empty();
-    var activity = this.activeList();
-    if (activity != null && !activity.IsFolder() && activity.IsActivity()) {
-        if (activity.IsRunning()) {
-            var $btnPause = $('<a class="btn btn-warning icon"><i class="icon-pause"></i></a>').appendTo($status);
-            $btnPause.attr('title', 'Pause Activity').tooltip(Control.noDelayBottom);
-            $btnPause.click(function () {
-                $(this).tooltip('hide');
-                activity.Pause();
-            });
-
-            if (activity.IsComplete()) {
-                var rrule = Recurrence.Extend(activity.GetFieldValue(FieldNames.Repeat));
-                if (rrule.IsEnabled()) {
-                    var $btnForward = $('<a class="btn btn-primary icon"><i class="icon-forward"></i></a>').appendTo($status);
-                    $btnForward.attr('title', 'Repeat Activity').tooltip(Control.noDelayBottom);
-                    $btnForward.click(function () {
-                        $(this).tooltip('hide');
-                        activity.Repeat();
-                    });
-                }
-            }
-
-        } else {
-
-            // helper function for displaying popup dialog to input due date
-            var popupDueDate = function (item, activity) {
-                var header = 'Select due date';
-                header += (item.IsActivity()) ? ' for activity' : ' for first step';
-                var field = item.GetField(FieldNames.DueDate);
-                var $dialog = $('<div class="control-group"><label class="control-label">Due Date</label></div>');
-                Control.DateTime.renderDatePicker($dialog, item, field);
-                Control.popup($dialog, header, function (inputs) {
-                    if (inputs.length == 1 && inputs[0].length > 0) {
-                        var itemNeedsDueDate = activity.Start(inputs[0]);
-                        if (itemNeedsDueDate != null) {
-                            // unable to set valid due date on activity or next step
-                            Control.alert('Activity is not running.', 'Could not set valid due date on activity or next step. Try setting due date first.');
-                        }
-                    }
-                });
-            }
-
-            var status = activity.CanResume();
-            if (status.Start || status.Resume) {
-                var title = (status.Start) ? 'Start Activity' : 'Resume Activity';
-                var $btnStart = $('<a class="btn btn-success icon"><i class="icon-play"></i></a>').appendTo($status);
-                $btnStart.attr('title', title).tooltip(Control.noDelayBottom);
-
-                $btnStart.click(function () {
-                    $(this).tooltip('hide');
-                    var itemNeedsDueDate = activity.Start();
-                    if (itemNeedsDueDate != null) {
-                        // item needs a due date
-                        popupDueDate(itemNeedsDueDate, activity);
-                    }
-                });
-            }
-
-            if (status.Restart) {
-                var $btnRestart = $('<a class="btn btn-primary icon"><i class="icon-backward"></i></a>').prependTo($status);
-                $btnRestart.attr('title', 'Restart Activity').tooltip(Control.noDelayBottom);
-
-                $btnRestart.click(function () {
-                    $(this).tooltip('hide');
-                    var itemNeedsDueDate = activity.Restart();
-                    if (itemNeedsDueDate != null) {
-                        // item needs a due date
-                        popupDueDate(itemNeedsDueDate, activity);
-                    }
-                });
-
-                if (status.Resume && activity.IsStopped()) { activity.UpdateStatus(StatusTypes.Paused); }
-                if (!status.Resume && activity.IsPaused()) { activity.UpdateStatus(StatusTypes.Stopped); }
-            }
-
-        }
+FolderManager.prototype.renderStatus = function (activity) {
+    var $status = this.$element.find('.item-status').empty();
+    if (activity.IsActivity()) {
+        var status, alertClass;
+        if (activity.IsStopped()) { status = 'Activity is stopped'; alertClass = 'alert-error'; }
+        else if (activity.IsPaused()) { status = 'Activity is paused'; alertClass = 'alert-warning'; }
+        else if (activity.IsComplete()) { status = 'Activity is complete'; alertClass = 'alert-info'; }
+        else if (activity.IsActive()) { status = 'Activity is running'; alertClass = 'alert-success'; }
+        var $alert = $('<div class="alert"></div>').appendTo($status);
+        $alert.addClass(alertClass);
+        $alert.html(status);
     }
 }
 
@@ -237,7 +189,6 @@ FolderManager.prototype.activeItem = function () {
                 this.currentItem = items[id];
                 this.currentItem.Select();
                 return this.currentItem;
-                //break;
             }
         };
     }

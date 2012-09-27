@@ -1,3 +1,4 @@
 rm source/services/website/scripts/dashboard/dashboard.generated.min.js
 rm source/services/website/scripts/nextsteps/nextsteps.generated.min.js
 rm source/services/website/scripts/nextsteps/nextsteps-mobile.generated.min.js
+rm source/services/website/scripts/wizard/wizard.generated.min.js

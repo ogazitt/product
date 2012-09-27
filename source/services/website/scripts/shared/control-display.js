@@ -97,7 +97,7 @@ Control.Text.renderInputNew = function Control$Text$renderInput($element, item, 
         Control.Text.autoCompleteContact($text, Control.Text.insert);
         Control.Text.placeholder($text, 'Enter a contact');
     } else if (item.ItemTypeID == ItemTypes.Step) {
-        Control.Text.placeholder($text, 'Enter next step');
+    //    Control.Text.placeholder($text, 'Enter next step');
     } else {
         Control.Text.placeholder($text, 'Enter an item');
     }
@@ -606,8 +606,9 @@ Control.ContactList.renderInput = function Control$ContactList$renderInput($elem
     $input.addClass(field.Class);
     $input.data('item', item);
     $input.data('field', field);
-    handler = (handler == null) ? Control.ContactList.update : handler;
+    Control.Text.placeholder($input, 'Enter a contact');
 
+    handler = (handler == null) ? Control.ContactList.update : handler;
     $input.keypress(function (e) { if (e.which == 13) { handler($(e.srcElement)); return false; } });
     var value = item.GetFieldValue(field);
     var text = '';

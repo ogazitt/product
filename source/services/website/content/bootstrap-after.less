@@ -1,36 +1,26 @@
-﻿/*! 
- * This css must be processed after bootstrap.css but before responsive.css
- * Padding is required to keep content below navbar at top of page 
-*/
+﻿//----------------------------------------------------------
+// Copyright (C) BuiltSteady Inc. All rights reserved.
+//----------------------------------------------------------
+//
+// This css must be processed after bootstrap.css but before responsive.css
+
+
+// padding required to account for navbar on top and bottom of page 
 body { padding-top: 54px; padding-bottom: 40px; }
 
-/*! 
- * This must be processed after responsive.css to override default bootstrap styles
-*/
-
-/* Core variables and mixins */
+// include core variables and mixins 
 @import "less/variables.less"; 
 @import "less/mixins.less";
 
-/* increase default font-awesome size */
-i { font-size: 18px; }
+i { font-size: 18px; }                                  // increase default font-awesome size
 a { cursor: pointer; }
 a i:hover, a.icon:hover { text-decoration: none; }
 textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].pac-placeholder { color: #ccc; }
 
-/* center checkbox when add-on in input-prepend */
+// center checkbox when add-on in input-prepend
 .input-prepend .add-on .checkbox { margin-top: -2px; }
 
-/* customize navbar styles */
-.navbar .brand { margin: 0 0 0 20px; }
-.navbar .active img { margin: 0 12px 0 12px; }
-.navbar-fixed-top .navbar-inner { padding: 0 10px 0 10px; }
-.navbar-fixed-bottom .pull-right { margin: 12px 10px 0 0; }
-.navbar .nav-pills.pull-right > li > a { padding-left: 4px; padding-right: 4px; }
-.navbar .nav-pills.pull-right > li.divider-vertical { margin-left: 0; }
-.navbar .nav-pills.pull-right > li > a > i.icon-white { color: @white; }
-
-/* customize container styles */
+// customize container contraints
 @media(max-width:800px) {
     body{padding-left:0; padding-right:0;}
     .navbar .container-fluid{width:100%;*zoom:1}
@@ -43,81 +33,93 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
     .navbar .container-fluid{width:400px;*zoom:1}
 }
 
-/* dashboard styles */
-/* TODO: move into dashboard.less file */
+// customize navbar styles
+.navbar .brand { margin: 0 0 0 20px; }
+.navbar .active img { margin: 0 12px 0 12px; }
+.navbar-fixed-top .navbar-inner { padding: 0 10px 0 10px; }
+.navbar-fixed-bottom .pull-right { margin: 12px 10px 0 0; }
+.navbar .nav-pills.pull-right > li > a { padding-left: 4px; padding-right: 4px; }
+.navbar .nav-pills.pull-right > li.divider-vertical { margin-left: 0; }
+.navbar .nav-pills.pull-right > li > a > i.icon-white { color: @white; }
+
+
+// dashboard styles 
 .dashboard-list { padding: 6px; overflow-y: auto; over-flow-x: hidden; }
+.dashboard-list .nav-header { 
+    margin: -6px -6px 2px -6px; padding: 6px; 
+    background-color: darken(@white, 10%);
+    #gradient > .vertical(darken(@white, 15%), @white); 
+    border-bottom: 1px solid darken(@white, 15%); 
+    color: @linkColor; font-size: 11pt; xfont-weight: bold; text-shadow: -1px -1px darken(@white, 5%);  
+}
+
 .dashboard-list ul { margin: 0; over-flow-x: hidden; }
-.dashboard-list li a {  cursor: pointer; } 
+.dashboard-list .li a {  cursor: pointer; } 
 // itemlist indent
-.dashboard-list ul.itemlist span,  .dashboard-list ul.itemlist em { padding-left: 20px; } 
+.dashboard-list ul.itemlist span, .dashboard-list ul.itemlist em { padding-left: 20px; } 
 .dashboard-list li.itemlist > a { padding-left: 24px; } 
 
 // adjust dropdown menus to not get clipped
 .dashboard-list .itemlist .dropdown-menu { top: 0; right: 20px; }
-.dashboard-right .dropdown-menu.pull-right { left: auto; right: 0; }
 .dashboard-center .absolute-right .dropdown.dropup .dropdown-menu { bottom: -38px; right: 20px; }
 .dashboard-center .absolute-right .dropdown.dropcenter .dropdown-menu { top: -110px; right: 20px; }
 .dashboard-center .btn-toolbar .dropdown.dropcenter .dropdown-menu { top: -24px; right: 24px; }
 
-/* color status icons */
-.dashboard-list li a.st-paused, .dashboard-list li a.st-stopped { color: @navbarSearchPlaceholderColor; }
+// dashboard-right styles (gallery list)
+.dashboard-right .nav-header { color: @textColor; }
+.dashboard-right .nav-pills > li > a { color: @textColor; }
+.dashboard-right .nav-pills > li > a:hover { color: lighten(@textColor, 25%); }
+.dashboard-right .nav-pills > li.active > a { color: @white; background-color: lighten(@textColor, 25%); }
+.dashboard-right .dropdown-menu.pull-right { left: auto; right: 0; }
+
+// colors for status icons and text
 .dashboard-center li div.form-inline { color: @linkColor; }
-.dashboard-center li div.form-inline:hover { color: @linkColorHover; cursor: default; }
 .dashboard-center li.st-paused { background-color: @warningBackground; }
 .dashboard-list li a.st-paused i, .dashboard-center li.st-paused .form-inline i { color: @btnWarningBackground; }
-.dashboard-list li a.st-paused i:hover, .dashboard-center li.st-paused .form-inline i:hover { color: @btnWarningBackgroundHighlight; }
-.dashboard-list li a.st-stopped i, .dashboard-center li.st-stopped .form-inline i { color: @grayLight; }
-.dashboard-list li a.st-stopped i:hover, .dashboard-center li.st-stopped .form-inline i:hover { color: @gray; }
-.dashboard-list li a.st-skipped i, .dashboard-center li.st-skipped .form-inline i { color: @btnDangerBackground; }
-.dashboard-list li a.st-skipped i:hover, .dashboard-center li.st-skipped .form-inline i:hover { color: @btnDangerBackgroundHighlight; }
+.dashboard-list li a.st-stopped i { color: @btnDangerBackground; }
+.dashboard-center li.st-stopped .form-inline i { color: @btnInverseBackground; }
+.dashboard-list li a.st-skipped i, .dashboard-center li.st-skipped .form-inline i { color: @linkColor; }
 .dashboard-list li a.st-active i, .dashboard-center li.st-active .form-inline i { color: @btnSuccessBackground; }
-.dashboard-list li a.st-active i:hover, .dashboard-center li.st-active .form-inline i:hover { color: @btnSuccessBackgroundHighlight; }
+li.st-completed a, li.st-completed span, li.st-completed small, li.st-completed i { color:@grayDarker; }  
 
-
-/* busy animation for suggestions pane */
-.dashboard-right .working { text-align: center; width: 100%; }
-.dashboard-right .working span {
-    display: inline-block; width: 16px; height: 11px;
-    background: transparent url(images/busy.gif) no-repeat;
-    opacity:0.6; filter:alpha(opacity=60);
-}
-
+// dashboard-center styles 
 .dashboard-center { padding: 0; margin: 0; }
 .dashboard-center.well { padding: 8px; }
-
 .dashboard-center .hero-unit, .dashboard-center .manager-folders, 
 .dashboard-center .manager-settings { margin-top: -16px; }
 
 .dashboard-center .nav-tabs { margin-bottom: 0; }
 .dashboard-center .nav-tabs .active { font-weight: bold; }
+.dashboard-center .nav-tabs .icon-remove { margin: 0 8px 0 -2px; width: 16px; height: 16px; .border-radius(2px); }
 .dashboard-center .tab-content {
-    padding: 12px;
-    border: 1px solid @btnBorder;         
-    border-top-color: transparent;
-    -webkit-border-radius: 0 4px 4px 4px;
-    -moz-border-radius: 0 4px 4px 4px;
-    border-radius: 0 4px 4px 4px;
+    padding: 12px; border: 1px solid @btnBorder; border-top-color: transparent; 
+    border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; -moz-border-radius: 0 4px 4px 4px;
 }
-
 .dashboard-center .tab-content { min-height: 200px; }
 .dashboard-center .tab-content .form-vertical .control-group { margin: 0 10px 0 0; padding: 0; }
 .dashboard-center .tab-content .form-vertical .control-label, .modal-body .control-label { font-size: 8pt; margin: 0 0 -4px 8px; }
+
 .dashboard-center .manager-folders div.form-inline { padding: 4px 0 0 0; }
 .dashboard-center .manager-folders .form-inline .checkbox { margin-right: 6px; margin-top: -2px; }
 .dashboard-center .manager-folders small { font-size: 90%; margin-right: 12px; }
 .dashboard-center .manager-folders { position: relative; }
 .dashboard-center .manager-folders .tab-content textarea { height: 60px; }
-.dashboard-center .manager-folders .tab-content .input-inline-max { display:inline-block; width: 90%; }
+
+.dashboard-center .manager-folders .tab-content .new-item.well { margin: 12px 0 0 0; padding: 4px 8px 2px 8px; }
+.dashboard-center .manager-folders .tab-content .vcr-controls { margin: 0 24px 6px 0; }
+.dashboard-center .manager-folders .tab-content .btn.disabled { cursor: default; .opacity(35); .box-shadow(none); }
+
 .dashboard-center .manager-folders .tab-content .nav-list { padding: 0; }
 .dashboard-center .manager-folders .tab-content .nav-list > li { border-top: 1px solid @btnBorder; padding: 0 8px 0 8px; }
 .dashboard-center .manager-folders .tab-content .nav-list > li.selected { background-color: @grayLighter; }  
 .dashboard-center .manager-folders .tab-content .nav-list > li.st-paused { background-color: @warningBackground; }  
 .dashboard-center .manager-folders .tab-content .nav-list > li.st-completed { background-color: @grayLight; }  
-li.st-completed a, li.st-completed span, li.st-completed small, li.st-completed i { color:@grayDarker; }  
+// action toolbar
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar { margin: 8px 2px 2px 2px; }
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar.pull-right { float: right; }
-.btn-toolbar .icon-large { text-align:left; padding: 4px 0 0 4px;  margin-left: 4px; }
 .btn-toolbar .btn .icon-large { text-align:left; padding: 4px 0 0 8px;  }
+.btn-toolbar a.icon  { margin: 0 2px 0 6px; }
+.btn-toolbar .icon-large:before { width: 1em; line-height: 1em; padding: 2px 0 0 2px; font-size: 20pt /*1.25em*/; }
 
 .dashboard-center .carousel .input-block-level {
     border-left-color: transparent; border-bottom-color: transparent; border-right-color: transparent; 
@@ -132,7 +134,7 @@ li.st-completed a, li.st-completed span, li.st-completed small, li.st-completed 
 .dashboard-center .carousel .form-inline.well .thumbnail img { width: 100%; height: 100%; }
 .dashboard-center .carousel .form-inline.well .thumbnail a.icon i { font-size: 48px; margin: 6px 0 0 12px; }
 
-/* styles for paging */
+// page turn styles 
 .page-turn-prev { display: inline-block; width: 24px; height: 24px;
     background: transparent url(images/page-turn-prev.png) no-repeat;
 }
@@ -145,61 +147,56 @@ li.st-completed a, li.st-completed span, li.st-completed small, li.st-completed 
 .page-turn-control div { opacity: 0.35; filter: alpha(opacity=35); }
 .page-turn-control div:hover { opacity: 0.9; filter: alpha(opacity=90); }
 
-/* styles for link-array */
+// link-array styles
 .link-array { margin-bottom: 8px; }
 .link-array a { font-size: 90%; margin: 0 24px 0 6px; }
 .link-array a.icon { margin: 0; }
 .link-array input { margin-bottom: 2px; }
 
-/* positioning */
+// general element positioning 
 .position-relative { position: relative; }
 .absolute-right { position: absolute; top: 4px; right: 6px; }
-.popup-text { position: absolute; top: 2px; left: 2px; width: 80%; }
 .icon.absolute-right:hover { background-color: transparent; }
+.popup-text { position: absolute; top: 2px; left: 2px; width: 80%; }
 .inline { display: inline-block; }
 .inline-left { display: inline-block; float: left; }
 .inline-right { display: inline-block; float: right; }
 
-/* item status icon */
+// item status icon 
 .item-status { position: absolute; top: 5px; right: 0; }
+.item-status .alert { text-align: right; margin: 4px 0 0 6px; padding: 2px 6px 2px 6px; }
 
-/* drag handle icon */
+// drag handle icon
 .icon.drag-handle { position: absolute; top: 7px; left: 1px; color: transparent; cursor: n-resize; font-family: Arial; font-size: 22pt; }
 li:hover .icon.drag-handle { color: inherit; }
 li.active:hover .icon.drag-handle { color: @white; }
 
-/* custom buttons */
+// custom buttons 
 .btn-command { color: @grayLight; }
 .btn-dropdown { color: @white; cursor: pointer; }
 .btn-dropdown.open .dropdown-toggle { background-color: transparent; }
-.btn.icon { width: 24px; height: 19px; padding: 5px 0 0 0; margin: -2px 4px 0 0; }
-.btn.icon .icon-backward { margin-right: 2px; }
+.btn.icon { width: 29px; height: 25px; padding: 4px 0 0 0; margin: 0 4px 0 0; }
+.btn.icon i { font-size: 23px; line-height: 23px; }
 
-/* custom icons */
+// custom icons 
 i.icon-azure { display: inline-block; width: 16px; height: 16px; cursor: pointer; 
     background: transparent url(images/icon-azure.png) no-repeat; }
 
-/* repeat control */
+// repeat control 
 .repeat-dialog .add-on { width: 90px; text-align: right; }
 .repeat-frequency { max-width: 80px; }
 .int-selector { max-width: 60px; }
 .month-selector { max-width: 100px; }
 .repeat-summary { margin: 24px 0 -12px 0; }
-label.checkbox { cursor: pointer; }
-label.checkbox .checkbox { margin-top: -2px; }
 
-/*----------------------------------------------------------
-override z-index for use in bootstrap modal dialogs
-----------------------------------------------------------*/
-.ui-datepicker[style] { z-index: 2000 !important; }   // jquery-ui datepicker
-.pac-container[style] { z-index: 3000 !important; }   // google-places autocomplete
-//.pac-container[style] div { z-index: 4000000 !important; }   // google-places autocomplete
-//.pac-container[style]:after { display: none; }  // this disables the "powered by google" footer for the autocomplete
+// override z-index for use in bootstrap modal dialogs
+.ui-datepicker[style] { z-index: 2000 !important; } // jquery-ui datepicker
+.pac-container[style] { z-index: 3000 !important; } // google-places autocomplete
+//.pac-container[style]:after { display: none; }    // remove "powered by google" logo in autocomplete
 
+//----------------------------------------------------------
+// jquery-ui timepicker extension
 
-/*----------------------------------------------------------
-jquery-ui timepicker extension
-----------------------------------------------------------*/
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
 .ui-timepicker-div dl { text-align: left; }
 .ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; margin-left: 8px; }
@@ -207,9 +204,9 @@ jquery-ui timepicker extension
 .ui-timepicker-div td { font-size: 90%; }
 .ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
 
-/*----------------------------------------------------------
-jquery-ui combobox extension
-----------------------------------------------------------*/
+//----------------------------------------------------------
+// jquery-ui combobox extension
+
 .ui-combobox { position: relative; display: inline-block; }
 .ui-combobox .ui-button { position: absolute; margin-left: -1px; padding: 0; top: 0; bottom: 0; }
 .ui-autocomplete-input { margin: 0; padding: 0.3em }

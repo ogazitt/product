@@ -37,7 +37,7 @@ Control.Repeat.refresh = function Control$Repeat$refresh($element, item) {
     } else {
         $element.addClass('disabled');
     };
-    $element.parent().find('span').html(this.rrule.Summary());
+    $element.parent().find('span').html(this.rrule.Summary('Repeat?'));
 }
 Control.Repeat.dialog = function Control$Repeat$dialog($element) {
     var $dialog = $('#repeatDialog').children().clone();

@@ -234,8 +234,8 @@ Recurrence.prototype.HasMonth = function (d) { return (this.ByMonth.indexOf(d) >
 Recurrence.prototype.AddMonth = function (d) { this.ByMonth.push(d); };
 Recurrence.prototype.RemoveMonth = function (d) { var i = this.ByMonth.indexOf(d); if (i >= 0) { this.ByMonth.splice(i, 1) } };
 
-Recurrence.prototype.Summary = function () {
-    var summary = "Do not repeat";
+Recurrence.prototype.Summary = function (text) {
+    var summary = (text == null) ? "Do not repeat" : text;
     if (this.IsEnabled()) {
         // generate summary statement
         var txtFreq = Recurrence.FrequencyLabels[this.Frequency];

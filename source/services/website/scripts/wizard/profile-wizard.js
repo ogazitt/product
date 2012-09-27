@@ -36,24 +36,6 @@ ProfileWizard.Init = function ProfileWizard$Init(dataModel, consentStatus) {
 
     // suggestions manager for handling connect
     this.suggestionManager = new SuggestionManager(this.dataModel);
-    // initialize connect buttons
-    this.dataModel.GetSuggestions(function (suggestions) {
-        var fbConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetFBConsent);
-        var $btn = ProfileWizard.$element.find('a.fb');
-        $btn.attr('title', 'Connect to Facebook').tooltip(Control.ttDelay);
-        $btn.click(function () { ProfileWizard.suggestionManager.select(fbConsent, 'wizard'); });
-        if (fbConsent == null) {
-            ProfileWizard.$element.find('small.fb').addClass('connected').html('Connected');
-        }
-
-        var gcConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetGoogleConsent);
-        $btn = ProfileWizard.$element.find('a.google');
-        $btn.attr('title', 'Connect to Calendar').tooltip(Control.ttDelay);
-        $btn.click(function () { ProfileWizard.suggestionManager.select(gcConsent, 'wizard'); });
-        if (gcConsent == null) {
-            ProfileWizard.$element.find('small.google').addClass('connected').html('Connected');
-        }
-    });
 
     // bind input elements to UserProfile item fields
     this.bindFields();
@@ -73,31 +55,53 @@ ProfileWizard.Init = function ProfileWizard$Init(dataModel, consentStatus) {
     this.showActivePanel();
 }
 
+ProfileWizard.initConnect = function ProfileWizard$initConnect() {
+    this.dataModel.GetSuggestions(function (suggestions) {
+        var fbConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetFBConsent);
+        var $btn = ProfileWizard.$element.find('a.fb');
+        $btn.attr('title', 'Connect to Facebook').tooltip(Control.ttDelay);
+        $btn.click(function () { ProfileWizard.suggestionManager.select(fbConsent, 'wizard'); });
+        if (fbConsent == null) {
+            ProfileWizard.$element.find('small.fb').addClass('connected').html('Connected');
+        }
+
+        var gcConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetGoogleConsent);
+        $btn = ProfileWizard.$element.find('a.google');
+        $btn.attr('title', 'Connect to Calendar').tooltip(Control.ttDelay);
+        $btn.click(function () { ProfileWizard.suggestionManager.select(gcConsent, 'wizard'); });
+        if (gcConsent == null) {
+            ProfileWizard.$element.find('small.google').addClass('connected').html('Connected');
+        }
+    });
+}
+
 ProfileWizard.showActivePanel = function ProfileWizard$showActivePanel() {
     this.$element.find('.info-pane').removeClass('active');
     this.$activePanel.addClass('active');
     var nextBtn = this.$element.find('.btn-success');
-    if (this.$activePanel.attr('id') == this.lastPanel) { nextBtn.html('Done'); }
-    else { nextBtn.html('Next'); }
+    if (this.$activePanel.attr('id') == this.lastPanel) { 
+        this.initConnect();
+        nextBtn.html('Done'); 
+    } else { nextBtn.html('Next'); }
     var prevBtn = this.$element.find('.btn-primary');
     if (this.$activePanel.attr('id') == this.firstPanel) { prevBtn.hide(); }
     else { prevBtn.show(); }
 }
 
 ProfileWizard.showNextPanel = function ProfileWizard$showNextPanel() {
-    //this.installActivities(this.$activePanel);
     this.$activePanel = this.$element.find('.info-pane.active').next('.info-pane');
     if (this.$activePanel.length > 0) {
         this.showActivePanel();
         this.dataModel.UserSettings.ActiveWizardPanel(this.$activePanel.attr('id'));
         this.dataModel.UserSettings.Save();
     } else {
+        this.dataModel.Close();
+        this.installActivities();
         Service.NavigateToDashboard();
     }
 }
 
 ProfileWizard.showPrevPanel = function ProfileWizard$showPrevPanel() {
-    //this.installActivities(this.$activePanel);
     this.$activePanel = this.$element.find('.info-pane.active').prev('.info-pane');
     if (this.$activePanel.length > 0) {
         this.showActivePanel();
@@ -174,20 +178,17 @@ ProfileWizard.updateAddress = function ProfileWizard$updateAddress($input) {
     item.Update(updatedItem);
 }
 
-ProfileWizard.installActivities = function ProfileWizard$installActivities($panel) {
-    var panel = $panel.attr('id');
-    if (panel == 'home_info') {
-        if ($panel.find('.fn-homeowner').attr('checked') == 'checked') {
-            var category = GalleryCategory.Extend({ Name: UserEntities.Home });
-            category.Install();
-        }
-    } else if (panel == 'auto_info') {
-        var automake = $panel.find('.fn-automake').val();
-        if (automake != null && automake.length > 0) {
-            var category = GalleryCategory.Extend({ Name: UserEntities.Auto });
-            category.Install();
-        }
-    }
+ProfileWizard.installActivities = function ProfileWizard$installActivities() {
+    // TODO: persist and check flag if already installed
+    // TODO: define permanent constants for IDs of system activities
+    var activity = GalleryActivity.Extend({ ID: 1631, Name: "Haircut" });
+    activity.Install();
+    activity = GalleryActivity.Extend({ ID: 1636, Name: "Workout" });
+    activity.Install();
+    activity = GalleryActivity.Extend({ ID: 1626, Name: "Dental cleaning" });
+    activity.Install();
+    activity = GalleryActivity.Extend({ ID: 1632, Name: "Annual health checkup" });
+    activity.Install();
 } 
 
 ProfileWizard.resize = function ProfileWizard$resize() {

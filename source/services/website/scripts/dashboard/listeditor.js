@@ -23,12 +23,15 @@ ListEditor.prototype.render = function ($element, list, maxHeight) {
     $activity = this.renderActivity(this.$element, list);
     activityHeight = ($activity != null) ? $activity.outerHeight() : 0;
 
-    // render child items
-    this.listView.render(this.$element, list, maxHeight - activityHeight - newItemHeight - 28);   // exclude top & bottom padding 
-    
-    // render new item input
+    // render new item input (render before listView to get height)
     $newItem = this.newItemEditor.render(this.$element, list);
     newItemHeight = ($newItem != null) ? $newItem.outerHeight() : 0;
+
+    // render child items (list scrolls based on remaining height)
+    this.listView.render(this.$element, list, maxHeight - activityHeight - newItemHeight - 28);   // exclude top & bottom padding 
+
+    // move new item input after listView
+    $newItem.appendTo(this.$element);
     //if ($newItem != null) { $newItem.find('.fn-name').focus(); }
 }
 
@@ -44,6 +47,7 @@ ListEditor.prototype.renderActivity = function ($element, activity) {
     if (hasSteps || activity.IsRunning()) {
         var $li = $('<li />').appendTo(this.$activity);
         var $form = $('<div class="form-inline"/>').appendTo($li);
+        $('<label class="control-label">Steps</label>').css('margin-bottom','0').appendTo(this.$activity);
 
         if (hasSteps) {
             // activity with steps, display repeat
@@ -300,7 +304,7 @@ ListView.prototype.renderListItems = function (list) {
                 if ($(this).hasClass('ui-sortable-helper') ||
                 $(e.srcElement).hasClass('dt-checkbox') ||
                 $(e.srcElement).hasClass('dt-email')) {
-                    return;
+                return;
                 }
                 var item = $(this).data('item');
                 Control.get(this).parentControl.selectItem(item);

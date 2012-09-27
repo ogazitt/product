@@ -309,7 +309,6 @@
     <Content Include="scripts\shared\entity-core.js" />
     <Content Include="scripts\shared\math.uuid.js" />
     <Content Include="scripts\dashboard\suggestionmanager.js" />
-    <Content Include="scripts\dashboard\suggestionlist.js" />
     <Content Include="scripts\dashboard\foldermanager.js" />
     <Content Include="scripts\dashboard\folderlist.js" />
     <Content Include="scripts\jquery-1.7.1.js" />

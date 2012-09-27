@@ -55,7 +55,7 @@ FolderList.prototype.render = function ($element, folders) {
         this.renderItem($folder, folder);     
         this.renderItems($folder, folder);
     }
-    this.renderAddBtn($element);
+    this.renderAddBtn(this.$element);
     this.delay = 400;        // enable animation after render
 }
 

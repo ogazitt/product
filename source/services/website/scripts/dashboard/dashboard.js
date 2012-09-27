@@ -181,13 +181,16 @@ Dashboard.resize = function Dashboard$resize() {
     $(window).unbind('resize', Dashboard.resize);
 
     var winHeight = $(window).height();
-    var headerHeight = $('.navbar-fixed-top').height();
-    var footerHeight = $('.navbar-fixed-bottom').height();
-    var dbHeight = winHeight - (headerHeight + footerHeight + 30);
+    var navTopHeight = $('.navbar-fixed-top').height();
+    var navBottomHeight = $('.navbar-fixed-bottom').height();
+    var listHeaderHeight = Dashboard.$left.children('.nav-header').height() + 30;
+    var dbHeight = winHeight - (navTopHeight + navBottomHeight + 20);
 
     Dashboard.$left.height(dbHeight);
+    Dashboard.$left.children('ul').first().height(dbHeight - listHeaderHeight);
     Dashboard.$center.height(dbHeight);
     Dashboard.$right.height(dbHeight);
+    Dashboard.$right.children('ul').first().height(dbHeight - listHeaderHeight);
 
     Dashboard.showManager(Dashboard.currentManager, true);
     //Dashboard.folderList.render(Dashboard.$left);

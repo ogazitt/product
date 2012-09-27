@@ -5,6 +5,7 @@
     <style type="text/css">
       .field-validation-valid { display: none; }
       h1 { margin:24px 0 24px 0; font-family:'Segoe UI Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:32pt; }
+      h3 { font-size: 20px; }
       .main-content { margin: 0 24px 0 48px; }
       fieldset { margin-left: 32px; margin-top: 75px; }
       .control-group { margin: 0 10px 0 0; padding: 0; }
@@ -14,7 +15,6 @@
       .btn-request-access { margin-left: 32px; }
       #twostep_img { height: 330px; min-width: 495px; }
       body { min-width: 900px; }
-      h3 { font-size: 20px; }
       .learn-more-btn { margin-left: 380px; width: 120px; margin-top: -12px; }
     </style>
 </asp:Content>

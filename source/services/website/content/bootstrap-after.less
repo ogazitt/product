@@ -44,7 +44,7 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 
 
 // dashboard styles 
-.dashboard-list { margin: 0; padding: 0; overflow-y: hidden; overflow-x: hidden; border-color: @btnPrimaryBackground; }
+.dashboard-list { margin: 0; padding: 0; overflow-y: hidden; overflow-x: hidden; }
 .dashboard-list > ul.nav { padding: 6px; margin: 0; overflow-y: auto; overflow-x: hidden; }
 .dashboard-list ul { margin: 0; }
 
@@ -68,7 +68,6 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .btn-toolbar .dropdown.dropcenter .dropdown-menu { top: -24px; right: 24px; }
 
 // dashboard-right styles (gallery list)
-.dashboard-right { border-color: @textColor; }
 .dashboard-right .nav-header { 
     background-color: @textColor; 
     #gradient > .vertical(lighten(@textColor, 10%), @textColor); 
@@ -95,12 +94,12 @@ li.st-completed a, li.st-completed span, li.st-completed small, li.st-completed 
 .dashboard-center .hero-unit, .dashboard-center .manager-folders, 
 .dashboard-center .manager-settings { margin-top: -16px; }
 
-.dashboard-center .nav-tabs { margin-bottom: 0; border-color: @textColor; }
-.dashboard-center .nav-tabs > li > a { background-color: darken(@white, 10%); border-color: transparent; border-bottom-color: @textColor; }
-.dashboard-center .nav-tabs > li.active > a { background-color: @white; border-color: @textColor; border-bottom-color: transparent; font-weight: bold; }
+.dashboard-center .nav-tabs { margin-bottom: 0; }
+.dashboard-center .nav-tabs > li > a { background-color: darken(@white, 10%); }
+.dashboard-center .nav-tabs > li.active > a { background-color: @white; font-weight: bold; }
 .dashboard-center .nav-tabs .icon-remove { margin: 0 8px 0 -2px; width: 16px; height: 16px; .border-radius(2px); }
 
-.dashboard-center .tab-content { padding: 12px; border: 1px solid @textColor; border-top-color: transparent; .border-radius(0 0 4px 4px); }
+.dashboard-center .tab-content { padding: 12px; border: 1px solid #ddd; border-top-color: transparent; .border-radius(0 0 4px 4px); }
 .dashboard-center .tab-content { min-height: 200px; }
 .dashboard-center .tab-content .form-vertical .control-group { margin: 0 10px 0 0; padding: 0; }
 .dashboard-center .tab-content .control-label, .modal-body .control-label { font-size: 8pt; margin: 0 0 -4px 8px; }

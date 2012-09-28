@@ -186,7 +186,8 @@ var UserEntities = {
     Places: "Places",
     Personal: "Personal",
     Home: "Home",
-    Auto: "Auto"
+    Auto: "Auto",
+    Finance: "Finance"
 }
 
 // ---------------------------------------------------------

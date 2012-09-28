@@ -240,6 +240,12 @@
     <Content Include="gallery\galleryactivities\01-Auto\CheckTires.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="gallery\galleryactivities\04-Finance\PayTaxes.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="gallery\galleryactivities\04-Finance\PayBills.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="gallery\systemactivities\System.Home\FixOutlet.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

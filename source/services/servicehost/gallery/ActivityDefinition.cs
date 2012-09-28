@@ -11,7 +11,8 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
     {
         public string Name { get; set; }
         public List<ActivityStep> Steps { get; set; }
-        public string Recurrence { get; set; }
+        public JObject Recurrence { get; set; }
         public JObject Filter { get; set; }
+        public string Status { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿{
 	"Name": "Dental cleaning",
-	"Recurrence": null,
+	"Recurrence": {"Frequency":"Monthly","Interval":6,"ByDay":[],"ByMonthDay":[],"ByYearDay":[],"ByMonth":[],"On":1},
 	"Steps": 
 	[ 
 		{ 

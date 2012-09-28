@@ -1,6 +1,6 @@
 ﻿{
 	"Name": "Change the oil",
-	"Recurrence": null,
+	"Recurrence": {"Frequency":"Monthly","Interval":3,"ByDay":[],"ByMonthDay":[],"ByYearDay":[],"ByMonth":[],"On":1},
 	"Steps": 
 	[ 
 		{ 

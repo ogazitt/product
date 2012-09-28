@@ -1,0 +1,11 @@
+﻿{
+	"Name": "Pay income taxes",
+	"Recurrence": {"Frequency":"Yearly","Interval":1,"ByDay":[],"ByMonthDay":[],"ByYearDay":[15],"ByMonth":[4],"On":1},
+	"Steps": 
+	[ 
+		{ 
+			"Name": "Pay income taxes",
+			"Action": "Reminder"
+		},
+	] 
+}

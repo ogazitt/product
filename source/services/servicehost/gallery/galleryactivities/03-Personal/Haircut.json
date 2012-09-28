@@ -1,6 +1,6 @@
 ﻿{
 	"Name": "Haircut",
-	"Recurrence": null,
+	"Recurrence": {"Frequency":"Monthly","Interval":1,"ByDay":[],"ByMonthDay":[],"ByYearDay":[],"ByMonth":[],"On":1},
 	"Steps": 
 	[ 
 		{ 

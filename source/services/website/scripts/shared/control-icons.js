@@ -187,6 +187,9 @@ Control.Icons.forFolder = function Control$Icons$forFolder(folder) {
         case UserEntities.Auto:
             $icon.addClass('icon-truck');
             break;
+        case UserEntities.Finance:
+            $icon.addClass('icon-money');
+            break;
         default:
             $icon.addClass('icon-folder-close');
             break;

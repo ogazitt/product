@@ -133,7 +133,11 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
 
                 // if provided, set the default cadence of the activity
                 if (def.Recurrence != null)
-                    activity.GetFieldValue(FieldNames.Repeat, true).Value = def.Recurrence;
+                    activity.GetFieldValue(FieldNames.Repeat, true).Value = def.Recurrence.ToString();
+
+                // if provided, set the status
+                if (def.Status != null)
+                    activity.Status = def.Status;
 
                 userContext.Items.Add(activity);
                 userContext.SaveChanges();

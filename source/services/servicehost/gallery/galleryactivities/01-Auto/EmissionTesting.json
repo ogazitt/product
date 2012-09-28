@@ -1,6 +1,6 @@
 ﻿{
 	"Name": "Emission testing",
-	"Recurrence": null,
+	"Recurrence": {"Frequency":"Yearly","Interval":2,"ByDay":[],"ByMonthDay":[],"ByYearDay":[],"ByMonth":[],"On":1},
 	"Steps": 
 	[ 
 		{ 

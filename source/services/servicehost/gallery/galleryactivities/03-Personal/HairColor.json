@@ -1,6 +1,6 @@
 ﻿{
 	"Name": "Get hair colored",
-	"Recurrence": null,
+	"Recurrence": {"Frequency":"Monthly","Interval":2,"ByDay":[],"ByMonthDay":[],"ByYearDay":[],"ByMonth":[],"On":1},
 	"Filter": { "Gender": "Female" },
 	"Steps": 
 	[ 

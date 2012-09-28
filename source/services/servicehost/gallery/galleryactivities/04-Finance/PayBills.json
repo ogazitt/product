@@ -1,10 +1,10 @@
 ﻿{
-	"Name": "Check tire pressure",
+	"Name": "Pay the bills",
 	"Recurrence": {"Frequency":"Monthly","Interval":1,"ByDay":[],"ByMonthDay":[],"ByYearDay":[],"ByMonth":[],"On":1},
 	"Steps": 
 	[ 
 		{ 
-			"Name": "Check tire pressure",
+			"Name": "Pay the bills",
 			"Action": "Reminder"
 		},
 	] 

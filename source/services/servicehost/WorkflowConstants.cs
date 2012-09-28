@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using BuiltSteady.Product.ServerEntities;
 using BuiltSteady.Product.ServiceHost;
+using Newtonsoft.Json.Linq;
 
 namespace BuiltSteady.Product.ServiceHost
 {
@@ -11,7 +12,7 @@ namespace BuiltSteady.Product.ServiceHost
         private const string IntentsFileName = @"Intents.txt";
 
         public static string SchemaVersion { get { return "1.0.2012.0911"; } }
-        public static string ConstantsVersion { get { return "2012-09-19"; } }
+        public static string ConstantsVersion { get { return "2012-09-27"; } }
 
         public static List<GalleryCategory> DefaultGallery()
         {
@@ -182,7 +183,7 @@ namespace BuiltSteady.Product.ServiceHost
                         if (!String.IsNullOrEmpty(activityDef))
                         {
                             // crack the definition open and retrieve the name if available
-                            var value = JsonValue.Parse(activityDef);
+                            var value = JObject.Parse(activityDef);
                             if (!String.IsNullOrEmpty((string)value["Name"]))
                                 activityName = (string)value["Name"];
                             var filter = value["Filter"] != null ? value["Filter"].ToString() : null;

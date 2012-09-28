@@ -22,10 +22,22 @@
     <div class="carousel-inner">
         <div class="item active">
             <div class="carousel-body">
-                <h1>Welcome to TwoStep!</h1>
-                <h3>Here's a short introduction to the product.</h3>
+                <h1>Let's get started!</h1>
                 <p>
-                TwoStep helps you organize and manage your life's Activities.  Activities are things you do - 
+                TwoStep installed some Activities for you, but you need to start them.  In the <strong>Organizer</strong>,
+                click the 
+                <span><i class="icon-user"></i> <strong>Personal</strong></span> 
+                category, then click the 
+                <span><i class="icon-stop" style="color:Red"></i> <strong>Haircut</strong></span> 
+                Activity.  Tell TwoStep how often you get your hair done by clicking the 
+                <span><i class="icon-repeat" style="color:Green"></i> <strong>Repeat</strong></span> 
+                button.  Finally, click the 
+                <span><i class="icon-play" style="color:Green"></i> <strong>Start</strong></span> 
+                button to run the Activity.  Rinse and repeat for the other Activities :-)
+                </p>
+                <img alt="dashboard" src="<%: Url.Content("~/content/images/help/getting-started.png") %>" />
+                <!--
+                helps you organize and manage your life's Activities.  Activities are things you do - 
                 from infrequent events, like planning a wedding, to things you do on a regular basis, 
                 like getting your oil changed.  TwoStep helps you break Activities down into actionable Steps 
                 <span>( <i class="icon-search"></i>, <i class="icon-phone"></i>, <i class="icon-calendar"></i> ),</span>
@@ -42,8 +54,46 @@
                 To return to this introduction, select <span>&nbsp;<i class="icon-question-sign"></i> <strong>Help</strong></span> 
                 from the menu in the top-right corner.
                 </p>
+                -->
             </div>
         </div>
+        <div class="item">
+            <div class="carousel-body">
+                <h1>Run Mode</h1>
+                <p>
+                In Run mode, the next Step is shown as active, and you can 
+                <span> <i class="icon-time"></i> <strong>Defer</strong>,
+                <i class="icon-share"></i> <strong>Skip</strong>, or 
+                <i class="icon-check"></i> <strong>Complete</strong> </span>
+                the Step.
+                </p>
+                <p>
+                Every Step has an Action - 
+                <span> <i class="icon-search"></i> <strong>Find</strong>,</span>
+                <span> <i class="icon-phone"></i> <strong>Call</strong>,</span>
+                <span> <i class="icon-calendar"></i> <strong>Add to Calendar</strong>, </span>
+                and so on.  Click on the Action icon to perform the step!
+                </p>
+                <img alt="Run Mode" src="<%: Url.Content("~/content/images/help/run-mode.png") %>" />
+            </div>
+        </div>  
+        <div class="item">
+            <div class="carousel-body">
+                <h1>The Gallery</h1>
+                <img class="pull-right" alt="Gallery" src="<%: Url.Content("~/content/images/help/gallery-install.png") %>" />
+                <br />
+                <br />
+                <p>
+                The Gallery contains more preconfigured Activities. 
+                </p>
+                <p>
+                Select an entire Category, or an Activity, and click 
+                <span> <i class="icon-download"></i> <strong>Install</strong></span> 
+                to add it to your Organizer.
+                </p>
+            </div>
+        </div>
+<!--
         <div class="item">
             <div class="carousel-body">
                 <h1>Activity Organizer</h1>
@@ -68,42 +118,6 @@
                 When you are satisfied with the Activity definition, click the green Run icon on the upper-right.
                 TwoStep will keep track of the next Steps for all running Activities.
                 To edit a running Activity, click the Pause icon, make your changes and then Resume or Restart.
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <div class="carousel-body">
-                <h1>Run Mode</h1>
-                <img alt="Run Mode" src="<%: Url.Content("~/content/images/help/run-mode.png") %>" />
-                <p>
-                In Run mode, the next Step is shown as active, and you can 
-                <span> <i class="icon-time"></i> <strong>Defer</strong>,
-                <i class="icon-share"></i> <strong>Skip</strong>, or 
-                <i class="icon-check"></i> <strong>Complete</strong> </span>
-                the Step.
-                </p>
-                <p>
-                Every Step has an Action - 
-                <span> <i class="icon-search"></i> <strong>Find</strong>, 
-                <i class="icon-phone"></i> <strong>Call</strong>, </span>
-                <span> <i class="icon-calendar"></i> <strong>Add to Calendar</strong>, </span>
-                etc.  TwoStep usually selects an appropriate Action for each Step, but you can set the Action explicitly.  
-                In addition to the standard operations (Defer, Skip, Complete), the active Step also provides an Action icon 
-                to help you complete the specific Action associated with that Step.
-                </p>
-            </div>
-        </div>  
-        <div class="item">
-            <div class="carousel-body">
-                <h1>Gallery</h1>
-                <img class="pull-right" alt="Gallery" src="<%: Url.Content("~/content/images/help/gallery-install.png") %>" />
-                <p>
-                The right pane of the Activity Dashboard is the Gallery. The Gallery contains a set of common Activities 
-                with preconfigured Steps - it is a great way to discover Activities that may be relevant to you. 
-                <p/>
-                <p>
-                Selecting and choosing the Install option of an Activity or Category in the Gallery will add the 
-                Activity or entire Category into your Activities in the Organizer.
                 </p>
             </div>
         </div>
@@ -144,22 +158,21 @@
                 </p>
             </div>
         </div>  
+        -->
         <div class="item">
             <div class="carousel-body">
                 <h1>Mobile App</h1>
-                <img class="pull-left" alt="Activity Organizer" src="<%: Url.Content("~/content/images/help/twostep-iphone-small.png") %>" />
+                <img class="pull-left" alt="Phone App" src="<%: Url.Content("~/content/images/help/twostep-iphone-small.png") %>" />
+                <br />
+                <br />
                 <p>
-                TwoStep’s Mobile web pages are accessible on the go from any mobile device 
+                TwoStep is available on the go from any mobile device 
                 (iPhone, iPad, Android, Windows Phone and any device with a browser) by navigating to the TwoStep website.  
-                The Mobile pages allow you to complete Steps on the go (Call, Schedule, Map, etc) as well as view your running 
-                <span> <i class="icon-folder-open"></i> <strong>Activities</strong>, </span> 
-                and <span> <i class="icon-plus"></i> <strong>Add</strong> </span> 
-                new Activities to your <span> <i class="icon-envelope"></i> <strong>Inbox</strong>.</span>
-                If connected to your Google Calendar, a handy link to TwoStep will be available from within your
-                Calendar each day. 
+                All your next steps are collected and available to complete on your phone!
                 </p>
             </div>
         </div>
+        <!--
         <div class="item">
             <div class="carousel-body">
                 <h1>That's it!</h1>
@@ -173,6 +186,7 @@
                 <img alt="TwoStep" src="<%: Url.Content("~/content/images/twostep-logo.png") %>" />
            </div>
         </div>
+        -->
     </div>
     <a class="carousel-control left" href="#help_carousel" data-slide="prev"><i class="icon-caret-left"></i></a>
     <a class="carousel-control right" href="#help_carousel" data-slide="next"><i class="icon-caret-right"></i></a>

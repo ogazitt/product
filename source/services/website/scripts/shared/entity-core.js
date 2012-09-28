@@ -865,4 +865,11 @@ ItemMap.itemAt = function (map, index) {
     return (index < 0) ? item : null;
 }
 
+ItemMap.itemByName = function (map, name) {
+    for (var id in map) {
+        if (map[id].Name == name) { return map[id]; }
+    }
+    return null;
+}
+
 ItemMap.errorMustHaveID = 'ItemMap requires all items in array to have an ID property.';

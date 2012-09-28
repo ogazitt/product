@@ -61,6 +61,7 @@ Control.Repeat.updateItem = function Control$Repeat$update($element, rrule) {
     this.refresh($element, item);
 }
 Control.Repeat.init = function Control$Repeat$init($element, $dialog) {
+    var $disableBtn = $dialog.find('.btn-warning');
     var $frequency = $dialog.find('.repeat-frequency');
     var $interval = $dialog.find('.repeat-interval');
     var $weekdays = $dialog.find('.repeat-weekdays');
@@ -71,6 +72,10 @@ Control.Repeat.init = function Control$Repeat$init($element, $dialog) {
     var $dayMonthSelector = $byyear.find('select').last();
 
     // wire-up of events and behaviors
+    $disableBtn.click(function () {
+        Control.Repeat.rrule.Disable();
+        Control.Repeat.recalc($dialog);
+    });
     $frequency.change(function (e) {
         Control.Repeat.rrule.Frequency = $(this).val();
         Control.Repeat.recalc($dialog);
@@ -129,6 +134,7 @@ Control.Repeat.init = function Control$Repeat$init($element, $dialog) {
     this.recalc($dialog);
 }
 Control.Repeat.recalc = function Control$Repeat$recalc($dialog) {
+    var $disableBtn = $dialog.find('.btn-warning');
     var $frequency = $dialog.find('.repeat-frequency');
     var $interval = $dialog.find('.repeat-interval');
     var $weekdays = $dialog.find('.repeat-weekdays');
@@ -144,7 +150,14 @@ Control.Repeat.recalc = function Control$Repeat$recalc($dialog) {
 
     var $summary = $dialog.find('.repeat-summary');
     $summary.html(this.rrule.Summary());
-    this.rrule.IsEnabled() ? $summary.addClass('alert-success') : $summary.removeClass('alert-success');
+    if (this.rrule.IsEnabled()) {
+        $disableBtn.show();
+        $summary.addClass('alert-success');
+    } else {
+        $disableBtn.hide();
+        $interval.val(0);
+        $summary.removeClass('alert-success');
+    }
 }
 Control.Repeat.initWeekdays = function Control$Repeat$initWeekdays($dialog, rrule) {
     for (var day in Recurrence.WeekdayLabels) {

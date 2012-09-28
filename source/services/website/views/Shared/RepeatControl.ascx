@@ -15,6 +15,8 @@
                         <option value="Yearly">years</option>
                     </select>
                 </div>
+
+                <button class="btn btn-warning pull-right">Disable</button>
             </div>
 
             <div class='repeat-bymonth control-group form-inline'>

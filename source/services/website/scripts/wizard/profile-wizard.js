@@ -21,6 +21,7 @@ ProfileWizard.Init = function ProfileWizard$Init(dataModel, consentStatus) {
 
     this.checkBrowser();
     this.checkConsent(consentStatus);
+    this.dataModel.GetGalleryCategories();
 
     // wizard region
     this.$element = $('.wizard-region');
@@ -180,15 +181,18 @@ ProfileWizard.updateAddress = function ProfileWizard$updateAddress($input) {
 
 ProfileWizard.installActivities = function ProfileWizard$installActivities() {
     // TODO: persist and check flag if already installed
-    // TODO: define permanent constants for IDs of system activities
-    var activity = GalleryActivity.Extend({ ID: 1631, Name: "Haircut" });
-    activity.Install();
-    activity = GalleryActivity.Extend({ ID: 1636, Name: "Workout" });
-    activity.Install();
-    activity = GalleryActivity.Extend({ ID: 1626, Name: "Dental cleaning" });
-    activity.Install();
-    activity = GalleryActivity.Extend({ ID: 1632, Name: "Annual health checkup" });
-    activity.Install();
+    var personal = ItemMap.itemByName(this.dataModel.GalleryCategories, UserEntities.Personal);
+    if (personal != null) {
+        var activities = personal.Activities;
+        var activity = ItemMap.itemByName(activities, 'Haircut');
+        if (activity != null) { activity.Install(); }
+        activity = ItemMap.itemByName(activities, 'Workout');
+        if (activity != null) { activity.Install(); }
+        activity = ItemMap.itemByName(activities, 'Dental cleaning');
+        if (activity != null) { activity.Install(); }
+        activity = ItemMap.itemByName(activities, 'Annual health checkup');
+        if (activity != null) { activity.Install(); }
+    }
 } 
 
 ProfileWizard.resize = function ProfileWizard$resize() {

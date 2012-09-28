@@ -992,10 +992,10 @@ li.active:hover .icon.drag-handle{color:#fff}
 .btn.icon i{font-size:23px;line-height:23px}
 i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;background:transparent url(images/icon-azure.png) no-repeat}
 .repeat-dialog .add-on{width:90px;text-align:right}
-.repeat-frequency{max-width:80px}
-.int-selector{max-width:60px}
-.month-selector{max-width:100px}
-.repeat-summary{margin:24px 0 -12px 0}
+.repeat-dialog .repeat-frequency{max-width:80px}
+.repeat-dialog .int-selector{max-width:60px}
+.repeat-dialog .month-selector{max-width:100px}
+.repeat-dialog .repeat-summary{margin:24px 0 -12px 0}
 .ui-datepicker[style]{z-index:2000!important}
 .pac-container[style]{z-index:3000!important}
 .ui-timepicker-div .ui-widget-header{margin-bottom:8px}

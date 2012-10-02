@@ -41,11 +41,22 @@
 
     <meta property="og:title" content="TwoStep - Dance through life." /><meta property="og:type" content="company" />
     <meta property="og:site_name" content="TwoStep" />
-    <meta property="og:url" content="<%=siteUrl %>" />
+    <meta property="og:url" content="http://www.trytwostep.com" />
     <meta property="og:image" content="https://launchrock-assets.s3.amazonaws.com/facebook-files/lAd9haUQKBhBx8F.png" />
     <meta property="og:description" content="The personal assistant for life's activities." />
 
     <asp:ContentPlaceHolder ID="MasterHead" runat="server"> </asp:ContentPlaceHolder>
+
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-35252688-1']);
+        _gaq.push(['_trackPageview']);
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
 </head>
 <body>
     <div class="navbar navbar-fixed-top">

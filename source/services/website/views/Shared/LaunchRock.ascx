@@ -11,7 +11,7 @@
         <button type="button" class="close" data-dismiss="modal"><strong>x</strong></button>
         <div class="modal-body">
             <center>
-                <div rel="L7VSE7VS" class="lrdiscoverwidget" data-logo="on" data-background="off" data-share-url="twostepdev1.cloudapp.net" data-css="">
+                <div rel="L7VSE7VS" class="lrdiscoverwidget" data-logo="on" data-background="off" data-share-url="www.trytwostep.com" data-css="">
                 </div>
             </center>
         </div>        

@@ -56,6 +56,16 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
     border-bottom: 1px solid darken(@white, 15%); 
     color: @white; font-size: 12pt; font-weight: bold; text-shadow: 1px 1px darken(@btnPrimaryBackground, 10%);  
 }
+// dashboard-left header tabs
+.dashboard-left .nav-header { padding: 0; }
+.dashboard-left .nav-header .nav-tabs { border: 0; background-color: #eee; }
+.dashboard-left .nav-header .nav-tabs > li > a, .dashboard-left .nav-header .nav-tabs > li > a:hover { 
+    padding: 6px 8px 0 8px; margin: 0; height: 22px; border: 0; white-space: nowrap;
+    color: @btnBackgroundHighlight; background-color: @btnPrimaryBackground; .opacity(50);
+}
+.dashboard-left .nav-header .nav-tabs > li > a:hover { .opacity(100); background-color: @btnInfoBackground; color: @white; }
+.dashboard-left .nav-header .nav-tabs > .active > a, .dashboard-left .nav-header .nav-tabs > .active > a:hover
+{  border: 0; .opacity(100); background-color: @btnPrimaryBackground; color: @white; }
 
 // itemlist indent
 .dashboard-list ul.itemlist span, .dashboard-list ul.itemlist em { padding-left: 20px; } 
@@ -170,6 +180,7 @@ li.st-completed a, li.st-completed span, li.st-completed small, li.st-completed 
 // item status icon 
 .item-status { position: absolute; top: 0; right: 0; }
 .item-status .alert { text-align: right; padding-right: 8px; padding-left: 8px; border: 1px solid transparent; border-bottom: 0; .border-radius(4px 4px 0 0); }
+.status-badge { margin-left: 12px; padding-top: 2px; }
 
 // drag handle icon
 .icon.drag-handle { position: absolute; top: 7px; left: 1px; color: transparent; cursor: n-resize; font-family: Arial; font-size: 22pt; }

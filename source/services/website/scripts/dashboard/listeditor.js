@@ -77,10 +77,7 @@ ListEditor.prototype.renderActivity = function ($element, activity) {
 ListEditor.prototype.renderActivityController = function ($element, activity) {
     $element = $('<div class="inline vcr-controls"></div>').appendTo($element);
 
-    // render disabled restart button
-    var $btnRestart = $('<a class="btn btn-primary icon disabled"><i class="icon-backward"></i></a>').prependTo($element);
-    
-    if (activity.IsRunning()) {     
+    if (activity.IsRunning()) {
         // render enabled pause button
         var $btnPause = $('<a class="btn btn-warning icon"><i class="icon-pause"></i></a>').appendTo($element);
         $btnPause.attr('title', 'Pause').tooltip(Control.noDelay);
@@ -88,20 +85,22 @@ ListEditor.prototype.renderActivityController = function ($element, activity) {
             $(this).tooltip('hide');
             activity.Pause();
         });
-    } else {                        
+    } else {
         // render disabled start button
         var $btnStart = $('<a class="btn btn-success icon disabled"><i class="icon-play"></i></a>').appendTo($element);
     }
 
-    // render disabled forward button
-    var $btnForward = $('<a class="btn btn-primary icon disabled"><i class="icon-forward"></i></a>').appendTo($element);
-    
+    // render restart button
+    var $btnRestart = $('<a class="btn btn-primary icon invisible"><i class="icon-backward"></i></a>').prependTo($element);
+    // render forward button
+    var $btnForward = $('<a class="btn btn-primary icon invisible"><i class="icon-forward"></i></a>').appendTo($element);
+
     if (activity.IsRunning()) {
         // enable forward button if activity complete and recurrence enabled
         if (activity.IsComplete()) {
             var rrule = Recurrence.Extend(activity.GetFieldValue(FieldNames.Repeat));
             if (rrule.IsEnabled()) {
-                $btnForward.removeClass('disabled');
+                $btnForward.removeClass('invisible');
                 $btnForward.attr('title', 'Repeat').tooltip(Control.noDelay);
                 $btnForward.click(function () {
                     $(this).tooltip('hide');
@@ -109,7 +108,7 @@ ListEditor.prototype.renderActivityController = function ($element, activity) {
                 });
             }
         }
-    } else {       
+    } else {
         var status = activity.CanResume();
         if (status.Start || status.Resume) {
             // enable start or resume button
@@ -125,10 +124,10 @@ ListEditor.prototype.renderActivityController = function ($element, activity) {
             });
             $btnStart.removeClass('disabled');
         }
-    
+
         if (status.Restart) {
             // enable restart button
-            $btnRestart.removeClass('disabled');
+            $btnRestart.removeClass('invisible');
             $btnRestart.attr('title', 'Restart').tooltip(Control.noDelay);
             $btnRestart.click(function () {
                 $(this).tooltip('hide');

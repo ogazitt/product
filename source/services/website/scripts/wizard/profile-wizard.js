@@ -97,7 +97,7 @@ ProfileWizard.showNextPanel = function ProfileWizard$showNextPanel() {
         this.dataModel.UserSettings.Save();
     } else {
         this.dataModel.Close();
-        this.installActivities();
+        //this.installActivities();         // do not install activities for now
         Service.NavigateToDashboard();
     }
 }

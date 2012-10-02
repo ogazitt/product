@@ -167,7 +167,7 @@ namespace BuiltSteady.Product.Shared.Entities
 
     public class ActionTypes 
     {
-        public const string All = "Next Steps";
+        public const string All = "All";
         public const string Reminder = "Reminder";
         public const string Call = "Call";
         public const string Schedule = "Add to calendar";

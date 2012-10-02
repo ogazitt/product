@@ -90,6 +90,7 @@ FolderManager.prototype.render = function () {
     var $tabContent = this.$element.find('.tab-content');
     var $listTab = $tabs.find('li a:first');
     $listTab.empty().append(this.activeListName(activeList));
+    $listTab.append($('<span class="badge status-badge" />'));
 
     var activityIsRunning = activeList.IsActivity() && activeList.IsRunning();
     var $itemTab = $tabs.find('a[href=".' + FolderManager.ItemView + '"]');
@@ -138,17 +139,30 @@ FolderManager.prototype.render = function () {
 }
 
 FolderManager.prototype.renderStatus = function (activity) {
+    /* this renders status as tab on right of center tab-pane
     var $status = this.$element.find('.item-status').empty();
     if (activity.IsActivity()) {
-        var status, alertClass;
-        if (activity.IsStopped()) { status = 'Activity is stopped'; alertClass = 'alert-error'; }
-        else if (activity.IsPaused()) { status = 'Activity is paused'; alertClass = 'alert-warning'; }
-        else if (activity.IsComplete()) { status = 'Activity is complete'; alertClass = 'alert-info'; }
-        else if (activity.IsActive()) { status = 'Activity is running'; alertClass = 'alert-success'; }
+        var status, cssClass;
+        if (activity.IsStopped()) { status = 'Activity is stopped'; cssClass = 'alert-error'; }
+        else if (activity.IsPaused()) { status = 'Activity is paused'; cssClass = 'alert-warning'; }
+        else if (activity.IsComplete()) { status = 'Activity is complete'; cssClass = 'alert-info'; }
+        else if (activity.IsActive()) { status = 'Activity is running'; cssClass = 'alert-success'; }
         var $alert = $('<div class="alert"></div>').appendTo($status);
-        $alert.addClass(alertClass);
+        $alert.addClass(cssClass);
         $alert.html(status);
     }
+    */
+    var $status = this.$element.find('.status-badge').empty();
+    if (activity.IsActivity()) {
+        var status, cssClass;
+        if (activity.IsStopped()) { status = 'Stopped'; cssClass = 'badge-important'; }
+        else if (activity.IsPaused()) { status = 'Paused'; cssClass = 'badge-warning'; }
+        else if (activity.IsComplete()) { status = 'Completed'; cssClass = 'badge-info'; }
+        else if (activity.IsActive()) { status = 'Running'; cssClass = 'badge-success'; }
+        $status.addClass(cssClass);
+        $status.html(status);
+    }
+
 }
 
 FolderManager.prototype.selectFolder = function (folder) {

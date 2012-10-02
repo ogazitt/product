@@ -5,9 +5,10 @@
 
 // ---------------------------------------------------------
 // ActionTypeList control
-function ActionTypeList(actionTypes) {
+function ActionTypeList(actionTypes, $navHeader) {
     // fires notification when selected actionType changes
     this.onSelectionChangedHandlers = {};
+    this.$navHeader = ($navHeader == null) ? $('<span>Next Steps</span>') : $navHeader;
     this.init(actionTypes);
 }
 
@@ -52,6 +53,9 @@ ActionTypeList.prototype.render = function ($element, actionTypes, userAction) {
 }
 
 ActionTypeList.prototype.renderActionTypeList = function ($element, actionTypes) {
+    if (!Browser.IsMobile()) {
+        this.$navHeader.appendTo($('<div class="nav-header"></div>').appendTo($element));
+    }
     this.$element = $('<ul class="nav nav-pills nav-stacked actiontypelist" />').appendTo($element);
     //Control.List.sortable(this.$element);
     this.$currentActionType = null;

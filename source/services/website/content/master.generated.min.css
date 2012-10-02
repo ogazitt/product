@@ -905,6 +905,11 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-list ul{margin:0}
 .dashboard-list .li a{cursor:pointer}
 .dashboard-list .nav-header{margin:0;padding:6px;text-align:center;background-color:#08c;background-color:#0092db;background-image:-moz-linear-gradient(top,#0099e6,#08c);background-image:-ms-linear-gradient(top,#0099e6,#08c);background-image:-webkit-gradient(linear,0 0,0 100%,from(#0099e6),to(#08c));background-image:-webkit-linear-gradient(top,#0099e6,#08c);background-image:-o-linear-gradient(top,#0099e6,#08c);background-image:linear-gradient(top,#0099e6,#08c);background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0099e6',endColorstr='#0088cc',GradientType=0);border-bottom:1px solid #d9d9d9;color:#fff;font-size:12pt;font-weight:bold;text-shadow:1px 1px #069}
+.dashboard-left .nav-header{padding:0}
+.dashboard-left .nav-header .nav-tabs{border:0;background-color:#eee}
+.dashboard-left .nav-header .nav-tabs>li>a,.dashboard-left .nav-header .nav-tabs>li>a:hover{padding:6px 8px 0 8px;margin:0;height:22px;border:0;white-space:nowrap;color:#e6e6e6;background-color:#08c;opacity:.5;filter:alpha(opacity=50)}
+.dashboard-left .nav-header .nav-tabs>li>a:hover{opacity:1;filter:alpha(opacity=100);background-color:#5bc0de;color:#fff}
+.dashboard-left .nav-header .nav-tabs>.active>a,.dashboard-left .nav-header .nav-tabs>.active>a:hover{border:0;opacity:1;filter:alpha(opacity=100);background-color:#08c;color:#fff}
 .dashboard-list ul.itemlist span,.dashboard-list ul.itemlist em{padding-left:20px}
 .dashboard-list li.itemlist>a{padding-left:24px}
 .dashboard-list .itemlist .dropdown-menu{top:0;right:20px}
@@ -982,6 +987,7 @@ li.st-completed a,li.st-completed span,li.st-completed small,li.st-completed i{c
 .inline-right{display:inline-block;float:right}
 .item-status{position:absolute;top:0;right:0}
 .item-status .alert{text-align:right;padding-right:8px;padding-left:8px;border:1px solid transparent;border-bottom:0;-webkit-border-radius:4px 4px 0 0;-moz-border-radius:4px 4px 0 0;border-radius:4px 4px 0 0}
+.status-badge{margin-left:12px;padding-top:2px}
 .icon.drag-handle{position:absolute;top:7px;left:1px;color:transparent;cursor:n-resize;font-family:Arial;font-size:22pt}
 li:hover .icon.drag-handle{color:inherit}
 li.active:hover .icon.drag-handle{color:#fff}

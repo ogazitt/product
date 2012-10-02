@@ -5,10 +5,11 @@
 
 // ---------------------------------------------------------
 // FolderList control
-function FolderList(folders, folderTypes) {
+function FolderList(folders, folderTypes, $navHeader) {
     // fires notification when selected folder changes
     this.onSelectionChangedHandlers = {};
     this.folderTypes = (folderTypes == null) ? [ItemTypes.Category] : folderTypes;
+    this.$navHeader = ($navHeader == null) ? $('<span>Organizer</span>') : $navHeader;
     this.init(folders);
 }
 
@@ -46,7 +47,7 @@ FolderList.prototype.render = function ($element, folders) {
         this.init(folders);
     }
     $element.empty();
-    $('<div class="nav-header">Organizer</div>').appendTo($element);
+    this.$navHeader.appendTo($('<div class="nav-header"></div>').appendTo($element));
     this.$element = $('<ul class="nav nav-pills nav-stacked" />').appendTo($element);
     Control.List.sortable(this.$element);
     for (var id in this.folders) {

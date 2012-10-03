@@ -86,6 +86,9 @@ namespace BuiltSteady.Product.Website
             // the deployed Azure instance and the devfabric instance fighting over version numbers)
             if (!HostEnvironment.IsAzure)
             {
+                // set up the SQL profiler
+                //HibernatingRhinos.Profiler.Appender.EntityFramework.EntityFrameworkProfiler.Initialize();
+
                 // check the database schema versions to make sure there is no version mismatch
                 if (!Storage.NewUserContext.CheckSchemaVersion())
                 {

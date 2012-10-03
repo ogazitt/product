@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 <style type="text/css">
     #launchrock { background: #101010; opacity: 0.8; }
-    .modal-body { min-height: 480px; }
+    .modal-body { min-height: 500px; }
     .inviteform label { color: #ffffff; }
     .modal-body .lrdiscoverwidget .site-tagline { font-size: 16pt; font-style: italic; }
     #launchrock button { color: #fff; }
@@ -11,7 +11,7 @@
         <button type="button" class="close" data-dismiss="modal"><strong>x</strong></button>
         <div class="modal-body">
             <center>
-                <div rel="L7VSE7VS" class="lrdiscoverwidget" data-logo="on" data-background="off" data-share-url="twostepdev1.cloudapp.net" data-css="">
+                <div rel="L7VSE7VS" class="lrdiscoverwidget" data-logo="on" data-background="off" data-share-url="www.trytwostep.com" data-css="">
                 </div>
             </center>
         </div>        

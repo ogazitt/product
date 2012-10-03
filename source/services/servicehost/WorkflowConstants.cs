@@ -11,8 +11,8 @@ namespace BuiltSteady.Product.ServiceHost
     {
         private const string IntentsFileName = @"Intents.txt";
 
-        public static string SchemaVersion { get { return "1.0.2012.0911"; } }
-        public static string ConstantsVersion { get { return "2012-09-27"; } }
+        public static string SchemaVersion { get { return "1.0.2012.1002"; } }
+        public static string ConstantsVersion { get { return "2012-10-02"; } }
 
         public static List<GalleryCategory> DefaultGallery()
         {
@@ -187,9 +187,26 @@ namespace BuiltSteady.Product.ServiceHost
                             if (!String.IsNullOrEmpty((string)value["Name"]))
                                 activityName = (string)value["Name"];
                             var filter = value["Filter"] != null ? value["Filter"].ToString() : null;
+
+                            int activityID = 0;
+                            try
+                            {
+                                activityID = value["ID"].Value<int>();
+                            }
+                            catch (Exception ex)
+                            {
+                                TraceLog.TraceException(String.Format("Activity definition for {0} is missing an ID", activityName), ex);
+                                continue;
+                            }
+                            if (activityID <= 0)
+                            {
+                                TraceLog.TraceError(String.Format("Activity definition for {0} is missing an ID", activityName));
+                                continue;
+                            }
                             
                             galleryCategory.Activities.Add(new GalleryActivity() 
                             { 
+                                ID = activityID,
                                 Name = activityName, 
                                 Definition = activityDef, 
                                 CategoryID = galleryCategory.ID, 

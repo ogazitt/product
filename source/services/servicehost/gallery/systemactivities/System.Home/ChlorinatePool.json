@@ -1,7 +1,12 @@
 ﻿{
+	"ID": 701,
 	"Name": "Chlorinate the pool",
-	"Recurrence": null,
+	"Recurrence": {"Frequency":"Weekly","Interval":1,"ByDay":[],"ByMonthDay":[],"ByYearDay":[],"ByMonth":[],"On":1},
 	"Steps": 
 	[ 
+		{ 
+			"Name": "Chlorinate the pool",
+			"Action": "Reminder"
+		},
 	]
 }

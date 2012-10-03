@@ -51,7 +51,7 @@
       <Setting name="DeploymentName" value="Dev2" />
       <Setting name="PublicUrl" value="http://twostepdev2.cloudapp.net" />
       <Setting name="AzureLoggingEnabled" value="1" />
-      <Setting name="SplunkLoggingEnabled" value="0" />
+      <Setting name="SplunkLoggingEnabled" value="1" />
       <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />
       <Setting name="SplunkLocalPort" value="9237" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=bizsparkdev2;AccountKey=uBN4tUfsak1HiFDmrfMOS+DMpDgSt4VH99YvcXO/thvMaZbBK8PlnwbrLJiRRYM8xefVco9g02D+heBnCDagDQ==" />

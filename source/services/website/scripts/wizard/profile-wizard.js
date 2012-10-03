@@ -61,18 +61,20 @@ ProfileWizard.initConnect = function ProfileWizard$initConnect() {
         var fbConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetFBConsent);
         var $btn = ProfileWizard.$element.find('a.fb');
         $btn.attr('title', 'Connect to Facebook').tooltip(Control.ttDelay);
-        $btn.click(function () { ProfileWizard.suggestionManager.select(fbConsent, 'wizard'); });
         if (fbConsent == null) {
             ProfileWizard.$element.find('small.fb').addClass('connected').html('Connected');
+            fbConsent = { SuggestionType: SuggestionTypes.GetFBConsent };
         }
+        $btn.click(function () { ProfileWizard.suggestionManager.select(fbConsent, 'wizard'); });
 
         var gcConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetGoogleConsent);
         $btn = ProfileWizard.$element.find('a.google');
         $btn.attr('title', 'Connect to Calendar').tooltip(Control.ttDelay);
-        $btn.click(function () { ProfileWizard.suggestionManager.select(gcConsent, 'wizard'); });
         if (gcConsent == null) {
             ProfileWizard.$element.find('small.google').addClass('connected').html('Connected');
+            gcConsent = { SuggestionType: SuggestionTypes.GetGoogleConsent };
         }
+        $btn.click(function () { ProfileWizard.suggestionManager.select(gcConsent, 'wizard'); });
     });
 }
 

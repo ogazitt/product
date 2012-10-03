@@ -8,6 +8,8 @@
 function ActivityGallery(categories) {
     // fires notification when selected category changes
     this.onSelectionChangedHandlers = {};
+    // fires notification when category or activity is installed
+    this.onActivityInstalledHandlers = {};
     this.init(categories);
 }
 
@@ -29,6 +31,23 @@ ActivityGallery.prototype.fireSelectionChanged = function (categoryID, itemID) {
         var handler = this.onSelectionChangedHandlers[name];
         if (typeof (handler) == "function") {
             handler(categoryID, itemID);
+        }
+    }
+}
+
+ActivityGallery.prototype.addActivityInstalledHandler = function (name, handler) {
+    this.onActivityInstalledHandlers[name] = handler;
+}
+
+ActivityGallery.prototype.removeActivityInstalledHandler = function (name) {
+    this.onActivityInstalledHandlers[name] = undefined;
+}
+
+ActivityGallery.prototype.fireActivityInstalled = function (folderID, itemID) {
+    for (var name in this.onActivityInstalledHandlers) {
+        var handler = this.onActivityInstalledHandlers[name];
+        if (typeof (handler) == "function") {
+            handler(folderID, itemID);
         }
     }
 }
@@ -68,7 +87,7 @@ ActivityGallery.prototype.renderItems = function ($category, category) {
         var item = items[id];
         if (item.IsGalleryActivity()) {
             $item = $('<li class="position-relative"><a class="selector"><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
-            $item.find('span').prepend(Control.Icons.forItemType(ItemTypes.Activity));
+            //$item.find('span').prepend(Control.Icons.forItemType(ItemTypes.Activity));
             $item.data('control', this);
             $item.data('item', item);
             $item.click(function (e) {
@@ -161,7 +180,13 @@ ActivityGallery.prototype.showCommands = function ($item, item) {
         $('<i class="icon-caret-down dropdown-toggle" data-toggle="dropdown"></i>').appendTo($btnDropdown);
         var $menu = $('<ul class="dropdown-menu pull-right" role="menu"></ul>').appendTo($btnDropdown);
         var $installBtn = $('<li><a href="#"><i class="icon-download"></i>&nbsp;Install</a></li>').appendTo($menu);
-        $installBtn.click(function () { $(this).parents('li').first().data('item').Install(); });
+        var thisControl = this;
+        $installBtn.click(function () {
+            var result = $(this).parents('li').first().data('item').Install(
+                function (result) {
+                    thisControl.fireActivityInstalled(result.FolderID, result.ItemID);
+                });
+        });
 
         // TODO: add support for sub-categories
     }

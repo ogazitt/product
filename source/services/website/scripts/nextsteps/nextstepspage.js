@@ -33,15 +33,7 @@ NextStepsPage.Init = function NextStepsPage$Init(dataModel) {
     NextStepsPage.$left.empty();
 
     // actionType list
-    $tabs = $('<ul class="nav nav-tabs" />');
-    var $tab = $('<li><a data-toggle="tab"><i class="icon-dashboard"></i></a></li>').appendTo($tabs);
-    $tab.css('width', '30%');
-    $tab.attr('title', 'Organizer').tooltip(Control.ttDelayBottom);
-    $tab.click(function () { window.location = '/dashboard/home'; });    // TEMPORARY
-    $tab = $('<li class="active"><a data-toggle="tab"><i class="icon-play"></i> Next Steps</a></li>').appendTo($tabs);
-    $tab.css('width', '70%');
-
-    NextStepsPage.actionTypeList = new ActionTypeList(dataModel.ActionTypes, $tabs);
+    NextStepsPage.actionTypeList = new ActionTypeList(dataModel.ActionTypes);
     NextStepsPage.actionTypeList.addSelectionChangedHandler('nextsteps', NextStepsPage.ManageActionType);
 
     // category list

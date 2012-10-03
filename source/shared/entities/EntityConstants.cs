@@ -300,6 +300,10 @@ namespace BuiltSteady.Product.Shared.Entities
     {
         // user folders
         public const string Inbox = "Inbox";
+        public const string Personal = "Personal";
+        public const string Auto = "Auto";
+        public const string Home = "Home";
+        public const string Finance = "Finance";
         public const string People = "People";
         public const string Places = "Places";
     }
@@ -471,7 +475,7 @@ namespace BuiltSteady.Product.Shared.Entities
             folder = new Folder()
             {
                 ID = folderID,
-                SortOrder = 0,
+                SortOrder = 1000,
                 Name = UserEntities.Inbox,
                 ItemTypeID = SystemItemTypes.Category,
 #if CLIENT
@@ -487,7 +491,90 @@ namespace BuiltSteady.Product.Shared.Entities
             defaultLists.Add(SystemItemTypes.Activity, folder);
 
             folderID = Guid.NewGuid();
+#if !CLIENT
+            folderUser = new FolderUser() { ID = Guid.NewGuid(), FolderID = folderID, UserID = currentUser.ID, PermissionID = Permissions.Full };
+#endif
+            // create Personal folder
+            folder = new Folder()
+            {
+                ID = folderID,
+                SortOrder = 2000,
+                Name = UserEntities.Personal,
+                ItemTypeID = SystemItemTypes.Category,
+#if CLIENT
+                Items = new ObservableCollection<Item>(),
+#else
+                Items = new List<Item>(),
+                UserID = currentUser.ID,
+                FolderUsers = new List<FolderUser>() { folderUser }
+#endif
+            };
+            folders.Add(folder);
 
+            folderID = Guid.NewGuid();
+#if !CLIENT
+            folderUser = new FolderUser() { ID = Guid.NewGuid(), FolderID = folderID, UserID = currentUser.ID, PermissionID = Permissions.Full };
+#endif
+            // create Auto folder
+            folder = new Folder()
+            {
+                ID = folderID,
+                SortOrder = 3000,
+                Name = UserEntities.Auto,
+                ItemTypeID = SystemItemTypes.Category,
+#if CLIENT
+                Items = new ObservableCollection<Item>(),
+#else
+                Items = new List<Item>(),
+                UserID = currentUser.ID,
+                FolderUsers = new List<FolderUser>() { folderUser }
+#endif
+            };
+            folders.Add(folder);
+
+            folderID = Guid.NewGuid();
+#if !CLIENT
+            folderUser = new FolderUser() { ID = Guid.NewGuid(), FolderID = folderID, UserID = currentUser.ID, PermissionID = Permissions.Full };
+#endif
+            // create Home folder
+            folder = new Folder()
+            {
+                ID = folderID,
+                SortOrder = 4000,
+                Name = UserEntities.Home,
+                ItemTypeID = SystemItemTypes.Category,
+#if CLIENT
+                Items = new ObservableCollection<Item>(),
+#else
+                Items = new List<Item>(),
+                UserID = currentUser.ID,
+                FolderUsers = new List<FolderUser>() { folderUser }
+#endif
+            };
+            folders.Add(folder);
+
+            folderID = Guid.NewGuid();
+#if !CLIENT
+            folderUser = new FolderUser() { ID = Guid.NewGuid(), FolderID = folderID, UserID = currentUser.ID, PermissionID = Permissions.Full };
+#endif
+            // create Finance folder
+            folder = new Folder()
+            {
+                ID = folderID,
+                SortOrder = 5000,
+                Name = UserEntities.Finance,
+                ItemTypeID = SystemItemTypes.Category,
+#if CLIENT
+                Items = new ObservableCollection<Item>(),
+#else
+                Items = new List<Item>(),
+                UserID = currentUser.ID,
+                FolderUsers = new List<FolderUser>() { folderUser }
+#endif
+            };
+            folders.Add(folder);
+
+            folderID = Guid.NewGuid();
 #if !CLIENT
             folderUser = new FolderUser() { ID = Guid.NewGuid(), FolderID = folderID, UserID = currentUser.ID, PermissionID = Permissions.Full };
 #endif
@@ -495,7 +582,7 @@ namespace BuiltSteady.Product.Shared.Entities
             folder = new Folder()
             {
                 ID = folderID,
-                SortOrder = 1000,
+                SortOrder = 50000,
                 Name = UserEntities.People,
                 ItemTypeID = SystemItemTypes.Contact,
 #if CLIENT
@@ -518,7 +605,7 @@ namespace BuiltSteady.Product.Shared.Entities
             folder = new Folder()
             {
                 ID = folderID,
-                SortOrder = 2000,
+                SortOrder = 50001,
                 Name = UserEntities.Places,
                 ItemTypeID = SystemItemTypes.Location,
 #if CLIENT

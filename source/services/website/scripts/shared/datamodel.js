@@ -47,7 +47,7 @@ DataModel.RemoveDataChangedHandler = function (name) {
 }
 
 // refreshes datamodel with current state of server
-DataModel.Refresh = function DataModel$Refresh(itemID) {
+DataModel.Refresh = function DataModel$Refresh(handler) {
     // preserve and restore current ViewState
     var currentViewState = DataModel.UserSettings.ViewState;
 
@@ -57,6 +57,7 @@ DataModel.Refresh = function DataModel$Refresh(itemID) {
             DataModel.processUserData(responseState.result);
             DataModel.UserSettings.ViewState = currentViewState;
             DataModel.restoreSelection();
+            if (handler != null) { handler(); }
         });
 }
 

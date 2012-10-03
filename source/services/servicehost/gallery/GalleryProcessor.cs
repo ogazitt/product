@@ -10,8 +10,10 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
 {
     public class GalleryProcessor
     {
-        public static bool InstallCategory(UserStorageContext userContext, SuggestionsStorageContext suggestionsContext, User user, Folder category, Guid? parentID, GalleryCategory newCategory)
+        // may return either Folder or Item (caller should verify)
+        public static object InstallCategory(UserStorageContext userContext, SuggestionsStorageContext suggestionsContext, User user, Folder category, Guid? parentID, GalleryCategory newCategory)
         {
+            object result = null;
             try
             {
                 // find the gallery category in the database (by ID if present, otherwise by name)
@@ -21,7 +23,7 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
                 if (galleryCategory == null)
                 {
                     TraceLog.TraceError("InstallCategory could not find Category ID " + newCategory.ID);
-                    return false;
+                    return result;
                 }
 
                 // if the caller didn't pass in a Category, merge with an existing folder (by name), or create a new folder
@@ -29,6 +31,7 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
                 {
                     category = CreateCategory(userContext, user, newCategory.Name);
                     parentID = null;
+                    result = category;
                 }
                 else
                 {
@@ -46,6 +49,7 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
                         Created = now,
                         LastModified = now,
                     };
+                    result = subCategory;
                     
                     // make this the last subcategory in the category
                     float sortOrder = (userContext.Items.Any(i => i.UserID == category.UserID && i.FolderID == category.ID &&
@@ -75,31 +79,32 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
             catch (Exception ex)
             {
                 TraceLog.TraceException("InstallCategory failed", ex);
-                return false;
+                return result;
             }
-            return true;
+            return result;
         }
 
-        public static bool InstallActivity(UserStorageContext userContext, SuggestionsStorageContext suggestionsContext, User user, Folder category, Guid? subCategory, GalleryActivity galleryActivity)
+        public static Item InstallActivity(UserStorageContext userContext, SuggestionsStorageContext suggestionsContext, User user, Folder category, Guid? subCategory, GalleryActivity galleryActivity)
         {
             // get activity from context
             var activity = suggestionsContext.GalleryActivities.FirstOrDefault(ga => ga.ID == galleryActivity.ID);
             if (activity == null)
-                return false;
+                return null;
 
             if (category == null)
             {
                 var galleryCategory = suggestionsContext.GalleryCategories.FirstOrDefault(gc => gc.ID == activity.CategoryID);
                 if (galleryCategory == null)
-                    return false;
+                    return null;
                 category = CreateCategory(userContext, user, galleryCategory.Name);
             }
 
             return InstallActivity(userContext, suggestionsContext, category, subCategory, activity);
         }
 
-        public static bool InstallActivity(UserStorageContext userContext, SuggestionsStorageContext suggestionsContext, Folder category, Guid? subCategory, GalleryActivity galleryActivity)
+        public static Item InstallActivity(UserStorageContext userContext, SuggestionsStorageContext suggestionsContext, Folder category, Guid? subCategory, GalleryActivity galleryActivity)
         {
+            Item result = null;
             try
             {
                 // deserialize the definition
@@ -120,7 +125,8 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
                     Created = now,
                     LastModified = now,
                 };
-                
+                result = activity;
+
                 // make this the last activity in the (sub)category
                 float sortOrder = (userContext.Items.Any(i => i.UserID == category.UserID && i.FolderID == category.ID && 
                                                               i.ItemTypeID == SystemItemTypes.Activity && (subCategory.HasValue ? i.ParentID == subCategory : i.ParentID == null)) ? 
@@ -153,9 +159,9 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
             catch (Exception ex)
             {
                 TraceLog.TraceException("InstallActivity failed", ex);
-                return false;
+                return result;
             }
-            return true;
+            return result;
         }
 
         private static Folder CreateCategory(UserStorageContext userContext, User user, string name)

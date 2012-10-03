@@ -103,6 +103,7 @@ li.st-completed a, li.st-completed span, li.st-completed small, li.st-completed 
 .dashboard-center.well { padding: 8px; }
 .dashboard-center .hero-unit, .dashboard-center .manager-folders, 
 .dashboard-center .manager-settings { margin-top: -16px; }
+.dashboard-center.span9 { padding-right: 32px; }      // next steps 
 
 .dashboard-center .nav-tabs { margin-bottom: 0; }
 .dashboard-center .nav-tabs > li > a { background-color: darken(@white, 10%); }
@@ -149,6 +150,13 @@ li.st-completed a, li.st-completed span, li.st-completed small, li.st-completed 
 .dashboard-center .carousel .form-inline.well .thumbnail img { width: 100%; height: 100%; }
 .dashboard-center .carousel .form-inline.well .thumbnail a.icon i { font-size: 48px; margin: 6px 0 0 12px; }
 
+.dashboard-center .manager-help  { height: 100%; margin-top: -16px; }      
+.dashboard-center .manager-help .intro.well { margin: 0; padding: 0; height: 99%; position: relative; }      
+.dashboard-center .manager-help .intro.well img { position: absolute; top: 20%; }      
+.dashboard-center .manager-help .intro.well .btn { position: absolute; bottom: 12px; width: 120px; }      
+.dashboard-center .manager-help .intro.well .btn-success { right: 24px; }      
+.dashboard-center .manager-help .intro.well .btn-primary { left: 24px; }      
+
 // page turn styles 
 .page-turn-prev { display: inline-block; width: 24px; height: 24px;
     background: transparent url(images/page-turn-prev.png) no-repeat;
@@ -167,6 +175,10 @@ li.st-completed a, li.st-completed span, li.st-completed small, li.st-completed 
 .link-array a { font-size: 90%; margin: 0 24px 0 6px; }
 .link-array a.icon { margin: 0; }
 .link-array input { margin-bottom: 2px; }
+
+// popover styles
+.popover .popover-title { background-color: @warningText; color: @white; }
+.popover .popover-content { background-color: @warningBackground; }
 
 // general element positioning 
 .position-relative { position: relative; }

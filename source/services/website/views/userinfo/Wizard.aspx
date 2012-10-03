@@ -108,7 +108,7 @@
                         <div class="span9">
                             <p>
                             When you connect to your Google calendar, TwoStep will be able to add appointments for your activities to your calendar on your behalf.  
-                            TwoStep will also add an event to your calendar each day which contains a link to your "Next Steps".
+                            TwoStep will also add an event to your calendar each day which contains your "Next Steps".
                             </p>  
                         </div>           
                     </div> 

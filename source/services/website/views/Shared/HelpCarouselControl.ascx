@@ -22,18 +22,15 @@
     <div class="carousel-inner">
         <div class="item active">
             <div class="carousel-body">
-                <h1>Let's get started!</h1>
+                <h1>Getting started!</h1>
                 <p>
-                TwoStep installed some Activities for you, but you need to start them.  In the <strong>Organizer</strong>,
-                click the 
-                <span><i class="icon-user"></i> <strong>Personal</strong></span> 
-                category, then click the 
-                <span><i class="icon-stop" style="color:Red"></i> <strong>Haircut</strong></span> 
-                Activity.  Tell TwoStep how often you get your hair done by clicking the 
+                Use the <strong>Gallery</strong> on the right to install an Activity. The newly installed
+                activity will appear in your <strong>Organizer</strong> on the left. Tell TwoStep how often 
+                you want to repeat this activity by clicking on the 
                 <span><i class="icon-repeat" style="color:Green"></i> <strong>Repeat</strong></span> 
-                button.  Finally, click the 
+                button.  Click on the 
                 <span><i class="icon-play" style="color:Green"></i> <strong>Start</strong></span> 
-                button to run the Activity.  Rinse and repeat for the other Activities :-)
+                button to run the Activity. 
                 </p>
                 <img alt="dashboard" src="<%: Url.Content("~/content/images/help/getting-started.png") %>" />
                 <!--

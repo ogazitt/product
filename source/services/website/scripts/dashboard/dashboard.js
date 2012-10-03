@@ -39,20 +39,13 @@ Dashboard.Init = function Dashboard$Init(dataModel, renewFBToken, consentStatus)
     Dashboard.$right = $('.dashboard-right');
 
     // folders list
-    $tabs = $('<ul class="nav nav-tabs" />');
-    var $tab = $('<li class="active"><a data-toggle="tab"><i class="icon-dashboard"></i> Organizer</a></li>').appendTo($tabs);
-    $tab.css('width', '70%');
-    $tab = $('<li><a data-toggle="tab"><i class="icon-play"></i></a></li>').appendTo($tabs);
-    $tab.css('width', '30%');
-    $tab.attr('title', 'Next Steps').tooltip(Control.ttDelayBottom);
-    $tab.click(function () { window.location = '/dashboard/nextsteps'; });    // TEMPORARY
-
-    Dashboard.folderList = new FolderList(this.dataModel.Folders, [ItemTypes.Category], $tabs);
+    Dashboard.folderList = new FolderList(this.dataModel.Folders);
     Dashboard.folderList.addSelectionChangedHandler('dashboard', Dashboard.ManageFolder);
 
     // activity gallery 
     Dashboard.activityGallery = new ActivityGallery();
     Dashboard.activityGallery.addSelectionChangedHandler('dashboard', Dashboard.ManageGallery);
+    Dashboard.activityGallery.addActivityInstalledHandler('dashboard', Dashboard.refreshAfterInstall);
     Dashboard.dataModel.GetGalleryCategories(Dashboard.renderGallery);
 
     // suggestions manager
@@ -161,12 +154,12 @@ Dashboard.showHeaderOptions = function Dashboard$showHeaderOptions() {
     $menuitem = $dropdown.find('.option-help');
     $menuitem.show();
     $menuitem.click(function (e) {
-        Dashboard.showManager(Dashboard.helpManager);
+        Dashboard.showManager(Dashboard.helpManager, null, HelpManager.Views.Help);
         e.preventDefault();
     });
 }
 
-Dashboard.showManager = function Dashboard$showManager(manager, forceRender) {
+Dashboard.showManager = function Dashboard$showManager(manager, forceRender, view) {
     if (Dashboard.currentManager != manager) {
         Dashboard.currentManager = manager;
         Dashboard.folderManager.hide();
@@ -175,11 +168,7 @@ Dashboard.showManager = function Dashboard$showManager(manager, forceRender) {
         (manager.addWell == true) ? Dashboard.$center.addClass('well') : Dashboard.$center.removeClass('well');
     }
     // always show to force render if necessary
-    manager.show(forceRender);
-    // TODO: temporary until connect buttons are enabled
-    //if (manager.currentFolder === undefined) {
-    //    Dashboard.getSuggestions(null, null);     
-    //}
+    manager.show(forceRender, view);
 }
 
 Dashboard.resize = function Dashboard$resize() {
@@ -277,3 +266,18 @@ Dashboard.renderGallery = function Dashboard$renderGallery(categories) {
     Dashboard.activityGallery.render(Dashboard.$right, categories);
 }
 
+Dashboard.refreshAfterInstall = function Dashboard$refreshAfterInstall(folderID, itemID) {
+    // expand and select newly installed category or activity and refresh 
+    var settings = Dashboard.dataModel.UserSettings;
+    var selectedFolderID = settings.ViewState.SelectedFolder;
+    if (selectedFolderID != null) { settings.ExpandFolder(selectedFolderID, false); }
+    settings.ExpandFolder(folderID, true);
+    settings.Selection(folderID, itemID);
+
+    if (Dashboard.helpManager.gettingStarted == 1) {
+        Dashboard.helpManager.gettingStarted = 2;   // set early due to callback
+        Dashboard.dataModel.Refresh(Dashboard.helpManager.getStartedStep2);
+    } else {
+        Dashboard.dataModel.Refresh();
+    }
+}

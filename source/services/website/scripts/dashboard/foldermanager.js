@@ -142,14 +142,14 @@ FolderManager.prototype.renderStatus = function (activity) {
     /* this renders status as tab on right of center tab-pane
     var $status = this.$element.find('.item-status').empty();
     if (activity.IsActivity()) {
-        var status, cssClass;
-        if (activity.IsStopped()) { status = 'Activity is stopped'; cssClass = 'alert-error'; }
-        else if (activity.IsPaused()) { status = 'Activity is paused'; cssClass = 'alert-warning'; }
-        else if (activity.IsComplete()) { status = 'Activity is complete'; cssClass = 'alert-info'; }
-        else if (activity.IsActive()) { status = 'Activity is running'; cssClass = 'alert-success'; }
-        var $alert = $('<div class="alert"></div>').appendTo($status);
-        $alert.addClass(cssClass);
-        $alert.html(status);
+    var status, cssClass;
+    if (activity.IsStopped()) { status = 'Activity is stopped'; cssClass = 'alert-error'; }
+    else if (activity.IsPaused()) { status = 'Activity is paused'; cssClass = 'alert-warning'; }
+    else if (activity.IsComplete()) { status = 'Activity is complete'; cssClass = 'alert-info'; }
+    else if (activity.IsActive()) { status = 'Activity is running'; cssClass = 'alert-success'; }
+    var $alert = $('<div class="alert"></div>').appendTo($status);
+    $alert.addClass(cssClass);
+    $alert.html(status);
     }
     */
     var $status = this.$element.find('.status-badge').empty();
@@ -161,6 +161,10 @@ FolderManager.prototype.renderStatus = function (activity) {
         else if (activity.IsActive()) { status = 'Running'; cssClass = 'badge-success'; }
         $status.addClass(cssClass);
         $status.html(status);
+
+        if (activity.IsActive() && this.parentControl.helpManager.gettingStarted == 2) {
+            this.parentControl.helpManager.getStartedStep3();
+        }
     }
 
 }
@@ -259,51 +263,89 @@ function HelpManager(parentControl, $parentElement) {
     this.$element = null;
 }
 
+HelpManager.Views = { Intro: 'Intro', Help: 'Help' }
+
 HelpManager.prototype.hide = function () {
     if (this.$element != null) {
         this.$element.hide();
     }
 }
 
-HelpManager.prototype.show = function () {
+HelpManager.prototype.show = function (forceRender, view) {
+    view = (view == null) ? HelpManager.Views.Intro : view;
     if (this.$element == null) {
         this.$element = $('<div class="manager-help" />').appendTo(this.$parentControl);
-        Service.InvokeControllerView('Dashboard', 'Help', null,
-                function (responseState) {
-                    var helpHtml = responseState.result;
-                    $help = $('.manager-help');
-                    $help.html(helpHtml);
-                    $('#help_carousel').show().carousel('pause');
-                    $help.show();
-                });
-    } else {
-        this.$element.show();
+
     }
+    if (view != this.currentView) {
+        if (view == HelpManager.Views.Intro) { this.renderIntro(this.$element); }
+        else if (view == HelpManager.Views.Help) { this.renderHelp(this.$element); }
+        this.currentView = view;
+    }
+    this.$element.show();
 }
 
-HelpManager.prototype.renderConnect = function ($element, suggestions) {
+HelpManager.prototype.renderIntro = function ($element) {
     $element.empty();
-    this.connectSuggestions = suggestions;
     var thisControl = this;
-    var suggestionManager = this.parentControl.suggestionManager;
+    var $intro = $('<div class="intro well"></div>').appendTo($element);
+    $('<img src="/content/images/twostep-watermark.png" alt="TwoStep" />').appendTo($intro);
+    var $btn = $('<button class="btn btn-large btn-success">Get Started!</button>').appendTo($intro);
+    $btn.click(function () { thisControl.getStarted(); return false; });
+    $btn = $('<button class="btn btn-large btn-primary">Get Help!</button>').appendTo($intro);
+    $btn.click(function () { thisControl.show(false, HelpManager.Views.Help); return false; });
 
-    // connect to facebook
-    var fbConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetFBConsent);
-    if (fbConsent != null) {
-        var $btn = $('<a><img src="/content/images/connect-to-facebook.png" alt="Facebook" /></a>').appendTo($element);
-        $btn.css('margin-right', '32px');
-        $btn.click(function () { suggestionManager.select(fbConsent); thisControl.connectSuggestions = null; });
-    }
-    // connect to google calendar
-    var gcConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetGoogleConsent);
-    if (gcConsent != null) {
-        $btn = $('<a class="btn"><img src="/content/images/google-calendar.png" alt="Google" /></a>').appendTo($element);
-        $btn.css('margin-right', '32px');
-        $btn.click(function () { suggestionManager.select(gcConsent); thisControl.connectSuggestions = null; });
+    var settings = this.parentControl.dataModel.UserSettings;
+    if (settings.ViewState.IntroComplete != true) {
+        this.getStarted();
+        settings.ViewState.IntroComplete = true;
     }
 }
 
-HelpManager.tagline = "<p>Here's a short introduction to the product.</p>"
+HelpManager.prototype.renderHelp = function ($element) {
+    Service.InvokeControllerView('Dashboard', 'Help', null,
+        function (responseState) {
+            var helpHtml = responseState.result;
+            $element.html(helpHtml);
+            $('#help_carousel').show().carousel('pause');
+        });
+}
+
+HelpManager.prototype.getStarted = function () {
+    this.gettingStarted = 1;
+    var $element = $('.dashboard-right');
+    var title = 'Step 1: Install an Activity';
+    var content = 'Select a <strong>Category</strong> in the <strong>Gallery</strong> and install a pre-configured <em>Activity</em>.';
+    $element.popover({ trigger: 'manual', title: title, content: content, placement: 'left' });
+    $('.dashboard-region').click(function () { $element.popover('hide'); return true; });
+    $element.popover('show');
+    $('body .popover').css('top', '126px');
+}
+
+HelpManager.prototype.getStartedStep2 = function () {
+    this.gettingStarted = 2;
+    var $element = $('.dashboard-center .vcr-controls .btn-success');
+    var title = 'Step 2: Start the Activity';
+    var content = 'The <em>Activity</em> has been added to your <strong>Organizer</strong>. Run the activity by clicking on the <strong>Start</strong> button.';
+    $element.popover({ trigger: 'manual', title: title, content: content, placement: 'left' });
+    $('.dashboard-region').click(function () { $element.popover('hide'); return true; });
+    $element.popover('show');
+    // popover title conflicts with tooltip title, set explicitly
+    $('body .popover .popover-title').html(title);
+}
+
+HelpManager.prototype.getStartedStep3 = function () {
+    this.gettingStarted = null;
+    var $element = $('.dashboard-left .nav-tabs a:last');
+    var title = 'Step 3: View Next Steps';
+    var content = 'View your <em>Next Steps</em> by clicking on the <strong>Next Steps</strong> tab.';
+    $element.popover({ trigger: 'manual', title: title, content: content, placement: 'bottom' });
+    $('.dashboard-region').click(function () { $element.popover('hide'); return true; });
+    $element.popover('show');
+    // popover title conflicts with tooltip title, set explicitly
+    $('body .popover .popover-title').html(title);
+}
+
 
 // ---------------------------------------------------------
 // SettingsManager control

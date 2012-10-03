@@ -39,7 +39,15 @@ Dashboard.Init = function Dashboard$Init(dataModel, renewFBToken, consentStatus)
     Dashboard.$right = $('.dashboard-right');
 
     // folders list
-    Dashboard.folderList = new FolderList(this.dataModel.Folders);
+    $tabs = $('<ul class="nav nav-tabs" />');
+    var $tab = $('<li class="active"><a data-toggle="tab"><i class="icon-dashboard"></i> Organizer</a></li>').appendTo($tabs);
+    $tab.css('width', '70%');
+    $tab = $('<li><a data-toggle="tab"><i class="icon-play"></i></a></li>').appendTo($tabs);
+    $tab.css('width', '30%');
+    $tab.attr('title', 'Next Steps').tooltip(Control.ttDelayBottom);
+    $tab.click(function () { window.location = '/dashboard/nextsteps'; });    // TEMPORARY
+
+    Dashboard.folderList = new FolderList(this.dataModel.Folders, [ItemTypes.Category], $tabs);
     Dashboard.folderList.addSelectionChangedHandler('dashboard', Dashboard.ManageFolder);
 
     // activity gallery 

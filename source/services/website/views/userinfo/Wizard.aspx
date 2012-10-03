@@ -62,13 +62,13 @@
                             <span class="help-inline" style="margin-left:82px;">Gender is used to select relevant Activities for you</span>
                         </div>
                     </div>
-                    <div class="control-group">
+                    <!--div class="control-group">
                         <div class="controls">
                             <label class="control-label">Birthday</label>
                             <input type="text" class="fn-birthday" />
                             <span class="help-inline">Age is used to select relevant Activities for you</span>
                         </div>
-                    </div>                    
+                    </div-->                    
                     <div class="control-group">
                         <div class="controls">
                             <label class="control-label">Mobile Phone</label>
@@ -78,16 +78,16 @@
                     </div>
                     <div class="control-group">
                         <div class="controls">
-                            <label class="control-label">Home Address</label>
-                            <input type="text" class="fn-address input-xlarge" />
-                            <span class="help-inline">Your address is used to find local businesses and places</span>
+                            <label class="control-label">Zipcode or City, State</label>
+                            <input type="text" class="fn-address xinput-xlarge" />
+                            <span class="help-inline">Your location is used to find local businesses and places</span>
                         </div>
                     </div>  
                 </div>
 
                 <div id="connect_info" class="info-pane">
                     <h1>Get Connected!</h1>
-                    <h3>Consider connecting TwoStep to Facebook and Google Calendar.</h3>
+                    <h3>Connect TwoStep to Facebook and Google Calendar.</h3>
                     <div class="span12">
                         <div class="span3">
                             <a class="fb"><img src="/content/images/connect-to-facebook.png" alt="Facebook" /></a>
@@ -107,10 +107,8 @@
                         </div>
                         <div class="span9">
                             <p>
-                            When you connect to your Google calendar, TwoStep can manage your schedule for you.  
-                            Activities which require a scheduled appointment can be added to your calendar.                     
-                            Your calendar will also contain an event and link to your Next Steps each and every day, 
-                            making it easy to stay on top of what you need to get done while you are on the go.
+                            When you connect to your Google calendar, TwoStep will be able to add appointments for your activities to your calendar on your behalf.  
+                            TwoStep will also add an event to your calendar each day which contains a link to your "Next Steps".
                             </p>  
                         </div>           
                     </div> 
@@ -122,7 +120,7 @@
                         <button class="btn btn-success">Next</button>
                     </div>
                     <div class="controls pull-bottom">
-                        <input type="checkbox" class="" />
+                        <input type="checkbox" class="" checked />
                         <label class="inline">Do not show startup screen</label>
                     </div>
                 </div>

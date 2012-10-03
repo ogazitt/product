@@ -10,6 +10,8 @@ cd ..
 
 if "%EMULATED%"=="true" goto :EOF
 
+if exist "%ProgramFiles%"\SplunkUniversalForwarder goto :EOF
+
 cd startup
 
 echo Getting MSIs

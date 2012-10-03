@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 <style type="text/css">
     #launchrock { background: #101010; opacity: 0.8; }
-    .modal-body { min-height: 480px; }
+    .modal-body { min-height: 500px; }
     .inviteform label { color: #ffffff; }
     .modal-body .lrdiscoverwidget .site-tagline { font-size: 16pt; font-style: italic; }
     #launchrock button { color: #fff; }

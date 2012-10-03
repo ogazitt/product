@@ -5,6 +5,7 @@
     using System.Linq;
     using BuiltSteady.Product.ServerEntities;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     // ****************************************************************************
     // storage context for the Suggestions database
@@ -16,6 +17,13 @@
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder) 
         {
+            modelBuilder.Entity<GalleryActivity>().
+                HasKey(ga => ga.ID).
+                Property(ga => ga.ID).
+                HasColumnName("ActivityID");
+            modelBuilder.Entity<GalleryActivity>().
+                Property(ga => ga.ID).
+                HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<GalleryCategory>().
                 HasMany(gc => gc.Subcategories).
                 WithOptional().

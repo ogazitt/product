@@ -1,6 +1,7 @@
 ﻿{
+	"ID": 801,
 	"Name": "Chiropractic",
-	"Recurrence": null,
+	"Recurrence": {"Frequency":"Monthly","Interval":1,"ByDay":[],"ByMonthDay":[],"ByYearDay":[],"ByMonth":[],"On":1},
 	"Steps": 
 	[ 
 		{ 

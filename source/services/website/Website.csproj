@@ -60,6 +60,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Google-Api-DotNet-Client-1.2\Lib\Google.Apis.Authentication.OAuth2.dll</HintPath>
     </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender.v4.0">
+      <HintPath>..\..\..\..\Downloads\EntityFramework.Profiler-Build-951\HibernatingRhinos.Profiler.Appender.v4.0.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ApplicationServer.Http">
       <HintPath>..\..\packages\WebApi.0.6.0\lib\40-Full\Microsoft.ApplicationServer.Http.dll</HintPath>
     </Reference>

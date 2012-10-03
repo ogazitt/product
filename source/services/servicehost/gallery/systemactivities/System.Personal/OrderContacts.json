@@ -1,6 +1,7 @@
 ﻿{
+	"ID": 802,
 	"Name": "Order contacts",
-	"Recurrence": null,
+	"Recurrence": {"Frequency":"Yearly","Interval":1,"ByDay":[],"ByMonthDay":[],"ByYearDay":[],"ByMonth":[],"On":1},
 	"Steps": 
 	[ 
 		{ 

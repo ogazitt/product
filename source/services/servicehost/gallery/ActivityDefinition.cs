@@ -9,6 +9,7 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
 {
     public class ActivityDefinition
     {
+        public int ID { get; set; }
         public string Name { get; set; }
         public List<ActivityStep> Steps { get; set; }
         public JObject Recurrence { get; set; }

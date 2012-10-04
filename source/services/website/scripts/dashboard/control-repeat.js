@@ -9,11 +9,13 @@
 // Requires the RepeatControl.ascx to provide popup dialog template
 //
 Control.Repeat = {};
+Control.Repeat.closeHandler = null; // set closeHandler to get called when repeat dialog is closed
+
 Control.Repeat.render = function Control$Repeat$render($element, item, field) {
     this.$element = $element;
     var $repeat = $('<label />').appendTo($element);
     $repeat.addClass(field.Class);
-    var $btn = $('<a class="btn icon"><i class="icon-repeat"></i></a>').appendTo($repeat);
+    var $btn = $('<a class="btn btn-repeat icon"><i class="icon-repeat"></i></a>').appendTo($repeat);
     $btn.data('item', item);
     $('<span></span>').appendTo($repeat);
 
@@ -44,6 +46,10 @@ Control.Repeat.dialog = function Control$Repeat$dialog($element) {
     Control.popup($dialog, "Repeat",
         function () {   // OK
             Control.Repeat.updateItem($element, Control.Repeat.rrule);
+            if (Control.Repeat.closeHandler != null) { Control.Repeat.closeHandler(true); }
+        },
+        function () {  // Cancel
+            if (Control.Repeat.closeHandler != null) { Control.Repeat.closeHandler(false); }
         });
     this.init($element, $dialog);
 }

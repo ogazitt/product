@@ -274,9 +274,8 @@ Dashboard.refreshAfterInstall = function Dashboard$refreshAfterInstall(folderID,
     settings.ExpandFolder(folderID, true);
     settings.Selection(folderID, itemID);
 
-    if (Dashboard.helpManager.gettingStarted == 1) {
-        Dashboard.helpManager.gettingStarted = 2;   // set early due to callback
-        Dashboard.dataModel.Refresh(Dashboard.helpManager.getStartedStep2);
+    if (HelpManager.gettingStarted == 1) {
+        Dashboard.dataModel.Refresh(HelpManager.getStartedStep2);
     } else {
         Dashboard.dataModel.Refresh();
     }

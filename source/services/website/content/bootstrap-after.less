@@ -72,10 +72,11 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-list li.itemlist > a { padding-left: 24px; } 
 
 // adjust dropdown menus to not get clipped
-.dashboard-list .itemlist .dropdown-menu { top: 0; right: 20px; }
+.dashboard-left .itemlist .dropdown-menu { top: 0; right: 20px; }
 .dashboard-center .absolute-right .dropdown.dropup .dropdown-menu { bottom: -38px; right: 20px; }
 .dashboard-center .absolute-right .dropdown.dropcenter .dropdown-menu { top: -110px; right: 20px; }
 .dashboard-center .btn-toolbar .dropdown.dropcenter .dropdown-menu { top: -24px; right: 24px; }
+.dashboard-right .dropdown-menu.pull-right { top: -10px; right: 20px; }
 
 // dashboard-right styles (gallery list)
 .dashboard-right .nav-header { 
@@ -86,7 +87,6 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-right .nav-pills > li > a { color: @textColor; }
 .dashboard-right .nav-pills > li > a:hover { color: lighten(@textColor, 25%); }
 .dashboard-right .nav-pills > li.active > a { color: @white; background-color: lighten(@textColor, 25%); }
-.dashboard-right .dropdown-menu.pull-right { left: auto; right: 0; }
 
 // colors for status icons and text
 .dashboard-center li div.form-inline { color: @linkColor; }
@@ -151,11 +151,22 @@ li.st-completed a, li.st-completed span, li.st-completed small, li.st-completed 
 .dashboard-center .carousel .form-inline.well .thumbnail a.icon i { font-size: 48px; margin: 6px 0 0 12px; }
 
 .dashboard-center .manager-help  { height: 100%; margin-top: -16px; }      
-.dashboard-center .manager-help .intro.well { margin: 0; padding: 0; height: 99%; position: relative; }      
+.dashboard-center .manager-help .intro.well { position: relative; margin: 0; padding: 0; height: 99%; min-height: 400px; }      
 .dashboard-center .manager-help .intro.well img { position: absolute; top: 20%; }      
-.dashboard-center .manager-help .intro.well .btn { position: absolute; bottom: 12px; width: 120px; }      
-.dashboard-center .manager-help .intro.well .btn-success { right: 24px; }      
-.dashboard-center .manager-help .intro.well .btn-primary { left: 24px; }      
+.dashboard-center .manager-help .intro.well .welcome { 
+    position: absolute; top: 24px; left: 24px; right: 24px; bottom: 24px; 
+    padding: 24px; text-align: center; color: @linkColor; .border-radius(3px);  
+}      
+.dashboard-center .manager-help .intro.well .welcome.background { background-color: @linkColor; .opacity(25); }
+.dashboard-center .manager-help .intro.well .welcome h1 { font-size: 24pt; }
+.dashboard-center .manager-help .intro.well .welcome h3 { font-size: 16pt; color: @white; margin: 18px 0 18px 0; }
+.dashboard-center .manager-help .intro.well .welcome p { font-size: 12pt; color: @linkColorHover; margin: 0 15% 12px 15%; }
+.dashboard-center .manager-help .intro.well .welcome p strong { color: @linkColor; }
+.dashboard-center .manager-help .intro.well .welcome .controls { position: absolute; left: 16px; bottom: 8px;  }
+.dashboard-center .manager-help .intro.well .welcome .controls input[type="checkbox"] { margin: -4px 6px 0 0; }
+.dashboard-center .manager-help .intro.well .welcome .btn { position: absolute; right: 16px; width: 120px; }      
+.dashboard-center .manager-help .intro.well .welcome .btn-success { bottom: 60px; }      
+.dashboard-center .manager-help .intro.well .welcome .btn-primary { bottom: 12px; }      
 
 // page turn styles 
 .page-turn-prev { display: inline-block; width: 24px; height: 24px;

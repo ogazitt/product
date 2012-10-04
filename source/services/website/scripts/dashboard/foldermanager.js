@@ -162,8 +162,8 @@ FolderManager.prototype.renderStatus = function (activity) {
         $status.addClass(cssClass);
         $status.html(status);
 
-        if (activity.IsActive() && this.parentControl.helpManager.gettingStarted == 2) {
-            this.parentControl.helpManager.getStartedStep3();
+        if (activity.IsActive() && HelpManager.gettingStarted == 3) {
+            HelpManager.getStartedStep4();
         }
     }
 
@@ -277,7 +277,7 @@ HelpManager.prototype.show = function (forceRender, view) {
         this.$element = $('<div class="manager-help" />').appendTo(this.$parentControl);
 
     }
-    if (view != this.currentView) {
+    if (forceRender || view != this.currentView) {
         if (view == HelpManager.Views.Intro) { this.renderIntro(this.$element); }
         else if (view == HelpManager.Views.Help) { this.renderHelp(this.$element); }
         this.currentView = view;
@@ -290,15 +290,25 @@ HelpManager.prototype.renderIntro = function ($element) {
     var thisControl = this;
     var $intro = $('<div class="intro well"></div>').appendTo($element);
     $('<img src="/content/images/twostep-watermark.png" alt="TwoStep" />').appendTo($intro);
-    var $btn = $('<button class="btn btn-large btn-success">Get Started!</button>').appendTo($intro);
-    $btn.click(function () { thisControl.getStarted(); return false; });
-    $btn = $('<button class="btn btn-large btn-primary">Get Help!</button>').appendTo($intro);
-    $btn.click(function () { thisControl.show(false, HelpManager.Views.Help); return false; });
 
     var settings = this.parentControl.dataModel.UserSettings;
-    if (settings.ViewState.IntroComplete != true) {
-        this.getStarted();
-        settings.ViewState.IntroComplete = true;
+    if (settings.ViewState.HideWelcome != true) {
+        $('<div class="welcome background"></div>').appendTo($intro);
+        var $welcome = $('<div class="welcome"><h1>Welcome to TwoStep!</h1></div>').appendTo($intro);
+        $('<h3>Are you new to TwoStep?</h3>').appendTo($welcome);
+        $('<p>Click the <strong>Get Started!</strong> button to step through the product and create your first Activity.</p>').appendTo($welcome);
+        $('<p>Click the <strong>Get Help!</strong> button to learn more about the basic product features.</p>').appendTo($welcome);
+        var $checkbox = $('<div class="controls inline"></div>').appendTo($welcome);
+        $checkbox = $('<input type="checkbox" /><label class="inline">Do not show welcome screen</label>').appendTo($checkbox);
+        $checkbox.click(function () {
+            settings.ViewState.HideWelcome = true;
+            thisControl.show(true);
+        });
+
+        var $btn = $('<button class="btn btn-large btn-success">Get Started!</button>').appendTo($welcome);
+        $btn.click(function () { HelpManager.getStarted(); return false; });
+        $btn = $('<button class="btn btn-large btn-primary">Get Help!</button>').appendTo($welcome);
+        $btn.click(function () { thisControl.show(false, HelpManager.Views.Help); return false; });
     }
 }
 
@@ -311,41 +321,39 @@ HelpManager.prototype.renderHelp = function ($element) {
         });
 }
 
-HelpManager.prototype.getStarted = function () {
-    this.gettingStarted = 1;
-    var $element = $('.dashboard-right');
+// static functions for handling getting started popovers
+// step 1: install from gallery
+HelpManager.getStarted = function () {
+    HelpManager.gettingStarted = 1;
     var title = 'Step 1: Install an Activity';
     var content = 'Select a <strong>Category</strong> in the <strong>Gallery</strong> and install a pre-configured <em>Activity</em>.';
-    $element.popover({ trigger: 'manual', title: title, content: content, placement: 'left' });
-    $('.dashboard-region').click(function () { $element.popover('hide'); return true; });
-    $element.popover('show');
-    $('body .popover').css('top', '126px');
+    Control.popover($('.dashboard-right'), $('.dashboard-region'), title, content, 'left', '126px');
 }
-
-HelpManager.prototype.getStartedStep2 = function () {
-    this.gettingStarted = 2;
-    var $element = $('.dashboard-center .vcr-controls .btn-success');
-    var title = 'Step 2: Start the Activity';
-    var content = 'The <em>Activity</em> has been added to your <strong>Organizer</strong>. Run the activity by clicking on the <strong>Start</strong> button.';
-    $element.popover({ trigger: 'manual', title: title, content: content, placement: 'left' });
-    $('.dashboard-region').click(function () { $element.popover('hide'); return true; });
-    $element.popover('show');
-    // popover title conflicts with tooltip title, set explicitly
-    $('body .popover .popover-title').html(title);
+// step 2: configure repeat
+HelpManager.getStartedStep2 = function () {
+    HelpManager.gettingStarted = 2;
+    var title = 'Step 2: Configure Repeat';
+    var content = 'The <em>Activity</em> has been added to your <strong>Organizer</strong>. Configure how often you repeat this activity using the <strong>Repeat</strong> settings.';
+    Control.popover($('.dashboard-center .btn-repeat'), $('.dashboard-region'), title, content, 'right');
+    Control.Repeat.closeHandler = HelpManager.getStartedStep3;
 }
-
-HelpManager.prototype.getStartedStep3 = function () {
-    this.gettingStarted = null;
-    var $element = $('.dashboard-left .nav-tabs a:last');
-    var title = 'Step 3: View Next Steps';
+// step 3: start activity
+HelpManager.getStartedStep3 = function () {
+    HelpManager.gettingStarted = 3;
+    var title = 'Step 3: Start the Activity';
+    var content = 'The <em>Activity</em> has been configured. Run the activity by clicking on the <strong>Start</strong> button.';
+    Control.popover($('.dashboard-center .vcr-controls .btn-success'), $('.dashboard-region'), title, content, 'right');
+}
+// step 4: view next steps
+HelpManager.getStartedStep4 = function () {
+    HelpManager.gettingStarted = null;
+    var title = 'Step 4: View Next Steps';
     var content = 'View your <em>Next Steps</em> by clicking on the <strong>Next Steps</strong> tab.';
-    $element.popover({ trigger: 'manual', title: title, content: content, placement: 'bottom' });
-    $('.dashboard-region').click(function () { $element.popover('hide'); return true; });
-    $element.popover('show');
-    // popover title conflicts with tooltip title, set explicitly
-    $('body .popover .popover-title').html(title);
+    Control.popover($('.dashboard-left .nav-tabs a:last'), $('.dashboard-region'), title, content, 'bottom');
+    // TODO: review removing reference to static Dashboard
+    Dashboard.dataModel.UserSettings.ViewState.IntroComplete = true;
+    Dashboard.dataModel.UserSettings.Save();
 }
-
 
 // ---------------------------------------------------------
 // SettingsManager control

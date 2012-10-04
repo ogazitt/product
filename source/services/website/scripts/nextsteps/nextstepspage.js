@@ -146,7 +146,6 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
         });
         */
     } else {
-        // 2012-09-20 OG: temporary fix - make both "mode" buttons white, to make them legible
         $navbar.find('.option-nextsteps a i').addClass('icon-blue').removeClass('icon-white');//.addClass('icon-large');
         $navbar.find('.option-categories a i').addClass('icon-white').removeClass('icon-blue');//.addClass('icon-large');
 
@@ -232,6 +231,16 @@ NextStepsPage.resize = function NextStepsPage$resize() {
 
     $(window).bind('resize', NextStepsPage.resize);
     NextStepsPage.resizing = false;
+
+    // complete intro popover
+    if (NextStepsPage.dataModel.UserSettings.ViewState.IntroComplete == true) {
+        delete NextStepsPage.dataModel.UserSettings.ViewState['IntroComplete'];
+        var $element = $('.dashboard-left');
+        var title = 'Congratulations!';
+        var content = 'You have created your first <em>Activity</em> and are viewing your <strong>Next Steps</strong>.<br />';
+        content += 'Try completing your steps or return to the <strong>Organizer</strong> and create more <em>Activities</em>.';
+        Control.popover($('.dashboard-left'), $('.dashboard-region'), title, content, 'center');
+    }
 }
 
 NextStepsPage.checkBrowser = function NextStepsPage$checkBrowser() {

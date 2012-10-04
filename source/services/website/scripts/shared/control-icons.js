@@ -964,8 +964,8 @@ Control.Actions.render = function Control$Actions$render($element, item) {
     if (Browser.IsMobile()) {
         var $toolbar = $('<div class="btn-toolbar hide" />').appendTo($element);
         // render defer, skip, complete and info buttons
-        var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
-        this.mobileButton(Control.Icons.skipBtn(item), true).appendTo($toolbar);
+        //var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
+        //this.mobileButton(Control.Icons.skipBtn(item), true).appendTo($toolbar);
         this.mobileButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }), true).appendTo($toolbar);
         this.mobileButton(Control.Icons.infoBtn(item), false).appendTo($toolbar);
 
@@ -977,8 +977,8 @@ Control.Actions.render = function Control$Actions$render($element, item) {
     } else {
         var $toolbar = $('<div class="btn-toolbar pull-right" />').appendTo($element);
         // render info, complete, skip, and defer buttons
-        var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
-        var $skipBtn = Control.Icons.skipBtn(item).appendTo($toolbar);
+        //var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
+        //var $skipBtn = Control.Icons.skipBtn(item).appendTo($toolbar);
         var $completeBtn = Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }).appendTo($toolbar);
         // TODO: support info button in web when view info tab is implemented in runmode
         //var $infoBtn = Control.Icons.infoBtn(item).appendTo($toolbar);

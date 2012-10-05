@@ -5,10 +5,9 @@
 
 // ---------------------------------------------------------
 // ActionTypeList control
-function ActionTypeList(actionTypes, $navHeader) {
+function ActionTypeList(actionTypes) {
     // fires notification when selected actionType changes
     this.onSelectionChangedHandlers = {};
-    this.$navHeader = ($navHeader == null) ? $('<span>Next Steps</span>') : $navHeader;
     this.init(actionTypes);
 }
 
@@ -54,7 +53,8 @@ ActionTypeList.prototype.render = function ($element, actionTypes, userAction) {
 
 ActionTypeList.prototype.renderActionTypeList = function ($element, actionTypes) {
     if (!Browser.IsMobile()) {
-        this.$navHeader.appendTo($('<div class="nav-header"></div>').appendTo($element));
+        $header = $('<div class="nav-header"></div>').appendTo($element);
+        this.renderTabs($header);
     }
     this.$element = $('<ul class="nav nav-pills nav-stacked actiontypelist" />').appendTo($element);
     //Control.List.sortable(this.$element);
@@ -84,6 +84,16 @@ ActionTypeList.prototype.renderActionTypeList = function ($element, actionTypes)
         }
         if (this.currentActionType == actionType) { this.$currentActionType = $li; }
     }
+}
+
+ActionTypeList.prototype.renderTabs = function ($header) {
+    var $tabs = $('<ul class="nav nav-tabs" />').appendTo($header);
+    var $tab = $('<li><a data-toggle="tab"><i class="icon-dashboard"></i></a></li>').appendTo($tabs);
+    $tab.css('width', '30%');
+    Control.tooltip($tab, 'Organizer', 'bottom');
+    $tab.click(function () { window.location = '/dashboard/home'; });    // TEMPORARY
+    $tab = $('<li class="active"><a data-toggle="tab"><i class="icon-play"></i> Next Steps</a></li>').appendTo($tabs);
+    $tab.css('width', '70%');
 }
 
 ActionTypeList.prototype.actionTypeClicked = function ($actionType) {

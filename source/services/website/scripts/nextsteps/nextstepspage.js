@@ -33,15 +33,7 @@ NextStepsPage.Init = function NextStepsPage$Init(dataModel) {
     NextStepsPage.$left.empty();
 
     // actionType list
-    $tabs = $('<ul class="nav nav-tabs" />');
-    var $tab = $('<li><a data-toggle="tab"><i class="icon-dashboard"></i></a></li>').appendTo($tabs);
-    $tab.css('width', '30%');
-    $tab.attr('title', 'Organizer').tooltip(Control.ttDelayBottom);
-    $tab.click(function () { window.location = '/dashboard/home'; });    // TEMPORARY
-    $tab = $('<li class="active"><a data-toggle="tab"><i class="icon-play"></i> Next Steps</a></li>').appendTo($tabs);
-    $tab.css('width', '70%');
-
-    NextStepsPage.actionTypeList = new ActionTypeList(dataModel.ActionTypes, $tabs);
+    NextStepsPage.actionTypeList = new ActionTypeList(dataModel.ActionTypes);
     NextStepsPage.actionTypeList.addSelectionChangedHandler('nextsteps', NextStepsPage.ManageActionType);
 
     // category list
@@ -135,8 +127,8 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
     });
 
     if (!Browser.IsMobile()) {
-        $navbar.find('.option-categories a i').attr('title', 'Activity Dashboard').tooltip(Control.ttDelayBottom);
-        $navbar.find('.option-nextsteps a i').attr('title', 'Next Steps').tooltip(Control.ttDelayBottom);
+        Control.tooltip($navbar.find('.option-categories a i'), 'Activity Dashboard', 'bottom');
+        Control.tooltip($navbar.find('.option-nextsteps a i'), 'Next Steps', 'bottom');
         /*
         // user settings
         $menuitem = $dropdown.find('.option-settings');
@@ -154,7 +146,6 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
         });
         */
     } else {
-        // 2012-09-20 OG: temporary fix - make both "mode" buttons white, to make them legible
         $navbar.find('.option-nextsteps a i').addClass('icon-blue').removeClass('icon-white');//.addClass('icon-large');
         $navbar.find('.option-categories a i').addClass('icon-white').removeClass('icon-blue');//.addClass('icon-large');
 
@@ -240,6 +231,16 @@ NextStepsPage.resize = function NextStepsPage$resize() {
 
     $(window).bind('resize', NextStepsPage.resize);
     NextStepsPage.resizing = false;
+
+    // complete intro popover
+    if (NextStepsPage.dataModel.UserSettings.ViewState.IntroComplete == true) {
+        delete NextStepsPage.dataModel.UserSettings.ViewState['IntroComplete'];
+        var $element = $('.dashboard-left');
+        var title = 'Congratulations!';
+        var content = 'You have created an <em>Activity</em> and are viewing your <strong>Next Steps</strong>.<br />';
+        content += 'Try completing your steps or return to the <strong>Organizer</strong> and create more <em>Activities</em>.';
+        Control.popover($('.dashboard-left'), $('.dashboard-region'), title, content, 'center');
+    }
 }
 
 NextStepsPage.checkBrowser = function NextStepsPage$checkBrowser() {

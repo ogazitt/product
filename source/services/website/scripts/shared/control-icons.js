@@ -202,7 +202,7 @@ Control.Icons.deleteBtn = function Control$Icons$deleteBtn(item) {
     var $icon = $('<i class="icon-remove-sign"></i>');
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
-    $icon.attr('title', 'Delete').tooltip(Control.noDelay);
+    Control.tooltip($icon, 'Delete');
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -225,7 +225,7 @@ Control.Icons.forMap = function Control$Icons$forMap(item) {
             if (link.Name == 'Map' && link.Url != null) {
                 var $link = $('<i class="icon-map-marker"></i>');
                 $link.attr('href', link.Url);
-                $link.attr('title', 'Map').tooltip(Control.ttDelay);
+                Control.tooltip($link, 'Map');
                 $link.click(function () { window.open($(this).attr('href')); return false; });
                 return $link;
             }
@@ -238,8 +238,8 @@ Control.Icons.forMap = function Control$Icons$forMap(item) {
 Control.Icons.completeBtn = function Control$Icons$completeBtn(item, handler) {
     var $icon = $('<i class="icon-check icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Done');
-    if (!Browser.IsMobile()) { $icon.attr('title', 'Complete').tooltip(Control.ttDelay); }
+    Control.tooltip($icon, 'Complete', null);
+    $icon.attr('caption', 'Done');
     $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -293,8 +293,7 @@ Control.Icons.skipBtn = function Control$Icons$skipBtn(item) {
     //var $icon = $('<i class="icon-step-forward icon-large"></i>');
     var $icon = $('<i class="icon-share icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Skip');
-    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    Control.tooltop($icon, 'Skip');
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -310,8 +309,7 @@ Control.Icons.skipBtn = function Control$Icons$skipBtn(item) {
 Control.Icons.deferBtn = function Control$Icons$deferBtn(item) {
     var $icon = $('<i class="icon-time icon-large icon-blue"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Defer');
-    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    Control.tooltip($icon, 'Defer');
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -325,8 +323,7 @@ Control.Icons.deferBtn = function Control$Icons$deferBtn(item) {
 Control.Icons.infoBtn = function Control$Icons$infoBtn(item) {
     var $icon = $('<i class="icon-info-sign  icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Info');
-    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    Control.tooltip($icon, 'Info');
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -347,8 +344,7 @@ Control.Icons.infoBtn = function Control$Icons$infoBtn(item) {
 Control.Icons.callBtn = function Control$Icons$callBtn(item) {
     var $icon = $('<i class="icon-phone icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Call');
-    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    Control.tooltip($icon, 'Call');
     var handler = function (phoneNumber) {
         // call the phone number
         phoneNumber = phoneNumber.replace(/[^0-9]+/g, '');
@@ -384,8 +380,7 @@ Control.Icons.formatPhoneNumber = function Control$Icons$formatPhoneNumber(phone
 Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
     var $icon = $('<i class="icon-map-marker icon-large icon-blue"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Map');
-    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    Control.tooltip($icon, 'Map');
 
     $icon.bind('click', function () {
         var $this = $(this);
@@ -437,8 +432,7 @@ Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
 Control.Icons.emailBtn = function Control$Icons$emailBtn(item) {
     var $icon = $('<i class="icon-envelope icon-large icon-blue"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Email');
-    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    Control.tooltip($icon, 'Email');
     var handler = function (email) { window.open('mailto:' + email); };
 
     $icon.click(function () {
@@ -461,8 +455,7 @@ Control.Icons.emailBtn = function Control$Icons$emailBtn(item) {
 Control.Icons.textBtn = function Control$Icons$textBtn(item) {
     var $icon = $('<i class="icon-list-alt icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Text');
-    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    Control.tooltip($icon, 'Text');
     var handler = function (phoneNumber) {
         // call the phone number
         phoneNumber = phoneNumber.replace(/[^0-9]+/g, '');
@@ -491,8 +484,8 @@ Control.Icons.textBtn = function Control$Icons$textBtn(item) {
 Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
     var $icon = $('<i class="icon-calendar icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Calendar');
-    if (!Browser.IsMobile()) { $icon.attr('title', 'Add to calendar').tooltip(Control.ttDelay); }
+    Control.tooltip($icon, 'Add to Calendar');
+    $icon.attr('caption', 'Calendar');
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -574,8 +567,8 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
 Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
     var $icon = $('<i class="icon-facebook icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Ask');
-    if (!Browser.IsMobile()) { $icon.attr('title', 'Ask Facebook Friends').tooltip(Control.ttDelay); }
+    Control.tooltip($icon, 'Ask Facebook Friends');
+    $icon.attr('caption', 'Ask');
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -625,8 +618,7 @@ Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
 Control.Icons.findLocalBtn = function Control$Icons$findLocalBtn(item) {
     var $icon = $('<i class="icon-search icon-large"></i>');
     $icon.data('item', item);
-    $icon.attr('title', 'Find');
-    if (!Browser.IsMobile()) { $icon.tooltip(Control.ttDelay); }
+    Control.tooltip($icon, 'Find');
     $icon.bind('click', function () {
         var $this = $(this);
         $this.tooltip('hide');
@@ -963,31 +955,31 @@ Control.Actions = {};
 Control.Actions.render = function Control$Actions$render($element, item) {
     if (Browser.IsMobile()) {
         var $toolbar = $('<div class="btn-toolbar hide" />').appendTo($element);
-        // render defer, skip, complete and info buttons
-        var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
-        this.mobileButton(Control.Icons.skipBtn(item), true).appendTo($toolbar);
-        this.mobileButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }), true).appendTo($toolbar);
-        this.mobileButton(Control.Icons.infoBtn(item), false).appendTo($toolbar);
 
+        // render complete, action, and info buttons
+        var $btn = this.iconButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }), true).appendTo($toolbar);
+        $btn.css('margin-right', '24px');
         // render the action button based on the action type
         var $actionButton = this.renderAction(item);
         if ($actionButton != null) {
-            this.mobileButton($actionButton).prependTo($toolbar);
+            this.iconButton($actionButton).appendTo($toolbar);
         }
+        //var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
+        //this.iconButton(Control.Icons.skipBtn(item), true).appendTo($toolbar);
+        this.iconButton(Control.Icons.infoBtn(item), false).appendTo($toolbar);
     } else {
         var $toolbar = $('<div class="btn-toolbar pull-right" />').appendTo($element);
-        // render info, complete, skip, and defer buttons
-        var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
-        var $skipBtn = Control.Icons.skipBtn(item).appendTo($toolbar);
-        var $completeBtn = Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }).appendTo($toolbar);
-        // TODO: support info button in web when view info tab is implemented in runmode
-        //var $infoBtn = Control.Icons.infoBtn(item).appendTo($toolbar);
 
+        // render complete, action, and info buttons
+        var $btn = Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }).appendTo($toolbar);
+        //$btn.css('margin-right', '24px');
         // render the action button based on the action type
         var $actionButton = this.renderAction(item);
         if ($actionButton != null) {
             $actionButton.prependTo($toolbar);
-        }        
+        }
+        //var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
+        //Control.Icons.skipBtn(item).appendTo($toolbar);
     }
 }
 
@@ -1013,15 +1005,14 @@ Control.Actions.renderAction = function Control$Actions$renderAction(item) {
     }
 }
 
-// wrap an icon with a btn style appropriate for rendering on mobile devices
-Control.Actions.mobileButton = function Control$Actions$mobileButton($iconButton, propagate) {
+// wrap an icon within a btn 
+Control.Actions.iconButton = function Control$Actions$mobileButton($iconButton, propagate) {
     var $btn = $('<a class="btn btn-step" />').append($iconButton);
     var $icon = $iconButton.find('i');
     $icon.addClass('icon-blue');
-    var title = $icon.attr('title');
-    $icon.attr('title', null);
-    var $title = $('<p />').appendTo($btn);
-    $title.html(title);
+    var caption = $icon.attr('caption');
+    var $caption = $('<p />').appendTo($btn);
+    $caption.html(caption);
     $btn.click(function (e) { $icon.click(); return (propagate == true) ? true : false; });
     return $btn;
 }

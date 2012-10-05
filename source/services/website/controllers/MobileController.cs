@@ -32,11 +32,9 @@
         public ActionResult NextSteps()
         {
             UserDataModel model = new UserDataModel(this);
-            //NextStepsDataModel model = new NextStepsDataModel(this);
             try
             {   
                 // force access to validate current user
-                //var userData = model.NextStepsData;
                 var userData = model.UserData;
             }
             catch

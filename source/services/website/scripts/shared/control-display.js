@@ -410,7 +410,7 @@ Control.Checkbox.render = function Control$Checkbox$render($element, item, field
     if ($element.attr('type') == 'checkbox') { $checkbox = $element; }
     else { $checkbox = $('<input type="checkbox" class="checkbox" />').appendTo($element); }
     $checkbox.addClass(field.Class);
-    $checkbox.attr('title', field.DisplayName).tooltip(Control.ttDelay);
+    Control.tooltip($checkbox, field.DisplayName);
     if (item.GetFieldValue(field) == true) {
         $checkbox.attr('checked', 'checked');
     }
@@ -427,12 +427,12 @@ Control.Checkbox.render = function Control$Checkbox$render($element, item, field
 }
 
 Control.Checkbox.update = function Control$Checkbox$update($checkbox) {
+    $checkbox.tooltip('hide');
     var item = $checkbox.data('item');
     var field = $checkbox.data('field');
     var value = ($checkbox.attr('checked') == 'checked');
     var currentValue = item.GetFieldValue(field);
     if (value != currentValue) {
-        $checkbox.tooltip('hide');
         // when Complete field is set true, timestamp CompletedOn field
         if (value == true && field.Name == FieldNames.Complete && item.HasField(FieldNames.CompletedOn)) {
             item.Complete();
@@ -490,7 +490,7 @@ Control.LinkArray.update = function Control$LinkArray$update($input) {
 Control.LinkArray.deleteBtn = function Control$Icons$deleteBtn(index) {
     var $icon = $('<i class="icon-remove-circle"></i>');
     $icon.css('cursor', 'pointer');
-    $icon.attr('title', 'Remove Link').tooltip(Control.noDelay);
+    Control.tooltip($icon, 'Remove Link');
     $icon.data('index', index);
     $icon.bind('click', function () {
         var $this = $(this);

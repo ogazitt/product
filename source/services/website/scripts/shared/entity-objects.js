@@ -74,7 +74,7 @@ GalleryCategory.prototype.GetActivities = function () { return this.Activities; 
 GalleryCategory.prototype.GetActivity = function (itemID) { return this.Activities[itemID]; }
 GalleryCategory.prototype.IsGalleryCategory = function () { return true; }
 GalleryCategory.prototype.IsGalleryActivity = function () { return false; }
-GalleryCategory.prototype.Install = function () {
+GalleryCategory.prototype.Install = function (handler) {
     Service.InvokeController('Actions', 'InstallCategory',
         { 'category': this },
         function (responseState) {
@@ -83,8 +83,7 @@ GalleryCategory.prototype.Install = function () {
                 Control.alert('Server was unable to install the category', 'Install Category');
             }
             else {
-                // TODO: should not be referencing Dashboard from Entity, instead fire event that Dashboard handles
-                if (typeof(Dashboard) !== "undefined" && Dashboard.dataModel != null) { Dashboard.dataModel.Refresh(); }
+                if (handler != null) { handler(result); }
             }
         }
     );
@@ -101,7 +100,7 @@ GalleryActivity.prototype.Copy = function () { var copy = $.extend(new GalleryAc
 GalleryActivity.prototype.IsGalleryCategory = function () { return false; }
 GalleryActivity.prototype.IsGalleryActivity = function () { return true; }
 GalleryActivity.prototype.IsSelected = function () { return DataModel.UserSettings.IsActivitySelected(this.ID); };
-GalleryActivity.prototype.Install = function () {
+GalleryActivity.prototype.Install = function (handler) {
     Service.InvokeController('Actions', 'InstallActivity',
         { 'activity': this, 'category': null },
         function (responseState) {
@@ -110,8 +109,7 @@ GalleryActivity.prototype.Install = function () {
                 Control.alert('Server was unable to install the category', 'Install Activity');
             }
             else {
-                // TODO: should not be referencing Dashboard from Entity, instead fire event that Dashboard handles
-                if (typeof (Dashboard) !== "undefined" && Dashboard.dataModel != null) { Dashboard.dataModel.Refresh(); }
+                if (handler != null) { handler(result); }
             }
         }
     );

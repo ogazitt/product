@@ -7,8 +7,8 @@
       <!-- SQL Azure databases for Dev2 deployment -->
       <Setting name="UsersConnection" value="SQLUsers" />
       <Setting name="SuggestionsConnection" value="SQLSuggestions" />
-      <Setting name="SQLUsers" value="data source=kpfc7hoc39.database.windows.net;Initial Catalog=ZapUsers;User Id=builtsteady;Password=zrc022.." />
-      <Setting name="SQLSuggestions" value="data source=kpfc7hoc39.database.windows.net;Initial Catalog=ZapSuggestions;User Id=builtsteady;Password=zrc022.." />
+      <Setting name="SQLUsers" value="data source=kpfc7hoc39.database.windows.net;Initial Catalog=Users;User Id=builtsteady;Password=zrc022.." />
+      <Setting name="SQLSuggestions" value="data source=kpfc7hoc39.database.windows.net;Initial Catalog=Suggestions;User Id=builtsteady;Password=zrc022.." />
       <Setting name="WorkflowWorkerCount" value="1" />
       <Setting name="WorkflowWorkerTimeout" value="15" />
       <!-- Google Client 'ZaplifyDev2' -->
@@ -39,8 +39,8 @@
       <!-- SQL Azure databases for Dev2 deployment -->
       <Setting name="UsersConnection" value="SQLUsers" />
       <Setting name="SuggestionsConnection" value="SQLSuggestions" />
-      <Setting name="SQLUsers" value="data source=kpfc7hoc39.database.windows.net;Initial Catalog=ZapUsers;User Id=builtsteady;Password=zrc022.." />
-      <Setting name="SQLSuggestions" value="data source=kpfc7hoc39.database.windows.net;Initial Catalog=ZapSuggestions;User Id=builtsteady;Password=zrc022.." />
+      <Setting name="SQLUsers" value="data source=kpfc7hoc39.database.windows.net;Initial Catalog=Users;User Id=builtsteady;Password=zrc022.." />
+      <Setting name="SQLSuggestions" value="data source=kpfc7hoc39.database.windows.net;Initial Catalog=Suggestions;User Id=builtsteady;Password=zrc022.." />
       <!-- Facebook Application 'ZaplifyDev2' -->
       <Setting name="FBAppID" value="329034793824754" />
       <Setting name="FBAppSecret" value="1caa1ea5bb4a9a6ee4adb64be0080b7d" />
@@ -51,7 +51,7 @@
       <Setting name="DeploymentName" value="Dev2" />
       <Setting name="PublicUrl" value="http://twostepdev2.cloudapp.net" />
       <Setting name="AzureLoggingEnabled" value="1" />
-      <Setting name="SplunkLoggingEnabled" value="0" />
+      <Setting name="SplunkLoggingEnabled" value="1" />
       <Setting name="SplunkServerEndpoint" value="zaplifysplunk.cloudapp.net:9997" />
       <Setting name="SplunkLocalPort" value="9237" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=bizsparkdev2;AccountKey=uBN4tUfsak1HiFDmrfMOS+DMpDgSt4VH99YvcXO/thvMaZbBK8PlnwbrLJiRRYM8xefVco9g02D+heBnCDagDQ==" />

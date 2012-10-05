@@ -354,12 +354,24 @@ var HttpStatusCode = new function HttpStatusCode$() {
 var Browser = function Browser$() { };
 Browser.isMobile = false;
 
-Browser.IsMobile = function Browser$IsMobile(val) {
+Browser.IsMobile = function Browser$IsMobile(val) {     // excludes iPad
     if (val !== undefined) { Browser.isMobile = val; }
     return Browser.isMobile;
 }
+Browser.IsDevice = function Browser$IsDevice() {        // includes iPad
+    return (Browser.IsMobile() || Browser.IsiPad());
+}
+Browser.IsMacOS = function Browser$IsMacOS() {
+    return (navigator.userAgent.indexOf('Mac OS X') != -1);
+}
+Browser.IsiPad = function Browser$IsiPad() {
+    return (navigator.userAgent.indexOf('iPad') != -1);
+}
+Browser.IsiPhone = function Browser$IsiPhone() {
+    return (navigator.userAgent.indexOf('iPhone') != -1);
+}
 Browser.IsMSIE = function Browser$IsMSIE() {
-    return (navigator.appName == 'Microsoft Internet Explorer'); 
+    return (navigator.appName == 'Microsoft Internet Explorer');
 }
 Browser.MSIE_Version = function Browser$MSIE_Version() {
     var version = -1;                                           // return -1 if not MSIE

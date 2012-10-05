@@ -108,7 +108,7 @@ ItemEditor.prototype.renderNameField = function ($element) {
         // render the action type picker 
         var $wrapper = $('<div class="span2" />').appendTo($form);
         var $action = Control.ActionType.renderDropdown($thumbnail, this.item, true).addClass('pull-right');
-        $action.find('i').attr('title', 'Change Action').tooltip(Control.noDelay);
+        Control.tooltip($action.find('i'), 'Change Action');
     } else {
         var imageUrl = this.item.GetFieldValue(FieldNames.Picture);
         if (imageUrl != null) {

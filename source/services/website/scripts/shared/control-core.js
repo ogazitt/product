@@ -10,7 +10,18 @@
 // ---------------------------------------------------------
 // Control static object
 // shared helpers used by controls
-var Control = function Control$() {};
+var Control = function Control$() { };
+
+Control.tooltip = function Control$tooltip($element, title, placement) {
+    $element.attr('title', title);
+    $element.attr('caption', title);
+    if (!Browser.IsDevice()) {
+        var options = { delay: { show: 0, hide: 0} };
+        if (placement != null) { options.placement = placement; }
+        $element.tooltip(options);
+    } 
+}
+
 Control.noDelay = { delay: { show: 0, hide: 0} };           // tooltip with no delay
 Control.noDelayBottom = { delay: { show: 0, hide: 0 }, placement: 'bottom' };
 Control.ttDelay = { delay: { show: 0 /*500*/, hide: 0 /*200*/} };       // default tooltip delay
@@ -144,7 +155,7 @@ Control.popup = function Control$popup($dialog, header, handlerOK, handlerCancel
         });
     }
 }
-// "working" dialog with spinning animation
+// modal dialog with spinning animation
 Control.working = function Control$working(message, delay, handlerClose) {
     var $modalMessage = $('#modalMessage');
     if ($modalMessage.length == 0) {
@@ -168,6 +179,25 @@ Control.working = function Control$working(message, delay, handlerClose) {
         $modalMessage.modal('show');
         var timeoutID = window.setTimeout(handler, delay);
     }
+}
+// popover callout
+//  $showElement is target element to show popover next to based on placement
+//  $hideElement is element which when clicked in will hide the popover
+//  top is optional override to adjust vertical position with respect to $showElement
+Control.popover = function ($showElement, $hideElement, title, content, placement, top) {
+    var hideArrow = (placement == 'center');
+    placement = hideArrow ? 'right' : placement;
+    $showElement.popover({ trigger: 'manual', title: title, content: content, placement: placement });
+    $showElement.popover('show');
+    $hideElement.click(function () {
+        $showElement.popover('hide');
+        $('body .popover').remove();
+        return true;
+    });
+    if (top != null) { $('body .popover').css('top', top); };
+    if (hideArrow) { $('body .popover .arrow').hide(); }
+    // popover title conflicts with tooltip title, set explicitly
+    $('body .popover .popover-title').html(title);
 }
 
 // ---------------------------------------------------------

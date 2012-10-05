@@ -25,6 +25,13 @@
             public HttpStatusCode StatusCode = HttpStatusCode.OK;
         }
 
+        class JsInstallResult
+        {
+            public HttpStatusCode StatusCode = HttpStatusCode.OK;
+            public Guid? FolderID = null;
+            public Guid? ItemID = null;
+        }
+
         public ActionResult CreateNextSteps()
         {
             var jsResult = new JsResult();
@@ -78,9 +85,19 @@
         [HttpPost]
         public ActionResult InstallCategory(GalleryCategory category)
         {
-            var jsResult = new JsResult();
-            if (!GalleryProcessor.InstallCategory(this.StorageContext, Storage.NewSuggestionsContext, this.CurrentUser, null, null, category))
-                jsResult.StatusCode = HttpStatusCode.NotFound;
+            var jsResult = new JsInstallResult();
+            object o = GalleryProcessor.InstallCategory(this.StorageContext, Storage.NewSuggestionsContext, this.CurrentUser, null, null, category);
+            if (o != null)
+            {
+                Folder folder = o as Folder;
+                Item item = o as Item;
+                if (folder != null) { jsResult.FolderID = folder.ID; }
+                if (item != null) { jsResult.FolderID = item.FolderID; jsResult.ItemID = item.ID; }
+            } 
+            else 
+            { 
+                jsResult.StatusCode = HttpStatusCode.NotFound; 
+            }
             JsonResult result = new JsonResult();
             result.Data = jsResult;
             return result;
@@ -89,9 +106,17 @@
         [HttpPost]
         public ActionResult InstallActivity(GalleryActivity activity, Folder category)
         {
-            var jsResult = new JsResult();
-            if (!GalleryProcessor.InstallActivity(this.StorageContext, Storage.NewSuggestionsContext, this.CurrentUser, category, null, activity))
+            var jsResult = new JsInstallResult();
+            Item item = GalleryProcessor.InstallActivity(this.StorageContext, Storage.NewSuggestionsContext, this.CurrentUser, category, null, activity);
+            if (item != null)
+            {
+                jsResult.FolderID = item.FolderID;
+                jsResult.ItemID = item.ID;
+            }
+            else
+            {
                 jsResult.StatusCode = HttpStatusCode.NotFound;
+            }
             JsonResult result = new JsonResult();
             result.Data = jsResult;
             return result;

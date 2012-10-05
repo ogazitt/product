@@ -53,7 +53,9 @@ ListView.prototype.render = function ($element, list, height) {
     if (this.renderListItems(list.GetSteps()) > 0) {
         this.show();
         var $selected = this.$element.find('li.selected');
-        if ($selected.offset() != null) {
+        if ($selected.length == 0) {
+            this.$element.find('li:first').click();
+        } else {
             // scroll selected item into view
             var scroll = $selected.offset().top - height + this.$element.scrollTop();
             if (scroll > 0) {

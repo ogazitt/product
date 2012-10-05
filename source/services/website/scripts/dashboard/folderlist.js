@@ -5,11 +5,10 @@
 
 // ---------------------------------------------------------
 // FolderList control
-function FolderList(folders, folderTypes, $navHeader) {
+function FolderList(folders, folderTypes) {
     // fires notification when selected folder changes
     this.onSelectionChangedHandlers = {};
     this.folderTypes = (folderTypes == null) ? [ItemTypes.Category] : folderTypes;
-    this.$navHeader = ($navHeader == null) ? $('<span>Organizer</span>') : $navHeader;
     this.init(folders);
 }
 
@@ -47,13 +46,14 @@ FolderList.prototype.render = function ($element, folders) {
         this.init(folders);
     }
     $element.empty();
-    this.$navHeader.appendTo($('<div class="nav-header"></div>').appendTo($element));
+    var $header = $('<div class="nav-header"></div>').appendTo($element);
+    this.renderTabs($header);
     this.$element = $('<ul class="nav nav-pills nav-stacked" />').appendTo($element);
     Control.List.sortable(this.$element);
     for (var id in this.folders) {
         var folder = this.folders[id];
         $folder = $('<li class="position-relative"></li>').appendTo(this.$element);
-        this.renderItem($folder, folder);     
+        this.renderItem($folder, folder);
         this.renderItems($folder, folder);
     }
     this.renderAddBtn(this.$element);
@@ -110,6 +110,16 @@ FolderList.prototype.renderItem = function ($item, item) {
     $('<div class="icon drag-handle">⁞&nbsp;</div>').appendTo($item);
 
     if (item.IsSelected(true)) { this.select($item, item); }
+}
+
+FolderList.prototype.renderTabs = function ($header) {
+    var $tabs = $('<ul class="nav nav-tabs" />').appendTo($header);
+    var $tab = $('<li class="active"><a data-toggle="tab"><i class="icon-dashboard"></i> Organizer</a></li>').appendTo($tabs);
+    $tab.css('width', '70%');
+    $tab = $('<li><a data-toggle="tab"><i class="icon-play"></i></a></li>').appendTo($tabs);
+    $tab.css('width', '30%');
+    Control.tooltip($tab, 'Next Steps', 'bottom');
+    $tab.click(function () { window.location = '/dashboard/nextsteps'; });    // TEMPORARY
 }
 
 FolderList.prototype.itemClicked = function ($item) {

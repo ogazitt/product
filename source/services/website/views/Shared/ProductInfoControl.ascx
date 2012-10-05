@@ -88,7 +88,7 @@
     <div id="tools_section" style="min-height: 350px">
         <div class="item">
             <div class="title-text">
-                <h2>Integrates with the tools you use everyday.</h2>
+                <h2>Integrates with the tools you use every day.</h2>
             </div>
             <span class="left-pic pull-left"><img alt="Tools" src="<%: Url.Content("~/content/images/landing/tools.png") %>" /></span>
         </div>

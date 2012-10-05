@@ -219,6 +219,7 @@
     <Content Include="content\images\help\run-mode.png" />
     <Content Include="content\images\help\twostep-iphone-small.png" />
     <Content Include="content\images\help\twostep-iphone.png" />
+    <Content Include="content\images\landing\action-buttons-gray.png" />
     <Content Include="content\images\landing\actions.png" />
     <Content Include="content\images\landing\activities-gray.png" />
     <Content Include="content\images\landing\ask-facebook-friends-small.png" />

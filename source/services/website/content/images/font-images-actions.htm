@@ -19,7 +19,6 @@
         table td { padding-left: 2px; }
         td { text-align: left; vertical-align: middle; width : 92px; height: 92px; border-width: 0; padding: 0; margin: 0; } 
         td i { font-size: 72px; Xborder: 1px solid red; } 
-        .img-steps { height: 72px; width: 72px; margin: -6px 0 0 -4px; }
         
 
     </style>
@@ -27,16 +26,12 @@
     <script type="text/javascript">
         // document ready handler
         $(function () {
-            $('.white').html($('.gray').html());
-            $('.blue').html($('.gray').html());
-            $('.white .img-steps').attr('src', 'steps-white.png');
-            $('.blue .img-steps').attr('src', 'steps-blue.png');
         });
     </script>
 </head>
 <body>
 
-<div class='gray'>
+<div class='blue'>
 <table>
 <tr>
     <td><i class='icon-phone'></i></td>
@@ -44,16 +39,12 @@
     <td><i class='icon-search'></i></td>
     <td><i class='icon-facebook'></i></td>
     <td><i class='icon-calendar'></i></td>
-    <td><i class='icon-shopping-cart'></i></td>
-    <td><i class='icon-time'></i></td>
+    <td><i class='icon-map-marker'></i></td>
+    <td><i class='icon-bell'></i></td>
     <td><i class='icon-check'></i></td>
+    <td><div class='btn'><i class='icon-bell'></i></div></td>
 </tr>
 </table>
-</div>
-
-<div class='white'>
-</div>
-<div class='blue'>
 </div>
 
 </body>

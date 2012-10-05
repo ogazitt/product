@@ -17,8 +17,8 @@
     #steps_section      { background-color: #fff; /*#fff0f0;*/ }
     #cadence_section    { background-color: #eee; /*#fffff0;*/ }
     #find_section       { background-color: #fff; /*#f0f0ff;*/ }
-    #action_section       { background-color: #eee; /*#f0f0ff;*/ }
-    #tools_section       { background-color: #fff; /*#f0f0ff;*/ }
+    #action_section     { background-color: #eee; /*#f0f0ff;*/ }
+    #tools_section      { background-color: #fff; /*#f0f0ff;*/ }
     #gallery_section    { background-color: #eee; /*#f0f0f0;*/ }
     #gallery_section img  { margin-top: -25px; }
     #nextsteps_section  { background-color: #fff; /*#ffffff;*/ }
@@ -82,7 +82,7 @@
             <div class="title-text">
                 <h2>Take action.</h2>
             </div>
-            <span class="left-pic pull-left"><img alt="Actions" src="<%: Url.Content("~/content/images/landing/actions-gray.png") %>" /></span>
+            <span class="left-pic pull-left"><img alt="Actions" src="<%: Url.Content("~/content/images/landing/action-buttons-gray.png") %>" /></span>
         </div>
     </div>
     <div id="tools_section" style="min-height: 350px">

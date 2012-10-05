@@ -575,6 +575,9 @@ Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
         var item = $this.data('item');
         var activity = item.GetParent();
         var $dialog = $('<div><label>Question: </label><textarea /></div>');
+        var article = item.GetFieldValue(ExtendedFieldNames.Article);
+        if (article == null) { article = '<replace this!>'; }
+        // TODO: replace 'Redmond' with the location from the user's profile
         var location = 'Redmond'; // hardcode for now
         var text = 'Do you know a good ' + item.GetFieldValue(ExtendedFieldNames.Article) + ' in ' + location + '?';
         $dialog.find('textarea').val(text).css('height', '75');
@@ -627,7 +630,12 @@ Control.Icons.findLocalBtn = function Control$Icons$findLocalBtn(item) {
         term = term.replace(/^find an /, '');
         term = term.replace(/^find a /, '');
         term = term.replace(/^find /, '');
-        window.open('https://maps.google.com/?q=' + term + '&radius=1');
+        if (Browser.IsMobile() && Browser.IsMSIE()) {
+            window.open('http://maps.google.com/search?q=' + term + '&tbm=plcs&radius=1');
+        }
+        else {
+            window.open('https://maps.google.com/?q=' + term + '&radius=1');
+        }
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome

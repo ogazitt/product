@@ -7,25 +7,27 @@ namespace BuiltSteady.Product.Website.Helpers
 {
     public enum DeviceType
     {
+        // mask for mobile devices
+        Mobile = 1,         
+
         // mobile devices
         iPhone = 1,
-        iPad = 3,
-        WinPhone = 5,
-        // mask for mobile devices
-        Mobile = 1, 
+        WinPhone = 3,
+
         // non-mobile devices
         PC = 2,
         Mac = 4,
-        Unknown = 6
+        iPad = 6,
+        Unknown = 8
     }
 
     public class BrowserAgent
     {
         public const string iPhone = "iPhone";
-        public const string iPad = "iPad";
         public const string WinPhone = "Windows Phone";
-        public const string Mac = "Mac OS X";
         public const string PC = "Windows";
+        public const string Mac = "Mac OS X";
+        public const string iPad = "iPad";
         public const string Unknown = "Unknown";
 
         public static bool IsMobile(string userAgent)

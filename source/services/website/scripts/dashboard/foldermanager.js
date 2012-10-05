@@ -98,7 +98,6 @@ FolderManager.prototype.render = function () {
         $itemTab.empty().append('Edit Step Details');
         var $closeBtn = $('<a><i class="icon-remove"></i></a>').prependTo($itemTab);
         $closeBtn.data('control', this);
-        //$closeBtn.attr('title', 'Close').tooltip(Control.ttDelay);
         $closeBtn.click(function () {
             Control.get(this).activeView(FolderManager.ListView); return false;
         });
@@ -298,6 +297,8 @@ HelpManager.prototype.renderIntro = function ($element) {
         $('<h3>Are you new to TwoStep?</h3>').appendTo($welcome);
         $('<p>Click the <strong>Get Started!</strong> button to step through the product and create your first Activity.</p>').appendTo($welcome);
         $('<p>Click the <strong>Get Help!</strong> button to learn more about the basic product features.</p>').appendTo($welcome);
+        //$('<p><small>' + navigator.appName + '</small></p>').appendTo($welcome);
+        //$('<p><small>' + navigator.userAgent + '</small></p>').appendTo($welcome);
         var $checkbox = $('<div class="controls inline"></div>').appendTo($welcome);
         $checkbox = $('<input type="checkbox" /><label class="inline">Do not show welcome screen</label>').appendTo($checkbox);
         $checkbox.click(function () {

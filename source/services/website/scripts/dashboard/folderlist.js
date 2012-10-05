@@ -118,7 +118,7 @@ FolderList.prototype.renderTabs = function ($header) {
     $tab.css('width', '70%');
     $tab = $('<li><a data-toggle="tab"><i class="icon-play"></i></a></li>').appendTo($tabs);
     $tab.css('width', '30%');
-    $tab.attr('title', 'Next Steps').tooltip(Control.ttDelayBottom);
+    Control.tooltip($tab, 'Next Steps', 'bottom');
     $tab.click(function () { window.location = '/dashboard/nextsteps'; });    // TEMPORARY
 }
 

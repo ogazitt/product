@@ -132,8 +132,8 @@ Dashboard.render = function Dashboard$render(folderID, itemID) {
 Dashboard.showHeaderOptions = function Dashboard$showHeaderOptions() {
     var $navbar = $('.navbar-fixed-top .pull-right');
     var $navbtn = $navbar.find('.option-categories a i').addClass('icon-white');
-    $navbtn.attr('title', 'Activity Dashboard').tooltip(Control.ttDelayBottom);
-    $navbar.find('.option-nextsteps a i').attr('title', 'Next Steps').tooltip(Control.ttDelayBottom);
+    Control.tooltip($navbtn, 'Activity Dashboard', 'bottom');
+    Control.tooltip($navbar.find('.option-nextsteps a i'), 'Next Steps', 'bottom');
 
     var $dropdown = $('.navbar-fixed-top .pull-right .dropdown-menu');
     // refresh

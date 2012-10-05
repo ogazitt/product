@@ -127,8 +127,8 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
     });
 
     if (!Browser.IsMobile()) {
-        $navbar.find('.option-categories a i').attr('title', 'Activity Dashboard').tooltip(Control.ttDelayBottom);
-        $navbar.find('.option-nextsteps a i').attr('title', 'Next Steps').tooltip(Control.ttDelayBottom);
+        Control.tooltip($navbar.find('.option-categories a i'), 'Activity Dashboard', 'bottom');
+        Control.tooltip($navbar.find('.option-nextsteps a i'), 'Next Steps', 'bottom');
         /*
         // user settings
         $menuitem = $dropdown.find('.option-settings');
@@ -237,7 +237,7 @@ NextStepsPage.resize = function NextStepsPage$resize() {
         delete NextStepsPage.dataModel.UserSettings.ViewState['IntroComplete'];
         var $element = $('.dashboard-left');
         var title = 'Congratulations!';
-        var content = 'You have created your first <em>Activity</em> and are viewing your <strong>Next Steps</strong>.<br />';
+        var content = 'You have created an <em>Activity</em> and are viewing your <strong>Next Steps</strong>.<br />';
         content += 'Try completing your steps or return to the <strong>Organizer</strong> and create more <em>Activities</em>.';
         Control.popover($('.dashboard-left'), $('.dashboard-region'), title, content, 'center');
     }

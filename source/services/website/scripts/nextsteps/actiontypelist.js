@@ -90,7 +90,7 @@ ActionTypeList.prototype.renderTabs = function ($header) {
     var $tabs = $('<ul class="nav nav-tabs" />').appendTo($header);
     var $tab = $('<li><a data-toggle="tab"><i class="icon-dashboard"></i></a></li>').appendTo($tabs);
     $tab.css('width', '30%');
-    $tab.attr('title', 'Organizer').tooltip(Control.ttDelayBottom);
+    Control.tooltip($tab, 'Organizer', 'bottom');
     $tab.click(function () { window.location = '/dashboard/home'; });    // TEMPORARY
     $tab = $('<li class="active"><a data-toggle="tab"><i class="icon-play"></i> Next Steps</a></li>').appendTo($tabs);
     $tab.css('width', '70%');

@@ -10,7 +10,18 @@
 // ---------------------------------------------------------
 // Control static object
 // shared helpers used by controls
-var Control = function Control$() {};
+var Control = function Control$() { };
+
+Control.tooltip = function Control$tooltip($element, title, placement) {
+    $element.attr('title', title);
+    $element.attr('caption', title);
+    if (!Browser.IsDevice()) {
+        var options = { delay: { show: 0, hide: 0} };
+        if (placement != null) { options.placement = placement; }
+        $element.tooltip(options);
+    } 
+}
+
 Control.noDelay = { delay: { show: 0, hide: 0} };           // tooltip with no delay
 Control.noDelayBottom = { delay: { show: 0, hide: 0 }, placement: 'bottom' };
 Control.ttDelay = { delay: { show: 0 /*500*/, hide: 0 /*200*/} };       // default tooltip delay

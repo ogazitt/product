@@ -80,7 +80,7 @@ ListEditor.prototype.renderActivityController = function ($element, activity) {
     if (activity.IsRunning()) {
         // render enabled pause button
         var $btnPause = $('<a class="btn btn-warning icon"><i class="icon-pause"></i></a>').appendTo($element);
-        $btnPause.attr('title', 'Pause').tooltip(Control.noDelay);
+        Control.tooltip($btnPause, 'Pause');
         $btnPause.click(function () {
             $(this).tooltip('hide');
             activity.Pause();
@@ -101,7 +101,7 @@ ListEditor.prototype.renderActivityController = function ($element, activity) {
             var rrule = Recurrence.Extend(activity.GetFieldValue(FieldNames.Repeat));
             if (rrule.IsEnabled()) {
                 $btnForward.removeClass('invisible');
-                $btnForward.attr('title', 'Repeat').tooltip(Control.noDelay);
+                Control.tooltip($btnForward, 'Repeat');
                 $btnForward.click(function () {
                     $(this).tooltip('hide');
                     activity.Repeat();
@@ -113,7 +113,7 @@ ListEditor.prototype.renderActivityController = function ($element, activity) {
         if (status.Start || status.Resume) {
             // enable start or resume button
             var title = (status.Start) ? 'Start' : 'Resume';
-            $btnStart.attr('title', title).tooltip(Control.noDelay);
+            Control.tooltip($btnStart, title);
             $btnStart.click(function () {
                 $(this).tooltip('hide');
                 var itemNeedsDueDate = activity.Start();
@@ -128,7 +128,7 @@ ListEditor.prototype.renderActivityController = function ($element, activity) {
         if (status.Restart) {
             // enable restart button
             $btnRestart.removeClass('invisible');
-            $btnRestart.attr('title', 'Restart').tooltip(Control.noDelay);
+            Control.tooltip($btnRestart, 'Restart');
             $btnRestart.click(function () {
                 $(this).tooltip('hide');
                 var itemNeedsDueDate = activity.Restart();
@@ -320,7 +320,7 @@ ListView.prototype.editBtn = function (item) {
     var $icon = $('<i class="icon-pencil"></i>');
     $icon.data('control', this);
     $icon.data('item', item);
-    $icon.attr('title', 'Edit').tooltip(Control.noDelay);
+    Control.tooltip($icon, 'Edit');
     $icon.bind('click', function () {
         $(this).tooltip('hide');
         var item = $(this).data('item');

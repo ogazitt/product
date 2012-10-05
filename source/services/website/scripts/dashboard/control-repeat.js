@@ -31,7 +31,7 @@ Control.Repeat.refresh = function Control$Repeat$refresh($element, item) {
         $element.removeClass('btn-success');
     }
     if (!item.IsRunning()) {
-        $element.attr('title', title).tooltip(Control.noDelay);
+        Control.tooltip($element, title);
         $element.unbind('click').click(function () {
             $(this).tooltip('hide');
             Control.Repeat.dialog($(this));

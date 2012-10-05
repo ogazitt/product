@@ -148,7 +148,7 @@ Item.prototype.GetFieldValue = function (field, handler) {
     // field parameter can be either field name or field object
     if (typeof (field) == 'string') {
         var f = this.GetField(field);
-        if (f == null ) { f = { Name: field, FieldType: FieldTypes.String }; } 
+        if (f == null) { f = { Name: field, FieldType: FieldTypes.String }; }
         field = f;
     }
     if (field != null && (this.HasField(field.Name) || this.HasExtendedField(field.Name))) {
@@ -166,10 +166,16 @@ Item.prototype.GetFieldValue = function (field, handler) {
                     var item = DataModel.FindItem(fv.Value);
                     if (item != null) { return item; }
                 }
-                // javascript only recognizes lowercase boolean values
                 if (field.FieldType == FieldTypes.Boolean) {
+                    // javascript only recognizes lowercase boolean values
                     if (typeof (fv.Value) == 'string') {
                         fv.Value = (fv.Value.toLowerCase() == 'true');
+                    }
+                }
+                if (field.FieldType == FieldTypes.DateTime) {
+                    // convert to javascript date object
+                    if (typeof (fv.Value) == 'string') {
+                        fv.Value = new Date().parseSafe(fv.Value)
                     }
                 }
                 return fv.Value;
@@ -198,6 +204,10 @@ Item.prototype.SetFieldValue = function (field, value) {
         if (field.Name == FieldNames.Complete) {
             this.Status = (value == true) ? StatusTypes.Complete : null;
             return true;
+        }
+        if (field.FieldType == FieldTypes.DateTime || typeof (value) == 'date') {
+            // convert date to UTC string format
+            value = Date.formatUTC(value);
         }
         if (this.FieldValues == null) {
             this.FieldValues = [];
@@ -549,10 +559,14 @@ Item.prototype.Active = function (newDueDate) {
     for (var id in steps) {
         var step = steps[id];
         if (step.IsPaused()) {
-            // mark first paused step active
-            step.UpdateStatus(StatusTypes.Active, null);
-            this.UpdateStatus(StatusTypes.Active);
-            return null;
+            if (step.GetFieldValue(FieldNames.DueDate) != null) {
+                // mark first paused step active
+                step.UpdateStatus(StatusTypes.Active, null);
+                this.UpdateStatus(StatusTypes.Active);
+                return null;
+            } else {
+                step.Status = StatusTypes.Stopped;
+            }
         }
         if (step.IsStopped()) {
             // mark first stopped step active

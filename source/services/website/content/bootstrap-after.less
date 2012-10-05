@@ -42,7 +42,6 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .navbar .nav-pills.pull-right > li.divider-vertical { margin-left: 0; }
 .navbar .nav-pills.pull-right > li > a > i.icon-white { color: @white; }
 
-
 // dashboard styles 
 .dashboard-list { margin: 0; padding: 0; overflow-y: hidden; overflow-x: hidden; }
 .dashboard-list > ul.nav { padding: 6px; margin: 0; overflow-y: auto; overflow-x: hidden; }
@@ -97,6 +96,11 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-list li a.st-skipped i, .dashboard-center li.st-skipped .form-inline i { color: @linkColor; }
 .dashboard-list li a.st-active i, .dashboard-center li.st-active .form-inline i { color: @btnSuccessBackground; }
 li.st-completed a, li.st-completed span, li.st-completed small, li.st-completed i { color:@grayDarker; }  
+
+button.ui-datepicker-trigger { width: 30px; height: 26px; padding: 0; margin: 0 4px 0 0; color: @linkColor; xborder: 0; xbackground-color: transparent; }
+button.ui-datepicker-trigger i.icon-calendar { padding: 0; margin: 2px 0 0 -8px; float: left; }
+.dashboard-center li .form-inline button.ui-datepicker-trigger i { color: @linkColor; }
+.dashboard-center li .form-inline button.ui-datepicker-trigger i:hover { color: @linkColorHover; }
 
 // dashboard-center styles 
 .dashboard-center { padding: 0; margin: 0; }
@@ -186,6 +190,17 @@ li.st-completed a, li.st-completed span, li.st-completed small, li.st-completed 
 .link-array a { font-size: 90%; margin: 0 24px 0 6px; }
 .link-array a.icon { margin: 0; }
 .link-array input { margin-bottom: 2px; }
+
+// style toolbar for steps 
+.btn-toolbar .btn.btn-step { width: 30px; height: 26px; text-align: center; }
+.btn-toolbar .btn.btn-step i { padding: 0; margin: 0; }
+.btn-toolbar .btn.btn-step i.icon-phone { padding: 0; margin-left: -3px; }
+.btn-toolbar .btn.btn-step i.icon-time { padding: 0; margin-left: -3px; }
+.btn-toolbar .btn.btn-step i.icon-calendar { padding: 0; margin-left: -3px; }
+.btn-toolbar .btn.btn-step i.icon-search { padding: 0; margin-left: -3px; }
+.btn-toolbar .btn.btn-step i.icon-check { padding: 0; margin-left: -4px; }
+.btn-toolbar .btn.btn-step i.icon-envelope { padding: 0; margin-left: -5px; }
+.btn-toolbar .btn.btn-step i.icon-list-alt { padding: 0; margin-left: -5px; }
 
 // popover styles
 .popover .popover-title { background-color: @warningText; color: @white; }

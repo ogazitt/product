@@ -128,7 +128,7 @@ Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
             $icon.addClass('icon-play');
             break;
         case ActionTypes.Reminder:
-            $icon.addClass('icon-time');
+            $icon.addClass('icon-bell');
             break;
         case ActionTypes.Call:
             $icon.addClass('icon-phone');
@@ -143,7 +143,8 @@ Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
             $icon.addClass('icon-facebook');
             break;
         case ActionTypes.Schedule:
-            $icon.addClass('icon-calendar');
+            //$icon.addClass('icon-calendar');
+            $icon.addClass('icon-time');
             break;
         case ActionTypes.Errand:
             $icon.addClass('icon-shopping-cart');
@@ -482,9 +483,9 @@ Control.Icons.textBtn = function Control$Icons$textBtn(item) {
 }
 
 Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
-    var $icon = $('<i class="icon-calendar icon-large"></i>');
+    var $icon = $('<i class="icon-time icon-large"></i>');
     $icon.data('item', item);
-    Control.tooltip($icon, 'Add to Calendar');
+    Control.tooltip($icon, 'Add Appointment');
     $icon.attr('caption', 'Calendar');
     $icon.bind('click', function () {
         var $this = $(this);
@@ -955,31 +956,23 @@ Control.Actions = {};
 Control.Actions.render = function Control$Actions$render($element, item) {
     if (Browser.IsMobile()) {
         var $toolbar = $('<div class="btn-toolbar hide" />').appendTo($element);
-
-        // render complete, action, and info buttons
-        var $btn = this.iconButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }), true).appendTo($toolbar);
-        $btn.css('margin-right', '24px');
+        // render action, info, complete buttons
+        // render the action button based on the action type
+        var $actionButton = this.renderAction(item);
+        if ($actionButton != null) {
+            this.mobileButton($actionButton).appendTo($toolbar);
+        }
+        this.mobileButton(Control.Icons.infoBtn(item), false).appendTo($toolbar);
+        this.mobileButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }), true).prependTo($toolbar).removeClass('pull-right');
+    } else {
+        var $toolbar = $('<div class="btn-toolbar pull-right" />').appendTo($element);
+        // render complete, action buttons
         // render the action button based on the action type
         var $actionButton = this.renderAction(item);
         if ($actionButton != null) {
             this.iconButton($actionButton).appendTo($toolbar);
         }
-        //var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
-        //this.iconButton(Control.Icons.skipBtn(item), true).appendTo($toolbar);
-        this.iconButton(Control.Icons.infoBtn(item), false).appendTo($toolbar);
-    } else {
-        var $toolbar = $('<div class="btn-toolbar pull-right" />').appendTo($element);
-
-        // render complete, action, and info buttons
-        var $btn = Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }).appendTo($toolbar);
-        //$btn.css('margin-right', '24px');
-        // render the action button based on the action type
-        var $actionButton = this.renderAction(item);
-        if ($actionButton != null) {
-            $actionButton.prependTo($toolbar);
-        }
-        //var $deferBtn = Control.DeferButton.renderDropdown($toolbar, item);
-        //Control.Icons.skipBtn(item).appendTo($toolbar);
+        this.iconButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }), true).appendTo($toolbar);
     }
 }
 
@@ -1005,10 +998,10 @@ Control.Actions.renderAction = function Control$Actions$renderAction(item) {
     }
 }
 
-// wrap an icon within a btn 
-Control.Actions.iconButton = function Control$Actions$mobileButton($iconButton, propagate) {
-    var $btn = $('<a class="btn btn-step" />').append($iconButton);
-    var $icon = $iconButton.find('i');
+// wrap icon within a btn with a caption for mobile
+Control.Actions.mobileButton = function Control$Actions$mobileButton($icon, propagate) {
+    var $btn = $('<a class="btn btn-step pull-right" />').append($icon);
+    $icon = $icon.find('i');
     $icon.addClass('icon-blue');
     var caption = $icon.attr('caption');
     var $caption = $('<p />').appendTo($btn);
@@ -1016,3 +1009,12 @@ Control.Actions.iconButton = function Control$Actions$mobileButton($iconButton, 
     $btn.click(function (e) { $icon.click(); return (propagate == true) ? true : false; });
     return $btn;
 }
+// wrap icon within a btn 
+Control.Actions.iconButton = function Control$Actions$mobileButton($icon, propagate) {
+    var $btn = $('<a class="btn btn-step icon" />').append($icon);
+    var $icon = $icon.find('i');
+    $icon.addClass('icon-blue');
+    $btn.click(function (e) { $icon.click(); return (propagate == true) ? true : false; });
+    return $btn;
+}
+

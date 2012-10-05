@@ -316,8 +316,8 @@ Date.prototype.format = function (mask, utc) {
     return Control.DateFormat(this, mask, utc);
 };
 
-// parse RFC3339 datetime format for downlevel browsers
-Date.prototype.parseRFC3339 = function (text) {
+// safely parse RFC3339 datetime format for downlevel browsers
+Date.prototype.parseSafe = function (text) {
     var regexp = /(\d\d\d\d)(-)?(\d\d)(-)?(\d\d)(T)?(\d\d)(:)?(\d\d)(:)?(\d\d)(\.\d+)?(Z|([+-])(\d\d)(:)?(\d\d))/;
 
     if (text.toString().match(new RegExp(regexp))) {
@@ -368,3 +368,25 @@ Date.prototype.parseTime = function (timeString) {
     d.setSeconds(0, 0);
     return d;
 };
+
+// static extensions to Date object for formatting date object and date strings
+// format for DateTime given either string or date object
+Date.formatSafe = function Date$formatSafe(date, mask) {
+    if (date != null && typeof (date) == 'object') {
+        return date.format(mask);
+    }
+    if (date != null && typeof (date) == 'string') {
+        try {
+            if (date.length == 0) { return null; }
+            var dateObject = new Date().parseSafe(date);
+            return dateObject.format(mask);
+        } catch (e) {
+            // if not a valid date, just return original string
+        }
+    }
+    return date;
+}
+// format as UTC for storage given either string or date object
+Date.formatUTC = function Date$formatUTC(date) {
+    return Date.formatSafe(date, "isoUtcDateTime");
+}

@@ -376,6 +376,9 @@ ListView.prototype.renderField = function ($element, item, field) {
                 $field = Control.DateTime.renderRange($element, item, field, endField, 'small');
             }
             else if (!(item.IsComplete() || item.IsSkipped())) {
+                if (!item.IsStopped() || !item.GetParent().IsRunning()) {
+                    Control.DateTime.renderDatePickerIcon($element, item, field);
+                }
                 $field = Control.Text.render($element, item, field, 'small', 'Due on ');
             }
             break;

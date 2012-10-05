@@ -23,9 +23,9 @@ Control.Text.render = function Control$Text$render($element, item, field, tag, t
     var $tag;
     var value = item.GetFieldValue(field);
     if (field.DisplayType == DisplayTypes.DatePicker) {
-        value = Control.DateTime.format(value, 'mediumDate');
+        value = Date.formatSafe(value, 'mediumDate');
     } else if (field.FieldType == FieldTypes.DateTime) {
-        value = Control.DateTime.format(value);
+        value = Date.formatSafe(value);
     }
 
     if (value != null) {
@@ -289,10 +289,6 @@ Control.Text.update = function Control$Text$update($input, activeItem) {
     var field = $input.data('field');
     var value = $input.val();
     var currentValue = item.GetFieldValue(field);
-    if (field.FieldType == FieldTypes.DateTime) {
-        // TODO: review format for stored dates 
-        value = Control.DateTime.format(value);
-    }
     if (value != currentValue) {
         var updatedItem = item.Copy();
         updatedItem.SetFieldValue(field, value);
@@ -519,11 +515,40 @@ Control.DateTime.renderDatePicker = function Control$DateTime$renderDatePicker($
     $date.addClass(field.Class);
     $date.data('item', item);
     $date.data('field', field);
-    $date.val(Control.DateTime.format(item.GetFieldValue(field), 'shortDate'));
+    $date.val(Date.formatSafe(item.GetFieldValue(field), 'shortDate'));
+    var year = Date.now().getFullYear();
+    var yearRange = (year - 1).toString() + ':' + (year + 10).toString();
     $date.datepicker({
-        numberOfMonths: 2,
+        defaultDate: +1,
+        showOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: yearRange,
         onClose: function (value, picker) { Control.DateTime.update(picker.input); }
     });
+    return $date;
+}
+
+Control.DateTime.renderDatePickerIcon = function Control$DateTime$renderDatePicker($element, item, field) {
+    var $date = $('<input type="hidden" />').appendTo($element);
+    $date.addClass(field.Class);
+    $date.data('item', item);
+    $date.data('field', field);
+    $date.val(Date.formatSafe(item.GetFieldValue(field), 'shortDate'));
+    var year = Date.now().getFullYear();
+    var yearRange = (year - 1).toString() + ':' + (year + 10).toString();
+    $date.datepicker({
+        defaultDate: +1,
+        showOn: 'button',
+        buttonText: '<i class="icon-calendar icon-large"></i>',
+        showOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: yearRange,
+        onClose: function (value, picker) { Control.DateTime.update(picker.input); }
+    });
+    var $button = $element.find('button.ui-datepicker-trigger').addClass('btn');
+    Control.tooltip($button, 'Set Date');
     return $date;
 }
 
@@ -532,7 +557,7 @@ Control.DateTime.renderDateTimePicker = function Control$DateTime$renderDateTime
     $date.addClass(field.Class);
     $date.data('item', item);
     $date.data('field', field);
-    $date.val(Control.DateTime.format(item.GetFieldValue(field), 'shortDateTime'));
+    $date.val(Date.formatSafe(item.GetFieldValue(field), 'shortDateTime'));
     $date.datetimepicker({
         ampm: true,
         timeFormat: 'h:mm TT',
@@ -548,12 +573,10 @@ Control.DateTime.renderDateTimePicker = function Control$DateTime$renderDateTime
 Control.DateTime.renderRange = function Control$DateTime$renderRange($element, item, fieldStart, fieldEnd, tag) {
     var tag = (tag == null) ? 'span' : tag;
     var $tag, value;
-    var startValue = item.GetFieldValue(fieldStart);
-    var endValue = item.GetFieldValue(fieldEnd);
-    if (startValue != null && endValue != null) {
+    var startDate = item.GetFieldValue(fieldStart);
+    var endDate = item.GetFieldValue(fieldEnd);
+    if (startDate != null && endDate != null) {
         if (fieldStart.FieldType == FieldTypes.DateTime && fieldEnd.FieldType == FieldTypes.DateTime) {
-            var startDate = new Date().parseRFC3339(startValue);
-            var endDate = new Date().parseRFC3339(endValue);
             if (startDate.toDateString() == endDate.toDateString()) {
                 // display range as same day
                 var endParts = endDate.format().split(' ');
@@ -578,23 +601,6 @@ Control.DateTime.renderRange = function Control$DateTime$renderRange($element, i
 Control.DateTime.update = function Control$DateTime$update($input) {
     // suppress refresh to prevent jquery-ui bug using multiple datetimepickers
     Control.Text.update($input, null);
-}
-
-// format for DateTime
-Control.DateTime.format = function Control$DateTime$format(text, mask) {
-    if (text != null && text.length > 0) {
-        try {
-            var date = new Date().parseRFC3339(text);
-            return date.format(mask);
-        } catch (e) {
-            // if not a valid date, just return text
-        }
-    }
-    return text;
-}
-// format for UTC for storage
-Control.DateTime.formatUTC = function Control$DateTime$formatUTC(text) {
-    return Control.DateTime.format(text, "isoUtcDateTime");
 }
 
 // ---------------------------------------------------------

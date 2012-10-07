@@ -16,6 +16,7 @@
 
     public class AccountController : Controller
     {
+        const string ExistingUserCookie = "ExistingUserCookie";
 
         public ActionResult SignIn()
         {
@@ -40,6 +41,8 @@
                 if (Membership.ValidateUser(model.UserName, model.Password))
                 {
                     SetAuthCookie(model.UserName, model.RememberMe);
+                    // add a cookie indicating the user is recognized (this will redirect existing users to signin page)
+                    Response.Cookies.Add(new HttpCookie(ExistingUserCookie));
 
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
@@ -121,6 +124,9 @@
         public ActionResult Register()
         {
             // TODO: check for an auth cookie and redirect to SignIn if it exists
+            // if the browser sent the "existing user" cookie, redirect to the SignIn page
+            if (Request.Cookies[ExistingUserCookie] != null)
+                return RedirectToAction("SignIn", "Account");
 
             // for mobile, always redirect to SignIn
             if (BrowserAgent.IsMobile(Request.UserAgent))
@@ -147,6 +153,8 @@
                 if (createStatus == MembershipCreateStatus.Success)
                 {
                     SetAuthCookie(model.UserName, false);
+                    // add a cookie indicating the user is recognized (this will redirect existing users to signin page)
+                    Response.Cookies.Add(new HttpCookie(ExistingUserCookie));
                     return RedirectToAction("Initialize", "Dashboard");
                 }
                 else

@@ -19,6 +19,21 @@ namespace BuiltSteady.Product.Shared.Entities
      
     public class UserProfile
     {
+        public class FieldNames
+        {
+            public const string FirstName = "FirstName";
+            public const string LastName = "LastName";
+            public const string Gender = "Gender";
+            public const string Picture = "Picture";
+            public const string Birthday = "Birthday";
+            public const string Mobile = "Mobile";
+            public const string Address = "Address";
+            public const string GeoLocation = "Location";
+            public const string Timezone = "Timezone";
+            public const string TimezoneHoursOffset = "TimezoneHoursOffset";
+            public const string FacebookID = "FacebookID";
+        }
+
         ItemAccessor accessor;
         public UserProfile(Item item)
         {
@@ -27,56 +42,62 @@ namespace BuiltSteady.Product.Shared.Entities
 
         public string FirstName
         {
-            get { return accessor.Get("FirstName"); }
-            set { accessor.Set("FirstName", value); }
+            get { return accessor.Get(UserProfile.FieldNames.FirstName); }
+            set { accessor.Set(UserProfile.FieldNames.FirstName, value); }
         }
 
         public string LastName
         {
-            get { return accessor.Get("LastName"); }
-            set { accessor.Set("LastName", value); }
+            get { return accessor.Get(UserProfile.FieldNames.LastName); }
+            set { accessor.Set(UserProfile.FieldNames.LastName, value); }
         }
 
         public string Gender
         {
-            get { return accessor.Get("Gender"); }
-            set { accessor.Set("Gender", value); }
+            get { return accessor.Get(UserProfile.FieldNames.Gender); }
+            set { accessor.Set(UserProfile.FieldNames.Gender, value); }
         }
 
         public string Picture
         {
-            get { return accessor.Get("Picture"); }
-            set { accessor.Set("Picture", value); }
+            get { return accessor.Get(UserProfile.FieldNames.Picture); }
+            set { accessor.Set(UserProfile.FieldNames.Picture, value); }
         }
 
         public string Birthday
         {   // TODO: should this be DateTime (string supports MM/dd which is not a valid date)
-            get { return accessor.Get("Birthday"); }
-            set { accessor.Set("Birthday", value); }
+            get { return accessor.Get(UserProfile.FieldNames.Birthday); }
+            set { accessor.Set(UserProfile.FieldNames.Birthday, value); }
         }
 
         public string Mobile
         {
-            get { return accessor.Get("Mobile"); }
-            set { accessor.Set("Mobile", value); }
+            get { return accessor.Get(UserProfile.FieldNames.Mobile); }
+            set { accessor.Set(UserProfile.FieldNames.Mobile, value); }
         }
 
         public string Address
         {
-            get { return accessor.Get("Address"); }
-            set { accessor.Set("Address", value); }
+            get { return accessor.Get(UserProfile.FieldNames.Address); }
+            set { accessor.Set(UserProfile.FieldNames.Address, value); }
         }
 
         public string GeoLocation
         {
-            get { return accessor.Get("GeoLocation"); }
-            set { accessor.Set("GeoLocation", value); }
+            get { return accessor.Get(UserProfile.FieldNames.GeoLocation); }
+            set { accessor.Set(UserProfile.FieldNames.GeoLocation, value); }
         }
 
         public string Timezone
         {
-            get { return accessor.Get("Timezone"); }
-            set { accessor.Set("Timezone", value); }
+            get { return accessor.Get(UserProfile.FieldNames.Timezone); }
+            set { accessor.Set(UserProfile.FieldNames.Timezone, value); }
+        }
+
+        public string TimezoneHoursOffset
+        {
+            get { return accessor.Get(UserProfile.FieldNames.TimezoneHoursOffset); }
+            set { accessor.Set(UserProfile.FieldNames.TimezoneHoursOffset, value); }
         }
 
 #if !CLIENT
@@ -92,8 +113,8 @@ namespace BuiltSteady.Product.Shared.Entities
 
         public string FacebookID
         {
-            get { return metadata.Get("FacebookID"); }
-            set { metadata.Set("FacebookID", value); }
+            get { return metadata.Get(UserProfile.FieldNames.FacebookID); }
+            set { metadata.Set(UserProfile.FieldNames.FacebookID, value); }
         }
 
 #endif
@@ -102,6 +123,14 @@ namespace BuiltSteady.Product.Shared.Entities
 
     public class CalendarSettings
     {
+        public class FieldNames
+        {
+            public const string CalendarProvider = "CalendarProvider";
+            public const string CalendarID = "CalendarID";
+            public const string LastSync = "LastSync";
+            public const string NextStepsEventID = "NextStepsEventID";
+        }
+
         public const string Google = "Google";
         public const string WindowsLive = "WindowsLive";
 
@@ -113,14 +142,14 @@ namespace BuiltSteady.Product.Shared.Entities
 
         public string CalendarProvider
         {   // Google or WindowsLive
-            get { return accessor.Get("CalendarProvider"); }
-            set { accessor.Set("CalendarProvider", value); }
+            get { return accessor.Get(CalendarSettings.FieldNames.CalendarProvider); }
+            set { accessor.Set(CalendarSettings.FieldNames.CalendarProvider, value); }
         }
 
         public string CalendarID
         {
-            get { return accessor.Get("CalendarID"); }
-            set { accessor.Set("CalendarID", value); }
+            get { return accessor.Get(CalendarSettings.FieldNames.CalendarID); }
+            set { accessor.Set(CalendarSettings.FieldNames.CalendarID, value); }
         }
 
 #if !CLIENT
@@ -136,14 +165,14 @@ namespace BuiltSteady.Product.Shared.Entities
 
         public DateTime? LastSync
         {
-            get { return metadata.GetNullableDate("LastSync"); }
-            set { metadata.SetDate("LastSync", (DateTime)value); }
+            get { return metadata.GetNullableDate(CalendarSettings.FieldNames.LastSync); }
+            set { metadata.SetDate(CalendarSettings.FieldNames.LastSync, (DateTime)value); }
         }
 
         public string NextStepsEventID
         {
-            get { return metadata.Get("NextStepsEventID"); }
-            set { metadata.Set("NextStepsEventID", value); }
+            get { return metadata.Get(CalendarSettings.FieldNames.NextStepsEventID); }
+            set { metadata.Set(CalendarSettings.FieldNames.NextStepsEventID, value); }
         }
 #endif
 

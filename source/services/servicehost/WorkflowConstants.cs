@@ -7,12 +7,18 @@ using Newtonsoft.Json.Linq;
 
 namespace BuiltSteady.Product.ServiceHost
 {
+    public class Timers
+    {
+        public const string UpdateNextSteps = "UpdateNextSteps";
+        public const int UpdateNextStepsInterval = 3600;  // 3600 seconds is 1 hour
+    }
+    
     public class WorkflowConstants
     {
         private const string IntentsFileName = @"Intents.txt";
 
-        public static string SchemaVersion { get { return "1.0.2012.1002"; } }
-        public static string ConstantsVersion { get { return "2012-10-02"; } }
+        public static string SchemaVersion { get { return "1.0.2012.1006"; } }
+        public static string ConstantsVersion { get { return "2012-10-07"; } }
 
         public static List<GalleryCategory> DefaultGallery()
         {
@@ -98,6 +104,20 @@ namespace BuiltSteady.Product.ServiceHost
                     Directory.SetCurrentDirectory(currDir);
                 return null;
             }
+        }
+
+        public static List<Timer> DefaultTimers()
+        {
+            // initialize actions
+            var timers = new List<Timer>();
+            
+            DateTime now = DateTime.UtcNow;
+
+            // get a DateTime for the next run
+            DateTime nextRun = now.AddSeconds(Timers.UpdateNextStepsInterval).Truncate(TimeSpan.FromSeconds(Timers.UpdateNextStepsInterval));
+
+            timers.Add(new Timer() { ID = Guid.NewGuid(), WorkflowType = Timers.UpdateNextSteps, Cadence = Timers.UpdateNextStepsInterval, Created = now, LastModified = now, NextRun = nextRun });
+            return timers;
         }
 
         public static List<WorkflowType> DefaultWorkflowTypes()

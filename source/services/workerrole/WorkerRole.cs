@@ -71,6 +71,8 @@ namespace BuiltSteady.Product.WorkerRole
             // get the number of workers (default is 0)
             int workflowWorkerCount = ConfigurationSettings.GetAsNullableInt(HostEnvironment.WorkflowWorkerCountConfigKey) ?? 0;
             var workflowWorkerArray = new WorkflowWorker.WorkflowWorker[workflowWorkerCount];
+            int timerWorkerCount = ConfigurationSettings.GetAsNullableInt(HostEnvironment.TimerWorkerCountConfigKey) ?? 0;
+            var timerWorkerArray = new TimerWorker.TimerWorker[timerWorkerCount];
 #if false           
             int mailWorkerCount = ConfigurationSettings.GetAsNullableInt(HostEnvironment.MailWorkerCountConfigKey) ?? 0;
             var mailWorkerArray = new MailWorker.MailWorker[mailWorkerCount];
@@ -84,8 +86,9 @@ namespace BuiltSteady.Product.WorkerRole
             //   sleep for the timeout period
             while (true)
             {
-                // start workflow worker in both dev and deployed Azure fabric
+                // start workflow and timer workers in both dev and deployed Azure fabric
                 RestartWorkerThreads<WorkflowWorker.WorkflowWorker>(workflowWorkerArray);
+                RestartWorkerThreads<TimerWorker.TimerWorker>(timerWorkerArray);
 #if false
                 // start mail and speech workers only in deployed Azure fabric
                 if (!HostEnvironment.IsAzureDevFabric)

@@ -38,6 +38,7 @@
         public DbSet<GalleryCategory> GalleryCategories { get; set; }
         public DbSet<Intent> Intents { get; set; }
         public DbSet<Suggestion> Suggestions { get; set; }
+        public DbSet<Timer> Timers { get; set; }
         public DbSet<WorkflowInstance> WorkflowInstances { get; set; }
         public DbSet<WorkflowType> WorkflowTypes { get; set; }
         public DbSet<DatabaseVersion> Versions { get; set; }
@@ -173,6 +174,19 @@
             foreach (var entity in intents) { Intents.Add(entity); }
             SaveChanges();
             TraceLog.TraceInfo("Replaced intents");
+
+            // remove existing timers 
+            foreach (var entity in Timers.ToList()) { Timers.Remove(entity); }
+            var timers = WorkflowConstants.DefaultTimers();
+            if (timers == null)
+            {
+                TraceLog.TraceError("Could not find or load timers");
+                return false;
+            }
+            // add current timers
+            foreach (var entity in timers) { Timers.Add(entity); }
+            SaveChanges();
+            TraceLog.TraceInfo("Replaced timers");
 
             // remove existing workflow types
             foreach (var entity in WorkflowTypes.ToList()) { WorkflowTypes.Remove(entity); }

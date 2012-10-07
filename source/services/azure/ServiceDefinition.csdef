@@ -14,6 +14,8 @@
       <Setting name="SQLSuggestions" />
       <Setting name="WorkflowWorkerCount" />
       <Setting name="WorkflowWorkerTimeout" />
+      <Setting name="TimerWorkerCount" />
+      <Setting name="TimerWorkerTimeout" />
       <Setting name="GoogleClientID" />
       <Setting name="GoogleClientSecret" />
       <Setting name="DeploymentName" />

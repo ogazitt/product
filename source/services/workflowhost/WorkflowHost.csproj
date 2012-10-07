@@ -71,6 +71,7 @@
     <Compile Include="activities\ConnectToActiveDirectory.cs" />
     <Compile Include="activities\AddContactToPossibleContacts.cs" />
     <Compile Include="activities\ConnectToGoogle.cs" />
+    <Compile Include="activities\UpdateNextSteps.cs" />
     <Compile Include="activities\ImportFromGoogle.cs" />
     <Compile Include="activities\Wait.cs" />
     <Compile Include="activities\UpdateNextStepsAppointment.cs" />
@@ -133,6 +134,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="workflows\ConnectToGoogle-Old.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="workflows\UpdateNextSteps.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -549,7 +549,7 @@ Control.DateTime.renderDatePickerIcon = function Control$DateTime$renderDatePick
     });
     var $button = $element.find('button.ui-datepicker-trigger').addClass('btn');
     Control.tooltip($button, 'Set Date');
-    return $date;
+    return $button;
 }
 
 Control.DateTime.renderDateTimePicker = function Control$DateTime$renderDateTimePicker($element, item, field) {

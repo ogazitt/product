@@ -204,6 +204,7 @@
     <Content Include="content\images\awesome-sprites-white-large.png" />
     <Content Include="content\images\awesome-sprites-white.png" />
     <Content Include="content\images\awesome-sprites.png" />
+    <Content Include="content\images\font-images-actions.htm" />
     <Content Include="content\images\font-images-test.htm" />
     <Content Include="content\images\font-images.htm" />
     <Content Include="content\images\help\activity-editor.png" />
@@ -218,12 +219,15 @@
     <Content Include="content\images\help\run-mode.png" />
     <Content Include="content\images\help\twostep-iphone-small.png" />
     <Content Include="content\images\help\twostep-iphone.png" />
+    <Content Include="content\images\landing\action-buttons-gray.png" />
+    <Content Include="content\images\landing\actions.png" />
     <Content Include="content\images\landing\activities-gray.png" />
     <Content Include="content\images\landing\ask-facebook-friends-small.png" />
     <Content Include="content\images\landing\gallery-install-gray.png" />
     <Content Include="content\images\landing\gutter-cleaning-details-small-gray.png" />
     <Content Include="content\images\landing\iphone-next-steps-schedule.png" />
     <Content Include="content\images\landing\plan-a-party.png" />
+    <Content Include="content\images\landing\tools.png" />
     <Content Include="content\images\landing\twostep-dance-through-life.png" />
     <Content Include="content\images\landing\twostep-iphone-small.png" />
     <Content Include="content\images\steps-blue.png" />

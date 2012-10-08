@@ -107,6 +107,10 @@
       <Project>{8BB6BE7A-0DB1-4F1E-BB0F-8E97EA9305ED}</Project>
       <Name>ServiceHost</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TimerWorker\TimerWorker.csproj">
+      <Project>{96FC63E1-5511-4DDF-BE60-4C81AFA360D2}</Project>
+      <Name>TimerWorker</Name>
+    </ProjectReference>
     <ProjectReference Include="..\workflowhost\WorkflowHost.csproj">
       <Project>{39248A70-B838-4A7C-AC1A-5C0B37EB39E2}</Project>
       <Name>WorkflowHost</Name>

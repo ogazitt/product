@@ -31,6 +31,19 @@ DataModel.timeStamp = '/Date(0)/';
 DataModel.Init = function DataModel$Init(jsonConstants, jsonUserData) {
     this.processConstants($.parseJSON(jsonConstants));
     this.processUserData($.parseJSON(jsonUserData));
+
+    this.geoLocation = null;
+    var userProfile = DataModel.UserSettings.GetUserProfileItem();
+    var geoLocation = userProfile.GetFieldValue('GeoLocation');
+    if (geoLocation != null) {
+        geoLocation = geoLocation.split(',');
+        DataModel.geoLocation = [parseFloat(geoLocation[0]), parseFloat(geoLocation[1])];
+    }
+    navigator.geolocation.getCurrentPosition(
+        function (pos) {
+            DataModel.geoLocation = [pos.coords.latitude, pos.coord.longitude];
+        }
+    );
 }
 
 DataModel.Close = function DataModel$Close() {

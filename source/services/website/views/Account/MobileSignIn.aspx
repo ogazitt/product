@@ -18,7 +18,7 @@
     <div class="container-fluid main-content">
     <div class="row-fluid">
         <div class="span12">
-    <% using (Html.BeginForm("signin", "account", FormMethod.Post, new { @class = "form-vertical" })) { %>
+    <% using (Html.BeginForm("mobilesignin", "account", FormMethod.Post, new { @class = "form-vertical" })) { %>
             <fieldset>
                 <div class="control-group">
                     <div class="controls"><h2>Sign In</h2></div>

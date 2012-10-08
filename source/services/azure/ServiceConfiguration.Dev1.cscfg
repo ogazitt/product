@@ -11,6 +11,8 @@
       <Setting name="SQLSuggestions" value="data source=x7djs35g72.database.windows.net;Initial Catalog=ZapSuggestions;User Id=builtsteady;Password=zrc022.." />
       <Setting name="WorkflowWorkerCount" value="1" />
       <Setting name="WorkflowWorkerTimeout" value="15" />
+      <Setting name="TimerWorkerCount" value="1" />
+      <Setting name="TimerWorkerTimeout" value="300" /> <!-- 300 seconds is 5 minutes -->
       <!-- Google Client 'ZaplifyDev1' -->
       <Setting name="GoogleClientID" value="944381664180-1snfphgudpjm6lsjmv3nnisrt8jh13bc.apps.googleusercontent.com" />
       <Setting name="GoogleClientSecret" value="PE6tmTv42cGVB3ytQ_L41d6z" />

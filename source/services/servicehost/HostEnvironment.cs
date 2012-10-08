@@ -16,6 +16,8 @@ namespace BuiltSteady.Product.ServiceHost
     public static class HostEnvironment
     {
         public const string AzureStorageAccountConfigKey = "AzureStorageAccount";
+        public const string TimerWorkerTimeoutConfigKey = "TimerWorkerTimeout";
+        public const string TimerWorkerCountConfigKey = "TimerWorkerCount";
         public const string WorkflowWorkerTimeoutConfigKey = "WorkflowWorkerTimeout";
         public const string WorkflowWorkerCountConfigKey = "WorkflowWorkerCount";
         const string DeploymentNameConfigKey = "DeploymentName";

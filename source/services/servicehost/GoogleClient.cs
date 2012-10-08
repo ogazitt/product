@@ -154,7 +154,9 @@ namespace BuiltSteady.Product.ServiceHost
                 if (userProfile.Timezone == null)
                 {
                     var olsonTZ = settings.Items.FirstOrDefault(i => i.Id == "timezone").Value;
-                    userProfile.Timezone = OlsonTimeZoneToTimeZoneInfo(olsonTZ).Id;
+                    var tzinfo = OlsonTimeZoneToTimeZoneInfo(olsonTZ);
+                    userProfile.Timezone = tzinfo.Id;
+                    userProfile.TimezoneHoursOffset = tzinfo.BaseUtcOffset.Hours.ToString();
                 }
                 storage.SaveChanges();
                 TraceLog.TraceInfo("Imported Google information into UserProfile");
@@ -471,12 +473,6 @@ namespace BuiltSteady.Product.ServiceHost
             return false;
         }
 
-        public class StepInfo
-        {
-            public string Name { get; set; }
-            public DateTime Date { get; set; }
-        }
-        
         public bool AddNextStepsEvent(DateTime? utcStartTime, string desc = null)
         {
             // store user information from Facebook in UserProfile
@@ -519,9 +515,7 @@ namespace BuiltSteady.Product.ServiceHost
                     } 
                 }
             };
-            calEvent.Description = nextStepsLinkText + url;
-            if (desc != null)
-                calEvent.Description += desc;
+            calEvent.Description = String.Format("{0}{1}{2}", nextStepsLinkText, url, desc ?? NextStepsList(user, storage));
 
             try
             {
@@ -543,7 +537,7 @@ namespace BuiltSteady.Product.ServiceHost
             return true;
         }
 
-        public bool UpdateNextStepsEvent(DateTime? utcStartTime)
+        public bool UpdateNextStepsEvent(DateTime? utcStartTime, string desc = null)
         {
             CalendarSettings calendarSettings = storage.ClientFolder.GetCalendarSettings(user);
             if (calendarSettings == null)
@@ -557,15 +551,14 @@ namespace BuiltSteady.Product.ServiceHost
                     var request = this.CalendarService.Events.Delete(calendarSettings.CalendarID, calendarSettings.NextStepsEventID);
                     var result = request.Fetch();
                 }
-
-                // create the new next steps event
-                return AddNextStepsEvent(utcStartTime);
             }
             catch (Exception ex)
             {
-                TraceLog.TraceException("Updating Next Steps event failed", ex);
-                return false;
+                TraceLog.TraceException("Removing old Next Steps event failed", ex);
             }
+
+            // create the new next steps event
+            return AddNextStepsEvent(utcStartTime, desc);
         }
 
         public void ForceAuthentication()
@@ -675,6 +668,37 @@ namespace BuiltSteady.Product.ServiceHost
             return authenticator;
         }
 
+        private static string NextStepsList(User user, UserStorageContext userContext)
+        {
+            // get steps with duedates
+            var steps = userContext.Items.Include("FieldValues").Where(i =>
+                i.UserID == user.ID &&
+                i.ItemTypeID == SystemItemTypes.Step &&
+                i.FieldValues.Any(fv => fv.FieldName == FieldNames.DueDate)).
+                ToList();
+
+            // create an ordered list of steps that have a duedate on or before today
+            var stepList = new List<StepInfo>();
+            DateTime date;
+            foreach (var s in steps)
+                if (DateTime.TryParse(s.GetFieldValue(FieldNames.DueDate).Value, out date) && date.Date <= DateTime.Today)
+                    stepList.Add(new StepInfo() { Name = s.Name, Date = date });
+            var orderedSteps = stepList.OrderBy(s => s.Date);
+
+            // build a string that contains a step in "date: name" format for each step
+            var sb = new StringBuilder();
+            foreach (var s in orderedSteps)
+                sb.AppendFormat("{0}: {1}\n", s.Date.ToString("MMM dd"), s.Name);
+            var stepString = sb.ToString();
+            return stepString;
+        }
+
+        public class StepInfo
+        {
+            public string Name { get; set; }
+            public DateTime Date { get; set; }
+        }
+        
         static string[] Scopes
         {
             get

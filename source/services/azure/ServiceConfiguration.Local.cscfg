@@ -12,6 +12,8 @@
       <Setting name="SQLSuggestions" value="data source=.\SQLEXPRESS;Initial Catalog=ZapSuggestions;Integrated Security=SSPI" />
       <Setting name="WorkflowWorkerCount" value="1" />
       <Setting name="WorkflowWorkerTimeout" value="15" />
+      <Setting name="TimerWorkerCount" value="1" />
+      <Setting name="TimerWorkerTimeout" value="300" /> <!-- 300 seconds is 5 minutes -->
       <!-- Google Client 'ZaplifyLocal' -->
       <Setting name="GoogleClientID" value="944381664180.apps.googleusercontent.com" />
       <Setting name="GoogleClientSecret" value="CaDG0ahs9UpyM2EGf-ffaL5i" />

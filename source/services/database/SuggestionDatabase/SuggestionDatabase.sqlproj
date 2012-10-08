@@ -133,6 +133,9 @@
       <SubType>Code</SubType>
     </Build>
     <Build Include="dbo.DatabaseVersions.Table.sql" />
+    <Build Include="dbo.Timers.Table.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="scripts\post-deployment\Suggestion.PostDeployment.sql" />

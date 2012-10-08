@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FC6908F4-5BA4-4AE0-BB87-E110EB76EDF7}</ProjectGuid>
+    <ProjectGuid>{96FC63E1-5511-4DDF-BE60-4C81AFA360D2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BuiltSteady.Product.ServerEntities</RootNamespace>
-    <AssemblyName>BuiltSteady.Product.ServerEntities</AssemblyName>
+    <RootNamespace>BuiltSteady.Product.TimerWorker</RootNamespace>
+    <AssemblyName>BuiltSteady.Product.TimerWorker</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,7 +40,6 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,45 +47,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\shared\entities\ClientItems.cs">
-      <Link>ClientItems.cs</Link>
-    </Compile>
-    <Compile Include="..\..\shared\entities\EntityConstants.cs">
-      <Link>EntityConstants.cs</Link>
-    </Compile>
-    <Compile Include="..\..\shared\entities\ItemAccessor.cs">
-      <Link>ItemAccessor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\shared\entities\JsonObjects.cs">
-      <Link>JsonObjects.cs</Link>
-    </Compile>
-    <Compile Include="ActionType.cs" />
-    <Compile Include="Color.cs" />
-    <Compile Include="Constants.cs" />
-    <Compile Include="Appointment.cs" />
-    <Compile Include="Timer.cs" />
-    <Compile Include="GalleryCategory.cs" />
-    <Compile Include="GalleryActivity.cs" />
-    <Compile Include="DatabaseVersion.cs" />
-    <Compile Include="TimeSpanExtensions.cs" />
-    <Compile Include="WorkflowType.cs" />
-    <Compile Include="Intent.cs" />
-    <Compile Include="ServerEntity.cs" />
-    <Compile Include="WorkflowInstance.cs" />
-    <Compile Include="Suggestion.cs" />
-    <Compile Include="FieldValue.cs" />
-    <Compile Include="Folder.cs" />
-    <Compile Include="FolderUser.cs" />
-    <Compile Include="Operation.cs" />
-    <Compile Include="Field.cs" />
-    <Compile Include="ItemType.cs" />
-    <Compile Include="Permission.cs" />
-    <Compile Include="Priority.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tag.cs" />
-    <Compile Include="Item.cs" />
-    <Compile Include="ItemTag.cs" />
-    <Compile Include="User.cs" />
+    <Compile Include="TimerWorker.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\serverentities\ServerEntities.csproj">
+      <Project>{FC6908F4-5BA4-4AE0-BB87-E110EB76EDF7}</Project>
+      <Name>ServerEntities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\servicehost\ServiceHost.csproj">
+      <Project>{8BB6BE7A-0DB1-4F1E-BB0F-8E97EA9305ED}</Project>
+      <Name>ServiceHost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\workflowhost\WorkflowHost.csproj">
+      <Project>{39248A70-B838-4A7C-AC1A-5C0B37EB39E2}</Project>
+      <Name>WorkflowHost</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -94,8 +70,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rd "$(ProjectDir)obj" /S /Q
-</PostBuildEvent>
+    <PostBuildEvent>rd "$(ProjectDir)obj" /S /Q</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

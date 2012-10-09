@@ -121,12 +121,17 @@
                 return RedirectToAction("Home", "Dashboard");
         }
 
-        public ActionResult Register()
+        public ActionResult Register(bool removeCookie = false)
         {
-            // TODO: check for an auth cookie and redirect to SignIn if it exists
-            // if the browser sent the "existing user" cookie, redirect to the SignIn page
-            if (Request.Cookies[ExistingUserCookie] != null)
-                return RedirectToAction("SignIn", "Account");
+            // ?removeCookie = true removes the ExistingUser cookie
+            if (removeCookie)
+                Response.Cookies.Remove(ExistingUserCookie);
+            else
+            {
+                // if the browser sent the "existing user" cookie, redirect to the SignIn page
+                if (Request.Cookies[ExistingUserCookie] != null)
+                    return RedirectToAction("SignIn", "Account");
+            }
 
             // for mobile, always redirect to SignIn
             if (BrowserAgent.IsMobile(Request.UserAgent))

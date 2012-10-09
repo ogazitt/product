@@ -34,7 +34,7 @@
             <div class="full-center"> 
                 <img class="img-logo" src="<%: Url.Content("~/content/images/landing/twostep-dance-through-life.png") %>" alt="TwoStep: Dance through life." />
             </div>
-            <button class="btn btn-info btn-learn-more pull-right" onclick="window.location='<%: Url.Content("#product_info") %>'">Learn More...</button>
+            <button class="btn btn-info btn-learn-more pull-right" onclick="_gaq.push(['_trackEvent', Events.Categories.LandingPage, Events.LandingPage.LearnMoreButton]); window.location='<%: Url.Content("#product_info") %>'">Learn More...</button>
         </div>
         <div class="span5">
         <% using (Html.BeginForm("register", "account", FormMethod.Post, new { @class = "form-vertical" })) { %>
@@ -76,7 +76,7 @@
                                 
                 <div class="control-group">
                     <div class="controls">
-                        <button class="btn btn-success" type="submit">Sign Up</button>
+                        <button class="btn btn-success" type="submit" onclick="_gaq.push(['_trackEvent', Events.Categories.LandingPage, Events.LandingPage.SignUpFormPost]);">Sign Up</button>
                     </div>
                 </div>
                 <%: Html.ValidationSummary(true, "Unable to complete registration. Resolve issues and try again.", new { @class = "alert alert-error" })%>

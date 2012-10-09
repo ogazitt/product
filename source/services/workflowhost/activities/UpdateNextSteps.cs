@@ -28,10 +28,11 @@ namespace BuiltSteady.Product.WorkflowHost.Activities
                         // update next steps appointment for each user
                         foreach (var profile in profiles)
                         {
-                            var user = UserContext.Users.FirstOrDefault(u => u.ID == profile.UserID);
+                            var user = UserContext.GetUser(profile.UserID, true);
                             if (user != null)
                             {
                                 GoogleClient gc = new GoogleClient(user, UserContext);
+                                gc.RefreshAccessToken();
                                 if (gc.UpdateNextStepsEvent(null))
                                     TraceLog.TraceInfo("Updated Next Steps appointment for user " + user.Name);
                                 else

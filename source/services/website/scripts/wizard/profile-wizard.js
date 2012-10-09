@@ -65,7 +65,10 @@ ProfileWizard.initConnect = function ProfileWizard$initConnect() {
             ProfileWizard.$element.find('small.fb').addClass('connected').html('Connected');
             fbConsent = { SuggestionType: SuggestionTypes.GetFBConsent };
         }
-        $btn.click(function () { ProfileWizard.suggestionManager.select(fbConsent, 'wizard'); });
+        $btn.click(function () { 
+            _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ConnectFacebookButton]);
+            ProfileWizard.suggestionManager.select(fbConsent, 'wizard'); 
+        });
 
         var gcConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetGoogleConsent);
         $btn = ProfileWizard.$element.find('a.google');
@@ -74,7 +77,10 @@ ProfileWizard.initConnect = function ProfileWizard$initConnect() {
             ProfileWizard.$element.find('small.google').addClass('connected').html('Connected');
             gcConsent = { SuggestionType: SuggestionTypes.GetGoogleConsent };
         }
-        $btn.click(function () { ProfileWizard.suggestionManager.select(gcConsent, 'wizard'); });
+        $btn.click(function () { 
+            _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ConnectGoogleButton]);
+            ProfileWizard.suggestionManager.select(gcConsent, 'wizard'); 
+        });
     });
 }
 
@@ -94,10 +100,12 @@ ProfileWizard.showActivePanel = function ProfileWizard$showActivePanel() {
 ProfileWizard.showNextPanel = function ProfileWizard$showNextPanel() {
     this.$activePanel = this.$element.find('.info-pane.active').next('.info-pane');
     if (this.$activePanel.length > 0) {
+        _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ProfileNextButton]);
         this.showActivePanel();
         this.dataModel.UserSettings.ActiveWizardPanel(this.$activePanel.attr('id'));
         this.dataModel.UserSettings.Save();
     } else {
+        _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ConnectDoneButton]);
         this.dataModel.Close();
         //this.installActivities();         // do not install activities for now
         Service.NavigateToDashboard();
@@ -107,6 +115,7 @@ ProfileWizard.showNextPanel = function ProfileWizard$showNextPanel() {
 ProfileWizard.showPrevPanel = function ProfileWizard$showPrevPanel() {
     this.$activePanel = this.$element.find('.info-pane.active').prev('.info-pane');
     if (this.$activePanel.length > 0) {
+        _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ConnectPrevButton]);
         this.showActivePanel();
         this.dataModel.UserSettings.ActiveWizardPanel(this.$activePanel.attr('id'));
         this.dataModel.UserSettings.Save();

@@ -18,7 +18,7 @@ namespace BuiltSteady.Product.ServiceHost
         private const string IntentsFileName = @"Intents.txt";
 
         public static string SchemaVersion { get { return "1.0.2012.1006"; } }
-        public static string ConstantsVersion { get { return "2012-10-07"; } }
+        public static string ConstantsVersion { get { return "2012-10-09"; } }
 
         public static List<GalleryCategory> DefaultGallery()
         {

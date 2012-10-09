@@ -64,7 +64,8 @@ namespace BuiltSteady.Product.TimerWorker
                             timer.LastModified = DateTime.UtcNow;
                             SuggestionsContext.SaveChanges();
 
-                            // verify the lock has been acquired
+                            // verify the lock has been acquired using a different context to avoid EF caching layer
+                            SuggestionsContext = Storage.NewSuggestionsContext;
                             if (!SuggestionsContext.Timers.Any(t => t.ID == timer.ID && t.LockedBy == Me))
                                 continue;
 

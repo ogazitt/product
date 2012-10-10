@@ -92,9 +92,12 @@ ListView.prototype.renderListItems = function (listItems) {
 
         }
         else {
-            var $wrapper = $('<div class="inline" />').appendTo($li);
-            $wrapper.css('width', '100%');
+            var $wrapper = $('<div class="inline" />').appendTo($li).css('width', '100%');
             var $item = $('<div class="pull-left" />').appendTo($wrapper);
+            if (!Browser.IsMobile() && item.IsActive()) {
+                $item.append(Control.Actions.actionButton(item).addClass('btn-primary')).addClass('btn-toolbar');
+                $item = $('<div class="pull-left" />').appendTo($wrapper);
+            }
             this.renderNameField($item, item);
             this.renderFields($item, item);
             Control.Actions.render($wrapper, item);
@@ -138,10 +141,7 @@ ListView.prototype.renderField = function ($element, item, field) {
                 $field = Control.DateTime.renderRange($element, item, field, endField, 'small');
             }
             else if (item.HasField(FieldNames.Complete) && item.GetFieldValue(FieldNames.Complete) != true) {
-                if (!Browser.IsMobile()) {
-                    Control.DateTime.renderDatePickerIcon($element, item, field);
-                }
-                $field = Control.Text.render($element, item, field, 'small', 'Due on ');
+                $field = Control.Text.render($element, item, field, 'small', 'Complete by ');
             }
             break;
         case FieldNames.CompletedOn:

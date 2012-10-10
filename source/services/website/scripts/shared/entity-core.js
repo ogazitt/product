@@ -578,7 +578,7 @@ Item.prototype.Active = function (newDueDate) {
                     dueDate = this.GetFieldValue(FieldNames.DueDate);
                 }
             }
-            if (dueDate != null && dueDate.length > 0) {
+            if (dueDate != null && (dueDate.length > 0 || typeof(dueDate) == 'object')) {
                 var copy = step.Copy();
                 copy.Status = StatusTypes.Active;
                 copy.SetFieldValue(FieldNames.DueDate, dueDate);

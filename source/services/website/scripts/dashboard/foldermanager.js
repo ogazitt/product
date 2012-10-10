@@ -90,12 +90,10 @@ FolderManager.prototype.render = function () {
     var $tabContent = this.$element.find('.tab-content');
     var $listTab = $tabs.find('li a:first');
     $listTab.empty().append(this.activeListName(activeList));
-    $listTab.append($('<span class="badge status-badge" />'));
 
-    var activityIsRunning = activeList.IsActivity() && activeList.IsRunning();
     var $itemTab = $tabs.find('a[href=".' + FolderManager.ItemView + '"]');
     if (activeItem == null || activeList.IsActivity()) {
-        $itemTab.empty().append('Edit Step Details');
+        $itemTab.empty().append('Edit Step');        
         var $closeBtn = $('<a><i class="icon-remove"></i></a>').prependTo($itemTab);
         $closeBtn.data('control', this);
         $closeBtn.click(function () {
@@ -104,22 +102,12 @@ FolderManager.prototype.render = function () {
     } else {
         $itemTab.empty().append(this.activeItemName(activeItem));
     }
-    /*
-    var activityIsRunning = activeList.IsActivity() && activeList.IsRunning();
-    if (activeItem == null || activityIsRunning) {
-    $tabs.find('a[href=".' + FolderManager.ItemView + '"]').hide();
-    } else {
-    $itemTab = $tabs.find('a[href=".' + FolderManager.ItemView + '"]');
-    $itemTab.empty().append(this.activeItemName(activeItem));
-    $itemTab.show();
-    }
-    */
 
     var $view = this.views[activeView];
     var maxContentHeight = this.$parentElement.outerHeight() - $tabs.outerHeight();
     if (activeView == FolderManager.ItemView) {
-        if (activeItem == null || activityIsRunning) {
-            // switch to ListView if no items in current List or Activity is running
+        if (activeItem == null) {
+            // switch to ListView if no items 
             activeView = FolderManager.ListView;
             this.activeView(activeView);
         } else {
@@ -134,38 +122,6 @@ FolderManager.prototype.render = function () {
         $itemTab.hide();
     }
     $tabs.find('a[href=".' + activeView + '"]').tab('show');
-    this.renderStatus(activeList);
-}
-
-FolderManager.prototype.renderStatus = function (activity) {
-    /* this renders status as tab on right of center tab-pane
-    var $status = this.$element.find('.item-status').empty();
-    if (activity.IsActivity()) {
-    var status, cssClass;
-    if (activity.IsStopped()) { status = 'Activity is stopped'; cssClass = 'alert-error'; }
-    else if (activity.IsPaused()) { status = 'Activity is paused'; cssClass = 'alert-warning'; }
-    else if (activity.IsComplete()) { status = 'Activity is complete'; cssClass = 'alert-info'; }
-    else if (activity.IsActive()) { status = 'Activity is running'; cssClass = 'alert-success'; }
-    var $alert = $('<div class="alert"></div>').appendTo($status);
-    $alert.addClass(cssClass);
-    $alert.html(status);
-    }
-    */
-    var $status = this.$element.find('.status-badge').empty();
-    if (activity.IsActivity()) {
-        var status, cssClass;
-        if (activity.IsStopped()) { status = 'Stopped'; cssClass = 'badge-important'; }
-        else if (activity.IsPaused()) { status = 'Paused'; cssClass = 'badge-warning'; }
-        else if (activity.IsComplete()) { status = 'Completed'; cssClass = 'badge-info'; }
-        else if (activity.IsActive()) { status = 'Running'; cssClass = 'badge-success'; }
-        $status.addClass(cssClass);
-        $status.html(status);
-
-        if (activity.IsActive() && HelpManager.gettingStarted == 3) {
-            HelpManager.getStartedStep4();
-        }
-    }
-
 }
 
 FolderManager.prototype.selectFolder = function (folder) {
@@ -233,7 +189,7 @@ FolderManager.prototype.activeListName = function (list) {
     var activeList = (list == null) ? this.activeList() : list;
     if (activeList != null) {
         var $icon = Control.Icons.forItemType(activeList);
-        return $('<span>&nbsp;' + activeList.Name + '</span>').prepend($icon);
+        return $('<span>&nbsp;' + activeList.Name + '</span>').addClass(list.StatusClass()).prepend($icon);
     }
     return $('<span>List View</span>');
 }
@@ -295,8 +251,8 @@ HelpManager.prototype.renderIntro = function ($element) {
         $('<div class="welcome background"></div>').appendTo($intro);
         var $welcome = $('<div class="welcome"><h1>Welcome to TwoStep!</h1></div>').appendTo($intro);
         $('<h3>Are you new to TwoStep?</h3>').appendTo($welcome);
-        $('<p>Click the <strong>Get Started!</strong> button to step through the product and create your first Activity.</p>').appendTo($welcome);
-        $('<p>Click the <strong>Get Help!</strong> button to learn more about the basic product features.</p>').appendTo($welcome);
+        //$('<p>Click the <strong>Get Started!</strong> button to step through the product and create your first Activity.</p>').appendTo($welcome);
+        //$('<p>Click the <strong>Get Help!</strong> button to learn more about the basic product features.</p>').appendTo($welcome);
         //$('<p><small>' + navigator.appName + '</small></p>').appendTo($welcome);
         //$('<p><small>' + navigator.userAgent + '</small></p>').appendTo($welcome);
         var $checkbox = $('<div class="controls inline"></div>').appendTo($welcome);
@@ -308,8 +264,8 @@ HelpManager.prototype.renderIntro = function ($element) {
 
         var $btn = $('<button class="btn btn-large btn-success">Get Started!</button>').appendTo($welcome);
         $btn.click(function () { HelpManager.getStarted(); return false; });
-        $btn = $('<button class="btn btn-large btn-primary">Get Help!</button>').appendTo($welcome);
-        $btn.click(function () { thisControl.show(false, HelpManager.Views.Help); return false; });
+        //$btn = $('<button class="btn btn-large btn-primary">Get Help!</button>').appendTo($welcome);
+        //$btn.click(function () { thisControl.show(false, HelpManager.Views.Help); return false; });
     }
 }
 
@@ -326,9 +282,9 @@ HelpManager.prototype.renderHelp = function ($element) {
 // step 1: install from gallery
 HelpManager.getStarted = function () {
     HelpManager.gettingStarted = 1;
-    var title = 'Step 1: Install an Activity';
-    var content = 'Select a <strong>Category</strong> in the <strong>Gallery</strong> and install a pre-configured <em>Activity</em>.';
-    Control.popover($('.dashboard-right'), $('.dashboard-region'), title, content, 'left', '126px');
+    var title = 'Step 1: Add Haircut Activity';
+    var content = 'Add the pre-configured <em>Haircut Activity</em> from the <strong>Personal Category</strong> in the <strong>Gallery</strong> on the right.';
+    Control.popover($('.dashboard-right'), $('.dashboard-region'), title, content, 'left', '110px');
 }
 // step 2: configure repeat
 HelpManager.getStartedStep2 = function () {

@@ -7,15 +7,15 @@
   left: 0;
   z-index: @zindexPopover;
   display: none;
-  padding: 5px;
-  &.top    { margin-top:  -5px; }
-  &.right  { margin-left:  5px; }
-  &.bottom { margin-top:   5px; }
-  &.left   { margin-left: -5px; }
-  &.top .arrow    { #popoverArrow > .top(); }
-  &.right .arrow  { #popoverArrow > .right(); }
-  &.bottom .arrow { #popoverArrow > .bottom(); }
-  &.left .arrow   { #popoverArrow > .left();  }
+  padding: 10px;
+  &.top    { margin-top:  -10px; }
+  &.right  { margin-left:  10px; }
+  &.bottom { margin-top:   10px; }
+  &.left   { margin-left: -10px; }
+  &.top .arrow    { #popoverArrow > .top(10px); }
+  &.right .arrow  { #popoverArrow > .right(10px); }
+  &.bottom .arrow { #popoverArrow > .bottom(10px); }
+  &.left .arrow   { #popoverArrow > .left(10px);  }
   .arrow {
     position: absolute;
     width: 0;

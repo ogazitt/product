@@ -46,10 +46,12 @@ body { padding-bottom: 0; }
 }
 
 // style toolbar for steps 
-.btn-toolbar .btn-group { vertical-align: top; }
-.btn-toolbar .btn.btn-step { padding: 0; margin-right: 2px; width: 36px; height: 36px; text-align: center; }
-.btn-toolbar .btn.btn-step p { padding: 0; margin: -5px 0 0 0; font-size: 7pt; color: @linkColor; }
-.btn-toolbar .btn.btn-step:hover p  { color: @textColor; }
+.btn-step { padding: 0; margin-left: 4px; width: 36px; height: 36px; text-align: center; }
+.btn-step > a { margin-left: 4px; }
+.btn-step p { padding: 0; margin: -5px 0 0 0; font-size: 7pt; color: @linkColor; }
+.btn-step:hover p  { color: @textColor; }
+button.btn.btn-step { width: 38px; height: 38px; }
+button.btn.btn-step > i { margin-left: 4px; }
 
 // style selector buttons in left pane 
 .dashboard-left .nav-stacked li { text-align: right; }

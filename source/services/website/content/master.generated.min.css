@@ -779,15 +779,15 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini{*padding-top:1px;*padding-
 .tooltip.right .tooltip-arrow{top:50%;left:0;margin-top:-5px;border-top:5px solid transparent;border-bottom:5px solid transparent;border-right:5px solid #000}
 .tooltip-inner{max-width:200px;padding:3px 8px;color:#fff;text-align:center;text-decoration:none;background-color:#000;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}
 .tooltip-arrow{position:absolute;width:0;height:0}
-.popover{position:absolute;top:0;left:0;z-index:1010;display:none;padding:5px}
-.popover.top{margin-top:-5px}
-.popover.right{margin-left:5px}
-.popover.bottom{margin-top:5px}
-.popover.left{margin-left:-5px}
-.popover.top .arrow{bottom:0;left:50%;margin-left:-5px;border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid #000}
-.popover.right .arrow{top:50%;left:0;margin-top:-5px;border-top:5px solid transparent;border-bottom:5px solid transparent;border-right:5px solid #000}
-.popover.bottom .arrow{top:0;left:50%;margin-left:-5px;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:5px solid #000}
-.popover.left .arrow{top:50%;right:0;margin-top:-5px;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:5px solid #000}
+.popover{position:absolute;top:0;left:0;z-index:1010;display:none;padding:10px}
+.popover.top{margin-top:-10px}
+.popover.right{margin-left:10px}
+.popover.bottom{margin-top:10px}
+.popover.left{margin-left:-10px}
+.popover.top .arrow{bottom:0;left:50%;margin-left:-10px;border-left:10px solid transparent;border-right:10px solid transparent;border-top:10px solid #000}
+.popover.right .arrow{top:50%;left:0;margin-top:-10px;border-top:10px solid transparent;border-bottom:10px solid transparent;border-right:10px solid #000}
+.popover.bottom .arrow{top:0;left:50%;margin-left:-10px;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:10px solid #000}
+.popover.left .arrow{top:50%;right:0;margin-top:-10px;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:10px solid #000}
 .popover .arrow{position:absolute;width:0;height:0}
 .popover-inner{padding:3px;width:280px;overflow:hidden;background:#000;background:rgba(0,0,0,0.8);-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;-webkit-box-shadow:0 3px 7px rgba(0,0,0,0.3);-moz-box-shadow:0 3px 7px rgba(0,0,0,0.3);box-shadow:0 3px 7px rgba(0,0,0,0.3)}
 .popover-title{padding:9px 15px;line-height:1;background-color:#f5f5f5;border-bottom:1px solid #eee;-webkit-border-radius:3px 3px 0 0;-moz-border-radius:3px 3px 0 0;border-radius:3px 3px 0 0}
@@ -921,18 +921,9 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-right .nav-pills>li>a{color:#333}
 .dashboard-right .nav-pills>li>a:hover{color:#737373}
 .dashboard-right .nav-pills>li.active>a{color:#fff;background-color:#737373}
-.dashboard-center li div.form-inline{color:#08c}
-.dashboard-center li.st-paused{background-color:#fcf8e3}
-.dashboard-list li a.st-paused i,.dashboard-center li.st-paused .form-inline i{color:#fbb450}
-.dashboard-list li a.st-stopped i{color:#ee5f5b}
-.dashboard-center li.st-stopped .form-inline i{color:#555}
-.dashboard-list li a.st-skipped i,.dashboard-center li.st-skipped .form-inline i{color:#08c}
-.dashboard-list li a.st-active i,.dashboard-center li.st-active .form-inline i{color:#62c462}
-li.st-completed a,li.st-completed span,li.st-completed small,li.st-completed i{color:#222}
-button.ui-datepicker-trigger{width:30px;height:26px;padding:0;margin:0 4px 0 0;color:#08c;xborder:0;xbackground-color:transparent}
-button.ui-datepicker-trigger i.icon-calendar{padding:0;margin:2px 0 0 -8px;float:left}
-.dashboard-center li .form-inline button.ui-datepicker-trigger i{color:#08c}
-.dashboard-center li .form-inline button.ui-datepicker-trigger i:hover{color:#005580}
+.dashboard-left .st-paused i,.nav-tabs .st-paused i{color:#ee5f5b}
+.dashboard-left .st-stopped i,.nav-tabs .st-stopped i{color:#ee5f5b}
+.dashboard-left .st-active i,.nav-tabs .st-active i{color:#62c462}
 .dashboard-center{padding:0;margin:0}
 .dashboard-center.well{padding:8px}
 .dashboard-center .hero-unit,.dashboard-center .manager-folders,.dashboard-center .manager-settings{margin-top:-16px}
@@ -945,6 +936,7 @@ button.ui-datepicker-trigger i.icon-calendar{padding:0;margin:2px 0 0 -8px;float
 .dashboard-center .tab-content{min-height:200px}
 .dashboard-center .tab-content .form-vertical .control-group{margin:0 10px 0 0;padding:0}
 .dashboard-center .tab-content .control-label,.modal-body .control-label{font-size:8pt;margin:0 0 -4px 8px}
+.dashboard-center .tab-content .control-label.large{font-size:10pt;margin:0 0 -2px 12px;color:#999}
 .dashboard-center .manager-folders div.form-inline{padding:4px 0 0 0}
 .dashboard-center .manager-folders .form-inline .checkbox{margin-right:6px;margin-top:-2px}
 .dashboard-center .manager-folders small{font-size:90%;margin-right:12px}
@@ -954,15 +946,14 @@ button.ui-datepicker-trigger i.icon-calendar{padding:0;margin:2px 0 0 -8px;float
 .dashboard-center .manager-folders .tab-content .vcr-controls{margin:0 24px 6px 0}
 .dashboard-center .manager-folders .tab-content .btn.disabled{cursor:default;opacity:.35;filter:alpha(opacity=35);-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none}
 .dashboard-center .manager-folders .tab-content .nav-list{padding:0;overflow-y:auto;overflow-x:hidden}
-.dashboard-center .manager-folders .tab-content .nav-list>li{border-top:1px solid #ccc;padding:0 8px 0 8px}
-.dashboard-center .manager-folders .tab-content .nav-list>li.selected{background-color:#eee}
-.dashboard-center .manager-folders .tab-content .nav-list>li.st-paused{background-color:#fcf8e3}
+.dashboard-center .manager-folders .tab-content .nav-list>li{border-top:1px solid #ccc;padding:0 8px 0 8px;background-color:#fff}
+.dashboard-center .manager-folders .tab-content .nav-list>li.st-active{background-color:#dff0d8}
+.dashboard-center .manager-folders .tab-content .nav-list>li.st-active small{color:#08c}
+.dashboard-center .manager-folders .tab-content .nav-list>li.st-paused{background-color:#f2dede}
+.dashboard-center .manager-folders .tab-content .nav-list>li.st-complete{background-color:#eee}
 .dashboard-center .manager-folders .tab-content .nav-list>li.st-completed{background-color:#999}
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar{margin:8px 2px 2px 2px}
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar.pull-right{float:right}
-.btn-toolbar .btn .icon-large{text-align:left;padding:4px 0 0 8px}
-.btn-toolbar a.icon{margin:0 2px 0 6px}
-.btn-toolbar .icon-large:before{width:1em;line-height:1em;padding:2px 0 0 2px;font-size:20pt}
 .dashboard-center .carousel .input-block-level{border-left-color:transparent;border-bottom-color:transparent;border-right-color:transparent;background-color:transparent;overflow-y:hidden}
 .dashboard-center .carousel .input-block-level:focus{overflow-y:auto}
 .dashboard-center .carousel .fn-name{color:black;font-weight:bold;background-color:transparent;border-style:none}
@@ -978,14 +969,12 @@ button.ui-datepicker-trigger i.icon-calendar{padding:0;margin:2px 0 0 -8px;float
 .dashboard-center .manager-help .intro.well .welcome{position:absolute;top:24px;left:24px;right:24px;bottom:24px;padding:24px;text-align:center;color:#08c;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px}
 .dashboard-center .manager-help .intro.well .welcome.background{background-color:#08c;opacity:.25;filter:alpha(opacity=25)}
 .dashboard-center .manager-help .intro.well .welcome h1{font-size:24pt}
-.dashboard-center .manager-help .intro.well .welcome h3{font-size:16pt;color:#fff;margin:18px 0 18px 0}
+.dashboard-center .manager-help .intro.well .welcome h3{font-size:16pt;color:#fff;margin:48px 0 18px 0}
 .dashboard-center .manager-help .intro.well .welcome p{font-size:12pt;color:#005580;margin:0 15% 12px 15%}
 .dashboard-center .manager-help .intro.well .welcome p strong{color:#08c}
 .dashboard-center .manager-help .intro.well .welcome .controls{position:absolute;left:16px;bottom:8px}
 .dashboard-center .manager-help .intro.well .welcome .controls input[type="checkbox"]{margin:-4px 6px 0 0}
-.dashboard-center .manager-help .intro.well .welcome .btn{position:absolute;right:16px;width:120px}
-.dashboard-center .manager-help .intro.well .welcome .btn-success{bottom:60px}
-.dashboard-center .manager-help .intro.well .welcome .btn-primary{bottom:12px}
+.dashboard-center .manager-help .intro.well .welcome .btn-success{width:200px;font-size:18pt}
 .page-turn-prev{display:inline-block;width:24px;height:24px;background:transparent url(images/page-turn-prev.png) no-repeat}
 .page-turn-next{display:inline-block;width:24px;height:24px;background:transparent url(images/page-turn-next.png) no-repeat}
 .page-turn-control{position:absolute;bottom:-28px}
@@ -997,15 +986,12 @@ button.ui-datepicker-trigger i.icon-calendar{padding:0;margin:2px 0 0 -8px;float
 .link-array a{font-size:90%;margin:0 24px 0 6px}
 .link-array a.icon{margin:0}
 .link-array input{margin-bottom:2px}
-.btn-toolbar .btn.btn-step{width:30px;height:26px;text-align:center}
-.btn-toolbar .btn.btn-step i{padding:0;margin:0}
-.btn-toolbar .btn.btn-step i.icon-phone{padding:0;margin-left:-3px}
-.btn-toolbar .btn.btn-step i.icon-time{padding:0;margin-left:-3px}
-.btn-toolbar .btn.btn-step i.icon-calendar{padding:0;margin-left:-3px}
-.btn-toolbar .btn.btn-step i.icon-search{padding:0;margin-left:-3px}
-.btn-toolbar .btn.btn-step i.icon-check{padding:0;margin-left:-4px}
-.btn-toolbar .btn.btn-step i.icon-envelope{padding:0;margin-left:-5px}
-.btn-toolbar .btn.btn-step i.icon-list-alt{padding:0;margin-left:-5px}
+.btn-step{width:30px;height:26px;text-align:center}
+.btn-step .icon-large:before{width:1em;line-height:1em;font-size:20pt}
+.btn-step i{padding:0;margin:0}
+.btn-step.btn-primary a,.btn-step.btn-success a{color:#fff}
+button.btn.btn-step{width:32px;height:32px;color:#08c}
+button.btn.btn-step:hover{color:#005580}
 .popover .popover-title{background-color:#c09853;color:#fff}
 .popover .popover-content{background-color:#fcf8e3}
 .position-relative{position:relative}
@@ -1022,7 +1008,8 @@ button.ui-datepicker-trigger i.icon-calendar{padding:0;margin:2px 0 0 -8px;float
 li:hover .icon.drag-handle{color:inherit}
 li.active:hover .icon.drag-handle{color:#fff}
 .btn-command{color:#999}
-.btn-dropdown{color:#fff;cursor:pointer}
+.btn-dropdown,.btn-install{color:#fff;cursor:pointer}
+.btn-install{position:absolute;top:6px;left:12px}
 .btn-dropdown.open .dropdown-toggle{background-color:transparent}
 .btn.icon{width:29px;height:25px;padding:4px 0 0 0;margin:0 4px 0 0}
 .btn.icon i{font-size:23px;line-height:23px}
@@ -1043,3 +1030,8 @@ i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;backgrou
 .ui-combobox{position:relative;display:inline-block}
 .ui-combobox .ui-button{position:absolute;margin-left:-1px;padding:0;top:0;bottom:0}
 .ui-autocomplete-input{margin:0;padding:.3em}
+.popover .arrow{-webkit-animation:pulsate 2s ease-out;-webkit-animation-iteration-count:5;opacity:1}
+@-webkit-keyframes pulsate{0%{-webkit-transform:scale(1,1);opacity:.0}
+50%{opacity:1.0}
+100%{-webkit-transform:scale(1,1);opacity:.0}
+}

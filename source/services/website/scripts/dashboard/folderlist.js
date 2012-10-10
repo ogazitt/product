@@ -226,14 +226,14 @@ FolderList.prototype.renderAddBtn = function ($element) {
                 item.Name = name;
                 if (category != null) {
                     category.Expand(true);
-                    // 2012-09-20 OG: instead of just inserting the activity into the category, insert the activity and also
-                    // create a reminder step inside of it.
-                    //category.InsertItem(item);
-                    DataModel.InsertItem(item, category, null, null, null, function (insertedActivity) {
-                        // success handler: insert a reminder step into the new activity
-                        insertedActivity = Item.Extend(insertedActivity);
+                    // insert new activity with single reminder step
+                    DataModel.InsertItem(item, category, null, null, null, function (activity) {
+                        // insert reminder step into the new activity
+                        activity = Item.Extend(activity);
                         var reminder = Item.Extend({ Name: name, ItemTypeID: ItemTypes.Step });
-                        insertedActivity.InsertItem(reminder);
+                        activity.InsertItem(reminder);
+                        // start activity
+                        activity.Start(Date.now());
                     });
                 } else {
                     DataModel.InsertFolder(item);
@@ -277,18 +277,66 @@ FolderList.prototype.showCommands = function ($item, item) {
         });
         var $deleteBtn = $('<li><a href="#"><i class="icon-remove-sign"></i>&nbsp;Delete</a></li>').appendTo($menu);
         $deleteBtn.click(function () { $(this).parents('li').first().data('item').Delete(); });
-        
+
+        if (item.IsActivity()) {        // suspend, resume, or restart 
+            if (item.IsActive()) {
+                var $suspendBtn = $('<li><a href="#"><i class="icon-stop" />&nbsp;Suspend</a></li>').appendTo($menu);
+                $suspendBtn.click(function () {
+                    $(this).parents('li').first().data('item').Pause();
+                });
+            } else {
+                var status = item.CanResume();
+                if ((item.IsPaused() && status.Resume) || status.Start) {
+                    var $resumeBtn = $('<li><a href="#"><i class="icon-play" />&nbsp;Resume</a></li>').appendTo($menu);
+                    $resumeBtn.click(function () {
+                        var activity = $(this).parents('li').first().data('item');
+                        var itemNeedsDueDate = activity.Start();
+                        if (itemNeedsDueDate != null) {
+                            popupDueDate(itemNeedsDueDate, activity);   // item needs a due date
+                        }
+                    });
+                } else if (item.IsComplete() || status.Restart) {
+                    var $restartBtn = $('<li><a href="#"><i class="icon-backward" />&nbsp;Restart</a></li>').appendTo($menu);
+                    $restartBtn.click(function () {
+                        var activity = $(this).parents('li').first().data('item');
+                        var itemNeedsDueDate = activity.Restart();
+                        if (itemNeedsDueDate != null) {
+                            popupDueDate(itemNeedsDueDate, activity);       // item needs a due date
+                        }
+                    });
+                }
+            }
+        }
+
+        // helper function for displaying popup dialog to input due date
+        var popupDueDate = function (item, activity) {
+            var header = 'Select date';
+            header += (item.IsActivity()) ? ' for activity' : ' for first step';
+            var field = item.GetField(FieldNames.DueDate);
+            var $dialog = $('<div class="control-group"><label class="control-label">Due Date</label></div>');
+            Control.DateTime.renderDatePicker($dialog, item, field);
+            Control.popup($dialog, header, function (inputs) {
+                if (inputs.length == 1 && inputs[0].length > 0) {
+                    var itemNeedsDueDate = activity.Start(inputs[0]);
+                    if (itemNeedsDueDate != null) {
+                        // unable to set valid due date on activity or next step
+                        Control.alert('Activity is not running.', 'Could not set valid due date on activity or next step. Try setting due date first.');
+                    }
+                }
+            });
+        }
+
         /* TODO: add support for sub-categories
         if (item.IsFolder()) {
-            $('<li class="divider"></li>').appendTo($menu);
+        $('<li class="divider"></li>').appendTo($menu);
 
-            var $addBtn = $('<li><a href="#"><i class="icon-plus-sign"></i>&nbsp;Add SubCategory</a></li>').appendTo($menu);
-            $addBtn.click(function () {
-                var item = Item.Extend({ Name: 'New SubCategory', ItemTypeID: ItemTypes.Category, IsList: true });
-                var folder = $(this).parents('li').first().data('item');
-                folder.Expand(true);
-                folder.InsertItem(item);
-            });
+        var $addBtn = $('<li><a href="#"><i class="icon-plus-sign"></i>&nbsp;Add SubCategory</a></li>').appendTo($menu);
+        $addBtn.click(function () {
+        var item = Item.Extend({ Name: 'New SubCategory', ItemTypeID: ItemTypes.Category, IsList: true });
+        var folder = $(this).parents('li').first().data('item');
+        folder.Expand(true);
+        folder.InsertItem(item);
+        });
         }
         */
     }

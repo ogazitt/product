@@ -542,7 +542,7 @@ Control.DateTime.renderDatePickerIcon = function Control$DateTime$renderDatePick
     $date.datepicker({
         defaultDate: +1,
         showOn: 'button',
-        buttonText: '<i class="icon-calendar icon-large"></i>',
+        buttonText: '<i class="icon-calendar"></i>',
         showOtherMonths: true,
         changeMonth: true,
         changeYear: true,

@@ -10,6 +10,7 @@
 //
 Control.Repeat = {};
 Control.Repeat.closeHandler = null; // set closeHandler to get called when repeat dialog is closed
+Control.Repeat.disabled = false;           // set true to disable button
 
 Control.Repeat.render = function Control$Repeat$render($element, item, field) {
     this.$element = $element;
@@ -30,7 +31,7 @@ Control.Repeat.refresh = function Control$Repeat$refresh($element, item) {
     } else {
         $element.removeClass('btn-success');
     }
-    if (!item.IsRunning()) {
+    if (Control.Repeat.disabled != true) {
         Control.tooltip($element, title);
         $element.unbind('click').click(function () {
             $(this).tooltip('hide');

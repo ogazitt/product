@@ -1137,14 +1137,9 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-right .nav-pills>li>a{color:#333}
 .dashboard-right .nav-pills>li>a:hover{color:#737373}
 .dashboard-right .nav-pills>li.active>a{color:#fff;background-color:#737373}
-.dashboard-center li div.form-inline{color:#08c}
-.dashboard-center li.st-paused{background-color:#fcf8e3}
-.dashboard-list li a.st-paused i,.dashboard-center li.st-paused .form-inline i{color:#fbb450}
-.dashboard-list li a.st-stopped i{color:#ee5f5b}
-.dashboard-center li.st-stopped .form-inline i{color:#555}
-.dashboard-list li a.st-skipped i,.dashboard-center li.st-skipped .form-inline i{color:#08c}
-.dashboard-list li a.st-active i,.dashboard-center li.st-active .form-inline i{color:#62c462}
-li.st-completed a,li.st-completed span,li.st-completed small,li.st-completed i{color:#222}
+.dashboard-left .st-paused i,.nav-tabs .st-paused i{color:#ee5f5b}
+.dashboard-left .st-stopped i,.nav-tabs .st-stopped i{color:#ee5f5b}
+.dashboard-left .st-active i,.nav-tabs .st-active i{color:#62c462}
 .dashboard-center{padding:0;margin:0}
 .dashboard-center.well{padding:8px}
 .dashboard-center .hero-unit,.dashboard-center .manager-folders,.dashboard-center .manager-settings{margin-top:-16px}
@@ -1157,6 +1152,7 @@ li.st-completed a,li.st-completed span,li.st-completed small,li.st-completed i{c
 .dashboard-center .tab-content{min-height:200px}
 .dashboard-center .tab-content .form-vertical .control-group{margin:0 10px 0 0;padding:0}
 .dashboard-center .tab-content .control-label,.modal-body .control-label{font-size:8pt;margin:0 0 -4px 8px}
+.dashboard-center .tab-content .control-label.large{font-size:10pt;margin:0 0 -2px 12px;color:#999}
 .dashboard-center .manager-folders div.form-inline{padding:4px 0 0 0}
 .dashboard-center .manager-folders .form-inline .checkbox{margin-right:6px;margin-top:-2px}
 .dashboard-center .manager-folders small{font-size:90%;margin-right:12px}
@@ -1166,15 +1162,14 @@ li.st-completed a,li.st-completed span,li.st-completed small,li.st-completed i{c
 .dashboard-center .manager-folders .tab-content .vcr-controls{margin:0 24px 6px 0}
 .dashboard-center .manager-folders .tab-content .btn.disabled{cursor:default;opacity:.35;filter:alpha(opacity=35);-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none}
 .dashboard-center .manager-folders .tab-content .nav-list{padding:0;overflow-y:auto;overflow-x:hidden}
-.dashboard-center .manager-folders .tab-content .nav-list>li{border-top:1px solid #ccc;padding:0 8px 0 8px}
-.dashboard-center .manager-folders .tab-content .nav-list>li.selected{background-color:#eee}
-.dashboard-center .manager-folders .tab-content .nav-list>li.st-paused{background-color:#fcf8e3}
+.dashboard-center .manager-folders .tab-content .nav-list>li{border-top:1px solid #ccc;padding:0 8px 0 8px;background-color:#fff}
+.dashboard-center .manager-folders .tab-content .nav-list>li.st-active{background-color:#dff0d8}
+.dashboard-center .manager-folders .tab-content .nav-list>li.st-active small{color:#08c}
+.dashboard-center .manager-folders .tab-content .nav-list>li.st-paused{background-color:#f2dede}
+.dashboard-center .manager-folders .tab-content .nav-list>li.st-complete{background-color:#eee}
 .dashboard-center .manager-folders .tab-content .nav-list>li.st-completed{background-color:#999}
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar{margin:8px 2px 2px 2px}
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar.pull-right{float:right}
-.btn-toolbar .btn .icon-large{text-align:left;padding:4px 0 0 8px}
-.btn-toolbar a.icon{margin:0 2px 0 6px}
-.btn-toolbar .icon-large:before{width:1em;line-height:1em;padding:2px 0 0 2px;font-size:20pt}
 .dashboard-center .carousel .input-block-level{border-left-color:transparent;border-bottom-color:transparent;border-right-color:transparent;background-color:transparent;overflow-y:hidden}
 .dashboard-center .carousel .input-block-level:focus{overflow-y:auto}
 .dashboard-center .carousel .fn-name{color:black;font-weight:bold;background-color:transparent;border-style:none}
@@ -1190,14 +1185,12 @@ li.st-completed a,li.st-completed span,li.st-completed small,li.st-completed i{c
 .dashboard-center .manager-help .intro.well .welcome{position:absolute;top:24px;left:24px;right:24px;bottom:24px;padding:24px;text-align:center;color:#08c;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px}
 .dashboard-center .manager-help .intro.well .welcome.background{background-color:#08c;opacity:.25;filter:alpha(opacity=25)}
 .dashboard-center .manager-help .intro.well .welcome h1{font-size:24pt}
-.dashboard-center .manager-help .intro.well .welcome h3{font-size:16pt;color:#fff;margin:18px 0 18px 0}
+.dashboard-center .manager-help .intro.well .welcome h3{font-size:16pt;color:#fff;margin:48px 0 18px 0}
 .dashboard-center .manager-help .intro.well .welcome p{font-size:12pt;color:#005580;margin:0 15% 12px 15%}
 .dashboard-center .manager-help .intro.well .welcome p strong{color:#08c}
 .dashboard-center .manager-help .intro.well .welcome .controls{position:absolute;left:16px;bottom:8px}
 .dashboard-center .manager-help .intro.well .welcome .controls input[type="checkbox"]{margin:-4px 6px 0 0}
-.dashboard-center .manager-help .intro.well .welcome .btn{position:absolute;right:16px;width:120px}
-.dashboard-center .manager-help .intro.well .welcome .btn-success{bottom:60px}
-.dashboard-center .manager-help .intro.well .welcome .btn-primary{bottom:12px}
+.dashboard-center .manager-help .intro.well .welcome .btn-success{width:200px;font-size:18pt}
 .page-turn-prev{display:inline-block;width:24px;height:24px;background:transparent url(images/page-turn-prev.png) no-repeat}
 .page-turn-next{display:inline-block;width:24px;height:24px;background:transparent url(images/page-turn-next.png) no-repeat}
 .page-turn-control{position:absolute;bottom:-28px}
@@ -1209,15 +1202,12 @@ li.st-completed a,li.st-completed span,li.st-completed small,li.st-completed i{c
 .link-array a{font-size:90%;margin:0 24px 0 6px}
 .link-array a.icon{margin:0}
 .link-array input{margin-bottom:2px}
-.btn-toolbar .btn.btn-step{width:30px;height:26px;text-align:center}
-.btn-toolbar .btn.btn-step i{padding:0;margin:0}
-.btn-toolbar .btn.btn-step i.icon-phone{padding:0;margin-left:-3px}
-.btn-toolbar .btn.btn-step i.icon-time{padding:0;margin-left:-3px}
-.btn-toolbar .btn.btn-step i.icon-calendar{padding:0;margin-left:-3px}
-.btn-toolbar .btn.btn-step i.icon-search{padding:0;margin-left:-3px}
-.btn-toolbar .btn.btn-step i.icon-check{padding:0;margin-left:-4px}
-.btn-toolbar .btn.btn-step i.icon-envelope{padding:0;margin-left:-5px}
-.btn-toolbar .btn.btn-step i.icon-list-alt{padding:0;margin-left:-5px}
+.btn-step{width:30px;height:26px;text-align:center}
+.btn-step .icon-large:before{width:1em;line-height:1em;font-size:20pt}
+.btn-step i{padding:0;margin:0}
+.btn-step.btn-primary a,.btn-step.btn-success a{color:#fff}
+button.btn.btn-step{width:32px;height:32px;color:#08c}
+button.btn.btn-step:hover{color:#005580}
 .popover .popover-title{background-color:#c09853;color:#fff}
 .popover .popover-content{background-color:#fcf8e3}
 .position-relative{position:relative}
@@ -1284,10 +1274,12 @@ body{padding-bottom:0}
 .row-fluid [class*="span"]{min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;float:left;margin-left:2px;*margin-left:2px}
 .row-fluid [class*="span"]:first-child{margin-left:0}
 }
-.btn-toolbar .btn-group{vertical-align:top}
-.btn-toolbar .btn.btn-step{padding:0;margin-right:2px;width:36px;height:36px;text-align:center}
-.btn-toolbar .btn.btn-step p{padding:0;margin:-5px 0 0 0;font-size:7pt;color:#08c}
-.btn-toolbar .btn.btn-step:hover p{color:#333}
+.btn-step{padding:0;margin-left:4px;width:36px;height:36px;text-align:center}
+.btn-step>a{margin-left:4px}
+.btn-step p{padding:0;margin:-5px 0 0 0;font-size:7pt;color:#08c}
+.btn-step:hover p{color:#333}
+button.btn.btn-step{width:38px;height:38px}
+button.btn.btn-step>i{margin-left:4px}
 .dashboard-left .nav-stacked li{text-align:right}
 .dashboard-left .nav-stacked li .icon-large{margin:-4px 0 -4px -8px}
 .dashboard-left .nav-stacked li p{font-size:8pt;color:#08c}

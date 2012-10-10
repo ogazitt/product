@@ -72,7 +72,7 @@ ActivityGallery.prototype.render = function ($element, categories) {
             }
             return true;
         });
-        $('<div class="btn-dropdown absolute-right"></div>').appendTo($category);
+        //$('<div class="btn-dropdown absolute-right"></div>').appendTo($category);
 
         if (category.IsSelected()) { this.select($category, category); }
         this.renderItems($category, category);
@@ -87,7 +87,6 @@ ActivityGallery.prototype.renderItems = function ($category, category) {
         var item = items[id];
         if (item.IsGalleryActivity()) {
             $item = $('<li class="position-relative"><a class="selector"><span>&nbsp;' + item.Name + '</span></a></li>').appendTo($itemList);
-            //$item.find('span').prepend(Control.Icons.forItemType(ItemTypes.Activity));
             $item.data('control', this);
             $item.data('item', item);
             $item.click(function (e) {
@@ -96,7 +95,18 @@ ActivityGallery.prototype.renderItems = function ($category, category) {
                 }
                 return true;
             });
-            $('<div class="btn-dropdown absolute-right"></div>').appendTo($item);
+
+            var $installBtn = $('<i class="btn-install icon-plus-sign" />').appendTo($item).hide();
+            Control.tooltip($installBtn, 'Add Activity');
+            $installBtn.click(function () {
+                var $item = $(this).parents('li').first();
+                var item = $item.data('item');
+                var thisControl = $item.data('control');
+                var result = item.Install(
+                    function (result) {
+                        thisControl.fireActivityInstalled(result.FolderID, result.ItemID);
+                    });
+            });
 
             if (item.IsSelected(true)) { this.select($item, item); }
         }
@@ -121,7 +131,7 @@ ActivityGallery.prototype.itemClicked = function ($item) {
 ActivityGallery.prototype.select = function ($item, item) {
     this.deselect();
     $item.addClass('active');
-    this.showCommands($item, item);
+    $item.find('.btn-install').show();
     // scroll selected item into view
     var $container = $item.parents('.dashboard-list').first();
     var height = $container.height();
@@ -136,7 +146,7 @@ ActivityGallery.prototype.deselect = function () {
     $control = this;
     $.each(this.$element.find('li'), function () {
         $(this).removeClass('active');
-        $control.hideCommands($(this));
+        $(this).find('.btn-install').hide();
     });
 }
 
@@ -172,27 +182,4 @@ ActivityGallery.prototype.toggle = function ($category) {
     } else if (!expanded) {
         this.expand($category);
     }
-}
-
-ActivityGallery.prototype.showCommands = function ($item, item) {
-    if (item.IsGalleryCategory() || item.IsGalleryActivity()) {
-        var $btnDropdown = $item.find('.btn-dropdown');
-        $('<i class="icon-caret-down dropdown-toggle" data-toggle="dropdown"></i>').appendTo($btnDropdown);
-        var $menu = $('<ul class="dropdown-menu pull-right" role="menu"></ul>').appendTo($btnDropdown);
-        var $installBtn = $('<li><a href="#"><i class="icon-download"></i>&nbsp;Install</a></li>').appendTo($menu);
-        var thisControl = this;
-        $installBtn.click(function () {
-            var result = $(this).parents('li').first().data('item').Install(
-                function (result) {
-                    thisControl.fireActivityInstalled(result.FolderID, result.ItemID);
-                });
-        });
-
-        // TODO: add support for sub-categories
-    }
-}
-
-ActivityGallery.prototype.hideCommands = function ($item) {
-    var $btnDropdown = $item.find('.btn-dropdown');
-    $btnDropdown.empty();
 }

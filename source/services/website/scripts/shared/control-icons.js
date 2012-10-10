@@ -8,7 +8,6 @@
 //      Control.ItemType
 //      Control.ActionType
 //      Control.DeferButton
-//      Control.ThemePicker
 //      Control.Actions
 
 // ---------------------------------------------------------
@@ -46,12 +45,8 @@ Control.Icons.forSources = function Control$Icons$forSources(item) {
 
 // return an element that is an icon for the item type
 Control.Icons.forItemType = function Control$Icons$forItemType(item) {
-    // allow parameter as Item or ItemTypeID
-    var itemType = item;
-    if (typeof (item) == 'object') {
-        itemType = item.ItemTypeID;
-    }
-
+    // allow input parameter as Item or ItemTypeID
+    var itemType = (typeof (item) == 'object') ? item.ItemTypeID : item;
     var $icon = $('<i></i>');
     switch (itemType) {
         case ItemTypes.Activity:
@@ -71,10 +66,8 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
         case ItemTypes.Location:
             $icon.addClass('icon-map-marker');
             break;
-
         case ItemTypes.Category:
             return Control.Icons.forFolder(item.IsFolder() ? item : item.GetFolder());
-
         default:
             $icon.addClass('icon-folder-close');
             break;
@@ -84,12 +77,8 @@ Control.Icons.forItemType = function Control$Icons$forItemType(item) {
 
 // return an element that is an icon for the status type
 Control.Icons.forStatusType = function Control$Icons$forStatusType(item) {
-    // allow parameter as Item or StatusType
-    var statusType = item;
-    if (typeof (item) == 'object') {
-        statusType = item.Status;
-    }
-
+    // allow input parameter as Item or StatusType
+    var statusType =  (typeof (item) == 'object') ? item.Status : item;
     var $icon = $('<i></i>');
     switch (statusType) {
         case StatusTypes.Active:
@@ -99,29 +88,23 @@ Control.Icons.forStatusType = function Control$Icons$forStatusType(item) {
             $icon.addClass('icon-check');
             break;
         case StatusTypes.Paused:
-            $icon.addClass('icon-pause');
+            //$icon.addClass('icon-pause');
+            $icon.addClass('icon-stop');
             break;
         case StatusTypes.Skipped:
-            //$icon.addClass('icon-step-forward');
             $icon.addClass('icon-share');
             break;
         default:
             $icon.addClass('icon-stop');
-            //$icon.addClass('icon-sign-blank');
             break;
     }
     return $icon;
 }
 
-
 // return an element that is an icon for the action type
 Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
-    // allow parameter as ActionType class or name 
-    var actionTypeName = actionType;
-    if (actionType != null && typeof (actionType) == 'object') {
-        actionTypeName = actionType.Name;
-    }
-
+    // allow input parameter as ActionType class or name 
+    var actionTypeName = (actionType != null && typeof (actionType) == 'object') ? actionType.Name : actionType;
     var $icon = $('<i></i>');
     switch (actionTypeName) {
         case ActionTypes.All:
@@ -143,7 +126,6 @@ Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
             $icon.addClass('icon-facebook');
             break;
         case ActionTypes.Schedule:
-            //$icon.addClass('icon-calendar');
             $icon.addClass('icon-time');
             break;
         case ActionTypes.Errand:
@@ -162,21 +144,16 @@ Control.Icons.forActionType = function Control$Icons$forActionType(actionType) {
 // return an element that is an icon for the folder type
 Control.Icons.forFolder = function Control$Icons$forFolder(folder) {
     // allow parameter as Folder class or name 
-    var folderName = folder;
-    if (folder != null && typeof (folder) == 'object') {
-        folderName = folder.Name;
-    }
-
+    var folderName = (folder != null && typeof (folder) == 'object') ? folder.Name : folder;
     var $icon = $('<i></i>');
     switch (folderName) {
         case UserEntities.Inbox:
-            $icon.addClass('icon-envelope');
+            $icon.addClass('icon-inbox');
             break;
         case UserEntities.People:
             $icon.addClass('icon-group');
             break;
         case UserEntities.Places:
-            //$icon.addClass('icon-map-marker');
             $icon.addClass('icon-globe');
             break;
         case UserEntities.Personal:
@@ -198,6 +175,41 @@ Control.Icons.forFolder = function Control$Icons$forFolder(folder) {
     return $icon;
 }
 
+// return an element that is an icon for a map link
+Control.Icons.forMapLink = function Control$Icons$forMap(item) {
+    var json = item.GetFieldValue(FieldNames.WebLinks);
+    if (json != null && json.length > 0) {
+        var links = new LinkArray(json).Links();
+        for (var i in links) {
+            var link = links[i];
+            if (link.Name == 'Map' && link.Url != null) {
+                var $link = $('<i class="icon-map-marker"></i>');
+                $link.attr('href', link.Url);
+                Control.tooltip($link, 'Map');
+                $link.click(function () { window.open($(this).attr('href')); return false; });
+                return $link;
+            }
+        }
+    }
+    return $('<i></i>');
+}
+
+// return an element that is an icon to edit an item
+Control.Icons.editBtn = function Control$Icons$editBtn(item, control) {
+    var $icon = $('<i class="icon-pencil"></i>');
+    $icon.data('control', control);
+    $icon.data('item', item);
+    Control.tooltip($icon, 'Edit');
+    $icon.bind('click', function () {
+        $(this).tooltip('hide');
+        var item = $(this).data('item');
+        Control.get(this).parentControl.selectItem(item);
+        return false;   // do not propogate event
+    });
+    // wrap in anchor tag to get tooltips to work in Chrome
+    return $('<a class="icon" />').append($icon);
+}
+
 // return an element that is an icon for deleting an item
 Control.Icons.deleteBtn = function Control$Icons$deleteBtn(item) {
     var $icon = $('<i class="icon-remove-sign"></i>');
@@ -214,25 +226,6 @@ Control.Icons.deleteBtn = function Control$Icons$deleteBtn(item) {
     });
     // wrap in anchor tag to get tooltips to work in Chrome
     return $('<a class="icon" />').append($icon);
-}
-
-// return an element that is an icon for a map link
-Control.Icons.forMap = function Control$Icons$forMap(item) {
-    var json = item.GetFieldValue(FieldNames.WebLinks);
-    if (json != null && json.length > 0) {
-        var links = new LinkArray(json).Links();
-        for (var i in links) {
-            var link = links[i];
-            if (link.Name == 'Map' && link.Url != null) {
-                var $link = $('<i class="icon-map-marker"></i>');
-                $link.attr('href', link.Url);
-                Control.tooltip($link, 'Map');
-                $link.click(function () { window.open($(this).attr('href')); return false; });
-                return $link;
-            }
-        }
-    }
-    return $('<i></i>');
 }
 
 // return an element that is an icon for completing an item
@@ -928,63 +921,50 @@ Control.DeferButton.update = function Control$DeferButton$update(item, days) {
 }
 
 // ---------------------------------------------------------
-// Control.ThemePicker static object
-// static re-usable helper to display theme picker and update UserSettings
-//
-Control.ThemePicker = {};
-Control.ThemePicker.render = function Control$ThemePicker$render($element) {
-    var themes = DataModel.Constants.Themes;
-    var currentTheme = DataModel.UserSettings.Preferences.Theme;
-    var $wrapper = $('<div class="control-group"><label class="control-label">Theme</label></div>').appendTo($element);
-
-    var $btnGroup = $('<div class="btn-group" />').appendTo($wrapper);
-    var $btn = $('<a class="btn dropdown-toggle" data-toggle="dropdown" />').appendTo($btnGroup);
-    $('<span>' + currentTheme + '</span>').appendTo($btn);
-    $('<span class="pull-right">&nbsp;&nbsp;<span class="caret" /></span>').appendTo($btn);
-
-    var $dropdown = $('<ul class="dropdown-menu" />').appendTo($btnGroup);
-    for (var i in themes) {
-        $('<li><a>' + themes[i] + '</a></li>').appendTo($dropdown);
-    }
-    $dropdown.click(function (e) {
-        var $element = $(e.target)
-        var theme = $element.html();
-        DataModel.UserSettings.UpdateTheme(theme);
-        $element.parents('.btn-group').find('span').first().html(theme);
-        e.preventDefault();
-    });
-    return $wrapper;
-}
-
-// ---------------------------------------------------------
 // Control.Actions static object
 // static re-usable helper to display action buttons
 //
 Control.Actions = {};
-Control.Actions.render = function Control$Actions$render($element, item) {
+Control.Actions.render = function Control$Actions$render($element, item, control) {
+    var $dueDate;
+    if (item.HasField(FieldNames.DueDate)) {
+        $dueDate = $('<div />');
+        var $dueDateBtn = Control.DateTime.renderDatePickerIcon($dueDate, item, item.GetField(FieldNames.DueDate));
+        $dueDate = $dueDate.find('input');
+    }
+
     if (Browser.IsMobile()) {
+        // render action, complete, due, and info buttons
         var $toolbar = $('<div class="btn-toolbar hide" />').appendTo($element);
-        // render action, info, complete buttons
-        // render the action button based on the action type
-        var $actionButton = this.renderAction(item);
-        if ($actionButton != null) {
-            this.mobileButton($actionButton).appendTo($toolbar);
+        this.mobileButton(this.actionIcon(item)).prependTo($toolbar).removeClass('pull-right');
+        this.mobileButton(Control.Icons.infoBtn(item)).appendTo($toolbar);
+        if ($dueDate != null) {
+            $dueDate.appendTo($toolbar);
+            $dueDateBtn.find('i').addClass('icon-large').attr('caption', 'Due');
+            this.mobileButton($dueDateBtn).appendTo($toolbar);
         }
-        this.mobileButton(Control.Icons.infoBtn(item), false).appendTo($toolbar);
-        this.mobileButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }), true).prependTo($toolbar).removeClass('pull-right');
+        this.mobileButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); })).appendTo($toolbar);
     } else {
         var $toolbar = $('<div class="btn-toolbar pull-right" />').appendTo($element);
-        // render complete, action buttons
-        // render the action button based on the action type
-        var $actionButton = this.renderAction(item);
-        if ($actionButton != null) {
-            this.iconButton($actionButton).appendTo($toolbar);
+        // render complete, due, edit, delete buttons
+        if (item.IsActive()) {
+            var $completeBtn = this.iconButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); })).appendTo($toolbar);
+            if (control != null) { $completeBtn.addClass('btn-primary'); }
         }
-        this.iconButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); }), true).appendTo($toolbar);
+        if ($dueDate != null && !(item.IsComplete() || item.IsSkipped())) {
+            $dueDate.appendTo($toolbar);
+            $dueDateBtn.find('i').addClass('icon-large');
+            this.iconButton($dueDateBtn).appendTo($toolbar);
+        }
+        if (control != null) {  // include edit and delete buttons
+            this.iconButton(Control.Icons.editBtn(item, control)).appendTo($toolbar);
+            this.iconButton(Control.Icons.deleteBtn(item)).appendTo($toolbar);
+        }
     }
+    return $toolbar;
 }
 
-Control.Actions.renderAction = function Control$Actions$renderAction(item) {
+Control.Actions.actionIcon = function Control$Actions$actionIcon(item) {
     var actionType = item.GetActionType();
     if (actionType == null) return null;
     var actionTypeName = actionType.Name;
@@ -1003,26 +983,32 @@ Control.Actions.renderAction = function Control$Actions$renderAction(item) {
             return Control.Icons.scheduleBtn(item);
         case ActionTypes.AskFriends:
             return Control.Icons.askFriendsBtn(item);
+        default:
+            return Control.Icons.forActionType(actionType).addClass('icon-large');
     }
 }
 
+Control.Actions.actionButton = function Control$Actions$actionButton(item) {
+    return this.iconButton(this.actionIcon(item));
+}
+
 // wrap icon within a btn with a caption for mobile
-Control.Actions.mobileButton = function Control$Actions$mobileButton($icon, propagate) {
-    var $btn = $('<a class="btn btn-step pull-right" />').append($icon);
+Control.Actions.mobileButton = function Control$Actions$mobileButton($icon) {
+    var $btn = $icon;
+    if ($btn.hasClass('btn')) { $btn.addClass('btn-step pull-right'); }
+    else { $btn = $('<a class="btn btn-step pull-right" />').append($icon); }
     $icon = $icon.find('i');
     $icon.addClass('icon-blue');
-    var caption = $icon.attr('caption');
     var $caption = $('<p />').appendTo($btn);
-    $caption.html(caption);
-    $btn.click(function (e) { $icon.click(); return (propagate == true) ? true : false; });
+    $caption.html($icon.attr('caption'));
     return $btn;
 }
-// wrap icon within a btn 
-Control.Actions.iconButton = function Control$Actions$mobileButton($icon, propagate) {
-    var $btn = $('<a class="btn btn-step icon" />').append($icon);
-    var $icon = $icon.find('i');
-    $icon.addClass('icon-blue');
-    $btn.click(function (e) { $icon.click(); return (propagate == true) ? true : false; });
+// wrap icon within a btn
+Control.Actions.iconButton = function Control$Actions$iconButton($icon) {
+    var $btn = $icon;
+    if ($btn.hasClass('btn')) { $btn.addClass('btn-step icon'); } 
+    else { $btn = $('<a class="btn btn-step icon" />').append($icon); }
+    $btn.find('i').addClass('icon-blue');
     return $btn;
 }
 

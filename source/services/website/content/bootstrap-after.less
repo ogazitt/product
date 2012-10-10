@@ -87,20 +87,10 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-right .nav-pills > li > a:hover { color: lighten(@textColor, 25%); }
 .dashboard-right .nav-pills > li.active > a { color: @white; background-color: lighten(@textColor, 25%); }
 
-// colors for status icons and text
-.dashboard-center li div.form-inline { color: @linkColor; }
-.dashboard-center li.st-paused { background-color: @warningBackground; }
-.dashboard-list li a.st-paused i, .dashboard-center li.st-paused .form-inline i { color: @btnWarningBackground; }
-.dashboard-list li a.st-stopped i { color: @btnDangerBackground; }
-.dashboard-center li.st-stopped .form-inline i { color: @btnInverseBackground; }
-.dashboard-list li a.st-skipped i, .dashboard-center li.st-skipped .form-inline i { color: @linkColor; }
-.dashboard-list li a.st-active i, .dashboard-center li.st-active .form-inline i { color: @btnSuccessBackground; }
-li.st-completed a, li.st-completed span, li.st-completed small, li.st-completed i { color:@grayDarker; }  
-
-button.ui-datepicker-trigger { width: 30px; height: 26px; padding: 0; margin: 0 4px 0 0; color: @linkColor; xborder: 0; xbackground-color: transparent; }
-button.ui-datepicker-trigger i.icon-calendar { padding: 0; margin: 2px 0 0 -8px; float: left; }
-.dashboard-center li .form-inline button.ui-datepicker-trigger i { color: @linkColor; }
-.dashboard-center li .form-inline button.ui-datepicker-trigger i:hover { color: @linkColorHover; }
+// colors for status icons 
+.dashboard-left .st-paused i, .nav-tabs .st-paused i { color: @btnDangerBackground; }
+.dashboard-left .st-stopped i, .nav-tabs .st-stopped i { color: @btnDangerBackground; }
+.dashboard-left .st-active i, .nav-tabs .st-active i { color: @btnSuccessBackground; }
 
 // dashboard-center styles 
 .dashboard-center { padding: 0; margin: 0; }
@@ -118,6 +108,7 @@ button.ui-datepicker-trigger i.icon-calendar { padding: 0; margin: 2px 0 0 -8px;
 .dashboard-center .tab-content { min-height: 200px; }
 .dashboard-center .tab-content .form-vertical .control-group { margin: 0 10px 0 0; padding: 0; }
 .dashboard-center .tab-content .control-label, .modal-body .control-label { font-size: 8pt; margin: 0 0 -4px 8px; }
+.dashboard-center .tab-content .control-label.large { font-size: 10pt; margin: 0 0 -2px 12px; color: @grayLight; }
 
 .dashboard-center .manager-folders div.form-inline { padding: 4px 0 0 0; }
 .dashboard-center .manager-folders .form-inline .checkbox { margin-right: 6px; margin-top: -2px; }
@@ -130,16 +121,16 @@ button.ui-datepicker-trigger i.icon-calendar { padding: 0; margin: 2px 0 0 -8px;
 .dashboard-center .manager-folders .tab-content .btn.disabled { cursor: default; .opacity(35); .box-shadow(none); }
 
 .dashboard-center .manager-folders .tab-content .nav-list { padding: 0; overflow-y: auto; overflow-x: hidden; }
-.dashboard-center .manager-folders .tab-content .nav-list > li { border-top: 1px solid @btnBorder; padding: 0 8px 0 8px; }
-.dashboard-center .manager-folders .tab-content .nav-list > li.selected { background-color: @grayLighter; }  
-.dashboard-center .manager-folders .tab-content .nav-list > li.st-paused { background-color: @warningBackground; }  
+.dashboard-center .manager-folders .tab-content .nav-list > li { border-top: 1px solid @btnBorder; padding: 0 8px 0 8px; background-color: @white;}
+//.dashboard-center .manager-folders .tab-content .nav-list > li.selected { background-color: @grayLighter; }  
+.dashboard-center .manager-folders .tab-content .nav-list > li.st-active { background-color: @successBackground; }  
+.dashboard-center .manager-folders .tab-content .nav-list > li.st-active small { color: @linkColor; }  
+.dashboard-center .manager-folders .tab-content .nav-list > li.st-paused { background-color: @errorBackground; }  
+.dashboard-center .manager-folders .tab-content .nav-list > li.st-complete { background-color: @grayLighter; }  
 .dashboard-center .manager-folders .tab-content .nav-list > li.st-completed { background-color: @grayLight; }  
 // action toolbar
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar { margin: 8px 2px 2px 2px; }
 .dashboard-center .manager-folders .tab-content .nav-list .btn-toolbar.pull-right { float: right; }
-.btn-toolbar .btn .icon-large { text-align:left; padding: 4px 0 0 8px;  }
-.btn-toolbar a.icon  { margin: 0 2px 0 6px; }
-.btn-toolbar .icon-large:before { width: 1em; line-height: 1em; padding: 2px 0 0 2px; font-size: 20pt /*1.25em*/; }
 
 .dashboard-center .carousel .input-block-level {
     border-left-color: transparent; border-bottom-color: transparent; border-right-color: transparent; 
@@ -163,14 +154,15 @@ button.ui-datepicker-trigger i.icon-calendar { padding: 0; margin: 2px 0 0 -8px;
 }      
 .dashboard-center .manager-help .intro.well .welcome.background { background-color: @linkColor; .opacity(25); }
 .dashboard-center .manager-help .intro.well .welcome h1 { font-size: 24pt; }
-.dashboard-center .manager-help .intro.well .welcome h3 { font-size: 16pt; color: @white; margin: 18px 0 18px 0; }
+.dashboard-center .manager-help .intro.well .welcome h3 { font-size: 16pt; color: @white; margin: 48px 0 18px 0; }
 .dashboard-center .manager-help .intro.well .welcome p { font-size: 12pt; color: @linkColorHover; margin: 0 15% 12px 15%; }
 .dashboard-center .manager-help .intro.well .welcome p strong { color: @linkColor; }
 .dashboard-center .manager-help .intro.well .welcome .controls { position: absolute; left: 16px; bottom: 8px;  }
 .dashboard-center .manager-help .intro.well .welcome .controls input[type="checkbox"] { margin: -4px 6px 0 0; }
-.dashboard-center .manager-help .intro.well .welcome .btn { position: absolute; right: 16px; width: 120px; }      
-.dashboard-center .manager-help .intro.well .welcome .btn-success { bottom: 60px; }      
-.dashboard-center .manager-help .intro.well .welcome .btn-primary { bottom: 12px; }      
+//.dashboard-center .manager-help .intro.well .welcome .btn { position: absolute; right: 16px; width: 120px; }      
+//.dashboard-center .manager-help .intro.well .welcome .btn-success { bottom: 60px; }      
+//.dashboard-center .manager-help .intro.well .welcome .btn-primary { bottom: 12px; }      
+.dashboard-center .manager-help .intro.well .welcome .btn-success {width: 200px; font-size: 18pt; }      
 
 // page turn styles 
 .page-turn-prev { display: inline-block; width: 24px; height: 24px;
@@ -192,15 +184,12 @@ button.ui-datepicker-trigger i.icon-calendar { padding: 0; margin: 2px 0 0 -8px;
 .link-array input { margin-bottom: 2px; }
 
 // style toolbar for steps 
-.btn-toolbar .btn.btn-step { width: 30px; height: 26px; text-align: center; }
-.btn-toolbar .btn.btn-step i { padding: 0; margin: 0; }
-.btn-toolbar .btn.btn-step i.icon-phone { padding: 0; margin-left: -3px; }
-.btn-toolbar .btn.btn-step i.icon-time { padding: 0; margin-left: -3px; }
-.btn-toolbar .btn.btn-step i.icon-calendar { padding: 0; margin-left: -3px; }
-.btn-toolbar .btn.btn-step i.icon-search { padding: 0; margin-left: -3px; }
-.btn-toolbar .btn.btn-step i.icon-check { padding: 0; margin-left: -4px; }
-.btn-toolbar .btn.btn-step i.icon-envelope { padding: 0; margin-left: -5px; }
-.btn-toolbar .btn.btn-step i.icon-list-alt { padding: 0; margin-left: -5px; }
+.btn-step { width: 30px; height: 26px; text-align: center; }
+.btn-step .icon-large:before { width: 1em; line-height: 1em; font-size: 20pt /*1.25em*/; }
+.btn-step i { padding: 0; margin: 0; }
+.btn-step.btn-primary a, .btn-step.btn-success a { color: @white; }
+button.btn.btn-step { width: 32px; height: 32px; color: @linkColor; }
+button.btn.btn-step:hover { color: @linkColorHover; }
 
 // popover styles
 .popover .popover-title { background-color: @warningText; color: @white; }
@@ -227,7 +216,8 @@ li.active:hover .icon.drag-handle { color: @white; }
 
 // custom buttons 
 .btn-command { color: @grayLight; }
-.btn-dropdown { color: @white; cursor: pointer; }
+.btn-dropdown, .btn-install { color: @white; cursor: pointer; }
+.btn-install { position: absolute; top: 6px; left: 12px; }
 .btn-dropdown.open .dropdown-toggle { background-color: transparent; }
 .btn.icon { width: 29px; height: 25px; padding: 4px 0 0 0; margin: 0 4px 0 0; }
 .btn.icon i { font-size: 23px; line-height: 23px; }
@@ -265,4 +255,15 @@ i.icon-azure { display: inline-block; width: 16px; height: 16px; cursor: pointer
 .ui-combobox .ui-button { position: absolute; margin-left: -1px; padding: 0; top: 0; bottom: 0; }
 .ui-autocomplete-input { margin: 0; padding: 0.3em }
 
-
+//----------------------------------------------------------
+// animate popover arrow
+.popover .arrow {
+    -webkit-animation: pulsate 2s ease-out;
+    -webkit-animation-iteration-count: 5; 
+    opacity: 1.0
+}
+@-webkit-keyframes pulsate {
+    0% {-webkit-transform: scale(1.0, 1.0); opacity: 0.0;}
+    50% {opacity: 1.0;}
+    100% {-webkit-transform: scale(1.0, 1.0); opacity: 0.0;}
+}  

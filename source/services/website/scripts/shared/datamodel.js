@@ -39,9 +39,10 @@ DataModel.Init = function DataModel$Init(jsonConstants, jsonUserData) {
         geoLocation = geoLocation.split(',');
         DataModel.geoLocation = [parseFloat(geoLocation[0]), parseFloat(geoLocation[1])];
     }
+    // TODO: use setting to decide whether to use current geolocation
     navigator.geolocation.getCurrentPosition(
         function (pos) {
-            DataModel.geoLocation = [pos.coords.latitude, pos.coord.longitude];
+            DataModel.geoLocation = [pos.coords.latitude, pos.coords.longitude];
         }
     );
 }

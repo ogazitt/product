@@ -186,6 +186,7 @@ ActivityGallery.prototype.showCommands = function ($item, item) {
                 function (result) {
                     thisControl.fireActivityInstalled(result.FolderID, result.ItemID);
                 });
+            _gaq.push(['_trackEvent', Events.Categories.Gallery, Events.Gallery.AddGalleryActivity]);
         });
 
         // TODO: add support for sub-categories

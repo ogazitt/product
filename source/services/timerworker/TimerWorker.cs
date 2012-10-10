@@ -51,36 +51,43 @@ namespace BuiltSteady.Product.TimerWorker
                     var timers = SuggestionsContext.Timers.Where(t => t.NextRun < now).ToList();
 
                     // process timers that are now past due
+                    BuiltSteady.Product.ServerEntities.Timer currentTimer = null;
                     foreach (var timer in timers)
                     {
                         bool scheduleNext = false;
+                        currentTimer = timer;
 
                         try
                         {
                             // try to lock the current timer
-                            if (timer.LockedBy != null && timer.LockedBy != Me)
+                            if (currentTimer.LockedBy != null && currentTimer.LockedBy != Me)
                                 continue;
-                            timer.LockedBy = Me;
-                            timer.LastModified = DateTime.UtcNow;
+                            currentTimer.LockedBy = Me;
+                            currentTimer.LastModified = DateTime.UtcNow;
                             SuggestionsContext.SaveChanges();
 
                             // verify the lock has been acquired using a different context to avoid EF caching layer
                             SuggestionsContext = Storage.NewSuggestionsContext;
-                            if (!SuggestionsContext.Timers.Any(t => t.ID == timer.ID && t.LockedBy == Me))
+                            if (!SuggestionsContext.Timers.Any(t => t.ID == currentTimer.ID && t.LockedBy == Me))
+                                continue;
+                            
+                            // refresh the timer from the new context
+                            currentTimer = SuggestionsContext.Timers.FirstOrDefault(t => t.ID == currentTimer.ID && t.LockedBy == Me);
+                            if (currentTimer == null)
                                 continue;
 
                             // make sure we get fresh database contexts to avoid EF caching stale data
                             var UserContext = Storage.NewUserContext;
 
-                            var timerItem = new Item() { ID = Guid.NewGuid(), Name = "Timer:" + timer.WorkflowType };
-                            WorkflowHost.WorkflowHost.StartWorkflow(UserContext, SuggestionsContext, timer.WorkflowType, timerItem, null);
+                            var timerItem = new Item() { ID = Guid.NewGuid(), Name = "Timer:" + currentTimer.WorkflowType };
+                            WorkflowHost.WorkflowHost.StartWorkflow(UserContext, SuggestionsContext, currentTimer.WorkflowType, timerItem, null);
                             
                             // schedule the next iteration 
                             scheduleNext = true;
                         }
                         catch (Exception ex)
                         {
-                            TraceLog.TraceException("Timer processing failed for timer " + timer.WorkflowType, ex);
+                            TraceLog.TraceException("Timer processing failed for timer " + currentTimer.WorkflowType, ex);
                         }
                         finally
                         {
@@ -89,18 +96,18 @@ namespace BuiltSteady.Product.TimerWorker
                             // schedule next iteration if applicable
                             if (scheduleNext)
                             {
-                                if (timer.Cadence > 0)
-                                    timer.NextRun = now.AddSeconds(timer.Cadence).Truncate(TimeSpan.FromSeconds(timer.Cadence));
+                                if (currentTimer.Cadence > 0)
+                                    currentTimer.NextRun = now.AddSeconds(currentTimer.Cadence).Truncate(TimeSpan.FromSeconds(currentTimer.Cadence));
                                 else
                                     deleteTimer = true;
                             }
 
                             // unlock the timer instance
-                            timer.LockedBy = null;
+                            currentTimer.LockedBy = null;
 
                             // remove the timer if there is no cadence
                             if (deleteTimer)
-                                SuggestionsContext.Timers.Remove(timer);
+                                SuggestionsContext.Timers.Remove(currentTimer);
 
                             // save all changes
                             SuggestionsContext.SaveChanges();

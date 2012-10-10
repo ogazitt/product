@@ -19,7 +19,7 @@
             <li class="option-settings hide"><a><i class="icon-cogs"></i> User Settings</a></li>
             <li class="option-refresh hide"><a><i class="icon-refresh"></i> Refresh</a></li>
             <li class="divider"></li>            
-            <li><a href="<%: Url.Content("~/account/signout") %>" onclick="Service.SignOut()"><i class="icon-off"></i> Sign Out</a></li>
+            <li><a href="<%: Url.Content("~/account/signout") %>" onclick="SignOutButtonHandler()"><i class="icon-off"></i> Sign Out</a></li>
         </ul>
     </li>
 </ul>
@@ -56,5 +56,10 @@
     SignInButtonHandler = function () {
         _gaq.push(['_trackEvent', Events.Categories.LandingPage, Events.LandingPage.SignInButton]);
         window.location = '<%: Url.Content("~/account/signin") %>';
+    }
+
+    SignOutButtonHandler = function () {
+        _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.SignOutButton]);
+        Service.SignOut()
     }
 </script>

@@ -235,10 +235,12 @@ FolderList.prototype.renderAddBtn = function ($element) {
                         var reminder = Item.Extend({ Name: name, ItemTypeID: ItemTypes.Step });
                         insertedActivity.InsertItem(reminder);
                     });
+                    _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.AddActivity]);
                 } else {
                     DataModel.InsertFolder(item);
                     var $folder = thisControl.$element.find('li.active');
                     thisControl.expand($folder);
+                    _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.AddCategory]);
                 }
             }
         }
@@ -276,19 +278,28 @@ FolderList.prototype.showCommands = function ($item, item) {
             }
         });
         var $deleteBtn = $('<li><a href="#"><i class="icon-remove-sign"></i>&nbsp;Delete</a></li>').appendTo($menu);
-        $deleteBtn.click(function () { $(this).parents('li').first().data('item').Delete(); });
-        
+        $deleteBtn.click(function () {
+            var item = $(this).parents('li').first().data('item');
+            item.Delete();
+            if (item.IsFolder()) {
+                _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.DeleteCategory]);
+            }
+            else {
+                _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.DeleteActivity]);
+            }
+        });
+
         /* TODO: add support for sub-categories
         if (item.IsFolder()) {
-            $('<li class="divider"></li>').appendTo($menu);
+        $('<li class="divider"></li>').appendTo($menu);
 
-            var $addBtn = $('<li><a href="#"><i class="icon-plus-sign"></i>&nbsp;Add SubCategory</a></li>').appendTo($menu);
-            $addBtn.click(function () {
-                var item = Item.Extend({ Name: 'New SubCategory', ItemTypeID: ItemTypes.Category, IsList: true });
-                var folder = $(this).parents('li').first().data('item');
-                folder.Expand(true);
-                folder.InsertItem(item);
-            });
+        var $addBtn = $('<li><a href="#"><i class="icon-plus-sign"></i>&nbsp;Add SubCategory</a></li>').appendTo($menu);
+        $addBtn.click(function () {
+        var item = Item.Extend({ Name: 'New SubCategory', ItemTypeID: ItemTypes.Category, IsList: true });
+        var folder = $(this).parents('li').first().data('item');
+        folder.Expand(true);
+        folder.InsertItem(item);
+        });
         }
         */
     }

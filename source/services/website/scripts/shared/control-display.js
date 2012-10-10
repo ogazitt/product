@@ -281,6 +281,8 @@ Control.Text.insert = function Control$Text$insert($input) {
 
         item.SetFieldValue(field, value);
         list.InsertItem(item);
+
+        _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.AddStepButton]);
     }
 }
 // handler for updating text

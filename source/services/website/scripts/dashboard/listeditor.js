@@ -325,6 +325,7 @@ ListView.prototype.editBtn = function (item) {
         $(this).tooltip('hide');
         var item = $(this).data('item');
         Control.get(this).parentControl.selectItem(item);
+        _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.EditStep]);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome

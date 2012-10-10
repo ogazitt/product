@@ -66,8 +66,8 @@ ProfileWizard.initConnect = function ProfileWizard$initConnect() {
             fbConsent = { SuggestionType: SuggestionTypes.GetFBConsent };
         }
         $btn.click(function () { 
-            _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ConnectFacebookButton]);
             ProfileWizard.suggestionManager.select(fbConsent, 'wizard'); 
+            _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ConnectFacebookButton]);
         });
 
         var gcConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetGoogleConsent);
@@ -78,8 +78,8 @@ ProfileWizard.initConnect = function ProfileWizard$initConnect() {
             gcConsent = { SuggestionType: SuggestionTypes.GetGoogleConsent };
         }
         $btn.click(function () { 
-            _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ConnectGoogleButton]);
             ProfileWizard.suggestionManager.select(gcConsent, 'wizard'); 
+            _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ConnectGoogleButton]);
         });
     });
 }
@@ -100,14 +100,14 @@ ProfileWizard.showActivePanel = function ProfileWizard$showActivePanel() {
 ProfileWizard.showNextPanel = function ProfileWizard$showNextPanel() {
     this.$activePanel = this.$element.find('.info-pane.active').next('.info-pane');
     if (this.$activePanel.length > 0) {
-        _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ProfileNextButton]);
         this.showActivePanel();
         this.dataModel.UserSettings.ActiveWizardPanel(this.$activePanel.attr('id'));
         this.dataModel.UserSettings.Save();
+        _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ProfileNextButton]);
     } else {
-        _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ConnectDoneButton]);
         this.dataModel.Close();
         //this.installActivities();         // do not install activities for now
+        _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ConnectDoneButton]);
         Service.NavigateToDashboard();
     }
 }
@@ -115,10 +115,10 @@ ProfileWizard.showNextPanel = function ProfileWizard$showNextPanel() {
 ProfileWizard.showPrevPanel = function ProfileWizard$showPrevPanel() {
     this.$activePanel = this.$element.find('.info-pane.active').prev('.info-pane');
     if (this.$activePanel.length > 0) {
-        _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ConnectPrevButton]);
         this.showActivePanel();
         this.dataModel.UserSettings.ActiveWizardPanel(this.$activePanel.attr('id'));
         this.dataModel.UserSettings.Save();
+        _gaq.push(['_trackEvent', Events.Categories.Wizard, Events.Wizard.ConnectPrevButton]);
     }
 }
 

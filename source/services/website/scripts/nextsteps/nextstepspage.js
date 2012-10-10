@@ -69,6 +69,8 @@ NextStepsPage.Init = function NextStepsPage$Init(dataModel) {
 
     // render the page
     NextStepsPage.render();
+
+    _gaq.push(['_trackEvent', Events.Categories.NextSteps, Events.NextSteps.NextStepsLoaded]);
 }
 
 NextStepsPage.Close = function NextStepsPage$Close(event) {
@@ -123,6 +125,7 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
     $menuitem.show();
     $menuitem.click(function (e) {
         NextStepsPage.dataModel.Refresh();
+        _gaq.push(['_trackEvent', Events.Categories.NextSteps, Events.NextSteps.RefreshButton]);
         e.preventDefault();
     });
 

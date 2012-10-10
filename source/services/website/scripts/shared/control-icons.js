@@ -209,6 +209,7 @@ Control.Icons.deleteBtn = function Control$Icons$deleteBtn(item) {
         var item = $this.data('item');
         var activeItem = (item.ParentID == null) ? item.GetFolder() : item.GetParent();
         item.Delete(activeItem);
+        _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.DeleteStep]);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -246,10 +247,13 @@ Control.Icons.completeBtn = function Control$Icons$completeBtn(item, handler) {
         var item = $this.data('item');
         if (handler == null) {
             item.Complete();
+            _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.CompleteButton]);
             return true;   // propogate event to refresh display
         }
         if (handler(item)) {
-            item.Complete();
+            // 2012-10-09 OG: BUGBUG - this looks like a duplicate item.Complete() call - removing
+            //item.Complete();
+            _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.CompleteButton]);
             return true;
         }
         return false;
@@ -364,6 +368,7 @@ Control.Icons.callBtn = function Control$Icons$callBtn(item) {
             // obtain phone number and invoke the handler at the end
             Control.Icons.infoDialog(item, FieldNames.Phone, 'Phone', 'tel', handler);
         }
+        _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.CallButton]);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -422,6 +427,7 @@ Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
                 });
             }
         }
+        _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.MapButton]);
         return false;
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -445,6 +451,7 @@ Control.Icons.emailBtn = function Control$Icons$emailBtn(item) {
             // obtain email and invoke the handler at the end
             Control.Icons.infoDialog(item, FieldNames.Email, 'Email', 'email', handler);
         }
+        _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.EmailButton]);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -475,6 +482,7 @@ Control.Icons.textBtn = function Control$Icons$textBtn(item) {
             // obtain phone number and invoke the handler at the end
             Control.Icons.infoDialog(item, FieldNames.Phone, 'Phone', 'sms', handler);
         }
+        _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.TextButton]);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -558,6 +566,7 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
                 Control.working(Messages.ScheduleDialog.AddingText, 1000);
             }
         });
+        _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.ScheduleButton]);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -612,6 +621,7 @@ Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
             }
         });
         return false;   // do not propogate event
+        _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.AskFriendsButton]);
     });
     // wrap in anchor tag to get tooltips to work in Chrome
     return $('<a class="icon" />').append($icon);
@@ -636,6 +646,7 @@ Control.Icons.findLocalBtn = function Control$Icons$findLocalBtn(item) {
         else {
             window.open('https://maps.google.com/?q=' + term + '&radius=1');
         }
+        _gaq.push(['_trackEvent', Events.Categories.Organizer, Events.Organizer.FindButton]);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome

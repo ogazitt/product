@@ -75,6 +75,7 @@ Dashboard.Init = function Dashboard$Init(dataModel, renewFBToken, consentStatus)
 
     // add options to header dropdown
     Dashboard.showHeaderOptions();
+    Events.Track(Events.Categories.Organizer, Events.Organizer.OrganizerLoaded);
 }
 
 Dashboard.Close = function Dashboard$Close(event) {
@@ -142,6 +143,7 @@ Dashboard.showHeaderOptions = function Dashboard$showHeaderOptions() {
     $menuitem.show();
     $menuitem.click(function (e) {
         Dashboard.dataModel.Refresh();
+        Events.Track(Events.Categories.Organizer, Events.Organizer.RefreshButton);
         e.preventDefault();
     });
     // user settings
@@ -149,6 +151,7 @@ Dashboard.showHeaderOptions = function Dashboard$showHeaderOptions() {
     $menuitem.show();
     $menuitem.click(function (e) {
         Dashboard.showManager(Dashboard.settingsManager);
+        Events.Track(Events.Categories.Organizer, Events.Organizer.SettingsButton);
         e.preventDefault();
     });
     // help
@@ -156,6 +159,7 @@ Dashboard.showHeaderOptions = function Dashboard$showHeaderOptions() {
     $menuitem.show();
     $menuitem.click(function (e) {
         Dashboard.showManager(Dashboard.helpManager, null, HelpManager.Views.Help);
+        Events.Track(Events.Categories.Organizer, Events.Organizer.HelpButton);
         e.preventDefault();
     });
 }

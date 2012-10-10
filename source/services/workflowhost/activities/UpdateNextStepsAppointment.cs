@@ -29,6 +29,7 @@ namespace BuiltSteady.Product.WorkflowHost.Activities
                     try
                     {
                         GoogleClient gc = new GoogleClient(user, UserContext);
+                        gc.RefreshAccessToken();
                         if (gc.UpdateNextStepsEvent(null) == false)
                             return Status.Error;
                     }

@@ -200,10 +200,11 @@ Control.Icons.editBtn = function Control$Icons$editBtn(item, control) {
     $icon.data('control', control);
     $icon.data('item', item);
     Control.tooltip($icon, 'Edit');
-    $icon.bind('click', function () {
+    $icon.click(function () {
         $(this).tooltip('hide');
         var item = $(this).data('item');
         Control.get(this).parentControl.selectItem(item);
+        Events.Track(Events.Categories.Organizer, Events.Organizer.EditStep);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -216,12 +217,13 @@ Control.Icons.deleteBtn = function Control$Icons$deleteBtn(item) {
     $icon.css('cursor', 'pointer');
     $icon.data('item', item);
     Control.tooltip($icon, 'Delete');
-    $icon.bind('click', function () {
+    $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
         var activeItem = (item.ParentID == null) ? item.GetFolder() : item.GetParent();
         item.Delete(activeItem);
+        Events.Track(Events.Categories.Organizer, Events.Organizer.DeleteStep);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -238,14 +240,11 @@ Control.Icons.completeBtn = function Control$Icons$completeBtn(item, handler) {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
-        if (handler == null) {
+        if (handler == null || handler(item) == true) {
             item.Complete();
+            Events.Track(Events.Categories.Organizer, Events.Organizer.CompleteButton);
             return true;   // propogate event to refresh display
-        }
-        if (handler(item)) {
-            item.Complete();
-            return true;
-        }
+        } 
         return false;
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -273,6 +272,7 @@ Control.Icons.completeHandler = function Control$Icons$completeHandler(item) {
         Control.popup($dialog, header, function (inputs) {
             Control.LocationList.update($field);
             item.Complete();
+            Events.Track(Events.Categories.Organizer, Events.Organizer.CompleteButton);
             return true;
         },
         function (inputs) {
@@ -288,7 +288,7 @@ Control.Icons.skipBtn = function Control$Icons$skipBtn(item) {
     var $icon = $('<i class="icon-share icon-large"></i>');
     $icon.data('item', item);
     Control.tooltop($icon, 'Skip');
-    $icon.bind('click', function () {
+    $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
@@ -304,7 +304,7 @@ Control.Icons.deferBtn = function Control$Icons$deferBtn(item) {
     var $icon = $('<i class="icon-time icon-large icon-blue"></i>');
     $icon.data('item', item);
     Control.tooltip($icon, 'Defer');
-    $icon.bind('click', function () {
+    $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         // the parent control (Control.DeferButton.renderDropdown) handles the actual work
@@ -318,7 +318,7 @@ Control.Icons.infoBtn = function Control$Icons$infoBtn(item) {
     var $icon = $('<i class="icon-info-sign  icon-large"></i>');
     $icon.data('item', item);
     Control.tooltip($icon, 'Info');
-    $icon.bind('click', function () {
+    $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
@@ -348,7 +348,7 @@ Control.Icons.callBtn = function Control$Icons$callBtn(item) {
                 Control.Icons.formatPhoneNumber(phoneNumber));
         }
     };
-    $icon.bind('click', function () {
+    $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
@@ -358,6 +358,7 @@ Control.Icons.callBtn = function Control$Icons$callBtn(item) {
             // obtain phone number and invoke the handler at the end
             Control.Icons.infoDialog(item, FieldNames.Phone, 'Phone', 'tel', handler);
         }
+        Events.Track(Events.Categories.Organizer, Events.Organizer.CallButton);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -376,7 +377,7 @@ Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
     $icon.data('item', item);
     Control.tooltip($icon, 'Map');
 
-    $icon.bind('click', function () {
+    $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
@@ -384,11 +385,12 @@ Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
         if (link != null) { window.open(link); }
         else {
             var header = item.Name;
+            var $dialog, $field, field;
             // if this is a location, bind the Address field and autocomplete a location
             if (item.IsLocation()) {
-                var $dialog = $('<div>' + Messages.MapDialog.LocationText + '<p/></div>');
-                var field = item.GetField(FieldNames.Address);
-                var $field = Control.Text.renderInputAddress($dialog, item, field, function (input) { return false; });
+                $dialog = $('<div>' + Messages.MapDialog.LocationText + '<p/></div>');
+                field = item.GetField(FieldNames.Address);
+                $field = Control.Text.renderInputAddress($dialog, item, field, function (input) { return false; });
                 Control.popup($dialog, header, function (inputs) {
                     Control.Text.updateAddress($field);
                     var place = $field.data('place');
@@ -403,9 +405,9 @@ Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
                 var dialogText;
                 if (item.IsActivity() || item.IsStep()) { dialogText = Messages.MapDialog.ActivityOrStepText; }
                 else if (item.IsContact()) { dialogText = Messages.MapDialog.ContactText; }
-                var $dialog = $('<div>' + dialogText + '<p/></div>');
-                var field = item.GetField(FieldNames.Locations);
-                var $field = Control.LocationList.renderInput($dialog, item, field, function (input) { return false; });
+                $dialog = $('<div>' + dialogText + '<p/></div>');
+                field = item.GetField(FieldNames.Locations);
+                $field = Control.LocationList.renderInput($dialog, item, field, function (input) { return false; });
                 Control.popup($dialog, header, function (inputs) {
                     Control.LocationList.update($field);
                     var place = $field.data('place');
@@ -416,6 +418,7 @@ Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
                 });
             }
         }
+        Events.Track(Events.Categories.Organizer, Events.Organizer.MapButton);
         return false;
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -439,6 +442,7 @@ Control.Icons.emailBtn = function Control$Icons$emailBtn(item) {
             // obtain email and invoke the handler at the end
             Control.Icons.infoDialog(item, FieldNames.Email, 'Email', 'email', handler);
         }
+        Events.Track(Events.Categories.Organizer, Events.Organizer.EmailButton);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -469,6 +473,7 @@ Control.Icons.textBtn = function Control$Icons$textBtn(item) {
             // obtain phone number and invoke the handler at the end
             Control.Icons.infoDialog(item, FieldNames.Phone, 'Phone', 'sms', handler);
         }
+        Events.Track(Events.Categories.Organizer, Events.Organizer.TextButton);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -480,7 +485,7 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
     $icon.data('item', item);
     Control.tooltip($icon, 'Add Appointment');
     $icon.attr('caption', 'Calendar');
-    $icon.bind('click', function () {
+    $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
@@ -552,6 +557,7 @@ Control.Icons.scheduleBtn = function Control$Icons$scheduleBtn(item) {
                 Control.working(Messages.ScheduleDialog.AddingText, 1000);
             }
         });
+        Events.Track(Events.Categories.Organizer, Events.Organizer.ScheduleButton);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -563,7 +569,7 @@ Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
     $icon.data('item', item);
     Control.tooltip($icon, 'Ask Facebook Friends');
     $icon.attr('caption', 'Ask');
-    $icon.bind('click', function () {
+    $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
@@ -606,6 +612,7 @@ Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
             }
         });
         return false;   // do not propogate event
+        Events.Track(Events.Categories.Organizer, Events.Organizer.AskFriendsButton);
     });
     // wrap in anchor tag to get tooltips to work in Chrome
     return $('<a class="icon" />').append($icon);
@@ -616,7 +623,7 @@ Control.Icons.findLocalBtn = function Control$Icons$findLocalBtn(item) {
     var $icon = $('<i class="icon-search icon-large"></i>');
     $icon.data('item', item);
     Control.tooltip($icon, 'Find');
-    $icon.bind('click', function () {
+    $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
@@ -630,6 +637,7 @@ Control.Icons.findLocalBtn = function Control$Icons$findLocalBtn(item) {
         else {
             window.open('https://maps.google.com/?q=' + term + '&radius=1');
         }
+        Events.Track(Events.Categories.Organizer, Events.Organizer.FindButton);
         return false;   // do not propogate event
     });
     // wrap in anchor tag to get tooltips to work in Chrome
@@ -882,7 +890,7 @@ Control.DeferButton.renderDropdown = function Control$DeferButton$renderDropdown
     var $menuitem;
     // defer to tomorrow
     if (dueDate.compareTo(Date.today().add(1).days()) == -1) {
-        var $menuitem = $('<li><a></a></li>').css('border-top', '0px').appendTo($dropdown);
+        $menuitem = $('<li><a></a></li>').css('border-top', '0px').appendTo($dropdown);
         $menuitem.find('a').append('<span>&nbsp;Tomorrow</span>');
         $menuitem.click(function (e) { Control.DeferButton.update(item, 1); e.preventDefault(); });
     }
@@ -933,9 +941,10 @@ Control.Actions.render = function Control$Actions$render($element, item, control
         $dueDate = $dueDate.find('input');
     }
 
+    var $toolbar;
     if (Browser.IsMobile()) {
         // render action, complete, due, and info buttons
-        var $toolbar = $('<div class="btn-toolbar hide" />').appendTo($element);
+        $toolbar = $('<div class="btn-toolbar hide" />').appendTo($element);
         this.mobileButton(this.actionIcon(item)).prependTo($toolbar).removeClass('pull-right');
         this.mobileButton(Control.Icons.infoBtn(item)).appendTo($toolbar);
         if ($dueDate != null) {
@@ -945,7 +954,7 @@ Control.Actions.render = function Control$Actions$render($element, item, control
         }
         this.mobileButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); })).appendTo($toolbar);
     } else {
-        var $toolbar = $('<div class="btn-toolbar pull-right" />').appendTo($element);
+        $toolbar = $('<div class="btn-toolbar pull-right" />').appendTo($element);
         // render complete, due, edit, delete buttons
         if (item.IsActive()) {
             var $completeBtn = this.iconButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); })).appendTo($toolbar);

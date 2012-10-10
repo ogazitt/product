@@ -82,7 +82,7 @@ ActivityListView.prototype.renderListItems = function (listItems) {
         this.renderToolbar($item, item);
 
         // click item to select
-        $li.bind('click', function (e) {
+        $li.click(function (e) {
             if ($(e.target).hasClass('btn-step') || $(e.target.parentElement).hasClass('btn-step'))
             { return true; }
 

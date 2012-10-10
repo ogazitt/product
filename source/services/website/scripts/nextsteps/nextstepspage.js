@@ -69,6 +69,7 @@ NextStepsPage.Init = function NextStepsPage$Init(dataModel) {
 
     // render the page
     NextStepsPage.render();
+    Events.Track(Events.Categories.NextSteps, Events.NextSteps.NextStepsLoaded);
 }
 
 NextStepsPage.Close = function NextStepsPage$Close(event) {
@@ -115,7 +116,7 @@ NextStepsPage.render = function NextStepsPage$render(list) {
 // show options in header dropdown (refresh, settings, etc.)
 NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
     var $navbar = $('.navbar-fixed-top .pull-right');
-    var $navbtn = $navbar.find('.option-nextsteps a i').addClass('icon-white');
+    $navbar.find('.option-nextsteps a i').addClass('icon-white');
 
     // refresh
     var $dropdown = $('.navbar-fixed-top .pull-right .dropdown-menu');
@@ -123,6 +124,7 @@ NextStepsPage.showHeaderOptions = function NextStepsPage$showHeaderOptions() {
     $menuitem.show();
     $menuitem.click(function (e) {
         NextStepsPage.dataModel.Refresh();
+        Events.Track(Events.Categories.NextSteps, Events.NextSteps.RefreshButton);
         e.preventDefault();
     });
 

@@ -12,6 +12,7 @@
 // shared helpers used by controls
 var Control = function Control$() { };
 
+// use to add title and tooltip to elements (handles device vs. browser)
 Control.tooltip = function Control$tooltip($element, title, placement) {
     $element.attr('title', title);
     $element.attr('caption', title);
@@ -22,10 +23,6 @@ Control.tooltip = function Control$tooltip($element, title, placement) {
     } 
 }
 
-Control.noDelay = { delay: { show: 0, hide: 0} };           // tooltip with no delay
-Control.noDelayBottom = { delay: { show: 0, hide: 0 }, placement: 'bottom' };
-Control.ttDelay = { delay: { show: 0 /*500*/, hide: 0 /*200*/} };       // default tooltip delay
-Control.ttDelayBottom = { delay: { show: 0 /*500*/, hide: 0 /*200*/ }, placement: 'bottom' };
 // helper function for preventing event bubbling
 Control.preventDefault = function Control$preventDefault(e) { e.preventDefault(); }
 

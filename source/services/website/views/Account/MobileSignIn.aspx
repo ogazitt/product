@@ -50,7 +50,7 @@
                               
                 <div class="control-group">
                     <div class="controls">
-                        <button class="btn btn-success" type="submit">Sign In</button>
+                        <button class="btn btn-success" type="submit" onclick="MobileSignInButtonHandler()">Sign In</button>
                     </div>
                 </div>
 
@@ -62,4 +62,12 @@
     </div>
     </div>
 
+</asp:Content>
+
+<asp:Content ContentPlaceHolderID="ScriptBlock" runat="server">
+    <script type="text/javascript">
+        MobileSignInButtonHandler = function () {
+            Events.Track(Events.Categories.MobilePage, Events.MobilePage.SignInFormPost);
+        }
+    </script>
 </asp:Content>

@@ -283,6 +283,7 @@ Control.Text.insert = function Control$Text$insert($input) {
 
         item.SetFieldValue(field, value);
         list.InsertItem(item);
+        Events.Track(Events.Categories.Organizer, Events.Organizer.AddStepButton);
     }
 }
 // handler for updating text
@@ -490,7 +491,7 @@ Control.LinkArray.deleteBtn = function Control$Icons$deleteBtn(index) {
     $icon.css('cursor', 'pointer');
     Control.tooltip($icon, 'Remove Link');
     $icon.data('index', index);
-    $icon.bind('click', function () {
+    $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var $input = $this.parents('.link-array').first().find('input');

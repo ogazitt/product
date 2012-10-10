@@ -235,10 +235,12 @@ FolderList.prototype.renderAddBtn = function ($element) {
                         // start activity
                         activity.Start(Date.now());
                     });
+                    Events.Track(Events.Categories.Organizer, Events.Organizer.AddActivity);
                 } else {
                     DataModel.InsertFolder(item);
                     var $folder = thisControl.$element.find('li.active');
                     thisControl.expand($folder);
+                    Events.Track(Events.Categories.Organizer, Events.Organizer.AddCategory);
                 }
             }
         }
@@ -276,7 +278,11 @@ FolderList.prototype.showCommands = function ($item, item) {
             }
         });
         var $deleteBtn = $('<li><a href="#"><i class="icon-remove-sign"></i>&nbsp;Delete</a></li>').appendTo($menu);
-        $deleteBtn.click(function () { $(this).parents('li').first().data('item').Delete(); });
+        $deleteBtn.click(function () { 
+            var item = $(this).parents('li').first().data('item');
+            item.Delete();
+            Events.Track(Events.Categories.Organizer, (item.IsFolder() ? Events.Organizer.DeleteCategory : Events.Organizer.DeleteActivity));
+        });
 
         if (item.IsActivity()) {        // suspend, resume, or restart 
             if (item.IsActive()) {

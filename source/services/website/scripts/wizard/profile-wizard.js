@@ -65,7 +65,10 @@ ProfileWizard.initConnect = function ProfileWizard$initConnect() {
             ProfileWizard.$element.find('small.fb').addClass('connected').html('Connected');
             fbConsent = { SuggestionType: SuggestionTypes.GetFBConsent };
         }
-        $btn.click(function () { ProfileWizard.suggestionManager.select(fbConsent, 'wizard'); });
+        $btn.click(function () { 
+            ProfileWizard.suggestionManager.select(fbConsent, 'wizard'); 
+            Events.Track(Events.Categories.Wizard, Events.Wizard.ConnectFacebookButton);
+        });
 
         var gcConsent = SuggestionManager.findSuggestion(suggestions, SuggestionTypes.GetGoogleConsent);
         $btn = ProfileWizard.$element.find('a.google');
@@ -74,7 +77,10 @@ ProfileWizard.initConnect = function ProfileWizard$initConnect() {
             ProfileWizard.$element.find('small.google').addClass('connected').html('Connected');
             gcConsent = { SuggestionType: SuggestionTypes.GetGoogleConsent };
         }
-        $btn.click(function () { ProfileWizard.suggestionManager.select(gcConsent, 'wizard'); });
+        $btn.click(function () { 
+            ProfileWizard.suggestionManager.select(gcConsent, 'wizard'); 
+            Events.Track(Events.Categories.Wizard, Events.Wizard.ConnectGoogleButton);
+        });
     });
 }
 
@@ -97,9 +103,11 @@ ProfileWizard.showNextPanel = function ProfileWizard$showNextPanel() {
         this.showActivePanel();
         this.dataModel.UserSettings.ActiveWizardPanel(this.$activePanel.attr('id'));
         this.dataModel.UserSettings.Save();
+        Events.Track(Events.Categories.Wizard, Events.Wizard.ProfileNextButton);
     } else {
         this.dataModel.Close();
         //this.installActivities();         // do not install activities for now
+        Events.Track(Events.Categories.Wizard, Events.Wizard.ConnectDoneButton);
         Service.NavigateToDashboard();
     }
 }
@@ -110,6 +118,7 @@ ProfileWizard.showPrevPanel = function ProfileWizard$showPrevPanel() {
         this.showActivePanel();
         this.dataModel.UserSettings.ActiveWizardPanel(this.$activePanel.attr('id'));
         this.dataModel.UserSettings.Save();
+        Events.Track(Events.Categories.Wizard, Events.Wizard.ConnectPrevButton);
     }
 }
 

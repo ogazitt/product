@@ -44,6 +44,7 @@ Control.Repeat.refresh = function Control$Repeat$refresh($element, item) {
 }
 Control.Repeat.dialog = function Control$Repeat$dialog($element) {
     var $dialog = $('#repeatDialog').children().clone();
+    Events.Track(Events.Categories.Organizer, Events.Organizer.RepeatButton);
     Control.popup($dialog, "Repeat",
         function () {   // OK
             Control.Repeat.updateItem($element, Control.Repeat.rrule);

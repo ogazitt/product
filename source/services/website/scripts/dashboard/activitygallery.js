@@ -106,6 +106,7 @@ ActivityGallery.prototype.renderItems = function ($category, category) {
                     function (result) {
                         thisControl.fireActivityInstalled(result.FolderID, result.ItemID);
                     });
+                    Events.Track(Events.Categories.Gallery, Events.Gallery.AddGalleryActivity);
             });
 
             if (item.IsSelected(true)) { this.select($item, item); }
@@ -183,3 +184,4 @@ ActivityGallery.prototype.toggle = function ($category) {
         this.expand($category);
     }
 }
+

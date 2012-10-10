@@ -21,6 +21,7 @@
     <script type="text/javascript">
         // modal message
         ShowLaunchRock = function () {
+            Events.Track(Events.Categories.LandingPage, Events.LandingPage.LearnMoreButton);
             if (Browser.MSIE_Version() >= 10) {
                 alert("Unfortunately TwoStep doesn't support IE 10 yet - still working out the bugs!  Please try IE 9, Chrome, or Safari.  Thanks!");
                 return;

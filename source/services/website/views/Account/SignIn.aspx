@@ -33,7 +33,7 @@
             <div class="full-center"> 
                 <img class="img-logo" src="<%: Url.Content("~/content/images/landing/twostep-dance-through-life.png") %>" alt="TwoStep: Dance through life." />
             </div>
-            <button class="btn btn-info btn-learn-more pull-right" onclick="window.location='<%: Url.Content("#product_info") %>'">Learn More...</button>
+            <button class="btn btn-info btn-learn-more pull-right" onclick="LearnMoreHandler()">Learn More...</button>
         </div>
         <div class="span5">
         <% using (Html.BeginForm("signin", "account", FormMethod.Post, new { @class = "form-vertical" })) { %>
@@ -68,7 +68,7 @@
                               
                 <div class="control-group">
                     <div class="controls">
-                    <button class="btn btn-primary" type="submit">Sign In</button>
+                    <button class="btn btn-primary" type="submit" onclick="SignInButtonHandler()">Sign In</button>
                     </div>
                 </div>
 
@@ -84,4 +84,17 @@
             <% Html.RenderPartial("ProductInfoControl"); %>       
         </div>
     </div>
+</asp:Content>
+
+<asp:Content ContentPlaceHolderID="ScriptBlock" runat="server">
+    <script type="text/javascript">
+        SignInButtonHandler = function () {
+            Events.Track(Events.Categories.LandingPage, Events.LandingPage.SignInFormPost);
+        }
+
+        LearnMoreHandler = function () {
+            Events.Track(Events.Categories.LandingPage, Events.LandingPage.LearnMoreButton);
+            window.location='<%: Url.Content("#product_info") %>'
+        }
+    </script>
 </asp:Content>

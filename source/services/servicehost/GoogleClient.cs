@@ -567,9 +567,8 @@ namespace BuiltSteady.Product.ServiceHost
             calSettingReq.Fetch();
         }
 
-        IAuthorizationState GetAccessToken(WebServerClient client)
+        public UserCredential RefreshAccessToken()
         {
-            IAuthorizationState state = new AuthorizationState(GoogleClient.Scopes);
             UserCredential googleConsent = user.GetCredential(UserCredential.GoogleConsent);
             if (googleConsent != null)
             {
@@ -578,12 +577,18 @@ namespace BuiltSteady.Product.ServiceHost
                 {   // token is expired or will expire within 5 minutes, refresh token
                     googleConsent = RenewAccessToken(googleConsent);
                 }
+            }
+            return googleConsent;
+        }
+
+        IAuthorizationState GetAccessToken(WebServerClient client)
+        {
+            IAuthorizationState state = new AuthorizationState(GoogleClient.Scopes);
+            UserCredential googleConsent = RefreshAccessToken();
+            if (googleConsent != null)
                 state.AccessToken = googleConsent.AccessToken;
-            }
             else
-            {
                 TraceLog.TraceError("Google access token is not available");
-            }
             return state;
         }
 
@@ -597,10 +602,11 @@ namespace BuiltSteady.Product.ServiceHost
         UserCredential RenewAccessToken(UserCredential googleConsent)
         {
             string format = "client_id={0}&client_secret={1}&refresh_token={2}&grant_type=refresh_token";
+            
             string formParams = string.Format(format,
-                    System.Web.HttpContext.Current.Server.UrlEncode(GoogleClient.ID),
-                    System.Web.HttpContext.Current.Server.UrlEncode(GoogleClient.Secret),
-                    System.Web.HttpContext.Current.Server.UrlEncode(googleConsent.RenewalToken));
+                    Uri.EscapeDataString(GoogleClient.ID),
+                    Uri.EscapeDataString(GoogleClient.Secret),
+                    Uri.EscapeDataString(googleConsent.RenewalToken));
 
             byte[] byteArray = Encoding.ASCII.GetBytes(formParams);
             const string googleOAuth2TokenServiceUrl = "https://accounts.google.com/o/oauth2/token";
@@ -674,6 +680,7 @@ namespace BuiltSteady.Product.ServiceHost
             var steps = userContext.Items.Include("FieldValues").Where(i =>
                 i.UserID == user.ID &&
                 i.ItemTypeID == SystemItemTypes.Step &&
+                i.Status == StatusTypes.Active &&
                 i.FieldValues.Any(fv => fv.FieldName == FieldNames.DueDate)).
                 ToList();
 

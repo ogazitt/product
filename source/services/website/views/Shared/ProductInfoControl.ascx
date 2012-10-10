@@ -108,7 +108,7 @@
     <div id="nextsteps_section" style="min-height: 550px">
         <div class="item">
             <div class="title-text">
-                <button class="btn btn-success pull-right signup" onclick="window.location='<%: Url.Content("~/account/register") %>'">Sign Up</button>
+                <button class="btn btn-success pull-right signup" onclick="ProductInfoSignUpButtonHandler()">Sign Up</button>
                 <h2>Stay two steps ahead, anywhere, on any device.</h2>
             </div>
             <br />
@@ -125,3 +125,11 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    ProductInfoSignUpButtonHandler = function () {
+        Events.Track(Events.Categories.LandingPage, Events.LandingPage.ProductInfoSignUpButton);
+        // since the user explicitly asked for the Register page, pass in a parameter to remove the ExistingUser cookie
+        window.location = '<%: Url.Content("~/account/register/?removeCookie=true") %>';
+    }
+</script>

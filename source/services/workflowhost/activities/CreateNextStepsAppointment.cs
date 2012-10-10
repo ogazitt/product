@@ -30,6 +30,7 @@ namespace BuiltSteady.Product.WorkflowHost.Activities
                     {
                         // create the next steps appointment with the steps data
                         GoogleClient gc = new GoogleClient(user, UserContext);
+                        gc.RefreshAccessToken();
                         if (gc.AddNextStepsEvent(null) == false)
                             return Status.Error;
                     }

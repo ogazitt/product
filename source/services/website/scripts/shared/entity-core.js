@@ -487,6 +487,7 @@ Item.prototype.Complete = function () {
                 pCopy.SetFieldValue(FieldNames.CompletedOn, today);
                 this.Update(copy, null);
                 parent.Update(pCopy);
+                parent.Repeat();
             }
         } else {
             this.Update(copy);
@@ -516,6 +517,7 @@ Item.prototype.Skip = function () {
                 pCopy.SetFieldValue(FieldNames.CompletedOn, today);
                 this.Update(copy, null);
                 parent.Update(pCopy);
+                parent.Repeat();
             }
         } else {
             this.Update(copy);
@@ -622,45 +624,45 @@ Item.prototype.Restart = function () {
 // helper for repeating an activity (clone steps and mark previous steps)
 Item.prototype.Repeat = function () {
     var rrule = Recurrence.Extend(this.GetFieldValue(FieldNames.Repeat));
-    var lastCompleted = new Date();
-    if (this.IsComplete()) {
-        // TODO: use resilient parse function for downlevel browsers (iPhone)
-        // TODO: isolate date conversions in Item.GetFieldValue and Item.SetFieldValue
-        lastCompleted = new Date(this.GetFieldValue(FieldNames.CompletedOn));
-    }
-    var nextDueDate = rrule.NextDueDate(lastCompleted);
-    if (!this.IsComplete()) {
-        // TODO: popup dialog warning and verify next due date to skip forward to
-    }
+    if (rrule.IsEnabled()) {
+        var lastCompleted = new Date();
+        if (this.IsComplete()) {
+            lastCompleted = this.GetFieldValue(FieldNames.CompletedOn);
+        }
+        var nextDueDate = rrule.NextDueDate(lastCompleted);
+        if (!this.IsComplete()) {
+            // TODO: popup dialog warning and verify next due date to skip forward to
+        }
 
-    // get current steps (excludeLists and group == null)
-    var steps = this.GetItems(true, null);
-    var nextsteps = [];
-    // create copy of current steps as next steps
-    for (var id in steps) {
-        var nextstep = steps[id].Copy();
-        nextstep.ID = null;
-        nextstep.Status = StatusTypes.Stopped;
-        nextstep.SetFieldValue(FieldNames.DueDate, null);
-        nextsteps.push(nextstep);
+        // get current steps (excludeLists and group == null)
+        var steps = this.GetItems(true, null);
+        var nextsteps = [];
+        // create copy of current steps as next steps
+        for (var id in steps) {
+            var nextstep = steps[id].Copy();
+            nextstep.ID = null;
+            nextstep.Status = StatusTypes.Stopped;
+            nextstep.SetFieldValue(FieldNames.DueDate, null);
+            nextsteps.push(nextstep);
+        }
+        // mark group timestamp on current steps and update
+        var timeStamp = new Date().toUTCString();
+        for (var id in steps) {
+            var copy = steps[id].Copy();
+            copy.Group = timeStamp;
+            steps[id].Update(copy, null);                       // update, no refresh
+        }
+        // mark first step active with next duedate
+        nextsteps[0].Status = StatusTypes.Active;
+        nextsteps[0].SetFieldValue(FieldNames.DueDate, nextDueDate);
+        var nextSortOrder = nextsteps[nextsteps.length - 1].SortOrder + 1;
+        // insert copied next steps
+        for (var i in nextsteps) {
+            nextsteps[i].SortOrder = nextSortOrder++;
+            this.InsertItem(nextsteps[i], null, null, null);    // insert, no refresh
+        }
+        this.UpdateStatus(StatusTypes.Active)                   // update status and refresh
     }
-    // mark group timestamp on current steps and update
-    var timeStamp = new Date().toUTCString();
-    for (var id in steps) {
-        var copy = steps[id].Copy();
-        copy.Group = timeStamp;
-        steps[id].Update(copy, null);                       // update, no refresh
-    }
-    // mark first step active with next duedate
-    nextsteps[0].Status = StatusTypes.Active;
-    nextsteps[0].SetFieldValue(FieldNames.DueDate, nextDueDate);
-    var nextSortOrder = nextsteps[nextsteps.length - 1].SortOrder + 1;
-    // insert copied next steps
-    for (var i in nextsteps) {
-        nextsteps[i].SortOrder = nextSortOrder++;
-        this.InsertItem(nextsteps[i], null, null, null);    // insert, no refresh
-    }
-    this.UpdateStatus(StatusTypes.Active)                   // update status and refresh
 }
 
 // ---------------------------------------------------------

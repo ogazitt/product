@@ -293,8 +293,7 @@ Recurrence.prototype.AddSuffix = function (n) {
 }
 Recurrence.prototype.NextDueDate = function (lastDate) {
     if (typeof (lastDate) == 'string') {
-        // TODO: use resilient parse function for downlevel browsers (iPhone)
-        lastDate = new Date(lastDate);
+        lastDate = new Date.parseSafe(lastDate);
     }
     if (this.IsDaily()) {
         lastDate.add(this.Interval).days();

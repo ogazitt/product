@@ -213,9 +213,10 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
                 };
 
                 // TODO: calculate proper due date for first & last steps (based on recurrence setting)
-                // TEMPORARY: set first step due date to today
-                step.GetFieldValue(FieldNames.DueDate, true).Value = now.ToUniversalTime().ToLongDateString();
-
+                if (sortOrder == 1)
+                {   // TEMPORARY: set first step due date to today
+                    step.GetFieldValue(FieldNames.DueDate, true).Value = now.ToUniversalTime().ToLongDateString();
+                }
                 step.GetFieldValue(FieldNames.ActionType, true).Value = activityStep.Action;
                 userContext.Items.Add(step);
                 userContext.SaveChanges();

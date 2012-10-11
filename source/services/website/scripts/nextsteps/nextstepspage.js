@@ -79,6 +79,13 @@ NextStepsPage.Close = function NextStepsPage$Close(event) {
 
 // event handler, do not reference 'this' to access static NextStepsPage
 NextStepsPage.ManageDataChange = function NextStepsPage$ManageDataChange(folderID, itemID) {
+    if (!Browser.IsMobile()) {
+        // cleanup dangling tooltips
+        $('.dashboard-region i').tooltip('hide');
+        $('.dashboard-region a').tooltip('hide');
+        $('.dashboard-region button').tooltip('hide');
+    }
+
     //NextStepsPage.actionTypeList.render(NextStepsPage.$left, NextStepsPage.dataModel.ActionTypes);
     NextStepsPage.currentList.render(NextStepsPage.$left, null, false);
     //NextStepsPage.render(NextStepsPage.currentList);

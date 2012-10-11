@@ -601,9 +601,11 @@ Control.DateTime.renderRange = function Control$DateTime$renderRange($element, i
     return $tag;
 }
 
+Control.DateTime.closeHandler = null;     // set closeHandler to get called when any datepicker is closed
 Control.DateTime.update = function Control$DateTime$update($input) {
     // suppress refresh to prevent jquery-ui bug using multiple datetimepickers
     Control.Text.update($input, null);
+    if (Control.DateTime.closeHandler != null) { Control.DateTime.closeHandler(); }
 }
 
 // ---------------------------------------------------------

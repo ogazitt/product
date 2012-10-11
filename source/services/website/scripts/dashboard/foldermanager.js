@@ -279,35 +279,51 @@ HelpManager.prototype.renderHelp = function ($element) {
 }
 
 // static functions for handling getting started popovers
-// step 1: install from gallery
+// step 1: add an activity
 HelpManager.getStarted = function () {
     HelpManager.gettingStarted = 1;
     var title = 'Step 1: Add Haircut Activity';
     var content = 'Add the pre-configured <em>Haircut Activity</em> from the <strong>Personal Category</strong> in the <strong>Gallery</strong> on the right.';
     Control.popover($('.dashboard-right'), $('.dashboard-region'), title, content, 'left', '110px');
 }
-// step 2: configure repeat
+// step 2: set complete by
 HelpManager.getStartedStep2 = function () {
     HelpManager.gettingStarted = 2;
-    var title = 'Step 2: Configure Repeat';
-    var content = 'The <em>Activity</em> has been added to your <strong>Organizer</strong>. Configure how often you repeat this activity using the <strong>Repeat</strong> settings.';
-    Control.popover($('.dashboard-center .btn-repeat'), $('.dashboard-region'), title, content, 'right');
-    Control.Repeat.closeHandler = HelpManager.getStartedStep3;
+    var title = 'Step 2: Set Complete By';
+    var content = 'The <em>Activity</em> has been added to your <strong>Organizer</strong>. Set the "complete by" date for the first <em>Step</em>.';
+    var $element = $('.dashboard-center li.st-active button.ui-datepicker-trigger');
+    Control.popover($element, $element, title, content, 'bottom');
+    Control.DateTime.closeHandler = HelpManager.getStartedStep3;
 }
-// step 3: start activity
+// step 3: configure repeat
 HelpManager.getStartedStep3 = function () {
+    Control.DateTime.closeHandler = null;
     HelpManager.gettingStarted = 3;
-    var title = 'Step 3: Start the Activity';
-    var content = 'The <em>Activity</em> has been configured. Run the activity by clicking on the <strong>Start</strong> button.';
-    Control.popover($('.dashboard-center .vcr-controls .btn-success'), $('.dashboard-region'), title, content, 'right');
+    var title = 'Step 3: Configure Repeat';
+    var content = 'Configure how often you repeat this activity using the <strong>Repeat</strong> settings.';
+    Control.popover($('.dashboard-center .btn-repeat'), $('.dashboard-region'), title, content, 'bottom');
+    Control.Repeat.closeHandler = HelpManager.getStartedStep4;
 }
-// step 4: view next steps
+// step 4: complete first step
 HelpManager.getStartedStep4 = function () {
+    Control.Repeat.closeHandler = null;
+    HelpManager.gettingStarted = 4;
+    var title = 'Step 4: Complete First Step';
+    var content = 'Complete the first <em>Step</em> by clicking on the <strong>Complete</strong> action.';
+    var $element = $('.dashboard-center li.st-active a.btn-complete');
+    Control.popover($element, $('.dashboard-region'), title, content, 'bottom');
+    // TODO: review removing reference to static Dashboard
+    Dashboard.dataModel.AddDataChangedHandler('helpmanager', HelpManager.getStartedStep5);
+}
+
+// step 5: view next steps
+HelpManager.getStartedStep5 = function () {
     HelpManager.gettingStarted = null;
-    var title = 'Step 4: View Next Steps';
+    var title = 'Step 5: View Next Steps';
     var content = 'View your <em>Next Steps</em> by clicking on the <strong>Next Steps</strong> tab.';
     Control.popover($('.dashboard-left .nav-tabs a:last'), $('.dashboard-region'), title, content, 'bottom');
     // TODO: review removing reference to static Dashboard
+    Dashboard.dataModel.RemoveDataChangedHandler('helpmanager');
     Dashboard.dataModel.UserSettings.ViewState.IntroComplete = true;
     Dashboard.dataModel.UserSettings.Save();
 }

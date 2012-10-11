@@ -70,95 +70,6 @@ ListEditor.prototype.selectItem = function (item) {
     this.parentControl.fireSelectionChanged(item);
 }
 
-/* integrated into FolderList
-ListEditor.prototype.renderActivityController = function ($element, activity) {
-    $element = $('<div class="inline vcr-controls"></div>').appendTo($element);
-
-    if (activity.IsRunning()) {
-        // render enabled pause button
-        var $btnPause = $('<a class="btn btn-warning icon"><i class="icon-pause"></i></a>').appendTo($element);
-        Control.tooltip($btnPause, 'Pause');
-        $btnPause.click(function () {
-            $(this).tooltip('hide');
-            activity.Pause();
-        });
-    } else {
-        // render disabled start button
-        var $btnStart = $('<a class="btn btn-success icon disabled"><i class="icon-play"></i></a>').appendTo($element);
-    }
-
-    // render restart button
-    var $btnRestart = $('<a class="btn btn-primary icon invisible"><i class="icon-backward"></i></a>').prependTo($element);
-    // render forward button
-    var $btnForward = $('<a class="btn btn-primary icon invisible"><i class="icon-forward"></i></a>').appendTo($element);
-
-    if (activity.IsRunning()) {
-        // enable forward button if activity complete and recurrence enabled
-        if (activity.IsComplete()) {
-            var rrule = Recurrence.Extend(activity.GetFieldValue(FieldNames.Repeat));
-            if (rrule.IsEnabled()) {
-                $btnForward.removeClass('invisible');
-                Control.tooltip($btnForward, 'Repeat');
-                $btnForward.click(function () {
-                    $(this).tooltip('hide');
-                    activity.Repeat();
-                });
-            }
-        }
-    } else {
-        var status = activity.CanResume();
-        if (status.Start || status.Resume) {
-            // enable start or resume button
-            var title = (status.Start) ? 'Start' : 'Resume';
-            Control.tooltip($btnStart, title);
-            $btnStart.click(function () {
-                $(this).tooltip('hide');
-                var itemNeedsDueDate = activity.Start();
-                if (itemNeedsDueDate != null) {
-                    // item needs a due date
-                    popupDueDate(itemNeedsDueDate, activity);
-                }
-            });
-            $btnStart.removeClass('disabled');
-        }
-
-        if (status.Restart) {
-            // enable restart button
-            $btnRestart.removeClass('invisible');
-            Control.tooltip($btnRestart, 'Restart');
-            $btnRestart.click(function () {
-                $(this).tooltip('hide');
-                var itemNeedsDueDate = activity.Restart();
-                if (itemNeedsDueDate != null) {
-                    popupDueDate(itemNeedsDueDate, activity);       // item needs a due date
-                }
-            });
-
-            if (status.Resume && activity.IsStopped()) { activity.UpdateStatus(StatusTypes.Paused); }
-            if (!status.Resume && activity.IsPaused()) { activity.UpdateStatus(StatusTypes.Stopped); }
-        }
-    }
-
-    // helper function for displaying popup dialog to input due date
-    var popupDueDate = function (item, activity) {
-        var header = 'Select date';
-        header += (item.IsActivity()) ? ' for activity' : ' for first step';
-        var field = item.GetField(FieldNames.DueDate);
-        var $dialog = $('<div class="control-group"><label class="control-label">Due Date</label></div>');
-        Control.DateTime.renderDatePicker($dialog, item, field);
-        Control.popup($dialog, header, function (inputs) {
-            if (inputs.length == 1 && inputs[0].length > 0) {
-                var itemNeedsDueDate = activity.Start(inputs[0]);
-                if (itemNeedsDueDate != null) {
-                    // unable to set valid due date on activity or next step
-                    Control.alert('Activity is not running.', 'Could not set valid due date on activity or next step. Try setting due date first.');
-                }
-            }
-        });
-    }
-}
-*/
-
 // ---------------------------------------------------------
 // NewItemEditor control
 function NewItemEditor(parentControl) {
@@ -256,7 +167,7 @@ ListView.prototype.renderListItems = function (list) {
 
         if (item.IsActive()) {
             var $item = $('<div class="btn-toolbar pull-left" />').appendTo($wrapper);
-            Control.Actions.actionButton(item).appendTo($item).addClass('btn-success');
+            Control.Actions.actionButton(item).appendTo($item).addClass('btn-primary');
         }
         var $item = $('<div class="form-inline pull-left" />').appendTo($wrapper);
         this.renderNameField($item, item);

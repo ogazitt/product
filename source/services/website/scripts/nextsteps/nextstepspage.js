@@ -237,10 +237,10 @@ NextStepsPage.resize = function NextStepsPage$resize() {
     // complete intro popover
     if (NextStepsPage.dataModel.UserSettings.ViewState.IntroComplete == true) {
         delete NextStepsPage.dataModel.UserSettings.ViewState['IntroComplete'];
-        var $element = $('.dashboard-left');
+        var $element = $('.dashboard-left .nav-pills');
         var title = 'Congratulations!';
         var content = 'You have created an <em>Activity</em> and are viewing your <strong>Next Steps</strong>.<br />';
-        content += 'Try completing your steps or return to the <strong>Organizer</strong> and create more <em>Activities</em>.';
+        content += 'Try clicking an <em>Action</em> button, completing a step, or return to the <strong>Organizer</strong> and create more <em>Activities</em>.';
         Control.popover($('.dashboard-left'), $('.dashboard-region'), title, content, 'center');
     }
 }

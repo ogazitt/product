@@ -88,14 +88,14 @@ Control.Icons.forStatusType = function Control$Icons$forStatusType(item) {
             $icon.addClass('icon-check');
             break;
         case StatusTypes.Paused:
-            //$icon.addClass('icon-pause');
-            $icon.addClass('icon-stop');
+            $icon.addClass('icon-pause');
             break;
         case StatusTypes.Skipped:
             $icon.addClass('icon-share');
             break;
         default:
-            $icon.addClass('icon-stop');
+            $icon.addClass('icon-pause');
+            //$icon.addClass('icon-stop');
             break;
     }
     return $icon;
@@ -243,9 +243,8 @@ Control.Icons.completeBtn = function Control$Icons$completeBtn(item, handler) {
         if (handler == null || handler(item) == true) {
             item.Complete();
             Events.Track(Events.Categories.Organizer, Events.Organizer.CompleteButton);
-            return true;   // propogate event to refresh display
         } 
-        return false;
+        return true;    // always let event propogate
     });
     // wrap in anchor tag to get tooltips to work in Chrome
     return $('<a class="icon" />').append($icon);
@@ -958,7 +957,7 @@ Control.Actions.render = function Control$Actions$render($element, item, control
         // render complete, due, edit, delete buttons
         if (item.IsActive()) {
             var $completeBtn = this.iconButton(Control.Icons.completeBtn(item, function (item) { return Control.Icons.completeHandler(item); })).appendTo($toolbar);
-            if (control != null) { $completeBtn.addClass('btn-primary'); }
+            $completeBtn.addClass('btn-primary btn-complete');
         }
         if ($dueDate != null && !(item.IsComplete() || item.IsSkipped())) {
             $dueDate.appendTo($toolbar);

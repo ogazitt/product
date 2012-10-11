@@ -9,8 +9,8 @@
 // Requires the RepeatControl.ascx to provide popup dialog template
 //
 Control.Repeat = {};
-Control.Repeat.closeHandler = null; // set closeHandler to get called when repeat dialog is closed
-Control.Repeat.disabled = false;           // set true to disable button
+Control.Repeat.closeHandler = null;     // set closeHandler to get called when repeat dialog is closed
+Control.Repeat.disabled = false;        // set true to disable button
 
 Control.Repeat.render = function Control$Repeat$render($element, item, field) {
     this.$element = $element;

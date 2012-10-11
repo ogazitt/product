@@ -75,6 +75,7 @@ FolderList.prototype.refreshItem = function (item) {
 FolderList.prototype.renderItems = function ($folder, folder) {
     var items = folder.GetItems();
     $itemList = $('<ul class="itemlist nav nav-pills nav-stacked" />').appendTo($folder.parent());
+    //if (ItemMap.count(items) == 1) { $itemList.addClass('single'); }    // to avoid dropdown menu clipping
     Control.List.sortable($itemList);
     for (var id in items) {
         var item = items[id];
@@ -286,7 +287,7 @@ FolderList.prototype.showCommands = function ($item, item) {
 
         if (item.IsActivity()) {        // suspend, resume, or restart 
             if (item.IsActive()) {
-                var $suspendBtn = $('<li><a href="#"><i class="icon-stop" />&nbsp;Suspend</a></li>').appendTo($menu);
+                var $suspendBtn = $('<li><a href="#"><i class="icon-pause" />&nbsp;Suspend</a></li>').appendTo($menu);
                 $suspendBtn.click(function () {
                     $(this).parents('li').first().data('item').Pause();
                 });

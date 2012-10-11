@@ -121,7 +121,7 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
                     UserID = category.UserID,
                     ItemTypeID = SystemItemTypes.Activity, 
                     IsList = true, 
-                    Status = null,
+                    Status = StatusTypes.Active,
                     Created = now,
                     LastModified = now,
                 };
@@ -149,11 +149,11 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
                 userContext.SaveChanges();
 
                 // install all the steps for the activity
-                sortOrder = 1000f;
+                sortOrder = 1;
                 foreach (var step in def.Steps)
                 {
                     InstallStep(userContext, category, activity.ID, step, sortOrder);
-                    sortOrder += 1000f;
+                    sortOrder += 1;
                 }
             }
             catch (Exception ex)
@@ -196,6 +196,7 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
             try
             {
                 DateTime now = DateTime.Now;
+                var status = (sortOrder == 1) ? StatusTypes.Active : null;
                 var step = new Item()
                 {
                     ID = Guid.NewGuid(),
@@ -204,11 +205,17 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
                     UserID = category.UserID,
                     ParentID = activity,
                     ItemTypeID = SystemItemTypes.Step,
-                    SortOrder = sortOrder,
+                    SortOrder = sortOrder * 1000f,
+                    Status = status,
                     Created = now,
                     LastModified = now,
                     FieldValues = new List<FieldValue>()
                 };
+
+                // TODO: calculate proper due date for first & last steps (based on recurrence setting)
+                // TEMPORARY: set first step due date to today
+                step.GetFieldValue(FieldNames.DueDate, true).Value = now.ToUniversalTime().ToLongDateString();
+
                 step.GetFieldValue(FieldNames.ActionType, true).Value = activityStep.Action;
                 userContext.Items.Add(step);
                 userContext.SaveChanges();

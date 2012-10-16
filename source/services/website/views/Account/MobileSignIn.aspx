@@ -2,7 +2,8 @@
 <%@ Import Namespace="BuiltSteady.Product.Website.Models" %>
 
 <asp:Content ContentPlaceHolderID="MasterHead" runat="server">
-    <title>Sign In</title>
+    <title>TwoStep: Mobile Sign In</title>
+    <meta name="description" content="Sign in to the TwoStep mobile app" />
     <style type="text/css">
       .field-validation-valid { display: none; }
       h1 { margin:24px 0 24px 0; font-family:'Segoe UI Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:32pt; }

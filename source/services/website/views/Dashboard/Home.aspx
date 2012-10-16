@@ -4,7 +4,8 @@
 <%@ Import Namespace="BuiltSteady.Product.Website.Models" %>
 
 <asp:Content ContentPlaceHolderID="MasterHead" runat="server">
-    <title>Dashboard</title>
+    <title>TwoStep Dashboard</title>
+    <meta name="description" content="TwoStep Activity Dashboard" />
     <link href="<%: Url.Content("~/content/themes/bootstrap/jquery-ui-1.8.18.css") %>" rel="stylesheet" type="text/css" />
 </asp:Content>
 

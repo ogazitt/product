@@ -3,6 +3,7 @@
 
 <asp:Content ContentPlaceHolderID="MasterHead" runat="server">
     <title>TwoStep: Sign In</title>
+    <meta name="description" content="Sign in to TwoStep" />
     <style type="text/css">
       .field-validation-valid { display: none; }
       h1 { margin:24px 0 24px 0; font-family:'Segoe UI Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:32pt; }

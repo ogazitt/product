@@ -45,6 +45,7 @@ Events.LandingPage.SignInFormPost = 'SignInFormPost';
 Events.LandingPage.LearnMoreButton = 'LearnMoreButton';
 Events.LandingPage.RequestAccessButton = 'RequestAccessButton';
 Events.LandingPage.ProductInfoSignUpButton = 'ProductInfoSignUpButton';
+Events.LandingPage.LaunchRockGoButton = 'LaunchRockGoButton';
 
 // Mobile page actions
 Events.MobilePage = {};

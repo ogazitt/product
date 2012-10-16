@@ -32,5 +32,9 @@
             } else {
                 $launchrock.modal('show');
             }
+
+            $launchrock.find('input.submit').one('click', function () {
+                Events.Track(Events.Categories.LandingPage, Events.LandingPage.LaunchRockGoButton);
+            });
         }
     </script>

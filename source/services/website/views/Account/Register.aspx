@@ -2,7 +2,7 @@
 
 <asp:Content ContentPlaceHolderID="MasterHead" runat="server">
     <title>TwoStep: The Personal Assistant for Life's Activities</title>
-    <meta name="description" content="TwoStep is the Personal Assistant for your life's activities.  It breaks complex tasks into actionable steps, and helps you get them done.  Sign Up for a free account!" />
+    <meta name="description" content="TwoStep is the Personal Assistant for your life's activities. It breaks complex tasks into actionable steps, and helps you get them done. Sign Up for free!" />
     <style type="text/css">
       .field-validation-valid { display: none; }
       h1 { margin:24px 0 24px 0; font-family:'Segoe UI Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:32pt; }

@@ -31,7 +31,7 @@
             <div class="title-text">
                 <h2>Stay on top of life's activities.</h2>
             </div>
-            <span class="left-pic pull-left"><img alt="Organizer" src="<%: Url.Content("~/content/images/landing/activities-gray.png") %>" /></span>
+            <span class="left-pic pull-left"><img alt="Manage all your activities in the Organizer" src="<%: Url.Content("~/content/images/landing/activities-gray.png") %>" /></span>
             <!--
             <p>
             </p>
@@ -43,7 +43,7 @@
             <div class="title-text">
                 <h2>Break complex tasks into actionable steps.</h2>
             </div>
-            <span class="lift-pic pull-left"><img alt="Plan Party" src="<%: Url.Content("~/content/images/landing/plan-a-party.png") %>" /></span>
+            <span class="lift-pic pull-left"><img alt="Break complex tasks into simple, actionable steps" src="<%: Url.Content("~/content/images/landing/plan-a-party.png") %>" /></span>
             <!--
             <p>
             TwoStep helps you come up with the right set of steps, and connects the result of each step with the activity it belongs to. 
@@ -56,7 +56,7 @@
             <div class="title-text">
                 <h2>Remember everything about repeating activities.</h2>
             </div>
-            <span class="left-pic pull-left"><img alt="Gutter Cleaning" src="<%: Url.Content("~/content/images/landing/gutter-cleaning-details-small-gray.png") %>" /></span>
+            <span class="left-pic pull-left"><img alt="Remember all information about recurring activities" src="<%: Url.Content("~/content/images/landing/gutter-cleaning-details-small-gray.png") %>" /></span>
             <!--
             <p>
             Easily find the gutter cleaning service you used last year, what you thought of them, and their phone number.
@@ -69,7 +69,7 @@
             <div class="title-text">
                 <h2>Find out how others get activities done.</h2>
             </div>
-            <span class="full-pic"><img alt="Gutter Cleaning" src="<%: Url.Content("~/content/images/landing/ask-facebook-friends-small.png") %>" /></span>
+            <span class="full-pic"><img alt="Find local businesses that your friends use" src="<%: Url.Content("~/content/images/landing/ask-facebook-friends-small.png") %>" /></span>
             <!--
             <p>
             Share your activity information with your friends and neighbors, and find out what services others use.
@@ -82,7 +82,7 @@
             <div class="title-text">
                 <h2>Take action.</h2>
             </div>
-            <span class="left-pic pull-left"><img alt="Actions" src="<%: Url.Content("~/content/images/landing/action-buttons-gray.png") %>" /></span>
+            <span class="left-pic pull-left"><img alt="Call, email, find, ask Facebook friends, add to calendar, remind, map" src="<%: Url.Content("~/content/images/landing/action-buttons-gray.png") %>" /></span>
         </div>
     </div>
     <div id="tools_section" style="min-height: 350px">
@@ -90,12 +90,12 @@
             <div class="title-text">
                 <h2>Integrates with the tools you use every day.</h2>
             </div>
-            <span class="left-pic pull-left"><img alt="Tools" src="<%: Url.Content("~/content/images/landing/tools.png") %>" /></span>
+            <span class="left-pic pull-left"><img alt="Works with Facebook, Google calendar, iPhone, iPad, Android, Windows Phone, Windows, Mac" src="<%: Url.Content("~/content/images/landing/tools.png") %>" /></span>
         </div>
     </div>
     <div id="gallery_section" style="min-height: 400px">
         <div class="item">
-            <span class="left-pic pull-left"><img alt="Gallery" src="<%: Url.Content("~/content/images/landing/gallery-install-gray.png") %>" /></span>
+            <span class="left-pic pull-left"><img alt="Get started using our extensive gallery of activities" src="<%: Url.Content("~/content/images/landing/gallery-install-gray.png") %>" /></span>
             <div class="title-text">
                 <h2>Get started in under a minute.</h2>
             </div>
@@ -112,7 +112,7 @@
                 <h2>Stay two steps ahead, anywhere, on any device.</h2>
             </div>
             <br />
-            <span class="full-pic"><img alt="Next Steps" src="<%: Url.Content("~/content/images/landing/iphone-next-steps-schedule.png") %>" /></span>
+            <span class="full-pic"><img alt="Take your list of next steps with you on any mobile device" src="<%: Url.Content("~/content/images/landing/iphone-next-steps-schedule.png") %>" /></span>
             <!--
             <p>
             Take your list of next steps on the go, using any mobile device.  TwoStep organizes all of your steps by type, 

@@ -236,6 +236,16 @@ i.icon-azure { display: inline-block; width: 16px; height: 16px; cursor: pointer
 .repeat-dialog .month-selector { max-width: 100px; }
 .repeat-dialog .repeat-summary { margin: 24px 0 -12px 0; }
 
+// product-info
+.product-info .item .well {
+  padding: 0;
+  background-color: @white;
+  border: 1px solid #ccc;
+  xborder: 1px solid rgba(0,0,0,.05);
+  .border-radius(8px);
+  .box-shadow(3px 3px 0 2px rgba(0,0,0,.05));
+}
+
 // override z-index for use in bootstrap modal dialogs
 .ui-datepicker[style] { z-index: 2000 !important; } // jquery-ui datepicker
 .pac-container[style] { z-index: 3000 !important; } // google-places autocomplete

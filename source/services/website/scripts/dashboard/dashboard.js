@@ -272,6 +272,7 @@ Dashboard.renderGallery = function Dashboard$renderGallery(categories) {
 }
 
 Dashboard.refreshAfterInstall = function Dashboard$refreshAfterInstall(folderID, itemID) {
+    Control.working(Messages.InstallButton.AddingActivity, 0);
     // expand and select newly installed category or activity and refresh 
     var settings = Dashboard.dataModel.UserSettings;
     var selectedFolderID = settings.ViewState.SelectedFolder;
@@ -282,6 +283,6 @@ Dashboard.refreshAfterInstall = function Dashboard$refreshAfterInstall(folderID,
     if (HelpManager.gettingStarted == 1) {
         Dashboard.dataModel.Refresh(HelpManager.getStartedStep2);
     } else {
-        Dashboard.dataModel.Refresh();
+        Dashboard.dataModel.Refresh(Control.workingClose);
     }
 }

@@ -288,6 +288,7 @@ HelpManager.getStarted = function () {
 }
 // step 2: set complete by
 HelpManager.getStartedStep2 = function () {
+    Control.workingClose();
     HelpManager.gettingStarted = 2;
     var title = 'Step 2: Set Complete By';
     var content = 'The <em>Activity</em> has been added to your <strong>Organizer</strong>. Set the "complete by" date for the first <em>Step</em>.';

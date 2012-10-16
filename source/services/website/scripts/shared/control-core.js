@@ -153,28 +153,34 @@ Control.popup = function Control$popup($dialog, header, handlerOK, handlerCancel
     }
 }
 // modal dialog with spinning animation
-Control.working = function Control$working(message, delay, handlerClose) {
+// use delay > 0 to display animation for fixed time
+// use delay == 0 to stop animation explicitly using Control.workingClose
+Control.working = function Control$working(message, delay) {
     var $modalMessage = $('#modalMessage');
-    if ($modalMessage.length == 0) {
-        message.replace('<br/>', '\r');
-        alert(message);
-        if (handlerClose != null) { handlerClose(); }
-    } else {
-        var handler = function () {
-            $modalMessage.modal('hide');
-            window.clearTimeout(timeoutID);
-            if (handlerClose != null) { handlerClose(); }
-        };
-        $modalMessage = $modalMessage.clone();
+    if ($modalMessage.length == 1) {
+        Control.$modalWorking = $modalMessage.clone();
         var spinner = new Spinner().spin();
-        $modalMessage.find('.modal-header h3').html(message);
-        var $p = $modalMessage.find('.modal-body p').html('&nbsp;');
-        var $center = $('<center></center>').appendTo($p);
-        $center.append(spinner.el).css('height', '15');
-        $modalMessage.find('.modal-header .close').unbind('click').click(handler);
-        $modalMessage.find('.modal-footer .btn-primary').unbind('click').click(handler);
-        $modalMessage.modal('show');
-        var timeoutID = window.setTimeout(handler, delay);
+        Control.$modalWorking.find('.modal-header h3').html(message);
+        var $message = $('<center />').appendTo(Control.$modalWorking.find('.modal-body p'));
+        $message.append(spinner.el).css('height', '16').css('padding-top','16px');
+        Control.$modalWorking.find('.modal-header .close').hide();
+        Control.$modalWorking.find('.modal-footer .btn-primary').hide();
+
+        if (delay > 0) {
+            var timeoutHandler = function () {
+                window.clearTimeout(timeoutID);
+                Control.workingClose();
+            };
+            var timeoutID = window.setTimeout(timeoutHandler, delay);
+        }
+        Control.$modalWorking.modal('show');
+    }
+}
+Control.workingClose = function Control$workingClose() {
+    if (Control.$modalWorking != null) {
+        Control.$modalWorking.modal('hide');
+        Control.$modalWorking.remove();
+        Control.$modalWorking = null;
     }
 }
 // popover callout
@@ -339,7 +345,9 @@ Date.prototype.parseSafe = function (text) {
         }
     }
     else {
-        this.setTime(Date.parse(text));
+        var dateObj = new Date(text);
+        this.setTime(dateObj);
+        //this.setTime(Date.parse(text));
     }
     return this;
 };

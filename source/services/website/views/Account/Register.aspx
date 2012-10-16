@@ -6,19 +6,21 @@
     <style type="text/css">
       .field-validation-valid { display: none; }
       h1 { margin:24px 0 24px 0; font-family:'Segoe UI Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:32pt; }
-      h2 { font-size: 16pt; }
+      h2 { font-size: 18pt; white-space: nowrap; margin-bottom: 12px; }
       .main-content { margin: 0 24px 0 24px; }
-      fieldset { margin-top: 32px; }
+      fieldset { margin-top: 16px; }
       .control-group { margin: 0 10px 0 0; padding: 0; }
-      .control-group .control-label { font-size: 8pt; margin: 0 0 -4px 8px; }
+      .control-group .control-label { font-size: 10pt; margin: 0 0 -4px 12px; }
       .control-group button { margin: 12px 0 12px 0; }
       .span5 { padding-left: 36px; }
-      .span5 p { width: 250px; }
+      .span5 p { width: 250px; margin-top: 12px; }
       
       body { min-width: 900px }
       .full-center { width:100%; text-align: center; }
       .img-logo { height: 330px; min-width: 495px; }
-      .btn-learn-more { margin-right: 10%; margin-top: 57px; }
+      .main-content input { font-size: 18pt; padding: 8px; width: 300px; }
+      .main-content .btn { font-size: 18pt; padding: 12px; }
+      .btn-learn-more { margin-right: 10%; margin-top: 56px; }
     </style>
 </asp:Content>
 
@@ -84,8 +86,8 @@
             </fieldset>
         <% } %>
 
-            <p>TwoStep is in private beta.  If you don't have an access code, request one now!</p>
             <button class="btn btn-info" onclick="ShowLaunchRock()">Request Access</button>
+            <p>TwoStep is in private beta.  If you don't have an access code, request one now!</p>
         </div>
 
     </div>

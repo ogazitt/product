@@ -24,6 +24,10 @@ Messages.CallButton.ActionNotSupported = 'This action only works on a mobile dev
 Messages.TextButton = {};
 Messages.TextButton.ActionNotSupported = 'This action only works on a mobile device';
 
+// Install button messages
+Messages.InstallButton = {};
+Messages.InstallButton.AddingActivity = 'Adding activity...';
+
 // Schedule button dialog messages
 Messages.ScheduleDialog = {};
 Messages.ScheduleDialog.HeaderText = 'When should appointment be scheduled for?';

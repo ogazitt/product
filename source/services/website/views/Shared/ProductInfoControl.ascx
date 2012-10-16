@@ -2,17 +2,18 @@
 
 <style type="text/css">
     .product-info { margin-top: 300px; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; }
-    .product-info .item { padding: 50px; }
+    .product-info .item { padding: 32px 48px; }
+    .product-info .item.pull-left { margin-left: 60px; }
+    .product-info .item.pull-right { margin-right: 60px; }
     .product-info .item p {
         max-width: 600px; padding-left: 100px; padding-right: 100px; padding-top: 20px; 
         font-size: 12pt; color: #333; font-style: italic;
     }
     .product-info .item h2 { color: #08C; }
-    .product-info .item .left-pic { margin-right: 20px; }
-    .product-info .item .right-pic { margin-left: 20px; margin-top: -30px; }
-    .product-info .item .full-pic { margin-left: 100px; }
     .product-info .item img { margin: 20px; }
     .product-info .item .title-text { max-width: 700px; margin-right: 100px; }
+    .product-info .btn { font-size: 18pt; padding: 12px; }
+
     #intro_section      { background-color: #eee; /*#f0fff0;*/ }
     #steps_section      { background-color: #fff; /*#fff0f0;*/ }
     #cadence_section    { background-color: #eee; /*#fffff0;*/ }
@@ -26,76 +27,60 @@
 </style>
 
 <div id="product_info" class="product-info">
-    <div id="intro_section" style="min-height: 470px">
-        <div class="item">
+    <div id="intro_section" style="min-height: 540px; padding-top: 60px;">
+        <div class="item pull-left">
             <div class="title-text">
                 <h2>Stay on top of life's activities.</h2>
             </div>
-            <span class="left-pic pull-left"><img alt="Organizer" src="<%: Url.Content("~/content/images/landing/activities-gray.png") %>" /></span>
-            <!--
-            <p>
-            </p>
-            -->
+            <div class="well"><img alt="Organizer" src="<%: Url.Content("~/content/images/landing/activities.png") %>" /></div>
         </div>
     </div>
     <div id="steps_section" style="min-height: 430px">
-        <div class="item">
+        <div class="item pull-right">
             <div class="title-text">
                 <h2>Break complex tasks into actionable steps.</h2>
             </div>
-            <span class="lift-pic pull-left"><img alt="Plan Party" src="<%: Url.Content("~/content/images/landing/plan-a-party.png") %>" /></span>
-            <!--
-            <p>
-            TwoStep helps you come up with the right set of steps, and connects the result of each step with the activity it belongs to. 
-            </p>
-            -->
+            <div class="well"><img alt="Plan Party" src="<%: Url.Content("~/content/images/landing/plan-a-party.png") %>" /></div>
+            <!-- <p>TwoStep helps you come up with the right set of steps, and connects the result of each step with the activity it belongs to. </p>-->
         </div>
     </div>
     <div id="cadence_section" style="min-height: 450px">
-        <div class="item">
+        <div class="item pull-left">
             <div class="title-text">
                 <h2>Remember everything about repeating activities.</h2>
             </div>
-            <span class="left-pic pull-left"><img alt="Gutter Cleaning" src="<%: Url.Content("~/content/images/landing/gutter-cleaning-details-small-gray.png") %>" /></span>
-            <!--
-            <p>
-            Easily find the gutter cleaning service you used last year, what you thought of them, and their phone number.
-            </p>
-            -->
+            <div class="well"><img alt="Gutter Cleaning" src="<%: Url.Content("~/content/images/landing/gutter-cleaning-details.png") %>" /></div>
+            <!-- <p>Easily find the gutter cleaning service you used last year, what you thought of them, and their phone number.</p>-->
         </div>
     </div>
-    <div id="find_section" style="min-height: 350px">
-        <div class="item">
+    <div id="find_section" style="min-height: 400px">
+        <div class="item pull-right">
             <div class="title-text">
                 <h2>Find out how others get activities done.</h2>
             </div>
-            <span class="full-pic"><img alt="Gutter Cleaning" src="<%: Url.Content("~/content/images/landing/ask-facebook-friends-small.png") %>" /></span>
-            <!--
-            <p>
-            Share your activity information with your friends and neighbors, and find out what services others use.
-            </p>
-            -->
+            <div class="well"><img alt="Gutter Cleaning" src="<%: Url.Content("~/content/images/landing/ask-facebook-friends-small.png") %>" /></div>
+            <!-- <p>Share your activity information with your friends and neighbors, and find out what services others use.</p>-->
         </div>
     </div>
     <div id="action_section" style="min-height: 300px">
-        <div class="item">
+        <div class="item pull-left">
             <div class="title-text">
                 <h2>Take action.</h2>
             </div>
-            <span class="left-pic pull-left"><img alt="Actions" src="<%: Url.Content("~/content/images/landing/action-buttons-gray.png") %>" /></span>
+            <div><img alt="Actions" src="<%: Url.Content("~/content/images/landing/action-buttons.png") %>" /></div>
         </div>
     </div>
     <div id="tools_section" style="min-height: 350px">
-        <div class="item">
+        <div class="item pull-right">
             <div class="title-text">
                 <h2>Integrates with the tools you use every day.</h2>
             </div>
-            <span class="left-pic pull-left"><img alt="Tools" src="<%: Url.Content("~/content/images/landing/tools.png") %>" /></span>
+            <div><img alt="Tools" src="<%: Url.Content("~/content/images/landing/tools.png") %>" /></div>
         </div>
     </div>
-    <div id="gallery_section" style="min-height: 400px">
+    <div id="gallery_section" style="min-height: 480px">
         <div class="item">
-            <span class="left-pic pull-left"><img alt="Gallery" src="<%: Url.Content("~/content/images/landing/gallery-install-gray.png") %>" /></span>
+            <div class="well pull-left" style="height:420px; margin-right:32px;"><img style="padding-top:40px;" alt="Gallery" src="<%: Url.Content("~/content/images/landing/gallery-install.png") %>" /></div>
             <div class="title-text">
                 <h2>Get started in under a minute.</h2>
             </div>
@@ -112,7 +97,7 @@
                 <h2>Stay two steps ahead, anywhere, on any device.</h2>
             </div>
             <br />
-            <span class="full-pic"><img alt="Next Steps" src="<%: Url.Content("~/content/images/landing/iphone-next-steps-schedule.png") %>" /></span>
+            <div><img alt="Next Steps" src="<%: Url.Content("~/content/images/landing/iphone-next-steps-schedule.png") %>" /></div>
             <!--
             <p>
             Take your list of next steps on the go, using any mobile device.  TwoStep organizes all of your steps by type, 

@@ -29,8 +29,9 @@
     <script type="text/javascript" src="<%: Url.Content("~/scripts/nextsteps/nextsteps-mobile.generated.min.js") %>"></script>
 <%  } else { %>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/control-core.js") %>"></script>
-    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/control-display.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/control-icons.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/control-actions.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/control-display.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/datamodel.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entity-core.js") %>"></script>
     <script type="text/javascript" src="<%: Url.Content("~/scripts/shared/entity-constants.js") %>"></script>

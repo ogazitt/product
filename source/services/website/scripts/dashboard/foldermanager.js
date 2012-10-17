@@ -189,12 +189,26 @@ FolderManager.prototype.activeListName = function (list) {
     var activeList = (list == null) ? this.activeList() : list;
     if (activeList != null) {
         var $icon = Control.Icons.forItemType(activeList);
-        return $('<span>&nbsp;' + activeList.Name + '</span>').addClass(list.StatusClass()).prepend($icon);
+        var $label = $('<span>&nbsp;' + activeList.Name + '</span>').prepend($icon);
+        if (!list.IsFolder()) { $label.addClass(list.StatusClass()); }
+        return $label;
     }
     return $('<span>List View</span>');
 }
 
 FolderManager.prototype.activeView = function (viewName) {
+    // keep active view locally, do not persist in ViewState
+    if (viewName === undefined) {       // get
+        if (this.activeViewName == null) { this.activeViewName = FolderManager.ListView; }
+        return this.activeViewName;
+    } else {                            // set
+        if (this.activeViewName != viewName) {
+            this.activeViewName = viewName;
+            this.render();
+        }
+    }
+
+    /* this code persists active view in ViewState
     var dataModel = Control.findParent(this, 'dataModel').dataModel;
     if (viewName === undefined) {       // get
         return (dataModel.UserSettings.ViewState.ActiveView != null) ? dataModel.UserSettings.ViewState.ActiveView : FolderManager.ListView;
@@ -204,6 +218,7 @@ FolderManager.prototype.activeView = function (viewName) {
             this.render();
         }
     }
+    */
 }
 
 FolderManager.prototype.viewChanged = function ($tab) {
@@ -317,14 +332,26 @@ HelpManager.getStartedStep4 = function () {
     Dashboard.dataModel.AddDataChangedHandler('helpmanager', HelpManager.getStartedStep5);
 }
 
-// step 5: view next steps
+// step 5: use Call action
 HelpManager.getStartedStep5 = function () {
+    // TODO: review removing reference to static Dashboard
+    Dashboard.dataModel.RemoveDataChangedHandler('helpmanager');
+    HelpManager.gettingStarted = 5;
+    var title = 'Step 5: Take Action';
+    var content = 'Take <em>Action</em> by clicking on the <strong>Call</strong> button.';
+    var $element = $('.dashboard-center li.st-active a.btn:first');
+    Control.popover($element, $element, title, content, 'bottom');
+    Control.Actions.infoDialogCloseHandler = HelpManager.getStartedStep6;
+}
+
+// step 6: view next steps
+HelpManager.getStartedStep6 = function () {
+    Control.Actions.infoDialogCloseHandler = null;
     HelpManager.gettingStarted = null;
-    var title = 'Step 5: View Next Steps';
+    var title = 'Step 6: View Next Steps';
     var content = 'View your <em>Next Steps</em> by clicking on the <strong>Next Steps</strong> tab.';
     Control.popover($('.dashboard-left .nav-tabs a:last'), $('.dashboard-region'), title, content, 'bottom');
     // TODO: review removing reference to static Dashboard
-    Dashboard.dataModel.RemoveDataChangedHandler('helpmanager');
     Dashboard.dataModel.UserSettings.ViewState.IntroComplete = true;
     Dashboard.dataModel.UserSettings.Save();
 }

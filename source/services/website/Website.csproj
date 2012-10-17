@@ -291,6 +291,7 @@
     <Content Include="scripts\nextsteps\nextsteps.generated.min.js">
       <DependentUpon>nextsteps.js.chirp.config</DependentUpon>
     </Content>
+    <Content Include="scripts\shared\control-actions.js" />
     <Content Include="scripts\shared\events.js" />
     <Content Include="scripts\shared\date.js" />
     <Content Include="scripts\json2.js" />

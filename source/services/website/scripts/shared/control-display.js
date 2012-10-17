@@ -95,7 +95,7 @@ Control.Text.renderInputNew = function Control$Text$renderInput($element, item, 
         Control.Text.autoCompletePlace($text, Control.Text.insert);
     } else if (item.ItemTypeID == ItemTypes.Contact) {
         Control.Text.autoCompleteContact($text, Control.Text.insert);
-        Control.Text.placeholder($text, 'Enter a contact');
+        Control.Text.placeholder($text, Control.ContactList.placeHolder);
     } else if (item.ItemTypeID == ItemTypes.Step) {
     //    Control.Text.placeholder($text, 'Enter next step');
     } else {
@@ -612,12 +612,18 @@ Control.DateTime.update = function Control$DateTime$update($input) {
 // Control.ContactList static object
 //
 Control.ContactList = {};
+
+Control.ContactList.placeHolder = 'Enter a contact';
+Control.ContactList.IsValid = function Control$LocationList$Valid(value) {
+    return (value != null && value.length > 0 && value != this.placeHolder);
+}
+
 Control.ContactList.renderInput = function Control$ContactList$renderInput($element, item, field, handler) {
     $input = $('<input type="text" />').appendTo($element);
     $input.addClass(field.Class);
     $input.data('item', item);
     $input.data('field', field);
-    Control.Text.placeholder($input, 'Enter a contact');
+    Control.Text.placeholder($input, Control.ContactList.placeHolder);
 
     handler = (handler == null) ? Control.ContactList.update : handler;
     $input.keypress(function (e) { if (e.which == 13) { handler($(e.srcElement)); return false; } });
@@ -707,6 +713,12 @@ Control.ContactList.update = function Control$ContactList$update($input, handler
 // Control.LocationList static object
 //
 Control.LocationList = {};
+
+Control.LocationList.placeHolder = 'Enter a location';
+Control.LocationList.IsValid = function Control$LocationList$Valid(value) {
+    return (value != null && value.length > 0 && value != this.placeHolder);
+}
+
 Control.LocationList.renderInput = function Control$LocationList$renderInput($element, item, field, handler) {
     $input = $('<input type="text" />').appendTo($element);
     $input.addClass(field.Class);
@@ -747,7 +759,7 @@ Control.LocationList.update = function Control$LocationList$update($input, handl
     var item = $input.data('item');
     var field = $input.data('field');
     var address = $input.val();
-    if (address == null || address.length == 0) {
+    if (!Control.LocationList.IsValid(address)) {
         item.RemoveReferences(field);
         return;
     }

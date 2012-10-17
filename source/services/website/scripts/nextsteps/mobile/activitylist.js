@@ -100,10 +100,10 @@ ActivityListView.prototype.renderListItems = function (listItems) {
 
 ActivityListView.prototype.renderToolbar = function ($item, item) {
     var $toolbar = $('<div class="btn-toolbar hide" />').appendTo($item);    
-    this.mobileButton(Control.Icons.mapBtn(item)).appendTo($toolbar);
-    this.mobileButton(Control.Icons.callBtn(item)).appendTo($toolbar);
-    this.mobileButton(Control.Icons.textBtn(item)).appendTo($toolbar);
-    this.mobileButton(Control.Icons.emailBtn(item)).appendTo($toolbar);
+    this.mobileButton(Control.Actions.mapBtn(item)).appendTo($toolbar);
+    this.mobileButton(Control.Actions.callBtn(item)).appendTo($toolbar);
+    this.mobileButton(Control.Actions.textBtn(item)).appendTo($toolbar);
+    this.mobileButton(Control.Actions.emailBtn(item)).appendTo($toolbar);
 }
 
 // wrap an icon with a btn style appropriate for rendering on mobile devices

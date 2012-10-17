@@ -167,7 +167,7 @@ ListView.prototype.renderListItems = function (list) {
 
         if (item.IsActive()) {
             var $item = $('<div class="btn-toolbar pull-left" />').appendTo($wrapper);
-            Control.Actions.actionButton(item).appendTo($item).addClass('btn-primary');
+            Control.Actions.renderButton(item).appendTo($item).addClass('btn-primary');
         }
         var $item = $('<div class="form-inline pull-left" />').appendTo($wrapper);
         this.renderNameField($item, item);

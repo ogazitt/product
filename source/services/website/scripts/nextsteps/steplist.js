@@ -95,7 +95,7 @@ ListView.prototype.renderListItems = function (listItems) {
             var $wrapper = $('<div class="inline" />').appendTo($li).css('width', '100%');
             var $item = $('<div class="pull-left" />').appendTo($wrapper);
             if (!Browser.IsMobile() && item.IsActive()) {
-                $item.append(Control.Actions.actionButton(item).addClass('btn-primary')).addClass('btn-toolbar');
+                $item.append(Control.Actions.renderButton(item).addClass('btn-primary')).addClass('btn-toolbar');
                 $item = $('<div class="form-inline pull-left" />').appendTo($wrapper);
             }
             this.renderNameField($item, item);

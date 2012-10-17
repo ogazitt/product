@@ -279,7 +279,7 @@ FolderList.prototype.showCommands = function ($item, item) {
             }
         });
         var $deleteBtn = $('<li><a href="#"><i class="icon-remove-sign"></i>&nbsp;Delete</a></li>').appendTo($menu);
-        $deleteBtn.click(function () { 
+        $deleteBtn.click(function () {
             var item = $(this).parents('li').first().data('item');
             item.Delete();
             Events.Track(Events.Categories.Organizer, (item.IsFolder() ? Events.Organizer.DeleteCategory : Events.Organizer.DeleteActivity));
@@ -321,7 +321,10 @@ FolderList.prototype.showCommands = function ($item, item) {
             header += (item.IsActivity()) ? ' for activity' : ' for first step';
             var field = item.GetField(FieldNames.DueDate);
             var $dialog = $('<div class="control-group"><label class="control-label">Due Date</label></div>');
-            Control.DateTime.renderDatePicker($dialog, item, field);
+            var $date = Control.DateTime.renderDatePicker($dialog, item, field);
+            if ($date.val().length == 0) {
+                $date.val(new Date().format('shortDate'));
+            }
             Control.popup($dialog, header, function (inputs) {
                 if (inputs.length == 1 && inputs[0].length > 0) {
                     var itemNeedsDueDate = activity.Start(inputs[0]);

@@ -10,24 +10,26 @@
     <style type="text/css">
         h1, h2, h3 { color: #08C; margin: 4px; font-family: 'Trebuchet MS', sans-serif; }
         h1 { font-size: 36pt; margin-bottom: 24px; }
+        h3 { font-size: 18pt; }
         h2, h3 { margin-bottom: 12px; }
         .wizard-region { margin: 0 3% 0 3%; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
         .wizard-region .well { position:relative; min-height: 450px; background: #eee url('/content/images/twostep-watermark.png') no-repeat fixed 50% 40%; }      
         .wizard-region .control-group.inline { margin: 12px 0 0 12px; }
-        .wizard-region .btn-success, .wizard-region .btn-primary { min-width: 64px; }
+        .wizard-region .btn-success, .wizard-region .btn-primary { font-size: 18px; padding: 8px; margin: 8px 8px 0 0; min-width: 120px; }
         .wizard-region .controls.pull-bottom { position: absolute; bottom: 12px; right: 24px; }
         .info-pane { display: none }
         .info-pane.active { display: block; }
         .info-pane p { margin: 4px 4px 12px 4px; width: 80%; font-size: 12pt; font-style: italic; color: #333; line-height: 20px; }
         .info-pane .control-group { margin-left: 12px; }
-        .info-pane .control-label { font-size: 8pt; margin: 0 0 -4px 8px; }
+        .info-pane .control-label { font-size: 10pt; margin: 0 0 -2px 12px; }
         .info-pane .controls.inline { margin-right: 24px; }
-        .info-pane label.inline { margin-right: 24px; }
-        .info-pane .help-inline { margin-left: 20px; }
-        .info-pane .input-xlarge { width: 300px; }
+        .info-pane label.inline { font-size: 12pt; margin-right: 24px; }
+        .info-pane .help-inline { font-size: 11pt; margin-left: 20px; }
+        .info-pane .input-xlarge { font-size: 18px; padding: 8px; }
         .info-pane .span3 { padding-top: 8px; }
         .info-pane small { display: block; font-size: 8pt; }
         .info-pane small.connected { color: #08C; }
+        .info-pane input.fn-gender { width: 20px; height: 20px; margin-top: -2px; }
     </style>
 </asp:Content>
 
@@ -46,11 +48,11 @@
                     <div class="control-group">
                         <div class="controls inline">
                             <label class="control-label">First Name</label>
-                            <input type="text" class="fn-firstname" />
+                            <input type="text" class="fn-firstname input-xlarge" />
                         </div>
                         <div class="controls inline">
                             <label class="control-label">Last Name</label>
-                            <input type="text" class="fn-lastname" />
+                            <input type="text" class="fn-lastname input-xlarge" />
                         </div>
                     </div>
                     <div class="control-group">
@@ -59,7 +61,7 @@
                             <label class="inline">Male</label>
                             <input type="radio" class="fn-gender" name="fn-gender" value="female" />
                             <label class="inline">Female</label>
-                            <span class="help-inline" style="margin-left:82px;">Gender is used to select relevant Activities for you</span>
+                            <span class="help-inline" style="margin-left:120px;">Gender is used to select relevant Activities for you</span>
                         </div>
                     </div>
                     <!--div class="control-group">
@@ -72,14 +74,14 @@
                     <div class="control-group">
                         <div class="controls">
                             <label class="control-label">Mobile Phone</label>
-                            <input type="text" class="fn-mobile" />
+                            <input type="text" class="fn-mobile input-xlarge" />
                             <span class="help-inline">Send reminders via text message, if you like</span>
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="controls">
                             <label class="control-label">Zipcode or City, State</label>
-                            <input type="text" class="fn-address xinput-xlarge" />
+                            <input type="text" class="fn-address input-xlarge" />
                             <span class="help-inline">Your location is used to find local businesses and places</span>
                         </div>
                     </div>  

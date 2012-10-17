@@ -137,6 +137,9 @@ namespace BuiltSteady.Product.ServiceHost.Gallery
                     0f) + 1000f;
                 activity.SortOrder = sortOrder;
 
+                // set ActivityID of gallery activity this Item is created from
+                activity.GetFieldValue(ExtendedFieldNames.ActivityID, true).Value = galleryActivity.ID.ToString();
+
                 // if provided, set the default cadence of the activity
                 if (def.Recurrence != null)
                     activity.GetFieldValue(FieldNames.Repeat, true).Value = def.Recurrence.ToString();

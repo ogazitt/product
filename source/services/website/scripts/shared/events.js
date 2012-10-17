@@ -23,8 +23,11 @@ Events.Enable = function Events$Enable() {
 Events.Push = function (event) {
     if (Events.enabled == true) { _gaq.push(event); } 
 }
-Events.Track = function (category, action) {
-    if (Events.enabled == true) { _gaq.push(['_trackEvent', category, action]); } 
+Events.Track = function (category, action, optional) {
+    if (Events.enabled == true) {
+        if (optional != null) { _gaq.push(['_trackEvent', category, action, optional]); }
+        else { _gaq.push(['_trackEvent', category, action]); }
+    }
 }
 
 Events.Categories = {};

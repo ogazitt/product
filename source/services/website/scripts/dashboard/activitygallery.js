@@ -106,7 +106,7 @@ ActivityGallery.prototype.renderItems = function ($category, category) {
                     function (result) {
                         thisControl.fireActivityInstalled(result.FolderID, result.ItemID);
                     });
-                    Events.Track(Events.Categories.Gallery, Events.Gallery.AddGalleryActivity);
+                    Events.Track(Events.Categories.Gallery, Events.Gallery.AddGalleryActivity, item.Name);
             });
 
             if (item.IsSelected(true)) { this.select($item, item); }

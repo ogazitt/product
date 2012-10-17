@@ -885,6 +885,8 @@ a{cursor:pointer}
 a i:hover,a.icon:hover{text-decoration:none}
 textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac-placeholder{color:#ccc}
 .input-prepend .add-on .checkbox{margin-top:-2px}
+.input-xxlarge{width:360px}
+.input-xxxlarge{width:530px}
 @media(max-width:800px){body{padding-left:0;padding-right:0}
 .navbar .container-fluid{width:100%;*zoom:1}
 .container,.container-fluid{width:800px;*zoom:1}

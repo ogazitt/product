@@ -262,6 +262,7 @@ Control.Icons.completeHandler = function Control$Icons$completeHandler(item) {
             $dialog = $('<div>' + Messages.CompleteHandler.FindText + '<p/></div>');
             var field = item.GetField(FieldNames.Locations);
             var $field = Control.LocationList.renderInput($dialog, item, field, function (input) { return false; });
+            $field.addClass('input-xxlarge');
             header = activity.Name;
             break;
         default:
@@ -338,24 +339,28 @@ Control.Icons.callBtn = function Control$Icons$callBtn(item) {
     var $icon = $('<i class="icon-phone icon-large"></i>');
     $icon.data('item', item);
     Control.tooltip($icon, 'Call');
-    var handler = function (phoneNumber) {
-        // call the phone number
+
+    // handler for calling phone number
+    var handler = function (phoneNumber) {              
         phoneNumber = phoneNumber.replace(/[^0-9]+/g, '');
-        if (Browser.IsMobile()) { window.open("tel:" + phoneNumber); }
-        else {
-            Control.alert('<p>' + Messages.CallButton.ActionNotSupported + '</p>', 'call ' +
-                Control.Icons.formatPhoneNumber(phoneNumber));
+        if (Browser.IsMobile()) {
+            window.open("tel:" + phoneNumber); 
+        } else {
+            Control.alert('<p>' + Messages.CallButton.ActionNotSupported + '</p>', 
+            'call ' + Control.Icons.formatPhoneNumber(phoneNumber));
         }
     };
+
     $icon.click(function () {
         var $this = $(this);
         $this.tooltip('hide');
         var item = $this.data('item');
         var phone = item.GetPhoneNumber();
-        if (phone != null) { handler(phone); }
-        else {
-            // obtain phone number and invoke the handler at the end
+        if (phone == null) { 
+            // obtain phone number and invoke handler
             Control.Icons.infoDialog(item, FieldNames.Phone, 'Phone', 'tel', handler);
+        } else {
+            handler(phone);
         }
         Events.Track(Events.Categories.Organizer, Events.Organizer.CallButton);
         return false;   // do not propogate event
@@ -365,8 +370,8 @@ Control.Icons.callBtn = function Control$Icons$callBtn(item) {
 }
 
 Control.Icons.formatPhoneNumber = function Control$Icons$formatPhoneNumber(phone) {
-    if (phone.length == 7) return phone.slice(0, 3) + '-' + phone.slice(3, 7);
-    if (phone.length == 10) return '(' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' + phone.slice(6, 10);
+    if (phone.length == 7) { return phone.slice(0, 3) + '-' + phone.slice(3, 7); }
+    if (phone.length == 10) { return '(' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' + phone.slice(6, 10); }
     return phone;
 }
 
@@ -381,15 +386,17 @@ Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
         $this.tooltip('hide');
         var item = $this.data('item');
         var link = item.GetMapLink();
-        if (link != null) { window.open(link); }
-        else {
+        if (link != null) {
+            window.open(link); 
+        } else {
             var header = item.Name;
             var $dialog, $field, field;
-            // if this is a location, bind the Address field and autocomplete a location
             if (item.IsLocation()) {
+                // bind Address field and autocomplete location
                 $dialog = $('<div>' + Messages.MapDialog.LocationText + '<p/></div>');
                 field = item.GetField(FieldNames.Address);
                 $field = Control.Text.renderInputAddress($dialog, item, field, function (input) { return false; });
+                $field.addClass('input-xxlarge');
                 Control.popup($dialog, header, function (inputs) {
                     Control.Text.updateAddress($field);
                     var place = $field.data('place');
@@ -400,13 +407,17 @@ Control.Icons.mapBtn = function Control$Icons$mapBtn(item) {
                 });
             }
             else {
-                // this is an Activity, Step, or Contact - bind the Locations field and autocomplete a location
+                // bind the Locations field and autocomplete location
                 var dialogText;
-                if (item.IsActivity() || item.IsStep()) { dialogText = Messages.MapDialog.ActivityOrStepText; }
-                else if (item.IsContact()) { dialogText = Messages.MapDialog.ContactText; }
+                if (item.IsActivity() || item.IsStep()) {
+                    dialogText = Messages.MapDialog.ActivityOrStepText;
+                } else if (item.IsContact()) {
+                    dialogText = Messages.MapDialog.ContactText; 
+                }
                 $dialog = $('<div>' + dialogText + '<p/></div>');
                 field = item.GetField(FieldNames.Locations);
                 $field = Control.LocationList.renderInput($dialog, item, field, function (input) { return false; });
+                $field.addClass('input-xxlarge');
                 Control.popup($dialog, header, function (inputs) {
                     Control.LocationList.update($field);
                     var place = $field.data('place');
@@ -573,11 +584,11 @@ Control.Icons.askFriendsBtn = function Control$Icons$askFriendsBtn(item) {
         $this.tooltip('hide');
         var item = $this.data('item');
         var activity = item.GetParent();
-        var $dialog = $('<div><label>Question: </label><textarea /></div>');
+        var $dialog = $('<div><label>Question: </label><textarea class="input-xxlarge" /></div>');
         var article = item.GetFieldValue(ExtendedFieldNames.Article);
         if (article == null) { article = '<replace this!>'; }
-        // TODO: replace 'Redmond' with the location from the user's profile
-        var location = 'Redmond'; // hardcode for now
+        // TODO: replace 'this area' with the location from the user's profile
+        var location = 'this area'; // hardcode for now
         var text = 'Do you know a good ' + item.GetFieldValue(ExtendedFieldNames.Article) + ' in ' + location + '?';
         $dialog.find('textarea').val(text).css('height', '75');
         var header = Messages.AskFriendsDialog.HeaderText;
@@ -673,8 +684,10 @@ Control.Icons.infoDialogForContactOrLocation = function Control$Icons$infoDialog
 }
 
 Control.Icons.infoDialog = function Control$Icons$infoDialog(item, fieldName, labelName, inputType, handler) {
-    // handle locations and contacts using a different dialog
-    if (item.IsLocation() || item.IsContact()) { return Control.Icons.infoDialogForContactOrLocation(item, fieldName, labelName, inputType, handler); }
+    if (item.IsLocation() || item.IsContact()) {
+        // handle locations and contacts using a different dialog
+        return Control.Icons.infoDialogForContactOrLocation(item, fieldName, labelName, inputType, handler); 
+    }
 
     // set up defaults
     fieldName = (fieldName == null) ? FieldNames.Phone : fieldName;
@@ -683,9 +696,10 @@ Control.Icons.infoDialog = function Control$Icons$infoDialog(item, fieldName, la
     // set up dialog
     var header = Messages.InfoDialog.HeaderText;
     var $dialog = $('<div class="form-vertical control-group"></div>');
+    // add location input
     $('<label class="control-label">' + Messages.InfoDialog.LocationText + '</label>').appendTo($dialog);
-    var locfield = item.GetField(FieldNames.Locations);
-    var $locfield = Control.LocationList.renderInput($dialog, item, locfield, function ($input) {
+    var field = item.GetField(FieldNames.Locations);
+    var $location = Control.LocationList.renderInput($dialog, item, field, function ($input) {
         if (fieldName == FieldNames.Phone) {
             var place = $input.data('place');
             if (place != null) { $dataField.val(place.formatted_phone_number); }
@@ -693,27 +707,31 @@ Control.Icons.infoDialog = function Control$Icons$infoDialog(item, fieldName, la
         }
         else { $dataField.val(''); }
     });
+    $location.addClass('input-xxlarge');
+    // add contact input
     $dialog.append('<label class="control-label">' + Messages.InfoDialog.ContactText + '</label>');
-    var confield = item.GetField(FieldNames.Contacts);
-    var $confield = Control.ContactList.renderInput($dialog, item, confield, function ($input) {
+    field = item.GetField(FieldNames.Contacts);
+    var $contact = Control.ContactList.renderInput($dialog, item, field, function ($input) {
         var contactJson = $input.data(FieldNames.Contacts);
         var contact = Item.Extend($.parseJSON(contactJson));
         contact = DataModel.FindItem(contact.ID);
         if (contact != null) { $dataField.val(contact.GetFieldValue(fieldName)); }
         else { $dataField.val(''); }
     });
+    $contact.addClass('input-xxlarge');
+
     $dialog.append('<div class="controls" style="margin-top:6px"><label class="control-label">' +
         labelName + '</label><input type="' + inputType + '" id="dataField"/></div>');
     var $dataField = $dialog.find('#dataField');
 
-    $locfield.blur(function (e) {
-        if ($locfield.val().length > 0) { $confield.attr('disabled', true); }
-        else { $confield.attr('disabled', false); }
+    $location.blur(function (e) {
+        if ($location.val().length > 0) { $contact.attr('disabled', true); }
+        else { $contact.attr('disabled', false); }
         return true;
     });
-    $confield.blur(function (e) {
-        if ($confield.val().length > 0) { $locfield.attr('disabled', true); }
-        else { $locfield.attr('disabled', false); }
+    $contact.blur(function (e) {
+        if ($contact.val().length > 0) { $location.attr('disabled', true); }
+        else { $location.attr('disabled', false); }
         return true;
     });
 
@@ -729,7 +747,7 @@ Control.Icons.infoDialog = function Control$Icons$infoDialog(item, fieldName, la
 
             // update the field with the contact or location 
             if (inputs[1].length > 0) {
-                Control.ContactList.update($confield, function (returnedItem) {
+                Control.ContactList.update($contact, function (returnedItem) {
                     // store the phone number in the contact
                     returnedItem = Item.Extend(returnedItem);
                     var contact = Item.Extend(returnedItem);
@@ -738,7 +756,7 @@ Control.Icons.infoDialog = function Control$Icons$infoDialog(item, fieldName, la
                 });
             }
             else if (inputs[0].length > 0) {
-                Control.LocationList.update($locfield, function (returnedItem) {
+                Control.LocationList.update($location, function (returnedItem) {
                     // store the phone number in the location
                     returnedItem = Item.Extend(returnedItem);
                     var location = Item.Extend(returnedItem);

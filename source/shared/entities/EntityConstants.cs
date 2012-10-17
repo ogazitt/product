@@ -158,8 +158,9 @@ namespace BuiltSteady.Product.Shared.Entities
         public const string Intent = "Intent";              // String       normalized intent to help select workflows (extracted from name)
         public const string SubjectHint = "SubjectHint";    // String       hint as to subject of intent (extracted from name)
         public const string Article = "Article";            // String       the noun associated with the intent (extracted from name)
-       
+
         public const string CalEventID = "CalEventID";      // String       identifier for a Calendar event to associate with an Item  
+        public const string ActivityID = "ActivityID";      // String       identifier for gallery activity this Item was generated from  
 
         public const string SelectedCount = "SelectedCount";// Integer      count of number of times selected (e.g. MRU)
         public const string SortBy = "SortBy";              // String       field name to sort a list of items by

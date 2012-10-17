@@ -4,23 +4,23 @@
     <title>TwoStep: The Personal Assistant for Life's Activities</title>
     <meta name="description" content="TwoStep is the Personal Assistant for your life's activities. It breaks complex tasks into actionable steps, and helps you get them done. Sign Up for free!" />
     <style type="text/css">
-      .field-validation-valid { display: none; }
-      h1 { margin:24px 0 24px 0; font-family:'Segoe UI Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:32pt; }
-      h2 { font-size: 18pt; white-space: nowrap; margin-bottom: 12px; }
-      .main-content { margin: 0 24px 0 24px; }
-      fieldset { margin-top: 16px; }
-      .control-group { margin: 0 10px 0 0; padding: 0; }
-      .control-group .control-label { font-size: 10pt; margin: 0 0 -4px 12px; }
-      .control-group button { margin: 12px 0 12px 0; }
-      .span5 { padding-left: 36px; }
-      .span5 p { width: 250px; margin-top: 12px; }
+        .field-validation-valid { display: none; }
+        h1 { margin:24px 0 24px 0; font-family:'Segoe UI Light', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:32pt; }
+        h2 { font-size: 18pt; white-space: nowrap; margin-bottom: 12px; }
+        .main-content { margin: 0 24px 0 24px; }
+        fieldset { margin-top: 16px; }
+        .control-group { margin: 0 10px 0 0; padding: 0; }
+        .control-group .control-label { font-size: 10pt; margin: 0 0 -2px 12px; }
+        .control-group button { margin: 12px 0 12px 0; }
+        .span5 { padding-left: 36px; }
+        .span5 p { font-size: 11pt; width: 280px; margin-top: 12px; }
       
-      body { min-width: 900px }
-      .full-center { width:100%; text-align: center; }
-      .img-logo { height: 330px; min-width: 495px; }
-      .main-content input { font-size: 18pt; padding: 8px; width: 300px; }
-      .main-content .btn { font-size: 18pt; padding: 12px; }
-      .btn-learn-more { margin-right: 10%; margin-top: 56px; }
+        body { min-width: 900px }
+        .full-center { width:100%; text-align: center; }
+        .img-logo { height: 330px; min-width: 495px; }
+        .main-content input { font-size: 18pt; padding: 8px; width: 300px; }
+        .main-content .btn { font-size: 18pt; padding: 12px; }
+        .btn-learn-more { margin-right: 10%; margin-top: 64px; }
     </style>
 </asp:Content>
 

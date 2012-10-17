@@ -78,17 +78,19 @@
         </div>
     </div>
     <div id="gallery_section" style="min-height: 480px">
-        <div class="item">
-            <div class="well pull-left" style="height:420px; margin-right:32px;">
-                <img style="padding-top:40px;" alt="Get started using our extensive gallery of activities" src="<%: Url.Content("~/content/images/landing/gallery-install.png") %>" />
-            </div>
-            <div class="title-text">
+        <div class="item inline">
+
+            <div class="title-text pull-left inline" style="max-width:300px; padding-right:32px;">
                 <h2>Get started in under a minute.</h2>
-            </div>
-            <p>
-            With an extensive gallery of activities curated from users like you, 
-            TwoStep suggests and lets you choose the activities that best fit your life.
-            </p>
+                <p style="margin:0; padding:0;">
+                    With an extensive gallery of activities curated from users like you, 
+                    TwoStep suggests and lets you choose the activities that best fit your life.
+                </p>            
+            </div>                
+
+            <div class="well pull-right inline" style="height:420px;">
+                <img style="padding-top:40px;" alt="Get started using our extensive gallery of activities" src="<%: Url.Content("~/content/images/landing/gallery-install.png") %>" />
+            </div>        
         </div>
     </div>
     <div id="nextsteps_section" style="min-height: 550px">

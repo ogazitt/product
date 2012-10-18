@@ -158,7 +158,12 @@ Dashboard.showHeaderOptions = function Dashboard$showHeaderOptions() {
     $menuitem = $dropdown.find('.option-help');
     $menuitem.show();
     $menuitem.click(function (e) {
-        Dashboard.showManager(Dashboard.helpManager, null, HelpManager.Views.Help);
+        // 2012-10-18 OG: changed the Help button to bring up the Intro view instead of the Help view.
+        // This is a stopgap until we are able to update the Help carousel.
+        //Dashboard.showManager(Dashboard.helpManager, null, HelpManager.Views.Help);
+        var settings = Dashboard.dataModel.UserSettings;
+        settings.ViewState.HideWelcome = false;
+        Dashboard.showManager(Dashboard.helpManager, true, HelpManager.Views.Intro);
         Events.Track(Events.Categories.Organizer, Events.Organizer.HelpButton);
         e.preventDefault();
     });

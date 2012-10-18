@@ -236,7 +236,7 @@
 
         private bool ValidateAccessCode(RegisterModel model)
         {
-            return model.AccessCode.Equals("ZAP", StringComparison.Ordinal);
+            return model.AccessCode.StartsWith("ZAP", StringComparison.OrdinalIgnoreCase);
         }
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)

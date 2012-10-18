@@ -534,9 +534,12 @@ Control.Actions.findLocalBtn = function Control$Actions$findLocalBtn(item) {
         }
         else {
             window.open('https://maps.google.com/?q=' + term + '&radius=1');
+            if (Control.Actions.openWindowHandler != null) {
+                Control.Actions.openWindowHandler();
+            }
         }
         Events.Track(Events.Categories.Organizer, Events.Organizer.FindButton);
-        return false;   // do not propogate event
+        return false;   
     });
     // wrap in anchor tag to get tooltips to work in Chrome
     return $('<a class="icon" />').append($icon);

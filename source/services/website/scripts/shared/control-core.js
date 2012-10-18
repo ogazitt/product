@@ -161,7 +161,7 @@ Control.working = function Control$working(message, delay) {
         Control.$modalWorking = $modalMessage.clone();
         var spinner = new Spinner().spin();
         Control.$modalWorking.find('.modal-header h3').html(message);
-        var $message = $('<center />').appendTo(Control.$modalWorking.find('.modal-body p'));
+        var $message = $('<center />').appendTo(Control.$modalWorking.find('.modal-body p').empty());
         $message.append(spinner.el).css('height', '16').css('padding-top','16px');
         Control.$modalWorking.find('.modal-header .close').hide();
         Control.$modalWorking.find('.modal-footer .btn-primary').hide();
@@ -192,11 +192,13 @@ Control.popover = function ($showElement, $hideElement, title, content, placemen
     placement = hideArrow ? 'right' : placement;
     $showElement.popover({ trigger: 'manual', title: title, content: content, placement: placement });
     $showElement.popover('show');
-    $hideElement.click(function () {
-        $showElement.popover('hide');
-        $('body .popover').remove();
-        return true;
-    });
+    if ($hideElement != null) {
+        $hideElement.click(function () {
+            $showElement.popover('hide');
+            $('body .popover').remove();
+            return true;
+        });
+    }
     if (top != null) { $('body .popover').css('top', top); };
     if (hideArrow) { $('body .popover .arrow').hide(); }
     // popover title conflicts with tooltip title, set explicitly

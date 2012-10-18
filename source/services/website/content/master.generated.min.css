@@ -1036,7 +1036,7 @@ i.icon-azure{display:inline-block;width:16px;height:16px;cursor:pointer;backgrou
 .ui-combobox{position:relative;display:inline-block}
 .ui-combobox .ui-button{position:absolute;margin-left:-1px;padding:0;top:0;bottom:0}
 .ui-autocomplete-input{margin:0;padding:.3em}
-.popover .arrow{-webkit-animation:pulsate 2s ease-out;-webkit-animation-iteration-count:5;opacity:1}
+.popover .arrow{-webkit-animation:pulsate 1s ease-out;-webkit-animation-iteration-count:7;opacity:1}
 @-webkit-keyframes pulsate{0%{-webkit-transform:scale(1,1);opacity:.0}
 50%{opacity:1.0}
 100%{-webkit-transform:scale(1,1);opacity:.0}

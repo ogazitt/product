@@ -311,18 +311,22 @@ HelpManager.getStartedStep2 = function () {
     Control.popover($element, $element, title, content, 'bottom');
     Control.DateTime.closeHandler = HelpManager.getStartedStep3;
 }
-// step 3: configure repeat
+// step 3: find action
 HelpManager.getStartedStep3 = function () {
     Control.DateTime.closeHandler = null;
     HelpManager.gettingStarted = 3;
-    var title = 'Step 3: Configure Repeat';
-    var content = 'Configure how often you repeat this activity using the <strong>Repeat</strong> settings.';
-    Control.popover($('.dashboard-center .btn-repeat'), $('.dashboard-region'), title, content, 'bottom');
-    Control.Repeat.closeHandler = HelpManager.getStartedStep4;
+    var title = 'Step 3: Find Action';
+    var content = 'Use the <em>Find Action</em> to search for a local hair salon. This will open a new browser tab. ';
+    content += 'When you are finished searching, return to the "TwoStep Dashboard" tab to continue with the product tutorial.';
+    HelpManager.$element = $('.dashboard-center li.st-active a.btn:first');
+    Control.popover(HelpManager.$element, null, title, content, 'bottom');
+    Control.Actions.openWindowHandler = HelpManager.getStartedStep4;
 }
 // step 4: complete first step
 HelpManager.getStartedStep4 = function () {
-    Control.Repeat.closeHandler = null;
+    HelpManager.$element.popover('hide');
+    $('body .popover').remove(); 
+    Control.Actions.openWindowHandler = null;
     HelpManager.gettingStarted = 4;
     var title = 'Step 4: Complete First Step';
     var content = 'Complete the first <em>Step</em> by clicking on the <strong>Complete</strong> action.';
@@ -332,13 +336,13 @@ HelpManager.getStartedStep4 = function () {
     Dashboard.dataModel.AddDataChangedHandler('helpmanager', HelpManager.getStartedStep5);
 }
 
-// step 5: use Call action
+// step 5: call action
 HelpManager.getStartedStep5 = function () {
     // TODO: review removing reference to static Dashboard
     Dashboard.dataModel.RemoveDataChangedHandler('helpmanager');
     HelpManager.gettingStarted = 5;
-    var title = 'Step 5: Take Action';
-    var content = 'Take <em>Action</em> by clicking on the <strong>Call</strong> button.';
+    var title = 'Step 5: Call Action';
+    var content = 'Use the <em>Call Action</em> to phone the hair salon for an appointment.';
     var $element = $('.dashboard-center li.st-active a.btn:first');
     Control.popover($element, $element, title, content, 'bottom');
     Control.Actions.infoDialogCloseHandler = HelpManager.getStartedStep6;

@@ -163,7 +163,8 @@ ListView.prototype.renderListItems = function (list) {
         if (item.IsSelected()) { $li.addClass('selected'); }
         if (item.IsStep()) { $li.addClass(item.StatusClass()); }
 
-        var $wrapper = $('<div class="inline drag-handle" />').appendTo($li).css('width', '100%');
+        var $wrapper = $('<div class="inline" />').appendTo($li).css('width', '100%');
+        $('<div class="icon drag-handle">⁞</div>').appendTo($wrapper);
 
         if (item.IsActive()) {
             var $item = $('<div class="btn-toolbar pull-left" />').appendTo($wrapper);

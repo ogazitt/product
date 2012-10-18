@@ -247,7 +247,8 @@ NextStepsPage.resize = function NextStepsPage$resize() {
         var $element = $('.dashboard-left .nav-pills');
         var title = 'Congratulations!';
         var content = 'You have created an <em>Activity</em> and are viewing your <strong>Next Steps</strong>.<br />';
-        content += 'Try clicking an <em>Action</em> button, completing a step, or return to the <strong>Organizer</strong> and create more <em>Activities</em>.';
+        content += 'Try clicking another <em>Action</em>, completing a step, or return to the <strong>Organizer</strong> and create more <em>Activities</em>.<br />';
+        content += 'You can view your <strong>Next Steps</strong> on any mobile device at <a>www.trytwostep.com</a>';
         Control.popover($('.dashboard-left'), $('.dashboard-region'), title, content, 'center');
     }
 }

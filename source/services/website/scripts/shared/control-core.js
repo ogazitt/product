@@ -185,7 +185,7 @@ Control.workingClose = function Control$workingClose() {
 }
 // popover callout
 //  $showElement is target element to show popover next to based on placement
-//  $hideElement is element which when clicked in will hide the popover
+//  $hideElement is optional element which when clicked in will hide the popover
 //  top is optional override to adjust vertical position with respect to $showElement
 Control.popover = function ($showElement, $hideElement, title, content, placement, top) {
     var hideArrow = (placement == 'center');
@@ -193,9 +193,9 @@ Control.popover = function ($showElement, $hideElement, title, content, placemen
     $showElement.popover({ trigger: 'manual', title: title, content: content, placement: placement });
     $showElement.popover('show');
     if ($hideElement != null) {
-        $hideElement.click(function () {
-            $showElement.popover('hide');
-            $('body .popover').remove();
+        $hideElement.bind('click.popover', function () {
+            Control.popoverClose($showElement);
+            $hideElement.unbind('click.popover');
             return true;
         });
     }
@@ -203,6 +203,10 @@ Control.popover = function ($showElement, $hideElement, title, content, placemen
     if (hideArrow) { $('body .popover .arrow').hide(); }
     // popover title conflicts with tooltip title, set explicitly
     $('body .popover .popover-title').html(title);
+}
+Control.popoverClose = function ($element) {
+    $element.popover('hide');
+    $('body .popover').remove();
 }
 
 // ---------------------------------------------------------

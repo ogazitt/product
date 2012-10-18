@@ -324,8 +324,7 @@ HelpManager.getStartedStep3 = function () {
 }
 // step 4: complete first step
 HelpManager.getStartedStep4 = function () {
-    HelpManager.$element.popover('hide');
-    $('body .popover').remove(); 
+    Control.popoverClose(HelpManager.$element);
     Control.Actions.openWindowHandler = null;
     HelpManager.gettingStarted = 4;
     var title = 'Step 4: Complete First Step';
@@ -344,7 +343,7 @@ HelpManager.getStartedStep5 = function () {
     var title = 'Step 5: Call Action';
     var content = 'Use the <em>Call Action</em> to phone the hair salon for an appointment.';
     var $element = $('.dashboard-center li.st-active a.btn:first');
-    Control.popover($element, $element, title, content, 'bottom');
+    Control.popover($element, $('.dashboard-region'), title, content, 'bottom');
     Control.Actions.infoDialogCloseHandler = HelpManager.getStartedStep6;
 }
 

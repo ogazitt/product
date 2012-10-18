@@ -951,7 +951,7 @@ textarea.ie-placeholder,input[type="text"].ie-placeholder,input[type="text"].pac
 .dashboard-center .manager-folders .tab-content .vcr-controls{margin:0 24px 6px 0}
 .dashboard-center .manager-folders .tab-content .btn.disabled{cursor:default;opacity:.35;filter:alpha(opacity=35);-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none}
 .dashboard-center .manager-folders .tab-content .nav-list{padding:0;overflow-y:auto;overflow-x:hidden}
-.dashboard-center .manager-folders .tab-content .nav-list>li{border-top:1px solid #ccc;padding:0 8px 0 8px;background-color:#fff}
+.dashboard-center .manager-folders .tab-content .nav-list>li{border-top:1px solid #ccc;padding:0 8px 0 16px;background-color:#fff}
 .dashboard-center .manager-folders .tab-content .nav-list>li.st-active{background-color:#dff0d8}
 .dashboard-center .manager-folders .tab-content .nav-list>li.st-active small{color:#08c}
 .dashboard-center .manager-folders .tab-content .nav-list>li.st-paused{background-color:#fcf8e3}
@@ -1009,9 +1009,12 @@ button.btn.btn-step:hover{color:#005580}
 .item-status{position:absolute;top:0;right:0}
 .item-status .alert{text-align:right;padding-right:8px;padding-left:8px;border:1px solid transparent;border-bottom:0;-webkit-border-radius:4px 4px 0 0;-moz-border-radius:4px 4px 0 0;border-radius:4px 4px 0 0}
 .status-badge{margin-left:12px;padding-top:2px}
-.icon.drag-handle{position:absolute;top:7px;left:1px;color:transparent;cursor:n-resize;font-family:Arial;font-size:22pt}
-li:hover .icon.drag-handle{color:inherit}
-li.active:hover .icon.drag-handle{color:#fff}
+.dashboard-left li .drag-handle{position:absolute;top:7px;left:1px;color:transparent;cursor:n-resize;font-family:Arial;font-size:22pt}
+.dashboard-left li:hover .drag-handle{color:inherit}
+.dashboard-left li.active:hover .drag-handle{color:#fff}
+.dashboard-center li .drag-handle{position:absolute;top:16px;left:0;color:transparent;cursor:n-resize;font-family:Arial;font-size:32pt}
+.dashboard-center li:hover .drag-handle{color:#08c}
+.dashboard-center li .drag-handle:hover{color:#005580}
 .btn-command{color:#999}
 .btn-dropdown,.btn-install{color:#fff;cursor:pointer}
 .btn-install{position:absolute;top:6px;left:12px}

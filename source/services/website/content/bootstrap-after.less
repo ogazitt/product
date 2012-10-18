@@ -126,7 +126,7 @@ textarea.ie-placeholder, input[type="text"].ie-placeholder, input[type="text"].p
 .dashboard-center .manager-folders .tab-content .btn.disabled { cursor: default; .opacity(35); .box-shadow(none); }
 
 .dashboard-center .manager-folders .tab-content .nav-list { padding: 0; overflow-y: auto; overflow-x: hidden; }
-.dashboard-center .manager-folders .tab-content .nav-list > li { border-top: 1px solid @btnBorder; padding: 0 8px 0 8px; background-color: @white;}
+.dashboard-center .manager-folders .tab-content .nav-list > li { border-top: 1px solid @btnBorder; padding: 0 8px 0 16px; background-color: @white;}
 //.dashboard-center .manager-folders .tab-content .nav-list > li.selected { background-color: @grayLighter; }  
 .dashboard-center .manager-folders .tab-content .nav-list > li.st-active { background-color: @successBackground; }  
 .dashboard-center .manager-folders .tab-content .nav-list > li.st-active small { color: @linkColor; }  
@@ -214,10 +214,13 @@ button.btn.btn-step:hover { color: @linkColorHover; }
 .item-status .alert { text-align: right; padding-right: 8px; padding-left: 8px; border: 1px solid transparent; border-bottom: 0; .border-radius(4px 4px 0 0); }
 .status-badge { margin-left: 12px; padding-top: 2px; }
 
-// drag handle icon
-.icon.drag-handle { position: absolute; top: 7px; left: 1px; color: transparent; cursor: n-resize; font-family: Arial; font-size: 22pt; }
-li:hover .icon.drag-handle { color: inherit; }
-li.active:hover .icon.drag-handle { color: @white; }
+// drag handles
+.dashboard-left li .drag-handle { position: absolute; top: 7px; left: 1px; color: transparent; cursor: n-resize; font-family: Arial; font-size: 22pt; }
+.dashboard-left li:hover .drag-handle { color: inherit; }
+.dashboard-left li.active:hover .drag-handle { color: @white; }
+.dashboard-center li .drag-handle { position: absolute; top: 16px; left: 0; color: transparent; cursor: n-resize; font-family: Arial; font-size: 32pt; }
+.dashboard-center li:hover .drag-handle { color: @linkColor; }
+.dashboard-center li .drag-handle:hover { color: @linkColorHover; }
 
 // custom buttons 
 .btn-command { color: @grayLight; }

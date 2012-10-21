@@ -18,6 +18,12 @@
     {
         const string ExistingUserCookie = "ExistingUserCookie";
 
+        // register is default url for the site
+        public ActionResult Home()
+        {
+            return Register();
+        }
+
         public ActionResult SignIn()
         {
             string status;
@@ -26,7 +32,7 @@
                 return Content(status);
             }
 
-            // if this is a mobile client, redirect to the mobile sign-in page
+            // redirect mobile client to mobile sign-in
             if (BrowserAgent.IsMobile(Request.UserAgent))
                 return RedirectToAction("MobileSignIn", "Account");
 
@@ -41,9 +47,10 @@
                 if (Membership.ValidateUser(model.UserName, model.Password))
                 {
                     SetAuthCookie(model.UserName, model.RememberMe);
-                    // add a cookie indicating the user is recognized (this will redirect existing users to signin page)
-                    Response.Cookies.Add(new HttpCookie(ExistingUserCookie));
-
+                    if (model.RememberMe)
+                    {   // add a cookie to remember existing users (to redirect existing users to signin page)
+                        Response.Cookies.Add(new HttpCookie(ExistingUserCookie));
+                    }
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
@@ -75,7 +82,7 @@
                 return Content(status);
             }
 
-            // if this is not a mobile client, redirect to the normal sign-in page
+            // redirect non-mobile client to normal sign-in page
             if (!BrowserAgent.IsMobile(Request.UserAgent))
                 return RedirectToAction("SignIn", "Account");
 
@@ -118,26 +125,29 @@
             if (BrowserAgent.IsMobile(Request.UserAgent))
                 return RedirectToAction("MobileSignIn", "Account");
             else
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("SignIn", "Account");
         }
 
-        public ActionResult Register(bool removeCookie = false)
+        public ActionResult Register()
         {
-            // ?removeCookie = true removes the ExistingUser cookie
-            if (removeCookie)
-                Response.Cookies.Remove(ExistingUserCookie);
-            else
-            {
-                // if the browser sent the "existing user" cookie, redirect to the SignIn page
-                if (Request.Cookies[ExistingUserCookie] != null)
-                    return RedirectToAction("SignIn", "Account");
+            if (Request.IsAuthenticated)
+            {   // redirect authenticated users to dashboard
+                if (BrowserAgent.IsMobile(Request.UserAgent))
+                    return RedirectToAction("Home", "Mobile");
+                else
+                    return RedirectToAction("Home", "Dashboard");
             }
 
-            // for mobile, always redirect to SignIn
+            // redirect mobile, to mobile SignIn
             if (BrowserAgent.IsMobile(Request.UserAgent))
                 return RedirectToAction("MobileSignIn", "Account");
 
-            return View();
+            // redirect "existing users" to the SignIn page unless explicit register url
+            if (Request.Url.LocalPath.IndexOf("/account/register",StringComparison.OrdinalIgnoreCase) < 0 && 
+                Request.Cookies[ExistingUserCookie] != null)
+                return RedirectToAction("SignIn", "Account");
+
+            return View("Register");
         }
 
         [HttpPost]

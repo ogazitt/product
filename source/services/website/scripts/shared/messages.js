@@ -8,7 +8,7 @@ Messages = {};
 
 // Complete handler messages
 Messages.CompleteHandler = {};
-Messages.CompleteHandler.FindText = 'What business or service name did you find?';
+Messages.CompleteHandler.FindText = 'What business or service did you find?';
 
 // Map button dialog messages
 Messages.MapDialog = {};

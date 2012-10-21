@@ -42,7 +42,7 @@ namespace BuiltSteady.Product.Website
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Dashboard", action = "Home", id = UrlParameter.Optional }, // Parameter defaults
+                new { controller = "Account", action = "Home", id = UrlParameter.Optional }, // Parameter defaults
                 new { controller = new NotInValuesConstraint(new[] { "constants", "folders", "gallery", "items", "itemtypes", "operations", "speech", "suggestions", "tags", "trace", "users", "OAuthHandler.ashx" }) }
             );
 

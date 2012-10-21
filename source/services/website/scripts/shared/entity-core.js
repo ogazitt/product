@@ -482,12 +482,13 @@ Item.prototype.Complete = function () {
         if (this.IsStep()) {
             var parent = this.GetParent();
             if (parent != null && parent.IsActivity()) {
-                var pCopy = parent.Copy();
-                pCopy.Status = StatusTypes.Complete;
-                pCopy.SetFieldValue(FieldNames.CompletedOn, today);
                 this.Update(copy, null);
-                parent.Update(pCopy);
-                parent.Repeat();
+                if (!parent.Repeat()) {
+                    var pCopy = parent.Copy();
+                    pCopy.Status = StatusTypes.Complete;
+                    pCopy.SetFieldValue(FieldNames.CompletedOn, today);
+                    parent.Update(pCopy);
+                }
             }
         } else {
             this.Update(copy);
@@ -512,12 +513,13 @@ Item.prototype.Skip = function () {
         if (this.IsStep()) {
             var parent = this.GetParent();
             if (parent != null && parent.IsActivity()) {
-                var pCopy = parent.Copy();
-                pCopy.Status = StatusTypes.Complete;
-                pCopy.SetFieldValue(FieldNames.CompletedOn, today);
                 this.Update(copy, null);
-                parent.Update(pCopy);
-                parent.Repeat();
+                if (!parent.Repeat()) {
+                    var pCopy = parent.Copy();
+                    pCopy.Status = StatusTypes.Complete;
+                    pCopy.SetFieldValue(FieldNames.CompletedOn, today);
+                    parent.Update(pCopy);
+                }
             }
         } else {
             this.Update(copy);
@@ -622,17 +624,12 @@ Item.prototype.Restart = function () {
 }
 
 // helper for repeating an activity (clone steps and mark previous steps)
+// returns true if activity is repeated, false if not
 Item.prototype.Repeat = function () {
     var rrule = Recurrence.Extend(this.GetFieldValue(FieldNames.Repeat));
     if (rrule.IsEnabled()) {
-        var lastCompleted = new Date();
-        if (this.IsComplete()) {
-            lastCompleted = this.GetFieldValue(FieldNames.CompletedOn);
-        }
-        var nextDueDate = rrule.NextDueDate(lastCompleted);
-        if (!this.IsComplete()) {
-            // TODO: popup dialog warning and verify next due date to skip forward to
-        }
+        var completedOn = new Date();
+        var nextDueDate = rrule.NextDueDate(completedOn);
 
         // get current steps (excludeLists and group == null)
         var steps = this.GetItems(true, null);
@@ -661,8 +658,13 @@ Item.prototype.Repeat = function () {
             nextsteps[i].SortOrder = nextSortOrder++;
             this.InsertItem(nextsteps[i], null, null, null);    // insert, no refresh
         }
-        this.UpdateStatus(StatusTypes.Active)                   // update status and refresh
+        // update completedOn field of activity (status remains active)
+        var copy = this.Copy();
+        copy.SetFieldValue(FieldNames.CompletedOn, completedOn);
+        this.Update(copy)                                       
+        return true;            
     }
+    return false;               
 }
 
 // ---------------------------------------------------------

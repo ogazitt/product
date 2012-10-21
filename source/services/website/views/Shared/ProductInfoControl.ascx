@@ -114,6 +114,6 @@
     ProductInfoSignUpButtonHandler = function () {
         Events.Track(Events.Categories.LandingPage, Events.LandingPage.ProductInfoSignUpButton);
         // since the user explicitly asked for the Register page, pass in a parameter to remove the ExistingUser cookie
-        window.location = '<%: Url.Content("~/account/register/?removeCookie=true") %>';
+        window.location = '<%: Url.Content("~/account/register") %>';
     }
 </script>

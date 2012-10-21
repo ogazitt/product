@@ -370,6 +370,9 @@ Browser.IsiPad = function Browser$IsiPad() {
 Browser.IsiPhone = function Browser$IsiPhone() {
     return (navigator.userAgent.indexOf('iPhone') != -1);
 }
+Browser.IsWinPhone = function Browser$IsWinPhone() {
+    return (navigator.userAgent.indexOf('Windows Phone') != -1);
+}
 Browser.IsMSIE = function Browser$IsMSIE() {
     return (navigator.appName == 'Microsoft Internet Explorer');
 }

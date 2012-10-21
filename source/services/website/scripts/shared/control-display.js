@@ -132,13 +132,24 @@ Control.Text.renderInputGrocery = function Control$Text$renderInputGrocery($elem
 }
 // attach place autocomplete behavior to input element
 Control.Text.autoCompletePlace = function Control$Text$autoCompletePlace($input, selectHandler) {
-    $input.unbind('keypress');
-    $input.keypress(function (e) {
-        // attempts at getting dropdown to accept click events in WP7 browser
-        //$('.pac-container').css('z-index', 1000000000);
-        //$('.pac-container div').css('z-index', 2000000000);
+    $input.unbind('keypress').keypress(function (e) {
         if (e.which == 13) { return false; }
     });
+
+    // WP7 requires google location dropdown (pac-container) to be contained
+    // within the modal dialog for click detection to work properly
+    if (Browser.IsMobile() && Browser.IsWinPhone()) {
+        $input.focus(function () {
+            var $modal = $('#modalPromptOpen');
+            if ($modal.length == 1) {
+                // make modal body relative position and move pac-container within
+                var $modalBody = $modal.find('.modal-body').addClass('position-relative');
+                $('body .pac-container').prependTo($modalBody).addClass('win-phone');
+            }
+            return true;
+        });
+    }
+
     var autoComplete = new google.maps.places.Autocomplete($input[0]);
     var getBounds = function (lat, lng) {
         var x = 0.5;

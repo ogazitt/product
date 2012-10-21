@@ -137,7 +137,11 @@ ListView.prototype.render = function ($element, list, height) {
 
     this.hide();
     this.$element.empty();
-    if (height != null) { this.$element.css('max-height', height); }
+    if (height != null) {
+        // keep at least two items visible in scroll region
+        height = (height < 104) ? 104 : height;
+        this.$element.css('max-height', height);
+    }
     if (this.renderListItems(list) > 0) {
         this.show();
         var $selected = this.$element.find('li.selected');

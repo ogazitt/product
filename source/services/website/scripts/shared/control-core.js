@@ -128,11 +128,11 @@ Control.popup = function Control$popup($dialog, header, handlerOK, handlerCancel
         $modalPrompt = $modalPrompt.clone();
         $modalPrompt.attr('id', 'modalPromptOpen');
         $modalPrompt = $modalPrompt.appendTo($('body'));
-
         if (header == null) { header = 'Input required.'; }
         $modalPrompt.find('.modal-header h3').html(header);
         $modalPrompt.find('.modal-body p').empty().append($dialog);
         $modalPrompt.modal({ backdrop: 'static', keyboard: false });
+
         $modalPrompt.find('.modal-footer .btn-primary').click(function () {
             $modalPrompt.modal('hide');
             var inputs = [];
